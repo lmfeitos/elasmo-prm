@@ -1,0 +1,68 @@
+---
+title: "fish_base"
+author: "Leonardo Feitosa"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(rfishbase)
+library(here)
+library(janitor)
+library(googlesheets4)
+
+# Set file paths
+basedir <- "G:/Meu Drive/PRM review/"
+datadir <- file.path(basedir, "data/fish_base_data")
+outdir <- file.path(basedir, "data/outputs") # calls present data from raster files
+```
+
+```{r}
+pref_temp <- fb_tbl("stocks") %>% 
+  clean_names() %>%  
+  select(stock_code, spec_code, temp_preferred) %>% 
+  drop_na()
+
+write_csv(pref_temp, file = file.path(datadir, "preferred_temp.csv"), col_names = TRUE)
+```
+
+```{r}
+spp <- fb_tbl("species") %>% 
+  clean_names() %>% 
+  select(spec_code, genus, species, species_ref_no, fam_code, demers_pelag) 
+```
+
+```{r}
+# joining both datasets
+temp_join <- pref_temp %>% 
+  left_join(spp, by = "spec_code") %>% 
+  unite(col = "scientific_name", c("genus", "species"), sep = " ")
+```
+
+```{r}
+# call PRM dataset
+prm_elasmo <- read_sheet("https://docs.google.com/spreadsheets/d/1YkugPJBRjxz93wWEthtYpGN1rN3zZqb5g5xtkyJe1y0/edit#gid=0")
+
+prm_elasmo <- prm_elasmo %>% 
+  rename(scientific_name = species)
+```
+
+```{r}
+# Join temp_join with prm_elasmo datasets
+prm_join <- prm_elasmo %>% 
+  left_join(temp_join, by = "scientific_name") %>% 
+  select(-c(median_temperature, habitat_associated)) %>% 
+  rename(median_temp = temp_preferred,
+         habitat_associated = demers_pelag) %>% 
+  relocate(median_temp, .after = reproductive_mode) %>% 
+  relocate(habitat_associated, .before = reference) 
+
+ 
+sheet_write(prm_join, sheet = "prm_dataset_temp_hab")
+
+write_csv(prm_join, file = file.path(basedir, "data", "prm_dataset_temp_hab.csv"), col_names = TRUE)
+
+```
+
