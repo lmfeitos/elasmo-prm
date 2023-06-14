@@ -1,0 +1,224 @@
+---
+title: "random_forest"
+author: "Leonardo Feitosa"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(tidymodels)
+library(here)
+library(randomForest)
+library(googlesheets4)
+library(naniar)
+
+# Set data paths
+basedir <- "G:/Meu Drive/PRM review/"
+datadir <- file.path(basedir, "data/fish_base_data")
+outdir <- file.path(basedir, "data/outputs") # calls present data from raster files
+```
+
+```{r}
+prm_elasmo <- read_csv(here("data", "prm_dataset.csv"))
+
+prm_elasmo <- prm_elasmo %>% 
+  rename(scientific_name = species)
+```
+
+```{r}
+# create data subset with variables that will be used in the random forest model
+prm_elasmo_subset <- prm_elasmo %>% 
+  select(scientific_name, family, gear_class, habitat, estimate_type, estimate, sample_size,
+         method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode) %>% 
+  mutate(max_size_cm = case_when( # filling missing information based on the average per group
+    scientific_name == "Dasyatis sp" ~ 146.22,
+    scientific_name == "Squalus sp" ~ 141.12,
+    scientific_name == "Mustelus sp" ~ 172.07,
+    scientific_name == "Centrophorus sp" ~ 165,  
+    scientific_name == "sharks" ~ 346.04,
+    scientific_name == "rays" ~ 146.22,
+    TRUE ~ max_size_cm
+  )) %>% 
+  mutate(median_depth = case_when( # filling missing information based on the average per group
+    scientific_name == "Dasyatis sp" ~ 139.33,
+    scientific_name == "Squalus sp" ~ 139.33,
+    scientific_name == "Mustelus sp" ~ 322.35,
+    scientific_name == "Centrophorus sp" ~ 1065.4,
+    scientific_name == "sharks" ~ 247.87,
+    scientific_name == "rays" ~ 139.33,
+    TRUE ~ median_depth
+  )) %>% 
+  mutate(measure = case_when(
+    scientific_name == "sharks" ~ "total_length",
+    scientific_name %in% c("rays", "Dasyatis sp") ~ "disk_width",
+    TRUE ~ measure
+  )) %>% 
+  mutate(reproductive_mode = case_when(
+    scientific_name == "sharks" ~ "yolk-sac viviparity",
+    scientific_name == "rays" ~ "yolk-sac viviparity",
+    TRUE ~ reproductive_mode
+  )) 
+
+# Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
+elasmo_avm <- prm_elasmo_subset %>%
+  filter(estimate_type == "at-vessel mortality" & estimate > 0) %>% 
+  mutate(est_count = sample_size * estimate) %>% 
+  group_by(scientific_name, gear_class) %>% 
+  mutate(mortality_prop = sum(est_count) / sum(sample_size))  %>% 
+  drop_na(family)
+
+# Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
+elasmo_prm <- prm_elasmo_subset %>% 
+  filter(estimate_type == "post-release mortality" & estimate > 0) %>% 
+  mutate(est_count = sample_size * estimate) %>% 
+  group_by(scientific_name, gear_class) %>% 
+  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>% 
+  drop_na(family) 
+```
+
+```{r}
+# Check for NAs
+gg_miss_var(elasmo_avm)
+
+gg_miss_var(elasmo_prm)
+```
+
+
+```{r}
+# split the data into training and test set
+## At-vessel mortality
+avm_split <- initial_split(elasmo_avm, prop = .7) 
+
+avm_train <- training(avm_split)
+avm_test <- testing(avm_split)
+
+avm_folds <- vfold_cv(elasmo_avm, repeats = 5, v = 10)
+
+## Post-release mortality
+prm_split <- initial_split(elasmo_prm, prop = .7, strata = family)
+
+prm_train <- training(prm_split)
+prm_test <- testing(prm_split)
+
+prm_folds <- vfold_cv(elasmo_prm, repeats = 5, strata = family, v = 10)
+```
+
+
+## Overview
+
+This model aims to predict the likelihood of mortality per taxonomic family between sharks and rays using several species-specific bioecological features such as ventilation mode, median temperature, reproductive mode, median depth, as well as technological features such as the fishing gear each species was captured with.
+
+```{r}
+# Create the recipes for each estimate
+avm_recipe <- recipe(mortality_prop ~ family + gear_class + ventilation_method + median_depth + max_size_cm + habitat + reproductive_mode, data = avm_train) %>% 
+  step_normalize(all_numeric_predictors())
+
+prm_recipe <- recipe(mortality_prop ~ family + gear_class + ventilation_method + median_depth + max_size_cm + habitat + reproductive_mode, data = prm_train) %>% 
+  step_normalize(all_numeric_predictors())
+```
+
+```{r}
+# create models
+avm_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>% 
+  set_engine("randomForest", verbose = TRUE)
+
+prm_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>% 
+  set_engine("randomForest", verbose = TRUE)
+```
+
+```{r}
+# create workflows
+avm_wflw <- workflow() %>% 
+  add_model(avm_rf) %>% 
+  add_recipe(avm_recipe)
+
+prm_wflw <- workflow() %>% 
+  add_model(prm_rf) %>% 
+  add_recipe(prm_recipe)
+```
+
+### Cross Validation
+
+Cross validation will be used to choose the best hyperparameters for use in the model: 
+
+* Number of trees
+* Number of predictors in each sample
+* Minimum data points in each node required for node split
+
+```{r,include=FALSE}
+avm_tune <- avm_wflw %>% # use cross validation to tune parameters
+  tune_grid(
+    resamples = avm_folds, # add cv folds
+    grid = 10
+  ) # use grid of parameters to test
+```
+
+Below displays the results of cross validation tuning
+
+```{r}
+autoplot(rf_tune) + # plot results of tuning
+  theme_bw() # change theme
+```
+
+```{r}
+select_best(rf_tune, metric = "rsq", n = 1) # get the best model
+```
+
+```{r, include=FALSE}
+rf_final <- finalize_workflow(rf_wflw, select_best(rf_tune, metric = "rsq")) # finalize the workflow with the best model
+```
+
+```{r, include=FALSE}
+rf_fit <- fit(rf_final, train) # fit the data to the training data
+```
+
+```{r, include=FALSE}
+train_predict <- predict(object = rf_fit, new_data = train) %>% # predict the training set
+  bind_cols(train) %>% # bind training set column to prediction
+  mutate(pred = exp(.pred)) %>% # back transform predictions
+  mutate(log_hr = log(hr)) # get natural log of hr
+
+test_predict <- predict(object = rf_fit, new_data = test) %>% # predict the training set
+  bind_cols(test) %>% # bind prediction to testing data columns
+  mutate(pred = exp(.pred)) %>% # back transform predictions
+  mutate(log_hr = log(hr)) %>% # get natural log of hr
+  mutate(common_name = test$common_name) %>% # add common names back
+  mutate(species = test$species) %>% # add species name back
+  mutate(family = test$family) # add families back
+
+predict_full <- full_join(rf_data, predict_data) # combine predict data with training data
+
+prediction <- predict(object = rf_fit, new_data = predict_full) %>% # predict the training set
+  bind_cols(predict_full) %>% # bind prediction to full data
+  mutate(pred = exp(.pred)) %>% # back transform predictions
+  select(-.pred) %>% # remove unneeded column
+  rename(observed_homerange = hr) %>% # rename columns
+  rename(predicted_homerange = pred) # rename columns
+
+write_csv(prediction, here::here("data", "homerange_rf_predictions.csv"))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
