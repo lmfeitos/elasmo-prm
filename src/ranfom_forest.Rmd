@@ -157,7 +157,7 @@ avm_tune <- avm_wflw %>% # use cross validation to tune parameters
 Below displays the results of cross validation tuning
 
 ```{r}
-autoplot(rf_tune) + # plot results of tuning
+autoplot(avm_tune) + # plot results of tuning
   theme_bw() # change theme
 ```
 
@@ -166,19 +166,27 @@ select_best(rf_tune, metric = "rsq", n = 1) # get the best model
 ```
 
 ```{r, include=FALSE}
-rf_final <- finalize_workflow(rf_wflw, select_best(rf_tune, metric = "rsq")) # finalize the workflow with the best model
+avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rsq")) # finalize the workflow with the best model
 ```
 
 ```{r, include=FALSE}
-rf_fit <- fit(rf_final, train) # fit the data to the training data
+avm_fit <- fit(avm_final, avm_train) # fit the data to the training data
 ```
 
 ```{r, include=FALSE}
-train_predict <- predict(object = rf_fit, new_data = train) %>% # predict the training set
-  bind_cols(train) # bind training set column to prediction
+avm_train_predict <- predict(object = avm_fit, new_data = avm_train) %>% # predict the training set
+  bind_cols(avm_train) # bind training set column to prediction
 
-test_predict <- predict(object = rf_fit, new_data = test) %>% # predict the training set
-  bind_cols(test)# bind prediction to testing data column
+avm_test_predict <- predict(object = avm_fit, new_data = avm_test) %>% # predict the training set
+  bind_cols(avm_test)# bind prediction to testing data column
+```
+
+```{r}
+avm_train_metrics <- avm_train_predict %>%
+  metrics(mortality_prop, .pred) # get testing data metrics
+
+avm_test_metrics <- avm_test_predict %>%
+  metrics(mortality_prop, .pred) # get testing data metrics
 ```
 
 
