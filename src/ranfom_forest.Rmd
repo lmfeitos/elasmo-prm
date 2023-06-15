@@ -175,28 +175,10 @@ rf_fit <- fit(rf_final, train) # fit the data to the training data
 
 ```{r, include=FALSE}
 train_predict <- predict(object = rf_fit, new_data = train) %>% # predict the training set
-  bind_cols(train) %>% # bind training set column to prediction
-  mutate(pred = exp(.pred)) %>% # back transform predictions
-  mutate(log_hr = log(hr)) # get natural log of hr
+  bind_cols(train) # bind training set column to prediction
 
 test_predict <- predict(object = rf_fit, new_data = test) %>% # predict the training set
-  bind_cols(test) %>% # bind prediction to testing data columns
-  mutate(pred = exp(.pred)) %>% # back transform predictions
-  mutate(log_hr = log(hr)) %>% # get natural log of hr
-  mutate(common_name = test$common_name) %>% # add common names back
-  mutate(species = test$species) %>% # add species name back
-  mutate(family = test$family) # add families back
-
-predict_full <- full_join(rf_data, predict_data) # combine predict data with training data
-
-prediction <- predict(object = rf_fit, new_data = predict_full) %>% # predict the training set
-  bind_cols(predict_full) %>% # bind prediction to full data
-  mutate(pred = exp(.pred)) %>% # back transform predictions
-  select(-.pred) %>% # remove unneeded column
-  rename(observed_homerange = hr) %>% # rename columns
-  rename(predicted_homerange = pred) # rename columns
-
-write_csv(prediction, here::here("data", "homerange_rf_predictions.csv"))
+  bind_cols(test)# bind prediction to testing data column
 ```
 
 
