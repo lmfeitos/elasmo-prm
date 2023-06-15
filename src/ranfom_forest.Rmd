@@ -67,16 +67,14 @@ elasmo_avm <- prm_elasmo_subset %>%
   filter(estimate_type == "at-vessel mortality" & estimate > 0) %>% 
   mutate(est_count = sample_size * estimate) %>% 
   group_by(scientific_name, gear_class) %>% 
-  mutate(mortality_prop = sum(est_count) / sum(sample_size))  %>%
-  na.omit()
+  mutate(mortality_prop = sum(est_count) / sum(sample_size))
 
 # Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
 elasmo_prm <- prm_elasmo_subset %>% 
   filter(estimate_type == "post-release mortality" & estimate > 0) %>% 
   mutate(est_count = sample_size * estimate) %>% 
   group_by(scientific_name, gear_class) %>% 
-  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>% 
-  na.omit()
+  mutate(mortality_prop = sum(est_count) / sum(sample_size))
 ```
 
 ```{r}
