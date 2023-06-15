@@ -30,7 +30,7 @@ prm_elasmo <- prm_elasmo %>%
 ```{r}
 # create data subset with variables that will be used in the random forest model
 prm_elasmo_subset <- prm_elasmo %>% 
-  select(scientific_name, family, gear_class, habitat, estimate_type, estimate, sample_size,
+  select(scientific_name, gear_class, habitat, estimate_type, estimate, sample_size,
          method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode) %>% 
   mutate(max_size_cm = case_when( # filling missing information based on the average per group
     scientific_name == "Dasyatis sp" ~ 146.22,
@@ -59,15 +59,16 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name == "sharks" ~ "yolk-sac viviparity",
     scientific_name == "rays" ~ "yolk-sac viviparity",
     TRUE ~ reproductive_mode
-  )) 
+  )) %>%
+  mutate_if(is.character, as.factor)
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
 elasmo_avm <- prm_elasmo_subset %>%
   filter(estimate_type == "at-vessel mortality" & estimate > 0) %>% 
   mutate(est_count = sample_size * estimate) %>% 
   group_by(scientific_name, gear_class) %>% 
-  mutate(mortality_prop = sum(est_count) / sum(sample_size))  %>% 
-  drop_na(family)
+  mutate(mortality_prop = sum(est_count) / sum(sample_size))  %>%
+  na.omit()
 
 # Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
 elasmo_prm <- prm_elasmo_subset %>% 
@@ -75,7 +76,7 @@ elasmo_prm <- prm_elasmo_subset %>%
   mutate(est_count = sample_size * estimate) %>% 
   group_by(scientific_name, gear_class) %>% 
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>% 
-  drop_na(family) 
+  na.omit()
 ```
 
 ```{r}
@@ -97,12 +98,12 @@ avm_test <- testing(avm_split)
 avm_folds <- vfold_cv(elasmo_avm, repeats = 5, v = 10)
 
 ## Post-release mortality
-prm_split <- initial_split(elasmo_prm, prop = .7, strata = family)
+prm_split <- initial_split(elasmo_prm, prop = .7)
 
 prm_train <- training(prm_split)
 prm_test <- testing(prm_split)
 
-prm_folds <- vfold_cv(elasmo_prm, repeats = 5, strata = family, v = 10)
+prm_folds <- vfold_cv(elasmo_prm, repeats = 5, v = 10)
 ```
 
 
@@ -112,10 +113,10 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ family + gear_class + ventilation_method + median_depth + max_size_cm + habitat + reproductive_mode, data = avm_train) %>% 
+avm_recipe <- recipe(mortality_prop ~ gear_class + ventilation_method + median_depth + max_size_cm + habitat + reproductive_mode, data = avm_train) %>% 
   step_normalize(all_numeric_predictors())
 
-prm_recipe <- recipe(mortality_prop ~ family + gear_class + ventilation_method + median_depth + max_size_cm + habitat + reproductive_mode, data = prm_train) %>% 
+prm_recipe <- recipe(mortality_prop ~ gear_class + ventilation_method + median_depth + max_size_cm + habitat + reproductive_mode, data = prm_train) %>% 
   step_normalize(all_numeric_predictors())
 ```
 
