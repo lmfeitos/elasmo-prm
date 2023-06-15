@@ -121,10 +121,10 @@ prm_recipe <- recipe(mortality_prop ~ gear_class + ventilation_method + median_d
 ```{r}
 # create models
 avm_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>% 
-  set_engine("randomForest", verbose = TRUE)
+  set_engine("randomForest", verbose = TRUE, oob.error = TRUE, quantreg = TRUE)
 
 prm_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>% 
-  set_engine("randomForest", verbose = TRUE)
+  set_engine("randomForest", verbose = TRUE, oob.error = TRUE, quantreg = TRUE)
 ```
 
 ```{r}
@@ -162,7 +162,7 @@ autoplot(avm_tune) + # plot results of tuning
 ```
 
 ```{r}
-select_best(rf_tune, metric = "rsq", n = 1) # get the best model
+select_best(avm_tune, metric = "rsq", n = 1) # get the best model
 ```
 
 ```{r, include=FALSE}
@@ -190,14 +190,95 @@ avm_test_metrics <- avm_test_predict %>%
 ```
 
 
+```{r,include=FALSE}
+prm_tune <- prm_wflw %>% # use cross validation to tune parameters
+  tune_grid(
+    resamples = prm_folds, # add cv folds
+    grid = 10
+  ) # use grid of parameters to test
+```
 
+Below displays the results of cross validation tuning
 
+```{r}
+autoplot(prm_tune) + # plot results of tuning
+  theme_bw() # change theme
+```
 
+```{r}
+select_best(prm_tune, metric = "rsq", n = 1) # get the best model
+```
 
+```{r, include=FALSE}
+prm_final <- finalize_workflow(prm_wflw, select_best(prm_tune, metric = "rsq")) # finalize the workflow with the best model
+```
 
+```{r, include=FALSE}
+prm_fit <- fit(prm_final, prm_train) # fit the data to the training data
+```
 
+```{r, include=FALSE}
+prm_train_predict <- predict(object = prm_fit, new_data = prm_train) %>% # predict the training set
+  bind_cols(prm_train) # bind training set column to prediction
 
+prm_test_predict <- predict(object = prm_fit, new_data = prm_test) %>% # predict the training set
+  bind_cols(prm_test)# bind prediction to testing data column
+```
 
+```{r}
+prm_train_metrics <- prm_train_predict %>%
+  metrics(mortality_prop, .pred) # get testing data metrics
+
+prm_test_metrics <- prm_test_predict %>%
+  metrics(mortality_prop, .pred) # get testing data metrics
+```
+
+```{r}
+my_controls <- control_resamples(
+  verbose = TRUE,
+  save_pred = TRUE,
+  extract = function(x) {
+    model <- extract_fit_engine(x)
+    model$prediction.error
+  }
+) #set to get prediction and out of bag errors
+
+avm_cv2 <- avm_final %>%
+  fit_resamples(avm_folds, control = my_controls) # fit the folds to the final model
+
+prm_cv2 <- prm_final %>%
+  fit_resamples(prm_folds, control = my_controls) # fit the folds to the final model
+```
+
+```{r}
+collect_metrics(avm_cv2)
+
+collect_metrics(prm_cv2)
+```
+
+```{r}
+ggplot(avm_test_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
+  geom_point() +
+  geom_smooth(method = "lm") + # add trend line
+  theme_bw() +
+  labs(x = "Observed At-Vessel Mortality Rate",
+      y = "Predicted At-Vessel Mortality Rate") +
+  theme(text = element_text(size = 10))
+
+summary(lm(.pred ~ mortality_prop, data = avm_test_predict))
+```
+
+```{r}
+ggplot(prm_test_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
+  geom_point() +
+  geom_smooth(method = "lm") + # add trend line
+  theme_bw() +
+  labs(x = "Observed Post Release Mortality Rate",
+      y = "Predicted Post Release Mortality Rate") +
+  theme(text = element_text(size = 10))
+
+summary(lm(.pred ~ mortality_prop, data = prm_test_predict))
+```
 
 
 
