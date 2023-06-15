@@ -18,6 +18,8 @@ library(naniar)
 basedir <- "G:/Meu Drive/PRM review/"
 datadir <- file.path(basedir, "data/fish_base_data")
 outdir <- file.path(basedir, "data/outputs") # calls present data from raster files
+
+set.seed(42)
 ```
 
 ```{r}
