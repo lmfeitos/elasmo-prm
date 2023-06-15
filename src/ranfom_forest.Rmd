@@ -282,15 +282,12 @@ ggplot(prm_test_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real
 summary(lm(.pred ~ mortality_prop, data = prm_test_predict))
 ```
 
+```{r}
+avm_fit %>% 
+  extract_fit_parsnip() %>% 
+  vip()
 
-
-
-
-
-
-
-
-
-
-
-
+prm_fit %>% 
+  extract_fit_parsnip() %>% 
+  vip()
+```
