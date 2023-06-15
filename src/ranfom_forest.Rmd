@@ -13,6 +13,7 @@ library(here)
 library(randomForest)
 library(googlesheets4)
 library(naniar)
+library(vip)
 
 # Set data paths
 basedir <- "G:/Meu Drive/PRM review/"
