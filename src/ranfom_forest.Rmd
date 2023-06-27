@@ -34,7 +34,7 @@ prm_elasmo <- prm_elasmo %>%
 # create data subset with variables that will be used in the random forest model
 prm_elasmo_subset <- prm_elasmo %>% 
   select(scientific_name, gear_class, habitat, estimate_type, estimate, sample_size,
-         method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode) %>% 
+         method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family) %>% 
   mutate(max_size_cm = case_when( # filling missing information based on the average per group
     scientific_name == "Dasyatis sp" ~ 146.22,
     scientific_name == "Squalus sp" ~ 141.12,
@@ -292,3 +292,60 @@ prm_fit %>%
   extract_fit_parsnip() %>% 
   vip()
 ```
+
+```{r}
+avm_pred = full_join(avm_test_predict, avm_train_predict)
+
+ggplot(avm_pred, aes(max_size_cm, .pred)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_bw()
+
+ggplot(avm_pred, aes(median_depth, .pred)) +
+  geom_point() +
+   geom_smooth(method = "lm") +
+  theme_bw()
+
+ggplot(avm_pred) +
+  geom_boxplot(aes(family, .pred)) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+ggplot(avm_pred) +
+  geom_boxplot(aes(gear_class, .pred)) +
+  theme_bw()
+
+ggplot(avm_pred) +
+  geom_boxplot(aes(habitat, .pred)) +
+  theme_bw()
+```
+
+```{r}
+prm_pred = full_join(prm_test_predict, prm_train_predict)
+
+ggplot(prm_pred, aes(max_size_cm, .pred)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_bw()
+
+ggplot(prm_pred, aes(median_depth, .pred)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_bw()
+
+ggplot(prm_pred) +
+  geom_boxplot(aes(family, .pred)) +
+  theme_bw()
+
+ggplot(prm_pred) +
+  geom_boxplot(aes(gear_class, .pred)) +
+  theme_bw()
+
+ggplot(prm_pred) +
+  geom_boxplot(aes(habitat, .pred)) +
+  theme_bw()
+```
+
+
+
+
