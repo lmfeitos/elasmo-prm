@@ -6,7 +6,10 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE,
+                      cache = FALSE)
 library(tidyverse)
 library(tidymodels)
 library(here)
@@ -92,7 +95,7 @@ elasmo_prm <- prm_elasmo_subset %>%
   mutate(mortality_prop = sum(est_count) / sum(sample_size))
 ```
 
-```{r}
+```{r, include = FALSE}
 # Check for NAs
 gg_miss_var(elasmo_avm)
 
@@ -271,6 +274,8 @@ collect_metrics(avm_cv2)
 collect_metrics(prm_cv2)
 ```
 
+## AVM model - ln of real values vs predicted values 
+
 ```{r}
 ggplot(avm_test_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
   geom_point() +
@@ -282,6 +287,8 @@ ggplot(avm_test_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real
 
 summary(lm(.pred ~ mortality_prop, data = avm_test_predict))
 ```
+
+## PRM model - ln of real values vs predicted values
 
 ```{r}
 ggplot(prm_test_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
@@ -295,6 +302,7 @@ ggplot(prm_test_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real
 summary(lm(.pred ~ mortality_prop, data = prm_test_predict))
 ```
 
+### Variable importance for the at-vessel mortality and post-release mortality RF models
 ```{r}
 avm_fit %>% 
   extract_fit_parsnip() %>% 
@@ -304,6 +312,9 @@ prm_fit %>%
   extract_fit_parsnip() %>% 
   vip()
 ```
+
+
+## Data distribution for the main five predictor variables for AVM 
 
 ```{r}
 avm_pred = full_join(avm_test_predict, avm_train_predict)
@@ -320,8 +331,9 @@ ggplot(avm_pred, aes(median_depth, .pred)) +
 
 ggplot(avm_pred) +
   geom_boxplot(aes(family, .pred)) +
-  theme_bw() +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+  coord_flip() +
+  theme_bw() 
+#  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 ggplot(avm_pred) +
   geom_boxplot(aes(gear_class, .pred)) +
@@ -332,12 +344,15 @@ ggplot(avm_pred) +
   theme_bw()
 ```
 
+## Data distribution for the main five predictor variables for PRM
+
 ```{r}
 prm_pred = full_join(prm_test_predict, prm_train_predict)
 
 ggplot(prm_pred, aes(max_size_cm, .pred)) +
   geom_point() +
   geom_smooth(method = "lm") +
+  labs()
   theme_bw()
 
 ggplot(prm_pred, aes(median_depth, .pred)) +
@@ -347,6 +362,7 @@ ggplot(prm_pred, aes(median_depth, .pred)) +
 
 ggplot(prm_pred) +
   geom_boxplot(aes(family, .pred)) +
+  coord_flip() +
   theme_bw()
 
 ggplot(prm_pred) +
