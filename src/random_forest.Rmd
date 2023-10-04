@@ -140,10 +140,10 @@ prm_recipe <- recipe(mortality_prop ~ gear_class + ventilation_method + median_d
 ```{r}
 # create models
 avm_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>% 
-  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, splitrule = "beta", importance = impurity)
+  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, splitrule = "beta", importance = "impurity")
 
 prm_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>% 
-  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, splitrule = "beta", importance = impurity)
+  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, splitrule = "beta", importance = "impurity")
 ```
 
 ```{r}
