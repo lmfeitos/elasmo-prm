@@ -262,7 +262,7 @@ my_controls <- control_resamples(
   }
 ) #set to get prediction and out of bag errors
 
-avm_cv2 <- avm_wfl %>%
+avm_cv2 <- avm_final %>%
   fit_resamples(avm_folds, control = my_controls) # fit the folds to the final model
 
 prm_cv2 <- prm_final %>%
