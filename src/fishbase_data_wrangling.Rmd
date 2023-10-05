@@ -34,6 +34,20 @@ spp <- fb_tbl("species") %>%
   select(spec_code, genus, species, species_ref_no, fam_code, demers_pelag) 
 ```
 
+
+```{r}
+# get shark and ray scientific names
+shark_spp <- fb_tbl("species") %>% 
+  clean_names() %>% 
+  filter(str_detect(genus, "Carcharhinus|Glyphis|Isogomphodon|Lamiopsis|Loxodon|Rhizoprionodon|Scoliodon|Triaenodon|Galeocerdo|Chaenogaleus|Hemigaleus|Hemipristis|Paragaleus|Leptocharias|Ctenacis|Eridacnis|Gollum|Proscyllium|Pseudotriakis|Apristurus|Asymbolus|Bythaelurus|Cephalurus|Figaro|Galeus|Halaelurus|Haploblepharus|Holohalaelurus|Parmaturus|Pentanchus|Atelomycterus|Aulohalaelurus|Cephaloscyllium|Poroderma|Schroederichthys|Scyliorhinus|Sphyrna|Furgaleus|Galeorhinus|Hemitriakis|Hypogaleus|Iago|Mustelus|Triakis|Scylliogaleus|Heterodontus|Hexanchus|Notorynchus|Chlamydoselachus|Carcharias|Carcharias|Carcharodon|Isurus|Lamna|Alopias|Cetorhinus|Megachasma|Mitsukurina|Odontaspis|Brachaelurus|inglymostoma|Nebrius|Chiloscyllium|Hemiscyllium|Orectolobus|Eucrossorhinus|Sutorectus|Cirrhoscyllium|Parascyllium|Rhincodon|Stegostoma|Pristiophorus|Pliotrema|Squatina|Squalus|Etmopterus|Centrophorus|Daenia|Dalatias|Euprotomicroides|Heteroscymnoides|Isistius|Mollisquama|Squaliolus|Echinorhinus|Aculeola|Centroscyllium|Centroscymnus|Scymnodalatias|Scymnodon|Somniosus|Cirrhigaleus|Oxynotus|Aetobatus|Bathytoshia|trygon|Dasyatis|Himantura|Hypanus|Maculabatis|Pastinachus|Pateobatis|Taeniura|Urogymnus|Gymnura|Aetomylaeus|Myliobatis|Manta|Mobula|Plesiobatis|Rhinoptera|Spinilophus|Urolophus|Urobatis|raja|batis|Springeria|Irolita|Sympterygia|Gurgesiella|Dipturus|Hongeo|Okamejei|Raja|Rajella|Glaucostegus|Platyrhin|Pristis|Anoxypristis|Acroteriobatus|Pseudobatos|Rhinobatos|Rhina|Rhynchobatus|Aptychotrema|Trygonorrhina|Zapteryx|Zanobatus|Hypnos|Benthobatis|Diplobatis|Discopyge|Narcine|Crassinarke|Electrolux|Heteronarce|Narke|Temera|Typhlonarke|Tetronarce|Torpedo")) %>%  
+  filter(!str_detect(genus, "Potamotrygon|Paratrygon|Heliotrygon|Plesiotrygon|Glyphis")) %>% # remove freshwater stingrays and sharks
+  select(spec_code, genus, species, species_ref_no, fam_code, demers_pelag) 
+
+write_csv(shark_spp, file = file.path(basedir, "data", "shark_spp_list.csv"), col_names = TRUE)
+
+```
+
+
 ```{r}
 # joining both datasets
 temp_join <- pref_temp %>% 
@@ -53,11 +67,9 @@ prm_elasmo <- prm_elasmo %>%
 # Join temp_join with prm_elasmo datasets
 prm_join <- prm_elasmo %>% 
   left_join(temp_join, by = "scientific_name") %>% 
-  select(-c(median_temperature, habitat_associated)) %>% 
-  rename(median_temp = temp_preferred,
-         habitat_associated = demers_pelag) %>% 
-  relocate(median_temp, .after = reproductive_mode) %>% 
-  relocate(habitat_associated, .before = reference) 
+  select(-c(median_temp)) %>% 
+  rename(median_temp = temp_preferred) %>% 
+  relocate(median_temp, .after = reproductive_mode) 
 
  
 sheet_write(prm_join, sheet = "prm_dataset_temp_hab")
