@@ -8,7 +8,11 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(here)
 library(vegan)
+library(ggrepel)
+library(MetBrewer)
+library(ggpp)
 
 # Set data paths
 basedir <- "G:/Meu Drive/PRM review/"
@@ -16,127 +20,153 @@ datadir <- file.path(basedir, "data/fish_base_data")
 outdir <- file.path(basedir, "data/outputs") # calls present data from raster files
 ```
 
+```{r}
+prm_elasmo <- read_csv(here("data", "prm_dataset.csv"))
+
+prm_elasmo <- prm_elasmo %>% 
+  rename(scientific_name = species)
+
+# sp counts per estimate type
+avm_sp_count <- prm_elasmo %>%
+  filter(estimate_type == "at-vessel mortality") %>% 
+  distinct(scientific_name) %>% 
+  count()
+
+prm_sp_count <- prm_elasmo %>%
+  filter(estimate_type == "post-release mortality") %>% 
+  distinct(scientific_name) %>% 
+  count()
+
+```
+
+```{r}
+# create data subset with variables that will be used in the random forest model
+prm_elasmo_subset <- prm_elasmo %>% 
+  select(scientific_name, gear_class, habitat_associated, estimate_type, estimate, sample_size,
+         method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family) %>% 
+  mutate(max_size_cm = case_when( # filling missing information based on the average per group
+    scientific_name == "Dasyatis sp" ~ 146.22,
+    scientific_name == "Squalus sp" ~ 141.12,
+    scientific_name == "Mustelus sp" ~ 172.07,
+    scientific_name == "Centrophorus sp" ~ 165,  
+    scientific_name == "sharks" ~ 346.04,
+    scientific_name == "rays" ~ 146.22,
+    TRUE ~ max_size_cm
+  )) %>% 
+  mutate(median_depth = case_when( # filling missing information based on the average per group
+    scientific_name == "Dasyatis sp" ~ 139.33,
+    scientific_name == "Squalus sp" ~ 139.33,
+    scientific_name == "Mustelus sp" ~ 322.35,
+    scientific_name == "Centrophorus sp" ~ 1065.4,
+    scientific_name == "sharks" ~ 247.87,
+    scientific_name == "rays" ~ 139.33,
+    TRUE ~ median_depth
+  )) %>% 
+  mutate(measure = case_when(
+    scientific_name == "sharks" ~ "total_length",
+    scientific_name %in% c("rays", "Dasyatis sp") ~ "disk_width",
+    TRUE ~ measure
+  )) %>% 
+  mutate(reproductive_mode = case_when(
+    scientific_name == "sharks" ~ "yolk-sac viviparity",
+    scientific_name == "rays" ~ "yolk-sac viviparity",
+    TRUE ~ reproductive_mode
+  )) %>%
+  mutate_if(is.character, as.factor)
+
+# Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
+elasmo_avm <- prm_elasmo_subset %>%
+  filter(estimate_type == "at-vessel mortality" & estimate > 0) %>% 
+  mutate(est_count = sample_size * estimate) %>% 
+  group_by(scientific_name, gear_class) %>% 
+  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>% 
+  drop_na()
+
+# Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
+elasmo_prm <- prm_elasmo_subset %>% 
+  filter(estimate_type == "post-release mortality" & estimate > 0) %>% 
+  mutate(est_count = sample_size * estimate) %>% 
+  group_by(scientific_name, gear_class) %>% 
+  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>% 
+  drop_na()
+```
+
 ## NMDS 
 ```{r}
-sample_cat <- med_sample_species %>% 
-  select(species, sex, sample)
+# calculate an nMDS for AVM
+## create subset of categorical data
+avm_cat <- elasmo_avm %>% 
+  select(scientific_name, gear_class, habitat_associated, ventilation_method, reproductive_mode, family)
 
-sp_num <- med_sample_species %>% 
-  select(starts_with("med_")) %>% 
-  sqrt()
 
-# Calculating distances
-sp_dist <- vegdist(sp_num, method = "euclid")
-sp_dist_mat <- as.matrix(sp_dist, labels = T)
+## create subset of numerical data
+avm_num <- elasmo_avm %>% 
+  ungroup() %>% 
+  select(mortality_prop, est_count, median_depth, max_size_cm) 
 
-sp_mds <- metaMDS(sp_dist_mat, k = 2, trymax = 1000, distance = "euclid", trace = T)
+avm_rank <- rankindex(avm_cat, avm_num, indices = c("euc", "man", "gow", "bra", "kul"),
+          stepacross = FALSE, method = "spearman", 
+	  metric = c("euclidean", "mahalanobis", "manhattan", "gower"))
 
-stressplot(sp_mds)
+
+#avm_dist <- vegdist(avm_num, method = "euclid")
+avm_dist_mat <- as.matrix(avm_num, labels = T)
+
+set.seed(123)
+
+avm_mds <- metaMDS(avm_dist_mat, k = 2, trymax = 400, distance = "bray", trace = T, autotransform = FALSE)
+
+stressplot(avm_mds)
+
+plot(avm_mds, display = "sites")
 
 # Assembling NMDS results
-data_scores_sp <- as.data.frame(scores(sp_mds))
-data_scores_sp$species <- as.factor(sample_cat$species)
-data_scores_sp$sex <- as.factor(sample_cat$sex)
-species.scores <- as.data.frame(scores(sp_mds,"sites"))
+data_scores_sp <- as.data.frame(scores(avm_mds, "sites"))
+data_scores_sp$scientific_name <- as.factor(avm_cat$scientific_name)
+data_scores_sp$gear_class <- as.factor(avm_cat$gear_class)
+data_scores_sp$habitat_associated <- as.factor(avm_cat$habitat_associated)
+data_scores_sp$ventilation_method <- as.factor(avm_cat$ventilation_method)
+data_scores_sp$reproductive_mode <- as.factor(avm_cat$reproductive_mode)
+data_scores_sp$family <- as.factor(avm_cat$family)
+
+species.scores <- as.data.frame(scores(avm_mds,"species"))
 species.scores$cont <- (rownames(species.scores)) 
 
-fit <- envfit(sp_mds, sp_num, perm = 1000)
-elements <- c("Mg24", "Ba138", "Mn55", "Sr86")
+fit <- envfit(avm_mds, avm_num, perm = 1000)
+vars <- c("mort_prop", "est_count", "median_depth", "max_size")
 fit.df <- as.data.frame(scores(fit, display = "vectors"))
-fit.df$elements <- (rownames(elements))
+fit.df$elements <- (rownames(vars))
 
 ```
 
-```{r}
-veganCovEllipse <- function(cov, center = c(0, 0), scale = 1, npoints = 100) {
-  
-  theta <- (0:npoints) * 2 * pi/npoints
-  Circle <- cbind(cos(theta), sin(theta))
-  t(center + scale * t(Circle %*% chol(cov)))
-}
- 
-#data for species ellipses, in this case using the management factor
-df_ell_full <- data.frame() #sets up a data frame before running the function.
 
-for(i in levels(data_scores_sp$species)){
-  df_ell_full <- rbind(df_ell_full, 
-                      cbind(as.data.frame(with(data_scores_sp[data_scores_sp$species == i,],
-                                              veganCovEllipse(cov.wt(cbind(NMDS1, NMDS2),
-                                                                     wt = rep(1/length(NMDS1),
-                                                                              length(NMDS1)))$cov,
-                                                              center = c(mean(NMDS1), mean(NMDS2))))),
-                            species = i))
-}
-
- 
-# data for labelling the ellipse
-nmds_mean_full = aggregate(data_scores_sp[ , c("NMDS1", "NMDS2")], 
-                         list(group = data_scores_sp$species), "mean")
- 
-# data for labelling the ellipse
-NMDS_mean = aggregate(data_scores_sp[, c("NMDS1", "NMDS2")], 
-                    list(group = data_scores_sp$species), "mean")
-
-#data for sex ellipses, in this case using the management factor
-df_ell_full_sex <- data.frame() #sets up a data frame before running the function.
-
-for(i in levels(data_scores_sp$sex)){
-  df_ell_full_sex <- rbind(df_ell_full_sex, 
-                      cbind(as.data.frame(with(data_scores_sp[data_scores_sp$sex == i,],
-                                              veganCovEllipse(cov.wt(cbind(NMDS1, NMDS2),
-                                                                     wt = rep(1/length(NMDS1),
-                                                                              length(NMDS1)))$cov,
-                                                              center = c(mean(NMDS1), mean(NMDS2))))),
-                            sex = i))
-}
-
-
- 
-# data for labelling the ellipse
-nmds_mean_full_sex = aggregate(data_scores_sp[ , c("NMDS1", "NMDS2")], 
-                         list(group = data_scores_sp$sex), "mean")
- 
-# data for labelling the ellipse
-NMDS_mean_sex = aggregate(data_scores_sp[, c("NMDS1", "NMDS2")], 
-                    list(group = data_scores_sp$sex), "mean")
-
-
-df_ell_bind <- df_ell_full %>% 
-  left_join(df_ell_full_sex, by = c("NMDS1", "NMDS2"))
-```
-
-
-## Plot NMDS 2
+## Plot NMDS 
 ```{r, fig.width=10, fig.height=8}
 ggplot() +   
-  geom_point(data = data_scores_sp %>% 
-               mutate(sex = str_to_sentence(sex)),
-             aes(x = NMDS1, y = NMDS2,
-                 shape = sex,
-                 color = species),
-             size = 3,
+  geom_point(data = data_scores_sp,
+             aes(x = NMDS1, y = NMDS2),
+             size = 2,
              show.legend = T,
-             alpha = 1) +
-  geom_path(data = df_ell_bind,
-            aes(x = NMDS1, y = NMDS2, color = species),
-            show.legend = F,
-            size = .7) +
+             alpha = .7) +
+  stat_ellipse(data = data_scores_sp,
+               aes(x = NMDS1, y = NMDS2,
+                 color = gear_class),
+               linewidth = .8,
+               alpha = .7) +
   geom_segment(data = fit.df, 
-               aes(x = -0, xend = NMDS1*10,
-                   y = 0, yend = NMDS2*10),
+               aes(x = -0, xend = NMDS1,
+                   y = 0, yend = NMDS2),
                arrow = arrow(length = unit(0.25, "cm")),
                linewidth = .8,
                alpha = 0.3) +
   geom_label_repel(data = fit.df,
-                   aes(x = NMDS1*10,
-                       y = NMDS2*10,
-                       label = elements),
+                   aes(x = NMDS1,
+                       y = NMDS2,
+                       label = vars),
                    position = position_nudge_center(x = .2, y = .01,
                                                     center_x = 0, center_y = 0),
                    fontface = "bold",
                    alpha = 0.5) +
-  scale_fill_manual(values = met.brewer("Kandinsky", 6)) +
-  scale_color_manual(values = met.brewer("Kandinsky", 6)) +
   labs(fill = "",
        shape = "",
        color = "") +
@@ -144,7 +174,7 @@ ggplot() +
   theme_bw() +
   theme(legend.key.size = unit(0.6, "cm"),
         legend.background = element_rect(fill = "transparent"),
-        legend.text = element_text(size = 12, face = "italic"),
+        legend.text = element_text(size = 12),
         legend.title = element_text(size = 15),
         legend.position = "bottom",
         axis.title = element_text(size = 13, face = "bold", color = "black"),
@@ -153,7 +183,4 @@ ggplot() +
         panel.grid = element_blank()) +
   guides(shape = "none")
 
-
- ggsave(here("outputs", "NMDS_full_2.png"), 
-        width = 10, height = 8, bg = "white", dpi = 300)
 ```
