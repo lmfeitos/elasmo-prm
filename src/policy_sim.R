@@ -6,8 +6,7 @@ set.seed(42)
 
 # 1 BAU "BAU"
 # 2 Retention Ban ("RB")
-# 3 Catch Quota ("CQ") # NOT WORKING RIGHT
-
+# 3 Catch Quota ("CQ") 
 
 # Functions ---------------------------------------------------------------
 
@@ -58,7 +57,7 @@ r = 0.8 #set for each shark
 N_0 = 100
 avs = 0.5 # at vessel survival; higher = better for shark (test quantile range from RF)
 prs = 0.5 # post release survival; higher = better for shark (test quantile range from RF)
-q = 1 # for ease of fishing pressure, could vary
+q = 1 # catchability, set to 1 for ease of fishing pressure, could vary
 f = 0.7 #vary for sensitivity
 quota = 0.5 # in percentage of catch; vary for sensitivity
 
