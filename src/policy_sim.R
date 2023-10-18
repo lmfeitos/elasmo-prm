@@ -6,7 +6,7 @@ set.seed(42)
 
 # 1 BAU "BAU"
 # 2 Retention Ban ("RB")
-# 3 Catch Quota ("CQ") 
+# 3 Catch Quota ("CQ") usually in weight needs editing - also possibly not added at the beginning 
 
 # Functions ---------------------------------------------------------------
 
@@ -22,8 +22,6 @@ sim <- function(t, N_0, K, r, avs, prs, q, f, quota, scenario) {
   if(scenario != "CQ") {
     quota = 0
   }
-  
-  print(quota)
   
   pop.array <- array(numeric(), dim = c(t)) # create population array
   pop.array[1] <- N_0 # initialize population
