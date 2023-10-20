@@ -14,6 +14,8 @@ library(ggrepel)
 library(MetBrewer)
 library(ggpp)
 library(patchwork)
+library(FactoMineR)
+library(factoextra)
 # Set data paths
 basedir <- "G:/Meu Drive/PRM review/"
 datadir <- file.path(basedir, "data/fish_base_data")
@@ -286,4 +288,79 @@ avm_nmds_plot /
   plot_layout(guides = "collect") &
   theme(legend.position = "bottom")
 ```
+
+
+## FAMD analysis
+gear_class + ventilation_method + median_depth + max_size_cm + habitat_associated + reproductive_mode
+```{r}
+# data prep for FAMD
+elasmo_avm_famd <- elasmo_avm %>% 
+  select(mortality_prop, gear_class, ventilation_method, median_depth, max_size_cm, habitat_associated, reproductive_mode, family)
+
+avm_famd <- FAMD(elasmo_avm_famd, graph = FALSE)
+
+avm_var <- get_famd_var(avm_famd)
+avm_var
+```
+
+```{r}
+# Plot of variables
+fviz_famd_var(avm_famd, repel = TRUE)
+# Contribution to the first dimension
+fviz_contrib(avm_famd, "var", axes = 1)
+# Contribution to the second dimension
+fviz_contrib(avm_famd, "var", axes = 2)
+```
+
+
+
+```{r}
+fviz_mfa_ind(avm_famd, 
+             habillage = "gear_class", # color by groups 
+             palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+             addEllipses = TRUE, ellipse.type = "confidence", 
+             repel = FALSE # Avoid text overlapping
+             ) 
+```
+
+```{r}
+# data prep for FAMD
+elasmo_prm_famd <- elasmo_prm %>% 
+  select(mortality_prop, gear_class, ventilation_method, median_depth, max_size_cm, habitat_associated, reproductive_mode, family)
+
+prm_famd <- FAMD(elasmo_prm_famd, graph = FALSE)
+
+prm_var <- get_famd_var(prm_famd)
+prm_var 
+```
+
+```{r}
+fviz_mfa_ind(prm_famd, 
+             habillage = "gear_class", # color by groups 
+             palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+             addEllipses = TRUE, ellipse.type = "confidence", 
+             repel = FALSE # Avoid text overlapping
+             ) 
+```
+
+
+```{r}
+avm_famd <- MFA(elasmo_avm_famd, graph = FALSE, group = gear_class)
+
+
+fviz_mfa_quali_biplot()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
