@@ -279,9 +279,11 @@ prm_cv2 <- prm_final %>%
 ```
 
 ```{r}
-collect_metrics(avm_cv2) # RMSE = 0.1559951; R2 = 0.6484935
+avm_metrics_test0 <- collect_metrics(avm_cv2_test0) # RMSE = 0.1559951; R2 = 0.6484935
+avm_metrics_test0
 
-collect_metrics(prm_cv2) # RMSE = 0.2019082; R2 = 0.3049691
+prm_metrics_test0 <- collect_metrics(prm_cv2_test0) # RMSE = 0.2019082; R2 = 0.3049691
+prm_metrics_test0
 ```
 
 ### Variable importance for the at-vessel mortality and post-release mortality RF models

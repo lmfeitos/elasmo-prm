@@ -279,9 +279,11 @@ prm_cv2_test1 <- prm_final_test1 %>%
 ```
 
 ```{r}
-collect_metrics(avm_cv2_test1)
+avm_metrics_test1 <- collect_metrics(avm_cv2_test1)
+avm_metrics_test1
 
-collect_metrics(prm_cv2_test1)
+prm_metrics_test1 <- collect_metrics(prm_cv2_test1)
+prm_metrics_test1
 ```
 
 ### Variable importance for the at-vessel mortality and post-release mortality RF models
