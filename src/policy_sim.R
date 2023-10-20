@@ -30,7 +30,7 @@ sim <- function(t, N_0, K, r, avs, prs, q, f, quota, scenario) {
     dt = 1
     
     # population growth - fishing + returned bycatch 
-    dN.dt = (r * pop.array[i - 1] * (1 - (pop.array[i - 1] / K))) - ceiling(q * f * pop.array[i - 1]) + floor(((q * f * pop.array[i - 1]) * (1 - quota)) *  avs * prs) * dt
+    dN.dt = (r * pop.array[i - 1] * (1 - (pop.array[i - 1] / K))) - ceiling(q * f * pop.array[i - 1]) + floor(((q * f * pop.array[i - 1]) * (1 - quota)) * avs * prs) * dt
     pop.array[i] = pop.array[i - 1] + dN.dt
 
   }
