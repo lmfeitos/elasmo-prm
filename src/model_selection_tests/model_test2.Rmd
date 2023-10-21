@@ -155,12 +155,12 @@ prm_rf_test2 <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode 
 ```{r}
 # create workflows
 avm_wflw_test2 <- workflow() %>% 
-  add_model(avm_rf) %>% 
-  add_recipe(avm_recipe)
+  add_model(avm_rf_test2) %>% 
+  add_recipe(avm_recipe_test2)
 
 prm_wflw_test2 <- workflow() %>% 
-  add_model(prm_rf) %>% 
-  add_recipe(prm_recipe)
+  add_model(prm_rf_test2) %>% 
+  add_recipe(prm_recipe_test2)
 ```
 
 ### Cross Validation
@@ -207,11 +207,11 @@ avm_fit_test2 <- fit(avm_final_test2, avm_train_test2) # fit the data to the tra
 ```
 
 ```{r, include=FALSE}
-avm_train_predict_test2 <- predict(object = avm_fit_test2, new_data = avm_train_test2) %>% # predict the training set
-  bind_cols(avm_train_test2) # bind training set column to prediction
+avm_train_predict_test2 <- predict(object = avm_fit_test2, new_data = avm_train) %>% # predict the training set
+  bind_cols(avm_train) # bind training set column to prediction
 
-avm_test_predict_test2 <- predict(object = avm_fit_test2, new_data = avm_test_test2) %>% # predict the training set
-  bind_cols(avm_test_test2)# bind prediction to testing data column
+avm_test_predict_test2 <- predict(object = avm_fit_test2, new_data = avm_test) %>% # predict the training set
+  bind_cols(avm_test)# bind prediction to testing data column
 ```
 
 ```{r}
