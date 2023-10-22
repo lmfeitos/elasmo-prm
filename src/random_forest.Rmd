@@ -168,11 +168,11 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 * Minimum data points in each node required for node split
 
 ```{r,include=FALSE}
-avm_tune <- avm_wflw %>% # use cross validation to tune parameters
-  tune_grid(
-    resamples = avm_folds, # add cv folds
-    grid = 10
-  ) # use grid of parameters to test
+# avm_tune <- avm_wflw %>% # use cross validation to tune parameters
+#   tune_grid(
+#     resamples = avm_folds, # add cv folds
+#     grid = 10
+#   ) # use grid of parameters to test
 ```
 
 ```{r,include=FALSE}
@@ -191,11 +191,15 @@ autoplot(avm_tune) + # plot results of tuning
 ```
 
 ```{r}
-select_best(avm_tune, metric = "rsq", n = 1) # get the best model
+# select_best(avm_tune, metric = "rsq", n = 1) # get the best model
 ```
 
 ```{r, include=FALSE}
-avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rsq")) # finalize the workflow with the best model
+# avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rsq")) # finalize the workflow with the best model
+
+# saveRDS(avm_final, here::here("data", "avm_final.rds"))
+
+avm_final = readRDS(here::here("data", "avm_final.rds"))
 ```
 
 ```{r, include=FALSE}
@@ -280,10 +284,48 @@ collect_metrics(avm_cv2)
 collect_metrics(prm_cv2)
 ```
 
-## AVM model - ln of real values vs predicted values 
+## Quantile regression
 
 ```{r}
-ggplot(avm_test_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
+preds_bind <- function(data_fit, rf_fit) {
+  predict(
+    rf_fit$fit$fit$fit,
+    workflows::extract_recipe(rf_fit) %>% bake(data_fit),
+    type = "quantiles",
+    quantiles = c(.05, .25, .5, .75, .95)
+  ) %>%
+    with(predictions) %>%
+    as_tibble() %>%
+    set_names(paste0(".pred", c("_05", "_25", "_50", "_75", "_95"))) %>%
+    bind_cols(data_fit)
+} #function to preform and extract quantile estimates from random forest
+
+avm_data = full_join(avm_test_predict, avm_train_predict)
+
+avm_quant_test <- preds_bind(avm_data, avm_fit) %>%
+  mutate(range_50 = .pred_75 - .pred_25,
+         range_95 = .pred_95 - .pred_05)
+
+quant_in_50 <- avm_quant_test %>%
+  filter(!is.na(mortality_prop)) %>% 
+  mutate(in_interval = mortality_prop <= .pred_75 & mortality_prop >= .pred_25) %>%
+  group_by(in_interval) %>%
+  summarize(count = n())
+
+percent_50 <- quant_in_50$count[2] / (quant_in_50$count[1] + quant_in_50$count[2]) * 100
+percent_50
+
+ggplot(avm_quant_test) +
+  geom_boxplot(aes(range_50)) +
+  theme_bw()
+
+write_csv(avm_quant_test, here::here("data", "avm_model_predictions.csv"))
+```
+
+## AVM model - real values vs predicted values 
+
+```{r}
+ggplot(avm_quant_test, aes(x = mortality_prop, y = .pred_50)) + # plot ln of real versus ln of predicted
   geom_point() +
   geom_smooth(method = "lm") + # add trend line
   theme_bw() +
@@ -291,10 +333,10 @@ ggplot(avm_test_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real
       y = "Predicted At-Vessel Mortality Rate") +
   theme(text = element_text(size = 10))
 
-summary(lm(.pred ~ mortality_prop, data = avm_test_predict))
+summary(lm(.pred_50 ~ mortality_prop, data = avm_quant_test))
 ```
 
-## PRM model - ln of real values vs predicted values
+## PRM model - real values vs predicted values
 
 ```{r}
 ggplot(prm_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
