@@ -203,7 +203,7 @@ avm_final_test2 <- finalize_workflow(avm_wflw_test2, select_best(avm_tune_test2,
 ```
 
 ```{r, include=FALSE}
-avm_fit_test2 <- fit(avm_final_test2, avm_train_test2) # fit the data to the training data
+avm_fit_test2 <- fit(avm_final_test2, avm_train) # fit the data to the training data
 ```
 
 ```{r, include=FALSE}
