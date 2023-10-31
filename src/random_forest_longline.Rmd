@@ -255,6 +255,8 @@ prm_final <- finalize_workflow(prm_wflw, select_best(prm_tune, metric = "rsq")) 
 
 ```{r, include=FALSE}
 prm_fit <- fit(prm_final, elasmo_prm) # fit the data to the training data
+
+saveRDS(prm_final, here::here("data", "prm_final.rds"))
 ```
 
 ```{r, include=FALSE}
@@ -337,6 +339,30 @@ ggplot(avm_quant_test) +
 
 write_csv(avm_quant_test, here::here("data", "avm_model_predictions.csv"))
 ```
+
+```{r}
+prm_quant_test <- preds_bind(prm_train_predict, prm_fit) %>%
+  mutate(
+    range_50 = .pred_75 - .pred_25,
+    range_95 = .pred_95 - .pred_05
+  )
+
+quant_in_50 <- prm_quant_test %>%
+  filter(!is.na(mortality_prop)) %>%
+  mutate(in_interval = mortality_prop <= .pred_75 & mortality_prop >= .pred_25) %>%
+  group_by(in_interval) %>%
+  summarize(count = n())
+
+percent_50 <- quant_in_50$count[2] / (quant_in_50$count[1] + quant_in_50$count[2]) * 100
+percent_50
+
+ggplot(prm_quant_test) +
+  geom_boxplot(aes(range_50)) +
+  theme_bw()
+
+write_csv(prm_quant_test, here::here("data", "prm_model_predictions.csv"))
+```
+
 
 ## AVM model - real values vs predicted values 
 
