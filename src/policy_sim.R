@@ -50,15 +50,15 @@ sim <- function(t, N_0, K, r, avs, prs, q, f, quota, scenario) {
 
 # Set Up ------------------------------------------------------------------
 
-t = 200
+t = 75
 K = 100 
-r = 0.8 #set for each shark
+r = 0.2 #set for each shark
 N_0 = 100
-avs = 0.5 # at vessel survival; higher = better for shark (test quantile range from RF)
-prs = 0.5 # post release survival; higher = better for shark (test quantile range from RF)
+avs = 0.8 # at vessel survival; higher = better for shark (test quantile range from RF)
+prs = 0.8 # post release survival; higher = better for shark (test quantile range from RF)
 q = 1 # catchability, set to 1 for ease of fishing pressure, could vary
-f = 0.6 #vary for sensitivity
-quota = 10 # in count
+f = 0.3 #vary for sensitivity
+quota = 1 # in count
 
 test_bau = sim(t, N_0, K, r, avs, prs, q, f, quota, "BAU")
 test_rb = sim(t, N_0, K, r, avs, prs, q, f, quota, "RB")
