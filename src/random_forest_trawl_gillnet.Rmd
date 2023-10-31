@@ -233,7 +233,7 @@ gillnet_train_predict <- predict(object = gillnet_fit, new_data = elasmo_gillnet
 ```
 
 ```{r}
-gill_train_metrics <- gill_train_predict %>%
+gill_train_metrics <- gillnet_train_predict %>%
   metrics(mortality_prop, .pred) # get testing data metrics
 gill_train_metrics
 ```
@@ -343,7 +343,7 @@ summary(lm(.pred_50 ~ mortality_prop, data = trawl_quant_test))
 ```{r}
 ggplot(gillnet_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
   geom_point() +
-  geom_smooth(method = "loess") + # add trend line
+  geom_smooth(method = "lm") + # add trend line
   theme_bw() +
   labs(x = "Observed Post Release Mortality Rate",
       y = "Predicted Post Release Mortality Rate") +
@@ -408,10 +408,6 @@ ggplot(gillnet_pred, aes(median_depth, .pred)) +
 ggplot(gillnet_pred) +
   geom_boxplot(aes(family, .pred)) +
   coord_flip() +
-  theme_bw()
-
-ggplot(gillnet_pred) +
-  geom_boxplot(aes(gear_class, .pred)) +
   theme_bw()
 
 ggplot(gillnet_pred) +
