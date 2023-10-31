@@ -30,7 +30,8 @@ set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_dataset.csv"))
+prm_elasmo <- read_csv(here("data", "prm_dataset.csv")) %>% 
+  filter(gear_class == "longline")
 
 prm_elasmo <- prm_elasmo %>%
   rename(scientific_name = species)
@@ -108,6 +109,16 @@ gg_miss_var(elasmo_avm)
 gg_miss_var(elasmo_prm)
 ```
 
+```{r}
+trawl_avm = elasmo_avm %>% 
+  filter(gear_class == "trawl")
+
+longline_avm = elasmo_avm %>% 
+  filter(gear_class == "longline")
+
+gillnet_avm = elasmo_avm %>% 
+  filter(gear_class == "gillnet")
+```
 
 ```{r}
 # split the data into training and test set
@@ -135,10 +146,10 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ gear_class + ventilation_method + median_depth + max_size_cm + habitat_associated + reproductive_mode, data = avm_train) %>%
+avm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + habitat_associated + reproductive_mode, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
-prm_recipe <- recipe(mortality_prop ~ gear_class + ventilation_method + median_depth + max_size_cm + habitat_associated + reproductive_mode, data = elasmo_prm) %>%
+prm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + habitat_associated + reproductive_mode, data = elasmo_prm) %>%
   step_normalize(all_numeric_predictors())
 ```
 
@@ -171,38 +182,38 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 * Minimum data points in each node required for node split
 
 ```{r,include=FALSE}
-# avm_tune <- avm_wflw %>% # use cross validation to tune parameters
-#   tune_grid(
-#     resamples = avm_folds, # add cv folds
-#     grid = 10
-#   ) # use grid of parameters to test
+avm_tune <- avm_wflw %>% # use cross validation to tune parameters
+  tune_grid(
+    resamples = avm_folds, # add cv folds
+    grid = 10
+  ) # use grid of parameters to test
 ```
 
 ```{r,include=FALSE}
-# prm_tune <- prm_wflw %>% # use cross validation to tune parameters
-#   tune_grid(
-#     resamples = prm_folds, # add cv folds
-#     grid = 10
-#   ) # use grid of parameters to test
+prm_tune <- prm_wflw %>% # use cross validation to tune parameters
+  tune_grid(
+    resamples = prm_folds, # add cv folds
+    grid = 10
+  ) # use grid of parameters to test
 ```
 
 Below displays the results of cross validation tuning
 
 ```{r}
-# autoplot(avm_tune) + # plot results of tuning
-#   theme_bw() # change theme
+autoplot(avm_tune) + # plot results of tuning
+  theme_bw() # change theme
 ```
 
 ```{r}
-# select_best(avm_tune, metric = "rsq", n = 1) # get the best model
+select_best(avm_tune, metric = "rsq", n = 1) # get the best model
 ```
 
 ```{r, include=FALSE}
-# avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rsq")) # finalize the workflow with the best model
+avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rsq")) # finalize the workflow with the best model
 
-# saveRDS(avm_final, here::here("data", "avm_final.rds"))
+saveRDS(avm_final, here::here("data", "avm_final.rds"))
 
-avm_final <- readRDS(here::here("data", "avm_final.rds"))
+#avm_final <- readRDS(here::here("data", "avm_final.rds"))
 ```
 
 ```{r, include=FALSE}
@@ -227,42 +238,42 @@ avm_test_metrics <- avm_test_predict %>%
 avm_test_metrics
 ```
 
-<!-- Below displays the results of cross validation tuning -->
+Below displays the results of cross validation tuning
 
-<!-- ```{r} -->
-<!-- autoplot(prm_tune) + # plot results of tuning -->
-<!--   theme_bw() # change theme -->
-<!-- ``` -->
+```{r}
+autoplot(prm_tune) + # plot results of tuning
+  theme_bw() # change theme
+```
 
-<!-- ```{r} -->
-<!-- select_best(prm_tune, metric = "rsq", n = 1) # get the best model -->
-<!-- ``` -->
+```{r}
+select_best(prm_tune, metric = "rsq", n = 1) # get the best model
+```
 
-<!-- ```{r, include=FALSE} -->
-<!-- prm_final <- finalize_workflow(prm_wflw, select_best(prm_tune, metric = "rsq")) # finalize the workflow with the best model -->
-<!-- ``` -->
+```{r, include=FALSE}
+prm_final <- finalize_workflow(prm_wflw, select_best(prm_tune, metric = "rsq")) # finalize the workflow with the best model
+```
 
-<!-- ```{r, include=FALSE} -->
-<!-- prm_fit <- fit(prm_final, elasmo_prm) # fit the data to the training data -->
-<!-- ``` -->
+```{r, include=FALSE}
+prm_fit <- fit(prm_final, elasmo_prm) # fit the data to the training data
+```
 
-<!-- ```{r, include=FALSE} -->
-<!-- prm_train_predict <- predict(object = prm_fit, new_data = elasmo_prm) %>% # predict the training set -->
-<!--   bind_cols(elasmo_prm) # bind training set column to prediction -->
+```{r, include=FALSE}
+prm_train_predict <- predict(object = prm_fit, new_data = elasmo_prm) %>% # predict the training set
+  bind_cols(elasmo_prm) # bind training set column to prediction
 
-<!-- # prm_test_predict <- predict(object = prm_fit, new_data = prm_test) %>% # predict the training set -->
-<!-- #   bind_cols(prm_test)# bind prediction to testing data column -->
-<!-- ``` -->
+# prm_test_predict <- predict(object = prm_fit, new_data = prm_test) %>% # predict the training set
+#   bind_cols(prm_test)# bind prediction to testing data column
+```
 
-<!-- ```{r} -->
-<!-- prm_train_metrics <- prm_train_predict %>% -->
-<!--   metrics(mortality_prop, .pred) # get testing data metrics -->
-<!-- prm_train_metrics -->
+```{r}
+prm_train_metrics <- prm_train_predict %>%
+  metrics(mortality_prop, .pred) # get testing data metrics
+prm_train_metrics
 
-<!-- # prm_test_metrics <- prm_test_predict %>% -->
-<!-- #   metrics(mortality_prop, .pred) # get testing data metrics -->
-<!-- # prm_test_metrics -->
-<!-- ``` -->
+# prm_test_metrics <- prm_test_predict %>%
+#   metrics(mortality_prop, .pred) # get testing data metrics
+# prm_test_metrics
+```
 
 ```{r}
 my_controls <- control_resamples(
@@ -277,14 +288,14 @@ my_controls <- control_resamples(
 avm_cv2 <- avm_final %>%
   fit_resamples(avm_folds, control = my_controls) # fit the folds to the final model
 
-# prm_cv2 <- prm_final %>%
-#   fit_resamples(prm_folds, control = my_controls) # fit the folds to the final model
+prm_cv2 <- prm_final %>%
+  fit_resamples(prm_folds, control = my_controls) # fit the folds to the final model
 ```
 
 ```{r}
 collect_metrics(avm_cv2)
 
-# collect_metrics(prm_cv2)
+collect_metrics(prm_cv2)
 ```
 
 ## Quantile regression
@@ -346,15 +357,15 @@ summary(lm(.pred_50 ~ mortality_prop, data = avm_quant_test))
 ## PRM model - real values vs predicted values
 
 ```{r}
-# ggplot(prm_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
-#   geom_point() +
-#   geom_smooth(method = "loess") + # add trend line
-#   theme_bw() +
-#   labs(x = "Observed Post Release Mortality Rate",
-#       y = "Predicted Post Release Mortality Rate") +
-#   theme(text = element_text(size = 10))
-#
-# summary(lm(.pred ~ mortality_prop, data = prm_train_predict))
+ggplot(prm_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
+  geom_point() +
+  geom_smooth(method = "loess") + # add trend line
+  theme_bw() +
+  labs(x = "Observed Post Release Mortality Rate",
+      y = "Predicted Post Release Mortality Rate") +
+  theme(text = element_text(size = 10))
+
+summary(lm(.pred ~ mortality_prop, data = prm_train_predict))
 ```
 
 ### Variable importance for the at-vessel mortality and post-release mortality RF models
@@ -363,9 +374,9 @@ avm_fit %>%
   extract_fit_parsnip() %>%
   vip()
 
-# prm_fit %>%
-#   extract_fit_parsnip() %>%
-#   vip()
+prm_fit %>%
+  extract_fit_parsnip() %>%
+  vip()
 ```
 
 ## Data distribution for the main five predictor variables for AVM 
@@ -398,32 +409,32 @@ ggplot(avm_pred) +
   theme_bw()
 ```
 
-<!-- ## Data distribution for the main five predictor variables for PRM -->
+## Data distribution for the main five predictor variables for PRM
 
-<!-- ```{r} -->
-<!-- prm_pred = prm_train_predict -->
+```{r}
+prm_pred = prm_train_predict
 
-<!-- ggplot(prm_pred, aes(max_size_cm, .pred)) + -->
-<!--   geom_point() + -->
-<!--   geom_smooth(method = "loess") + -->
-<!--   labs() + -->
-<!--   theme_bw() -->
+ggplot(prm_pred, aes(max_size_cm, .pred)) +
+  geom_point() +
+  geom_smooth(method = "loess") +
+  labs() +
+  theme_bw()
 
-<!-- ggplot(prm_pred, aes(median_depth, .pred)) + -->
-<!--   geom_point() + -->
-<!--   geom_smooth(method = "loess") + -->
-<!--   theme_bw() -->
+ggplot(prm_pred, aes(median_depth, .pred)) +
+  geom_point() +
+  geom_smooth(method = "loess") +
+  theme_bw()
 
-<!-- ggplot(prm_pred) + -->
-<!--   geom_boxplot(aes(family, .pred)) + -->
-<!--   coord_flip() + -->
-<!--   theme_bw() -->
+ggplot(prm_pred) +
+  geom_boxplot(aes(family, .pred)) +
+  coord_flip() +
+  theme_bw()
 
-<!-- ggplot(prm_pred) + -->
-<!--   geom_boxplot(aes(gear_class, .pred)) + -->
-<!--   theme_bw() -->
+ggplot(prm_pred) +
+  geom_boxplot(aes(gear_class, .pred)) +
+  theme_bw()
 
-<!-- ggplot(prm_pred) + -->
-<!--   geom_boxplot(aes(habitat_associated, .pred)) + -->
-<!--   theme_bw() -->
-<!-- ``` -->
+ggplot(prm_pred) +
+  geom_boxplot(aes(habitat_associated, .pred)) +
+  theme_bw()
+```
