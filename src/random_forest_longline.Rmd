@@ -385,7 +385,7 @@ summary(lm(.pred_50 ~ mortality_prop, data = avm_quant_test))
 ```{r}
 ggplot(prm_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
   geom_point() +
-  geom_smooth(method = "loess") + # add trend line
+  geom_smooth(method = "lm") + # add trend line
   theme_bw() +
   labs(x = "Observed Post Release Mortality Rate",
       y = "Predicted Post Release Mortality Rate") +
@@ -427,10 +427,6 @@ ggplot(avm_pred) +
 #  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 ggplot(avm_pred) +
-  geom_boxplot(aes(gear_class, .pred)) +
-  theme_bw()
-
-ggplot(avm_pred) +
   geom_boxplot(aes(habitat_associated, .pred)) +
   theme_bw()
 ```
@@ -454,10 +450,6 @@ ggplot(prm_pred, aes(median_depth, .pred)) +
 ggplot(prm_pred) +
   geom_boxplot(aes(family, .pred)) +
   coord_flip() +
-  theme_bw()
-
-ggplot(prm_pred) +
-  geom_boxplot(aes(gear_class, .pred)) +
   theme_bw()
 
 ggplot(prm_pred) +
