@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE,
                       cache = FALSE)
 library(tidyverse)
 library(here)
+library(ggh4x)
 
 # Set data paths
 basedir <- "G:/Meu Drive/PRM review/"
@@ -66,8 +67,10 @@ mort_summary <- prm_elasmo_subset %>%
   mutate(est_count = sample_size * estimate) %>% 
   group_by(scientific_name, estimate_type) %>% 
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>% 
-  drop_na() %>% 
-  filter(!gear_class %in% c("handline", "purse seine"))
+  ungroup() %>% 
+  group_by(scientific_name, estimate_type) %>% 
+  summarise(mean_mort = mean(mortality_prop)) %>% 
+  drop_na()  
 
 elasmo_avm <- prm_elasmo_subset %>%
   filter(estimate_type == "at-vessel mortality" & estimate > 0) %>% 
@@ -87,25 +90,15 @@ elasmo_prm <- prm_elasmo_subset %>%
   filter(!gear_class %in% c("handline", "purse seine", "pole and line"))
 ```
 
-```{r}
-# Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
-elasmo_avm_fam <- elasmo_avm %>%
-  group_by(family) %>% 
-  summarise(mean_prop = mean(mortality_prop))
-  
-# Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
-elasmo_prm_fam <- elasmo_prm %>% 
-  group_by(family) %>% 
-  summarise(mean_prop = mean(mortality_prop))
-```
 
 ```{r, fig.height=12, fig.width=8, message = TRUE}
 # visualization of AVM and PRM proportions per species and family
 ggplot() +
   geom_point(data = mort_summary %>% 
+#               filter(estimate_type == "at-vessel mortality") %>% 
                mutate(estimate_type = str_to_title(estimate_type)), 
-             aes(x = fct_reorder(scientific_name, mortality_prop), 
-                 y = mortality_prop, 
+             aes(x = fct_reorder(scientific_name, mean_mort), 
+                 y = mean_mort, 
                  color = estimate_type),
              size = 1.6,
              show.legend = FALSE) +
@@ -126,10 +119,145 @@ ggplot() +
 ```
 
 
+```{r}
+# Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per family 
+mort_summary_fam <- prm_elasmo_subset %>%
+  filter(estimate_type %in% c("at-vessel mortality", "post-release mortality") & estimate > 0) %>% 
+  mutate(est_count = sample_size * estimate) %>% 
+  group_by(family, estimate_type) %>% 
+  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>% 
+  ungroup() %>% 
+  group_by(family, estimate_type) %>% 
+  summarise(mean_mort = mean(mortality_prop)) %>% 
+  drop_na()  
+
+mort_summary_fam_seg <-mort_summary_fam %>% 
+  pivot_wider(names_from = estimate_type,
+              values_from = mean_mort)
+
+# Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species 
+elasmo_avm_fam <- elasmo_avm %>%
+  group_by(family) %>% 
+  summarise(mean_prop = mean(mortality_prop))
+  
+# Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species 
+elasmo_prm_fam <- elasmo_prm %>% 
+  group_by(family) %>% 
+  summarise(mean_prop = mean(mortality_prop))
+```
 
 
+```{r, fig.height=8, fig.width=8, message = TRUE}
+ggplot() +
+  geom_point(data = mort_summary_fam %>% 
+               mutate(estimate_type = str_to_title(estimate_type)),
+             aes(x = fct_reorder(family, mean_mort), 
+                 y = mean_mort, 
+                 color = estimate_type),
+             size = 1.6,
+             show.legend = FALSE) +
+  facet_wrap(~ estimate_type) +
+  labs(x = "",
+       y = "Mortality proportion",
+       color = "") +
+  scale_y_continuous(expand = c(0.01,0.01)) +
+  coord_flip() +
+  theme_bw() +
+  theme(axis.text = element_text(size = 10, color = "black"),
+        axis.title = element_text(size = 11, color = "black"),
+        legend.position = "bottom",
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        strip.background = element_rect(fill = "transparent"),
+        panel.spacing = unit(5, "mm"))
+```
 
 
+```{r}
+# # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
+mort_summary_gear <- prm_elasmo_subset %>% 
+  filter(estimate_type %in% c("at-vessel mortality", "post-release mortality") & estimate > 0) %>% 
+  filter(!gear_class %in% c("handline", "purse seine", "pole and line")) %>% 
+  mutate(est_count = sample_size * estimate) %>% 
+  group_by(scientific_name, gear_class, estimate_type) %>% 
+  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>% 
+  ungroup() %>% 
+  group_by(scientific_name, gear_class, estimate_type) %>% 
+  summarise(mean_mort = mean(mortality_prop)) %>% 
+  drop_na()  
+```
+
+
+```{r, fig.height=20, fig.width=10}
+ggplot() +
+  geom_point(data = mort_summary_gear %>% 
+               mutate(estimate_type = str_to_title(estimate_type),
+                      gear_class = str_to_title(gear_class)), 
+             aes(x = fct_reorder(scientific_name, mean_mort), 
+                 y = mean_mort, 
+                 color = estimate_type),
+             size = 1.6,
+             show.legend = FALSE) +
+  facet_grid2(gear_class ~ estimate_type,
+             scales = "free_y",
+             independent = "y") +
+  labs(x = "",
+       y = "Mortality proportion",
+       color = "") +
+  scale_y_continuous(expand = c(0.01,0.01)) +
+  coord_flip() +
+  theme_bw() +
+  theme(axis.text = element_text(size = 8, color = "black"),
+        axis.title = element_text(size = 11, color = "black"),
+        legend.position = "bottom",
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        strip.background = element_rect(fill = "transparent"),
+        panel.spacing = unit(5, "mm"))
+```
+
+```{r}
+# # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
+mort_fam_summary_gear <- prm_elasmo_subset %>% 
+  filter(estimate_type %in% c("at-vessel mortality", "post-release mortality") & estimate > 0) %>% 
+  filter(!gear_class %in% c("handline", "purse seine", "pole and line")) %>% 
+  mutate(est_count = sample_size * estimate) %>% 
+  group_by(family, gear_class, estimate_type) %>% 
+  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>% 
+  ungroup() %>% 
+  group_by(family, gear_class, estimate_type) %>% 
+  summarise(mean_mort = mean(mortality_prop)) %>% 
+  drop_na()  
+```
+
+
+```{r, fig.height=20, fig.width=10}
+ggplot() +
+  geom_point(data = mort_fam_summary_gear %>% 
+               mutate(estimate_type = str_to_title(estimate_type),
+                      gear_class = str_to_title(gear_class)), 
+             aes(x = fct_reorder(family, mean_mort), 
+                 y = mean_mort, 
+                 color = estimate_type),
+             size = 1.6,
+             show.legend = FALSE) +
+  facet_grid2(gear_class ~ estimate_type,
+             scales = "free_y",
+             independent = "y") +
+  labs(x = "",
+       y = "Mortality proportion",
+       color = "") +
+  scale_y_continuous(expand = c(0.01,0.01)) +
+  coord_flip() +
+  theme_bw() +
+  theme(axis.text = element_text(size = 8, color = "black"),
+        axis.title = element_text(size = 11, color = "black"),
+        legend.position = "bottom",
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        strip.background = element_rect(fill = "transparent"),
+        panel.spacing = unit(5, "mm"))
+```
 
 
 
