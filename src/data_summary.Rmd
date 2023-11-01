@@ -1,0 +1,166 @@
+---
+title: "data_summary"
+author: "Leonardo Feitosa"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      cache = FALSE)
+library(tidyverse)
+library(here)
+
+# Set data paths
+basedir <- "G:/Meu Drive/PRM review/"
+datadir <- file.path(basedir, "data/fish_base_data")
+outdir <- file.path(basedir, "data/outputs") # calls present data from raster files
+```
+
+```{r}
+# read in the data
+prm_elasmo <- read_csv(here("data", "prm_dataset.csv")) %>% 
+  rename(scientific_name = species)
+```
+
+```{r}
+# data wrangling
+prm_elasmo_subset <- prm_elasmo %>% 
+  select(scientific_name, gear_class, habitat_associated, estimate_type, estimate, sample_size,
+         method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family) %>% 
+  mutate(max_size_cm = case_when( # filling missing information based on the average per group
+    scientific_name == "Dasyatis sp" ~ 146.22,
+    scientific_name == "Squalus sp" ~ 141.12,
+    scientific_name == "Mustelus sp" ~ 172.07,
+    scientific_name == "Centrophorus sp" ~ 165,  
+    scientific_name == "sharks" ~ 346.04,
+    scientific_name == "rays" ~ 146.22,
+    TRUE ~ max_size_cm
+  )) %>% 
+  mutate(median_depth = case_when( # filling missing information based on the average per group
+    scientific_name == "Dasyatis sp" ~ 139.33,
+    scientific_name == "Squalus sp" ~ 139.33,
+    scientific_name == "Mustelus sp" ~ 322.35,
+    scientific_name == "Centrophorus sp" ~ 1065.4,
+    scientific_name == "sharks" ~ 247.87,
+    scientific_name == "rays" ~ 139.33,
+    TRUE ~ median_depth
+  )) %>% 
+  mutate(measure = case_when(
+    scientific_name == "sharks" ~ "total_length",
+    scientific_name %in% c("rays", "Dasyatis sp") ~ "disk_width",
+    TRUE ~ measure
+  )) %>% 
+  mutate(reproductive_mode = case_when(
+    scientific_name == "sharks" ~ "yolk-sac viviparity",
+    scientific_name == "rays" ~ "yolk-sac viviparity",
+    TRUE ~ reproductive_mode
+  )) %>%
+  mutate_if(is.character, as.factor)
+
+# Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species
+mort_summary <- prm_elasmo_subset %>% 
+  filter(estimate_type %in% c("at-vessel mortality", "post-release mortality") & estimate > 0) %>% 
+  mutate(est_count = sample_size * estimate) %>% 
+  group_by(scientific_name, estimate_type) %>% 
+  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>% 
+  drop_na() %>% 
+  filter(!gear_class %in% c("handline", "purse seine"))
+
+elasmo_avm <- prm_elasmo_subset %>%
+  filter(estimate_type == "at-vessel mortality" & estimate > 0) %>% 
+  mutate(est_count = sample_size * estimate) %>% 
+  group_by(scientific_name) %>% 
+  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>% 
+  drop_na() %>% 
+  filter(!gear_class %in% c("handline", "purse seine"))
+
+# Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species
+elasmo_prm <- prm_elasmo_subset %>% 
+  filter(estimate_type == "post-release mortality" & estimate > 0) %>% 
+  mutate(est_count = sample_size * estimate) %>% 
+  group_by(scientific_name) %>% 
+  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>% 
+  drop_na() %>% 
+  filter(!gear_class %in% c("handline", "purse seine", "pole and line"))
+```
+
+```{r}
+# Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
+elasmo_avm_fam <- elasmo_avm %>%
+  group_by(family) %>% 
+  summarise(mean_prop = mean(mortality_prop))
+  
+# Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
+elasmo_prm_fam <- elasmo_prm %>% 
+  group_by(family) %>% 
+  summarise(mean_prop = mean(mortality_prop))
+```
+
+```{r, fig.height=12, fig.width=8, message = TRUE}
+# visualization of AVM and PRM proportions per species and family
+ggplot() +
+  geom_point(data = mort_summary %>% 
+               mutate(estimate_type = str_to_title(estimate_type)), 
+             aes(x = fct_reorder(scientific_name, mortality_prop), 
+                 y = mortality_prop, 
+                 color = estimate_type),
+             size = 1.6,
+             show.legend = FALSE) +
+  facet_wrap(~ estimate_type) +
+  labs(x = "",
+       y = "Mortality proportion",
+       color = "") +
+  scale_y_continuous(expand = c(0.01,0.01)) +
+  coord_flip() +
+  theme_bw() +
+  theme(axis.text = element_text(size = 10, color = "black"),
+        axis.title = element_text(size = 11, color = "black"),
+        legend.position = "bottom",
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        strip.background = element_rect(fill = "transparent"),
+        panel.spacing = unit(5, "mm"))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
