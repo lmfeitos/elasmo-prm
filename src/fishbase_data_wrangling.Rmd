@@ -68,14 +68,28 @@ saup_spp <- read_csv(here("data", "sau_spp_taxonomy_ref.csv"))
 
 # call the weight to count conversion data by species
 weight_conv <- read_csv(here("data", "spp_weight_count_conversion.csv"))
+
+# call in the intrinsic growth rate data and wrangle it to convert lambda to r
+int_growth <- read_sheet("https://docs.google.com/spreadsheets/d/1jtKaQj0oYfu6tkqgoEOwWt90LTfNNkP7U9N5uPyo40s/edit#gid=0") %>% 
+  mutate(scientific_name = str_replace(scientific_name, "_", " ")) %>% 
+  mutate(r_value= case_when(
+    pop_growth_rate_measure == "lambda" ~ log(value),
+    TRUE ~ value
+  )) %>% 
+  group_by(scientific_name) %>% 
+  mutate(mean_r = mean(r_value)) %>% # calculates mean r values per species because some species have different r values depending on method/sampling area
+  relocate(mean_r, .after = r_value)
+
+write_csv(int_growth, file = here("data", "intrinsic_pop_growth_rates.csv"), col_names = TRUE)
 ```
 
 ```{r}
-# join shark_spp data from fishbase with the saup species list and the species specific weight to count conversion coefficients
+# join shark_spp data from fishbase with the saup species list, the species specific weight to count conversion coefficients, and intrinsic population growth rates
 shark_saup_join <- saup_spp %>% 
   left_join(shark_spp, by = "scientific_name") %>% 
   left_join(weight_conv, by = "scientific_name") %>% 
-  select(-habitat)
+  left_join(int_growth, by = "scientific_name") %>% 
+  select(-c(habitat, value, r_value, reference, observations, areas, pop_growth_rate_measure))
 
 write_csv(shark_saup_join, file = here("data", "shark_saup_fishbase_spp_list.csv"), col_names = TRUE)
 ```
