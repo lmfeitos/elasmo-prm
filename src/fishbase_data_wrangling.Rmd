@@ -20,7 +20,7 @@ outdir <- file.path(basedir, "data/outputs") # calls present data from raster fi
 ```
 
 ```{r}
-pref_temp <- fb_tbl("stocks") %>% 
+pref_temp <- fb_tbl("stocks") 
   clean_names() %>%  
   select(stock_code, spec_code, temp_preferred) %>% 
   drop_na()
@@ -30,7 +30,7 @@ write_csv(pref_temp, file = file.path(datadir, "preferred_temp.csv"), col_names 
 
 ```{r}
 spp <- fb_tbl("species") %>%  
-  clean_names() %>% 
+  clean_names() 
   select(spec_code, genus, species, species_ref_no, fam_code, demers_pelag, longevity_wild) 
 ```
 
@@ -41,7 +41,8 @@ shark_spp <- fb_tbl("species") %>%
   clean_names() %>% 
   filter(str_detect(genus, "Carcharhinus|Glyphis|Isogomphodon|Lamiopsis|Loxodon|Rhizoprionodon|Scoliodon|Triaenodon|Galeocerdo|Chaenogaleus|Hemigaleus|Hemipristis|Paragaleus|Leptocharias|Ctenacis|Eridacnis|Gollum|Proscyllium|Pseudotriakis|Apristurus|Asymbolus|Bythaelurus|Cephalurus|Figaro|Galeus|Halaelurus|Haploblepharus|Holohalaelurus|Parmaturus|Pentanchus|Atelomycterus|Aulohalaelurus|Cephaloscyllium|Poroderma|Schroederichthys|Scyliorhinus|Sphyrna|Furgaleus|Galeorhinus|Hemitriakis|Hypogaleus|Iago|Mustelus|Triakis|Scylliogaleus|Heterodontus|Hexanchus|Notorynchus|Chlamydoselachus|Carcharias|Carcharias|Carcharodon|Isurus|Lamna|Alopias|Cetorhinus|Megachasma|Mitsukurina|Odontaspis|Brachaelurus|inglymostoma|Nebrius|Chiloscyllium|Hemiscyllium|Orectolobus|Eucrossorhinus|Sutorectus|Cirrhoscyllium|Parascyllium|Rhincodon|Stegostoma|Pristiophorus|Pliotrema|Squatina|Squalus|Etmopterus|Centrophorus|Daenia|Dalatias|Euprotomicroides|Heteroscymnoides|Isistius|Mollisquama|Squaliolus|Echinorhinus|Aculeola|Centroscyllium|Centroscymnus|Scymnodalatias|Scymnodon|Somniosus|Cirrhigaleus|Oxynotus|Aetobatus|Bathytoshia|trygon|Dasyatis|Himantura|Hypanus|Maculabatis|Pastinachus|Pateobatis|Taeniura|Urogymnus|Gymnura|Aetomylaeus|Myliobatis|Manta|Mobula|Plesiobatis|Rhinoptera|Spinilophus|Urolophus|Urobatis|raja|batis|Springeria|Irolita|Sympterygia|Gurgesiella|Dipturus|Hongeo|Okamejei|Raja|Rajella|Glaucostegus|Platyrhin|Pristis|Anoxypristis|Acroteriobatus|Pseudobatos|Rhinobatos|Rhina|Rhynchobatus|Aptychotrema|Trygonorrhina|Zapteryx|Zanobatus|Hypnos|Benthobatis|Diplobatis|Discopyge|Narcine|Crassinarke|Electrolux|Heteronarce|Narke|Temera|Typhlonarke|Tetronarce|Torpedo")) %>%  
   filter(!str_detect(genus, "Potamotrygon|Paratrygon|Heliotrygon|Plesiotrygon|Glyphis"))  %>% # remove freshwater stingrays and sharks
-  select(spec_code, genus, species, species_ref_no, fam_code, demers_pelag, longevity_wild, length, l_type_max_m) 
+  select(spec_code, genus, species, species_ref_no, fam_code, demers_pelag, longevity_wild, length, l_type_max_m) %>% 
+  unite(scientific_name, c("genus", "species"), sep = " ", remove = FALSE)
 
 write_csv(shark_spp, file = file.path(basedir, "data", "shark_spp_list.csv"), col_names = TRUE)
 
@@ -57,11 +58,29 @@ temp_join <- pref_temp %>%
 
 ```{r}
 # call PRM dataset
-prm_elasmo <- read_sheet("https://docs.google.com/spreadsheets/d/1YkugPJBRjxz93wWEthtYpGN1rN3zZqb5g5xtkyJe1y0/edit#gid=0")
+prm_elasmo <- read_csv(here("data", "prm_dataset.csv"))
 
 prm_elasmo <- prm_elasmo %>% 
   rename(scientific_name = species)
+
+# Call saup species list from Worm et al (XXXX)
+saup_spp <- read_csv(here("data", "sau_spp_taxonomy_ref.csv"))
+
+# call the weight to count conversion data by species
+weight_conv <- read_csv(here("data", "spp_weight_count_conversion.csv"))
 ```
+
+```{r}
+# join shark_spp data from fishbase with the saup species list and the species specific weight to count conversion coefficients
+shark_saup_join <- saup_spp %>% 
+  left_join(shark_spp, by = "scientific_name") %>% 
+  left_join(weight_conv, by = "scientific_name") %>% 
+  select(-habitat)
+
+write_csv(shark_saup_join, file = here("data", "shark_saup_fishbase_spp_list.csv"), col_names = TRUE)
+```
+
+
 
 ```{r}
 # Join temp_join with prm_elasmo datasets

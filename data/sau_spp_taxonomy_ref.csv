@@ -1,0 +1,127 @@
+scientific_name,common_name,order_name,family_name,genus_name
+Alopias vulpinus,Thresher,lamniformes,alopiidae,Alopias
+Carcharhinidae,Requiem sharks,carcharhiniformes,carcharhinidae,NA
+Carcharhinus,Sharp-nosed sharks,carcharhiniformes,carcharhinidae,Carcharhinus
+Carcharhinus brachyurus,Copper shark,carcharhiniformes,carcharhinidae,Carcharhinus
+Carcharhinus plumbeus,Sandbar shark,carcharhiniformes,carcharhinidae,Carcharhinus
+Centrophorus granulosus,Gulper shark,squaliformes,centrophoridae,Centrophorus
+Cetorhinus maximus,Basking shark,lamniformes,cetorhinidae,Cetorhinus
+Dalatias licha,Kitefin shark,squaliformes,dalatiidae,Dalatias
+Echinorhinus brucus,Bramble shark,squaliformes,echinorhinidae,Echinorhinus
+Etmopterus spinax,Velvet belly,squaliformes,etmopteridae,Etmopterus
+Galeorhinus galeus,Tope shark,carcharhiniformes,triakidae,Galeorhinus
+Galeus melastomus,Blackmouth catshark,carcharhiniformes,pentanchidae,Galeus
+Heptranchias perlo,Sharpnose sevengill shark,hexanchiformes,hexanchidae,Heptranchias
+Hexanchus griseus,Bluntnose sixgill shark,hexanchiformes,hexanchidae,Hexanchus
+Isurus oxyrinchus,Shortfin mako,lamniformes,lamnidae,Isurus
+Oxynotus centrina,Angular roughshark,squaliformes,oxynotidae,Oxynotus
+Scyliorhinus,Catsharks,carcharhiniformes,scyliorhinidae,Scyliorhinus
+Scyliorhinus canicula,Small-spotted catshark,carcharhiniformes,scyliorhinidae,Scyliorhinus
+Scyliorhinus stellaris,Nursehound,carcharhiniformes,scyliorhinidae,Scyliorhinus
+Squalidae,Dogfish sharks,squaliformes,squalidae,NA
+Squalus acanthias,Picked dogfish,squaliformes,squalidae,Squalus
+Triakidae,Houndsharks,carcharhiniformes,triakidae,NA
+Prionace glauca,Blue shark,carcharhiniformes,carcharhinidae,Prionace
+Carcharhinus brevipinna,Spinner shark,carcharhiniformes,carcharhinidae,Carcharhinus
+Alopias,Thresher sharks,lamniformes,alopiidae,Alopias
+Carcharhinus falciformis,Silky shark,carcharhiniformes,carcharhinidae,Carcharhinus
+Carcharhinus longimanus,Oceanic whitetip shark,carcharhiniformes,carcharhinidae,Carcharhinus
+Carcharhinus melanopterus,Blacktip reef shark,carcharhiniformes,carcharhinidae,Carcharhinus
+Isurus,Mako sharks,lamniformes,lamnidae,Isurus
+Sphyrna,Hammerhead sharks,carcharhiniformes,sphyrnidae,Sphyrna
+Sphyrna lewini,Scalloped hammerhead,carcharhiniformes,sphyrnidae,Sphyrna
+Carcharias taurus,Sand tiger shark,lamniformes,odontaspididae,Carcharias
+Mustelus schmitti,Narrownose smooth-hound,carcharhiniformes,triakidae,Mustelus
+Notorynchus cepedianus,Broadnose sevengill shark,hexanchiformes,hexanchidae,Notorynchus
+Squatina argentina,Argentine angelshark,squatiniformes,squatinidae,Squatina
+Alopias pelagicus,Pelagic thresher,lamniformes,alopiidae,Alopias
+Alopias superciliosus,Bigeye thresher,lamniformes,alopiidae,Alopias
+Carcharhiniformes,Ground sharks,carcharhiniformes,NA,NA
+Carcharhinus albimarginatus,Silvertip shark,carcharhiniformes,carcharhinidae,Carcharhinus
+Carcharhinus amblyrhynchos,Blacktail reef shark,carcharhiniformes,carcharhinidae,Carcharhinus
+Carcharhinus amboinensis,Pigeye shark,carcharhiniformes,carcharhinidae,Carcharhinus
+Carcharhinus leucas,Bull shark,carcharhiniformes,carcharhinidae,Carcharhinus
+Carcharhinus limbatus,Blacktip shark,carcharhiniformes,carcharhinidae,Carcharhinus
+Carcharhinus obscurus,Dusky shark,carcharhiniformes,carcharhinidae,Carcharhinus
+Carcharhinus sorrah,Spottail shark,carcharhiniformes,carcharhinidae,Carcharhinus
+Carcharhinus tilstoni,Australian blacktip shark,carcharhiniformes,carcharhinidae,Carcharhinus
+Centrophorus squamosus,Leafscale gulper shark,squaliformes,centrophoridae,Centrophorus
+Deania calcea,Birdbeak dogfish,squaliformes,centrophoridae,Deania
+Galeocerdo cuvier,Tiger shark,carcharhiniformes,carcharhinidae,Galeocerdo
+Isurus paucus,Longfin mako,lamniformes,lamnidae,Isurus
+Lamna nasus,Porbeagle,lamniformes,lamnidae,Lamna
+Lamniformes,Mackerel sharks,lamniformes,NA,NA
+Nebrius ferrugineus,Tawny nurse shark,orectolobiformes,ginglymostomatidae,Nebrius
+Odontaspis ferox,Smalltooth sand tiger,lamniformes,odontaspididae,Odontaspis
+Pristidae,Sawfishes,rhinopristiformes,pristidae,NA
+Pristiophorus,Sawsharks,pristiophoriformes,pristiophoridae,Pristiophorus
+Pristiophorus cirratus,Common sawshark,pristiophoriformes,pristiophoridae,Pristiophorus
+Rhizoprionodon acutus,Milk shark,carcharhiniformes,carcharhinidae,Rhizoprionodon
+Rhynchobatus australiae,Whitespotted wedgefish,rhinopristiformes,rhinidae,Rhynchobatus
+Scyliorhinidae,Cat/swellsharks,carcharhiniformes,scyliorhinidae,NA
+Sphyrna mokarran,Great hammerhead,carcharhiniformes,sphyrnidae,Sphyrna
+Sphyrna zygaena,Smooth hammerhead,carcharhiniformes,sphyrnidae,Sphyrna
+Sphyrnidae,"Hammer, bonnet, scoophead sharks",carcharhiniformes,sphyrnidae,NA
+Squaliformes,"Bramble, sleeper, dogfish sharks",squaliformes,NA,NA
+Squalus,Dogfishes,squaliformes,squalidae,Squalus
+Squalus mitsukurii,Shortspine spurdog,squaliformes,squalidae,Squalus
+Squatina australis,Australian angelshark,squatiniformes,squatinidae,Squatina
+Squatina tergocellata,Ornate angelshark,squatiniformes,squatinidae,Squatina
+Triaenodon obesus,Whitetip reef shark,carcharhiniformes,carcharhinidae,Triaenodon
+Carcharhinus macloti,Hardnose shark,carcharhiniformes,carcharhinidae,Carcharhinus
+Etmopterus,Lanternsharks,squaliformes,etmopteridae,Etmopterus
+Lamnidae,Mackerel/white sharks,lamniformes,lamnidae,NA
+Centroscymnus coelolepis,Portuguese dogfish,squaliformes,somniosidae,Centroscymnus
+Centroselachus crepidater,Longnose velvet dogfish,squaliformes,somniosidae,Centroselachus
+Etmopterus princeps,Great lanternshark,squaliformes,etmopteridae,Etmopterus
+Etmopterus pusillus,Smooth lanternshark,squaliformes,etmopteridae,Etmopterus
+Carcharhinus dussumieri,Whitecheek shark,carcharhiniformes,carcharhinidae,Carcharhinus
+Chiloscyllium arabicum,Arabian carpetshark,orectolobiformes,hemiscylliidae,Chiloscyllium
+Rhynchobatus djiddensis,Giant guitarfish,rhinopristiformes,rhinidae,Rhynchobatus
+Mustelus,Smoothhounds,carcharhiniformes,triakidae,Mustelus
+Mustelus mustelus,Smooth-hound,carcharhiniformes,triakidae,Mustelus
+Ginglymostoma cirratum,Nurse shark,orectolobiformes,ginglymostomatidae,Ginglymostoma
+Negaprion brevirostris,Lemon shark,carcharhiniformes,carcharhinidae,Negaprion
+Rhizoprionodon porosus,Caribbean sharpnose shark,carcharhiniformes,carcharhinidae,Rhizoprionodon
+Rhinobatos,Guitarfishes,rhinopristiformes,rhinobatidae,Rhinobatos
+Rhinobatos rhinobatos,Common guitarfish,rhinopristiformes,rhinobatidae,Rhinobatos
+Carcharhinus galapagensis,Galapagos shark,carcharhiniformes,carcharhinidae,Carcharhinus
+Rhinobatos percellens,Chola guitarfish,rhinopristiformes,rhinobatidae,Rhinobatos
+Sphyrna tiburo,Bonnethead,carcharhiniformes,sphyrnidae,Sphyrna
+Squatinidae,Angel sharks,squatiniformes,squatinidae,NA
+Centroscyllium fabricii,Black dogfish,squaliformes,etmopteridae,Centroscyllium
+Squalus suckleyi,Pacific spiny dogfish,squaliformes,squalidae,Squalus
+Mustelus mento,Speckled smooth-hound,carcharhiniformes,triakidae,Mustelus
+Glaucostegus granulatus,Granulated guitarfish,rhinopristiformes,glaucostegidae,Glaucostegus
+Centrophorus,Gulper shark dogfishes,squaliformes,centrophoridae,Centrophorus
+Mustelus henlei,Brown smooth-hound,carcharhiniformes,triakidae,Mustelus
+Sphyrna media,Scoophead,carcharhiniformes,sphyrnidae,Sphyrna
+Rhinobatidae,"Guitarfishes, fanrays",rhinopristiformes,rhinobatidae,NA
+Cephaloscyllium isabellum,Draughtsboard shark,carcharhiniformes,scyliorhinidae,Cephaloscyllium
+Mustelus lenticulatus,Spotted estuary smooth-hound,carcharhiniformes,triakidae,Mustelus
+Carcharodon carcharias,Great white shark,lamniformes,lamnidae,Carcharodon
+Scymnodon ringens,Knifetooth dogfish,squaliformes,somniosidae,Scymnodon
+Squatina squatina,Angelshark,squatiniformes,squatinidae,Squatina
+Squalus blainville,Longnose spurdog,squaliformes,squalidae,Squalus
+Galeus,Sawtail catsharks,carcharhiniformes,pentanchidae,Galeus
+Centrophorus lusitanicus,Lowfin gulper shark,squaliformes,centrophoridae,Centrophorus
+Glaucostegus cemiculus,Blackchin guitarfish,rhinopristiformes,glaucostegidae,Glaucostegus
+Somniosus microcephalus,Greenland shark,squaliformes,somniosidae,Somniosus
+Mustelus asterias,Starry smooth-hound,carcharhiniformes,triakidae,Mustelus
+Leptocharias smithii,Barbeled houndshark,carcharhiniformes,leptochariidae,Leptocharias
+Rhizoprionodon terraenovae,Atlantic sharpnose shark,carcharhiniformes,carcharhinidae,Rhizoprionodon
+Rhincodon typus,Whale shark,orectolobiformes,rhincodontidae,Rhincodon
+Mustelus lunulatus,Sicklefin smooth-hound,carcharhiniformes,triakidae,Mustelus
+Nasolamia velox,Whitenose shark,carcharhiniformes,carcharhinidae,Nasolamia
+Rhizoprionodon longurio,Pacific sharpnose shark,carcharhiniformes,carcharhinidae,Rhizoprionodon
+Sphyrna corona,Scalloped bonnethead,carcharhiniformes,sphyrnidae,Sphyrna
+Mustelus whitneyi,Humpback smooth-hound,carcharhiniformes,triakidae,Mustelus
+Pseudobatos planiceps,Pacific guitarfish,rhinopristiformes,rhinobatidae,Pseudobatos
+Carcharhinus signatus,Night shark,carcharhiniformes,carcharhinidae,Carcharhinus
+Triakis megalopterus,Sharptooth houndshark,carcharhiniformes,triakidae,Triakis
+Hemitriakis japanica,Japanese topeshark,carcharhiniformes,triakidae,Hemitriakis
+Oxynotus paradoxus,Sailfin roughshark,squaliformes,oxynotidae,Oxynotus
+Squatina guggenheim,Angular angel shark,squatiniformes,squatinidae,Squatina
+Triakis semifasciata,Leopard shark,carcharhiniformes,triakidae,Triakis
+Apristurus brunneus,Brown catshark,carcharhiniformes,pentanchidae,Apristurus
+Carcharhinus amblyrhynchoides,Graceful shark,carcharhiniformes,carcharhinidae,Carcharhinus
