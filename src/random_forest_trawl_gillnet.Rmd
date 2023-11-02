@@ -182,11 +182,11 @@ select_best(trawl_tune, metric = "rsq", n = 1) # get the best model
 ```
 
 ```{r, include=FALSE}
-# trawl_final <- finalize_workflow(trawl_wflw, select_best(trawl_tune, metric = "rsq")) # finalize the workflow with the best model
-# 
-# saveRDS(trawl_final, here::here("data", "trawl_final.rds"))
+trawl_final <- finalize_workflow(trawl_wflw, select_best(trawl_tune, metric = "rsq")) # finalize the workflow with the best model
 
-trawl_final <- readRDS(here::here("data", "trawl_final.rds"))
+saveRDS(trawl_final, here::here("data", "trawl_final.rds"))
+
+#trawl_final <- readRDS(here::here("data", "trawl_final.rds"))
 ```
 
 ```{r, include=FALSE}
@@ -216,11 +216,11 @@ select_best(gillnet_tune, metric = "rsq", n = 1) # get the best model
 ```
 
 ```{r, include=FALSE}
-# gillnet_final <- finalize_workflow(gillnet_wflw, select_best(gillnet_tune, metric = "rsq")) # finalize the workflow with the best model
-# 
-# saveRDS(gillnet_final, here::here("data", "gillnet_final.rds"))
+gillnet_final <- finalize_workflow(gillnet_wflw, select_best(gillnet_tune, metric = "rsq")) # finalize the workflow with the best model
 
-gillnet_final <- readRDS(here::here("data", "gillnet_final.rds"))
+saveRDS(gillnet_final, here::here("data", "gillnet_final.rds"))
+
+#gillnet_final <- readRDS(here::here("data", "gillnet_final.rds"))
 ```
 
 ```{r, include=FALSE}

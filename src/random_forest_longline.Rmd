@@ -257,6 +257,8 @@ prm_final <- finalize_workflow(prm_wflw, select_best(prm_tune, metric = "rsq")) 
 prm_fit <- fit(prm_final, elasmo_prm) # fit the data to the training data
 
 saveRDS(prm_final, here::here("data", "prm_final.rds"))
+
+#prm_final <- readRDS(here::here("data", "prm_final.rds"))
 ```
 
 ```{r, include=FALSE}
