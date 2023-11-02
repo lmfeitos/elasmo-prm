@@ -1,127 +1,162 @@
-scientific_name,common_name,order_name,family_name,genus_name,spec_code,genus,species,species_ref_no,fam_code,demers_pelag,longevity_wild,length,l_type_max_m,weight_kg,weight_mt
-Alopias vulpinus,Thresher,lamniformes,alopiidae,Alopias,2535,Alopias,vulpinus,247,486,pelagic-oceanic,25,573.29998779296875,TL,36,0.036
-Carcharhinidae,Requiem sharks,carcharhiniformes,carcharhinidae,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,46.2,0.0462
-Carcharhinus,Sharp-nosed sharks,carcharhiniformes,carcharhinidae,Carcharhinus,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023
-Carcharhinus brachyurus,Copper shark,carcharhiniformes,carcharhinidae,Carcharhinus,864,Carcharhinus,brachyurus,244,11,reef-associated,30,325,TL,46.2,0.0462
-Carcharhinus plumbeus,Sandbar shark,carcharhiniformes,carcharhinidae,Carcharhinus,880,Carcharhinus,plumbeus,244,11,benthopelagic,34,300,TL,46.2,0.0462
-Centrophorus granulosus,Gulper shark,squaliformes,centrophoridae,Centrophorus,648,Centrophorus,granulosus,247,558,bathydemersal,NA,170,TL,5.6,0.0056
-Cetorhinus maximus,Basking shark,lamniformes,cetorhinidae,Cetorhinus,90,Cetorhinus,maximus,247,491,pelagic-oceanic,NA,1520,TL,36,0.036
-Dalatias licha,Kitefin shark,squaliformes,dalatiidae,Dalatias,669,Dalatias,licha,247,557,bathydemersal,NA,182,TL,5.6,0.0056
-Echinorhinus brucus,Bramble shark,squaliformes,echinorhinidae,Echinorhinus,641,Echinorhinus,brucus,247,499,bathydemersal,NA,310,TL,5.6,0.0056
-Etmopterus spinax,Velvet belly,squaliformes,etmopteridae,Etmopterus,687,Etmopterus,spinax,247,638,bathydemersal,NA,60,TL,5.6,0.0056
-Galeorhinus galeus,Tope shark,carcharhiniformes,triakidae,Galeorhinus,4642,Galeorhinus,galeus,244,488,benthopelagic,55,193,TL,36,0.036
-Galeus melastomus,Blackmouth catshark,carcharhiniformes,pentanchidae,Galeus,807,Galeus,melastomus,244,703,demersal,NA,75,TL,5.6,0.0056
-Heptranchias perlo,Sharpnose sevengill shark,hexanchiformes,hexanchidae,Heptranchias,NA,NA,NA,NA,NA,NA,NA,NA,NA,5.6,0.0056
-Hexanchus griseus,Bluntnose sixgill shark,hexanchiformes,hexanchidae,Hexanchus,637,Hexanchus,griseus,247,5,bathydemersal,NA,482,TL,5.6,0.0056
-Isurus oxyrinchus,Shortfin mako,lamniformes,lamnidae,Isurus,752,Isurus,oxyrinchus,247,9,pelagic-oceanic,32,445,TL,36,0.036
-Oxynotus centrina,Angular roughshark,squaliformes,oxynotidae,Oxynotus,718,Oxynotus,centrina,247,659,bathydemersal,NA,150,TL,5.6,0.0056
-Scyliorhinus,Catsharks,carcharhiniformes,scyliorhinidae,Scyliorhinus,NA,NA,NA,NA,NA,NA,NA,NA,NA,5.6,0.0056
-Scyliorhinus canicula,Small-spotted catshark,carcharhiniformes,scyliorhinidae,Scyliorhinus,845,Scyliorhinus,canicula,120402,10,demersal,12,100,TL,2.3,0.0023
-Scyliorhinus stellaris,Nursehound,carcharhiniformes,scyliorhinidae,Scyliorhinus,854,Scyliorhinus,stellaris,244,10,reef-associated,19,170,TL,2.3,0.0023
-Squalidae,Dogfish sharks,squaliformes,squalidae,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,5.6,0.0056
-Squalus acanthias,Picked dogfish,squaliformes,squalidae,Squalus,139,Squalus,acanthias,85328,13,benthopelagic,75,160,TL,5.6,0.0056
-Triakidae,Houndsharks,carcharhiniformes,triakidae,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023
-Prionace glauca,Blue shark,carcharhiniformes,carcharhinidae,Prionace,NA,NA,NA,NA,NA,NA,NA,NA,NA,36,0.036
-Carcharhinus brevipinna,Spinner shark,carcharhiniformes,carcharhinidae,Carcharhinus,865,Carcharhinus,brevipinna,244,11,reef-associated,16,300,TL,2.3,0.0023
-Alopias,Thresher sharks,lamniformes,alopiidae,Alopias,NA,NA,NA,NA,NA,NA,NA,NA,NA,36,0.036
-Carcharhinus falciformis,Silky shark,carcharhiniformes,carcharhinidae,Carcharhinus,868,Carcharhinus,falciformis,244,11,reef-associated,25,350,TL,46.2,0.0462
-Carcharhinus longimanus,Oceanic whitetip shark,carcharhiniformes,carcharhinidae,Carcharhinus,875,Carcharhinus,longimanus,244,11,pelagic-oceanic,22,400,TL,36,0.036
-Carcharhinus melanopterus,Blacktip reef shark,carcharhiniformes,carcharhinidae,Carcharhinus,877,Carcharhinus,melanopterus,244,11,reef-associated,NA,200,TL,2.3,0.0023
-Isurus,Mako sharks,lamniformes,lamnidae,Isurus,NA,NA,NA,NA,NA,NA,NA,NA,NA,36,0.036
-Sphyrna,Hammerhead sharks,carcharhiniformes,sphyrnidae,Sphyrna,NA,NA,NA,NA,NA,NA,NA,NA,NA,46.2,0.0462
-Sphyrna lewini,Scalloped hammerhead,carcharhiniformes,sphyrnidae,Sphyrna,912,Sphyrna,lewini,244,12,pelagic-oceanic,35,430,TL,46.2,0.0462
-Carcharias taurus,Sand tiger shark,lamniformes,odontaspididae,Carcharias,747,Carcharias,taurus,6871,740,reef-associated,NA,330,TL,46.2,0.0462
-Mustelus schmitti,Narrownose smooth-hound,carcharhiniformes,triakidae,Mustelus,5937,Mustelus,schmitti,244,488,demersal,NA,92,TL,2.3,0.0023
-Notorynchus cepedianus,Broadnose sevengill shark,hexanchiformes,hexanchidae,Notorynchus,2531,Notorynchus,cepedianus,247,5,demersal,49,300,TL,46.2,0.0462
-Squatina argentina,Argentine angelshark,squatiniformes,squatinidae,Squatina,727,Squatina,argentina,247,15,demersal,NA,170,TL,2.3,0.0023
-Alopias pelagicus,Pelagic thresher,lamniformes,alopiidae,Alopias,5891,Alopias,pelagicus,247,486,pelagic-oceanic,29,428,TL,36,0.036
-Alopias superciliosus,Bigeye thresher,lamniformes,alopiidae,Alopias,2534,Alopias,superciliosus,247,486,pelagic-oceanic,20,487.9849853515625,TL,36,0.036
-Carcharhiniformes,Ground sharks,carcharhiniformes,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023
-Carcharhinus albimarginatus,Silvertip shark,carcharhiniformes,carcharhinidae,Carcharhinus,858,Carcharhinus,albimarginatus,244,11,reef-associated,NA,300,TL,46.2,0.0462
-Carcharhinus amblyrhynchos,Blacktail reef shark,carcharhiniformes,carcharhinidae,Carcharhinus,861,Carcharhinus,amblyrhynchos,244,11,reef-associated,25,255,TL,2.3,0.0023
-Carcharhinus amboinensis,Pigeye shark,carcharhiniformes,carcharhinidae,Carcharhinus,862,Carcharhinus,amboinensis,244,11,reef-associated,NA,280,TL,NA,NA
-Carcharhinus leucas,Bull shark,carcharhiniformes,carcharhinidae,Carcharhinus,873,Carcharhinus,leucas,244,11,reef-associated,32,360,TL,46.2,0.0462
-Carcharhinus limbatus,Blacktip shark,carcharhiniformes,carcharhinidae,Carcharhinus,874,Carcharhinus,limbatus,244,11,reef-associated,12,286,TL,46.2,0.0462
-Carcharhinus obscurus,Dusky shark,carcharhiniformes,carcharhinidae,Carcharhinus,878,Carcharhinus,obscurus,244,11,reef-associated,40,420,TL,36,0.036
-Carcharhinus sorrah,Spottail shark,carcharhiniformes,carcharhinidae,Carcharhinus,884,Carcharhinus,sorrah,244,11,reef-associated,8,160,TL,2.3,0.0023
-Carcharhinus tilstoni,Australian blacktip shark,carcharhiniformes,carcharhinidae,Carcharhinus,15721,Carcharhinus,tilstoni,6390,11,pelagic-neritic,12,200,TL,46.2,0.0462
-Centrophorus squamosus,Leafscale gulper shark,squaliformes,centrophoridae,Centrophorus,653,Centrophorus,squamosus,247,558,bathydemersal,NA,164,TL,5.6,0.0056
-Deania calcea,Birdbeak dogfish,squaliformes,centrophoridae,Deania,NA,NA,NA,NA,NA,NA,NA,NA,NA,5.6,0.0056
-Galeocerdo cuvier,Tiger shark,carcharhiniformes,carcharhinidae,Galeocerdo,886,Galeocerdo,cuvier,244,791,benthopelagic,50,750,TL,46.2,0.0462
-Isurus paucus,Longfin mako,lamniformes,lamnidae,Isurus,753,Isurus,paucus,247,9,pelagic-oceanic,NA,427,TL,36,0.036
-Lamna nasus,Porbeagle,lamniformes,lamnidae,Lamna,88,Lamna,nasus,247,9,pelagic-oceanic,65,350,TL,46.2,0.0462
-Lamniformes,Mackerel sharks,lamniformes,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,36,0.036
-Nebrius ferrugineus,Tawny nurse shark,orectolobiformes,ginglymostomatidae,Nebrius,5895,Nebrius,ferrugineus,247,493,reef-associated,NA,320,TL,46.2,0.0462
-Odontaspis ferox,Smalltooth sand tiger,lamniformes,odontaspididae,Odontaspis,749,Odontaspis,ferox,247,8,benthopelagic,NA,450,TL,5.6,0.0056
-Pristidae,Sawfishes,rhinopristiformes,pristidae,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,46.2,0.0462
-Pristiophorus,Sawsharks,pristiophoriformes,pristiophoridae,Pristiophorus,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023
-Pristiophorus cirratus,Common sawshark,pristiophoriformes,pristiophoridae,Pristiophorus,721,Pristiophorus,cirratus,247,14,demersal,15,137,TL,NA,NA
-Rhizoprionodon acutus,Milk shark,carcharhiniformes,carcharhinidae,Rhizoprionodon,899,Rhizoprionodon,acutus,244,11,benthopelagic,8,175,TL,2.3,0.0023
-Rhynchobatus australiae,Whitespotted wedgefish,rhinopristiformes,rhinidae,Rhynchobatus,15380,Rhynchobatus,australiae,9915,713,demersal,NA,124,TL,NA,NA
-Scyliorhinidae,Cat/swellsharks,carcharhiniformes,scyliorhinidae,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023
-Sphyrna mokarran,Great hammerhead,carcharhiniformes,sphyrnidae,Sphyrna,914,Sphyrna,mokarran,244,12,pelagic-oceanic,30,610,TL,46.2,0.0462
-Sphyrna zygaena,Smooth hammerhead,carcharhiniformes,sphyrnidae,Sphyrna,917,Sphyrna,zygaena,244,12,pelagic-oceanic,21,500,TL,46.2,0.0462
-Sphyrnidae,"Hammer, bonnet, scoophead sharks",carcharhiniformes,sphyrnidae,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023
-Squaliformes,"Bramble, sleeper, dogfish sharks",squaliformes,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,5.6,0.0056
-Squalus,Dogfishes,squaliformes,squalidae,Squalus,NA,NA,NA,NA,NA,NA,NA,NA,NA,5.6,0.0056
-Squalus mitsukurii,Shortspine spurdog,squaliformes,squalidae,Squalus,713,Squalus,mitsukurii,247,13,benthopelagic,NA,89.80000305175781,TL,5.6,0.0056
-Squatina australis,Australian angelshark,squatiniformes,squatinidae,Squatina,728,Squatina,australis,247,15,demersal,NA,152,TL,NA,NA
-Squatina tergocellata,Ornate angelshark,squatiniformes,squatinidae,Squatina,737,Squatina,tergocellata,247,15,bathydemersal,NA,135,TL,NA,NA
-Triaenodon obesus,Whitetip reef shark,carcharhiniformes,carcharhinidae,Triaenodon,907,Triaenodon,obesus,244,11,reef-associated,25,213,TL,2.3,0.0023
-Carcharhinus macloti,Hardnose shark,carcharhiniformes,carcharhinidae,Carcharhinus,876,Carcharhinus,macloti,244,11,demersal,NA,110,TL,2.3,0.0023
-Etmopterus,Lanternsharks,squaliformes,etmopteridae,Etmopterus,NA,NA,NA,NA,NA,NA,NA,NA,NA,5.6,0.0056
-Lamnidae,Mackerel/white sharks,lamniformes,lamnidae,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,36,0.036
-Centroscymnus coelolepis,Portuguese dogfish,squaliformes,somniosidae,Centroscymnus,662,Centroscymnus,coelolepis,247,658,bathydemersal,NA,121,TL,5.6,0.0056
-Centroselachus crepidater,Longnose velvet dogfish,squaliformes,somniosidae,Centroselachus,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-Etmopterus princeps,Great lanternshark,squaliformes,etmopteridae,Etmopterus,683,Etmopterus,princeps,247,638,bathydemersal,NA,94,TL,NA,NA
-Etmopterus pusillus,Smooth lanternshark,squaliformes,etmopteridae,Etmopterus,684,Etmopterus,pusillus,247,638,bathydemersal,NA,50,TL,NA,NA
-Carcharhinus dussumieri,Whitecheek shark,carcharhiniformes,carcharhinidae,Carcharhinus,867,Carcharhinus,dussumieri,89954,11,reef-associated,NA,121,TL,2.3,0.0023
-Chiloscyllium arabicum,Arabian carpetshark,orectolobiformes,hemiscylliidae,Chiloscyllium,5901,Chiloscyllium,arabicum,247,492,demersal,NA,62,TL,2.3,0.0023
-Rhynchobatus djiddensis,Giant guitarfish,rhinopristiformes,rhinidae,Rhynchobatus,5503,Rhynchobatus,djiddensis,3919,713,reef-associated,NA,310,TL,46.2,0.0462
-Mustelus,Smoothhounds,carcharhiniformes,triakidae,Mustelus,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023
-Mustelus mustelus,Smooth-hound,carcharhiniformes,triakidae,Mustelus,4996,Mustelus,mustelus,244,488,demersal,24,200,TL,2.3,0.0023
-Ginglymostoma cirratum,Nurse shark,orectolobiformes,ginglymostomatidae,Ginglymostoma,2532,Ginglymostoma,cirratum,247,493,reef-associated,25,430,TL,46.2,0.0462
-Negaprion brevirostris,Lemon shark,carcharhiniformes,carcharhinidae,Negaprion,NA,NA,NA,NA,NA,NA,NA,NA,NA,46.2,0.0462
-Rhizoprionodon porosus,Caribbean sharpnose shark,carcharhiniformes,carcharhinidae,Rhizoprionodon,903,Rhizoprionodon,porosus,244,11,reef-associated,NA,113,TL,2.3,0.0023
-Rhinobatos,Guitarfishes,rhinopristiformes,rhinobatidae,Rhinobatos,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023
-Rhinobatos rhinobatos,Common guitarfish,rhinopristiformes,rhinobatidae,Rhinobatos,5016,Rhinobatos,rhinobatos,2683,17,demersal,NA,185,TL,NA,NA
-Carcharhinus galapagensis,Galapagos shark,carcharhiniformes,carcharhinidae,Carcharhinus,870,Carcharhinus,galapagensis,244,11,reef-associated,24,370,TL,36,0.036
-Rhinobatos percellens,Chola guitarfish,rhinopristiformes,rhinobatidae,Rhinobatos,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023
-Sphyrna tiburo,Bonnethead,carcharhiniformes,sphyrnidae,Sphyrna,915,Sphyrna,tiburo,244,12,reef-associated,12,150,TL,2.3,0.0023
-Squatinidae,Angel sharks,squatiniformes,squatinidae,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023
-Centroscyllium fabricii,Black dogfish,squaliformes,etmopteridae,Centroscyllium,656,Centroscyllium,fabricii,247,638,bathydemersal,NA,107,TL,5.6,0.0056
-Squalus suckleyi,Pacific spiny dogfish,squaliformes,squalidae,Squalus,65869,Squalus,suckleyi,85328,13,benthopelagic,NA,140,TL,5.6,0.0056
-Mustelus mento,Speckled smooth-hound,carcharhiniformes,triakidae,Mustelus,5934,Mustelus,mento,244,488,demersal,NA,141,TL,NA,NA
-Glaucostegus granulatus,Granulated guitarfish,rhinopristiformes,glaucostegidae,Glaucostegus,8731,Glaucostegus,granulatus,35766,714,demersal,NA,280,SL,46.2,0.0462
-Centrophorus,Gulper shark dogfishes,squaliformes,centrophoridae,Centrophorus,NA,NA,NA,NA,NA,NA,NA,NA,NA,5.6,0.0056
-Mustelus henlei,Brown smooth-hound,carcharhiniformes,triakidae,Mustelus,2540,Mustelus,henlei,244,488,demersal,13,100,TL,2.3,0.0023
-Sphyrna media,Scoophead,carcharhiniformes,sphyrnidae,Sphyrna,913,Sphyrna,media,244,12,demersal,NA,150,TL,NA,NA
-Rhinobatidae,"Guitarfishes, fanrays",rhinopristiformes,rhinobatidae,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023
-Cephaloscyllium isabellum,Draughtsboard shark,carcharhiniformes,scyliorhinidae,Cephaloscyllium,NA,NA,NA,NA,NA,NA,NA,NA,NA,5.6,0.0056
-Mustelus lenticulatus,Spotted estuary smooth-hound,carcharhiniformes,triakidae,Mustelus,5933,Mustelus,lenticulatus,244,488,demersal,NA,125,TL,2.3,0.0023
-Carcharodon carcharias,Great white shark,lamniformes,lamnidae,Carcharodon,751,Carcharodon,carcharias,247,9,pelagic-oceanic,36,640,TL,36,0.036
-Scymnodon ringens,Knifetooth dogfish,squaliformes,somniosidae,Scymnodon,700,Scymnodon,ringens,247,658,bathypelagic,NA,110,TL,5.6,0.0056
-Squatina squatina,Angelshark,squatiniformes,squatinidae,Squatina,736,Squatina,squatina,247,15,demersal,NA,183,TL,2.3,0.0023
-Squalus blainville,Longnose spurdog,squaliformes,squalidae,Squalus,708,Squalus,blainville,247,13,demersal,NA,121.5999984741211,TL,5.6,0.0056
-Galeus,Sawtail catsharks,carcharhiniformes,pentanchidae,Galeus,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023
-Centrophorus lusitanicus,Lowfin gulper shark,squaliformes,centrophoridae,Centrophorus,650,Centrophorus,lusitanicus,247,558,bathydemersal,NA,160,TL,5.6,0.0056
-Glaucostegus cemiculus,Blackchin guitarfish,rhinopristiformes,glaucostegidae,Glaucostegus,2074,Glaucostegus,cemiculus,3261,714,demersal,NA,242,TL,NA,NA
-Somniosus microcephalus,Greenland shark,squaliformes,somniosidae,Somniosus,138,Somniosus,microcephalus,50224,658,benthopelagic,392,427,TL,5.6,0.0056
-Mustelus asterias,Starry smooth-hound,carcharhiniformes,triakidae,Mustelus,5938,Mustelus,asterias,244,488,demersal,NA,140,TL,2.3,0.0023
-Leptocharias smithii,Barbeled houndshark,carcharhiniformes,leptochariidae,Leptocharias,2073,Leptocharias,smithii,244,489,demersal,NA,77,TL,NA,NA
-Rhizoprionodon terraenovae,Atlantic sharpnose shark,carcharhiniformes,carcharhinidae,Rhizoprionodon,905,Rhizoprionodon,terraenovae,244,11,demersal,10,110,TL,2.3,0.0023
-Rhincodon typus,Whale shark,orectolobiformes,rhincodontidae,Rhincodon,2081,Rhincodon,typus,26319,6,pelagic-oceanic,80.4000015258789,1700,TL,36,0.036
-Mustelus lunulatus,Sicklefin smooth-hound,carcharhiniformes,triakidae,Mustelus,2541,Mustelus,lunulatus,244,488,demersal,NA,175,TL,NA,NA
-Nasolamia velox,Whitenose shark,carcharhiniformes,carcharhinidae,Nasolamia,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-Rhizoprionodon longurio,Pacific sharpnose shark,carcharhiniformes,carcharhinidae,Rhizoprionodon,901,Rhizoprionodon,longurio,244,11,benthopelagic,NA,110,TL,NA,NA
-Sphyrna corona,Scalloped bonnethead,carcharhiniformes,sphyrnidae,Sphyrna,909,Sphyrna,corona,244,12,demersal,NA,92,TL,NA,NA
-Mustelus whitneyi,Humpback smooth-hound,carcharhiniformes,triakidae,Mustelus,5939,Mustelus,whitneyi,244,488,demersal,NA,NA,NA,2.3,0.0023
-Pseudobatos planiceps,Pacific guitarfish,rhinopristiformes,rhinobatidae,Pseudobatos,149,Pseudobatos,planiceps,5530,17,demersal,NA,113.5,TL,2.3,0.0023
-Carcharhinus signatus,Night shark,carcharhiniformes,carcharhinidae,Carcharhinus,883,Carcharhinus,signatus,244,11,benthopelagic,NA,280,TL,NA,NA
-Triakis megalopterus,Sharptooth houndshark,carcharhiniformes,triakidae,Triakis,5948,Triakis,megalopterus,244,488,demersal,NA,142,TL,2.3,0.0023
-Hemitriakis japanica,Japanese topeshark,carcharhiniformes,triakidae,Hemitriakis,5926,Hemitriakis,japanica,244,488,demersal,15,110,TL,NA,NA
-Oxynotus paradoxus,Sailfin roughshark,squaliformes,oxynotidae,Oxynotus,719,Oxynotus,paradoxus,247,659,bathydemersal,NA,120,TL,5.6,0.0056
-Squatina guggenheim,Angular angel shark,squatiniformes,squatinidae,Squatina,53932,Squatina,guggenheim,26375,15,demersal,NA,129,TL,NA,NA
-Triakis semifasciata,Leopard shark,carcharhiniformes,triakidae,Triakis,2543,Triakis,semifasciata,244,488,demersal,30,198,TL,2.3,0.0023
-Apristurus brunneus,Brown catshark,carcharhiniformes,pentanchidae,Apristurus,763,Apristurus,brunneus,244,703,demersal,NA,69,TL,NA,NA
-Carcharhinus amblyrhynchoides,Graceful shark,carcharhiniformes,carcharhinidae,Carcharhinus,860,Carcharhinus,amblyrhynchoides,244,11,pelagic-neritic,NA,182,TL,NA,NA
+scientific_name,common_name,order_name,family_name,genus_name,spec_code,genus,species,species_ref_no,fam_code,demers_pelag,longevity_wild,length,l_type_max_m,weight_kg,weight_mt,mean_r
+Alopias vulpinus,Thresher,lamniformes,alopiidae,Alopias,2535,Alopias,vulpinus,247,486,pelagic-oceanic,25,573.29998779296875,TL,36,0.036,0.11778303565638346
+Carcharhinidae,Requiem sharks,carcharhiniformes,carcharhinidae,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,46.2,0.0462,NA
+Carcharhinus,Sharp-nosed sharks,carcharhiniformes,carcharhinidae,Carcharhinus,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023,NA
+Carcharhinus brachyurus,Copper shark,carcharhiniformes,carcharhinidae,Carcharhinus,864,Carcharhinus,brachyurus,244,11,reef-associated,30,325,TL,46.2,0.0462,0.08282408800931766
+Carcharhinus brachyurus,Copper shark,carcharhiniformes,carcharhinidae,Carcharhinus,864,Carcharhinus,brachyurus,244,11,reef-associated,30,325,TL,46.2,0.0462,0.08282408800931766
+Carcharhinus plumbeus,Sandbar shark,carcharhiniformes,carcharhinidae,Carcharhinus,880,Carcharhinus,plumbeus,244,11,benthopelagic,34,300,TL,46.2,0.0462,0.08471624589075635
+Carcharhinus plumbeus,Sandbar shark,carcharhiniformes,carcharhinidae,Carcharhinus,880,Carcharhinus,plumbeus,244,11,benthopelagic,34,300,TL,46.2,0.0462,0.08471624589075635
+Centrophorus granulosus,Gulper shark,squaliformes,centrophoridae,Centrophorus,648,Centrophorus,granulosus,247,558,bathydemersal,NA,170,TL,5.6,0.0056,NA
+Cetorhinus maximus,Basking shark,lamniformes,cetorhinidae,Cetorhinus,90,Cetorhinus,maximus,247,491,pelagic-oceanic,NA,1520,TL,36,0.036,0.146896
+Dalatias licha,Kitefin shark,squaliformes,dalatiidae,Dalatias,669,Dalatias,licha,247,557,bathydemersal,NA,182,TL,5.6,0.0056,NA
+Echinorhinus brucus,Bramble shark,squaliformes,echinorhinidae,Echinorhinus,641,Echinorhinus,brucus,247,499,bathydemersal,NA,310,TL,5.6,0.0056,NA
+Etmopterus spinax,Velvet belly,squaliformes,etmopteridae,Etmopterus,687,Etmopterus,spinax,247,638,bathydemersal,NA,60,TL,5.6,0.0056,0.183381
+Galeorhinus galeus,Tope shark,carcharhiniformes,triakidae,Galeorhinus,4642,Galeorhinus,galeus,244,488,benthopelagic,55,193,TL,36,0.036,0.13487669908712574
+Galeorhinus galeus,Tope shark,carcharhiniformes,triakidae,Galeorhinus,4642,Galeorhinus,galeus,244,488,benthopelagic,55,193,TL,36,0.036,0.13487669908712574
+Galeus melastomus,Blackmouth catshark,carcharhiniformes,pentanchidae,Galeus,807,Galeus,melastomus,244,703,demersal,NA,75,TL,5.6,0.0056,NA
+Heptranchias perlo,Sharpnose sevengill shark,hexanchiformes,hexanchidae,Heptranchias,NA,NA,NA,NA,NA,NA,NA,NA,NA,5.6,0.0056,NA
+Hexanchus griseus,Bluntnose sixgill shark,hexanchiformes,hexanchidae,Hexanchus,637,Hexanchus,griseus,247,5,bathydemersal,NA,482,TL,5.6,0.0056,NA
+Isurus oxyrinchus,Shortfin mako,lamniformes,lamnidae,Isurus,752,Isurus,oxyrinchus,247,9,pelagic-oceanic,32,445,TL,36,0.036,0.1241500354399693
+Isurus oxyrinchus,Shortfin mako,lamniformes,lamnidae,Isurus,752,Isurus,oxyrinchus,247,9,pelagic-oceanic,32,445,TL,36,0.036,0.1241500354399693
+Oxynotus centrina,Angular roughshark,squaliformes,oxynotidae,Oxynotus,718,Oxynotus,centrina,247,659,bathydemersal,NA,150,TL,5.6,0.0056,NA
+Scyliorhinus,Catsharks,carcharhiniformes,scyliorhinidae,Scyliorhinus,NA,NA,NA,NA,NA,NA,NA,NA,NA,5.6,0.0056,NA
+Scyliorhinus canicula,Small-spotted catshark,carcharhiniformes,scyliorhinidae,Scyliorhinus,845,Scyliorhinus,canicula,120402,10,demersal,12,100,TL,2.3,0.0023,0.46624400560415374
+Scyliorhinus canicula,Small-spotted catshark,carcharhiniformes,scyliorhinidae,Scyliorhinus,845,Scyliorhinus,canicula,120402,10,demersal,12,100,TL,2.3,0.0023,0.46624400560415374
+Scyliorhinus stellaris,Nursehound,carcharhiniformes,scyliorhinidae,Scyliorhinus,854,Scyliorhinus,stellaris,244,10,reef-associated,19,170,TL,2.3,0.0023,NA
+Squalidae,Dogfish sharks,squaliformes,squalidae,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,5.6,0.0056,NA
+Squalus acanthias,Picked dogfish,squaliformes,squalidae,Squalus,139,Squalus,acanthias,85328,13,benthopelagic,75,160,TL,5.6,0.0056,-0.010010009360516806
+Squalus acanthias,Picked dogfish,squaliformes,squalidae,Squalus,139,Squalus,acanthias,85328,13,benthopelagic,75,160,TL,5.6,0.0056,-0.010010009360516806
+Squalus acanthias,Picked dogfish,squaliformes,squalidae,Squalus,139,Squalus,acanthias,85328,13,benthopelagic,75,160,TL,5.6,0.0056,-0.010010009360516806
+Triakidae,Houndsharks,carcharhiniformes,triakidae,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023,NA
+Prionace glauca,Blue shark,carcharhiniformes,carcharhinidae,Prionace,NA,NA,NA,NA,NA,NA,NA,NA,NA,36,0.036,0.45716663367743493
+Prionace glauca,Blue shark,carcharhiniformes,carcharhinidae,Prionace,NA,NA,NA,NA,NA,NA,NA,NA,NA,36,0.036,0.45716663367743493
+Carcharhinus brevipinna,Spinner shark,carcharhiniformes,carcharhinidae,Carcharhinus,865,Carcharhinus,brevipinna,244,11,reef-associated,16,300,TL,2.3,0.0023,0.15196630974913006
+Carcharhinus brevipinna,Spinner shark,carcharhiniformes,carcharhinidae,Carcharhinus,865,Carcharhinus,brevipinna,244,11,reef-associated,16,300,TL,2.3,0.0023,0.15196630974913006
+Carcharhinus brevipinna,Spinner shark,carcharhiniformes,carcharhinidae,Carcharhinus,865,Carcharhinus,brevipinna,244,11,reef-associated,16,300,TL,2.3,0.0023,0.15196630974913006
+Alopias,Thresher sharks,lamniformes,alopiidae,Alopias,NA,NA,NA,NA,NA,NA,NA,NA,NA,36,0.036,NA
+Carcharhinus falciformis,Silky shark,carcharhiniformes,carcharhinidae,Carcharhinus,868,Carcharhinus,falciformis,244,11,reef-associated,25,350,TL,46.2,0.0462,0.10449509840439755
+Carcharhinus falciformis,Silky shark,carcharhiniformes,carcharhinidae,Carcharhinus,868,Carcharhinus,falciformis,244,11,reef-associated,25,350,TL,46.2,0.0462,0.10449509840439755
+Carcharhinus falciformis,Silky shark,carcharhiniformes,carcharhinidae,Carcharhinus,868,Carcharhinus,falciformis,244,11,reef-associated,25,350,TL,46.2,0.0462,0.10449509840439755
+Carcharhinus longimanus,Oceanic whitetip shark,carcharhiniformes,carcharhinidae,Carcharhinus,875,Carcharhinus,longimanus,244,11,pelagic-oceanic,22,400,TL,36,0.036,0.16142226004353183
+Carcharhinus longimanus,Oceanic whitetip shark,carcharhiniformes,carcharhinidae,Carcharhinus,875,Carcharhinus,longimanus,244,11,pelagic-oceanic,22,400,TL,36,0.036,0.16142226004353183
+Carcharhinus melanopterus,Blacktip reef shark,carcharhiniformes,carcharhinidae,Carcharhinus,877,Carcharhinus,melanopterus,244,11,reef-associated,NA,200,TL,2.3,0.0023,NA
+Isurus,Mako sharks,lamniformes,lamnidae,Isurus,NA,NA,NA,NA,NA,NA,NA,NA,NA,36,0.036,NA
+Sphyrna,Hammerhead sharks,carcharhiniformes,sphyrnidae,Sphyrna,NA,NA,NA,NA,NA,NA,NA,NA,NA,46.2,0.0462,NA
+Sphyrna lewini,Scalloped hammerhead,carcharhiniformes,sphyrnidae,Sphyrna,912,Sphyrna,lewini,244,12,pelagic-oceanic,35,430,TL,46.2,0.0462,0.30536146268936987
+Sphyrna lewini,Scalloped hammerhead,carcharhiniformes,sphyrnidae,Sphyrna,912,Sphyrna,lewini,244,12,pelagic-oceanic,35,430,TL,46.2,0.0462,0.30536146268936987
+Sphyrna lewini,Scalloped hammerhead,carcharhiniformes,sphyrnidae,Sphyrna,912,Sphyrna,lewini,244,12,pelagic-oceanic,35,430,TL,46.2,0.0462,0.30536146268936987
+Sphyrna lewini,Scalloped hammerhead,carcharhiniformes,sphyrnidae,Sphyrna,912,Sphyrna,lewini,244,12,pelagic-oceanic,35,430,TL,46.2,0.0462,0.30536146268936987
+Carcharias taurus,Sand tiger shark,lamniformes,odontaspididae,Carcharias,747,Carcharias,taurus,6871,740,reef-associated,NA,330,TL,46.2,0.0462,0.020545195526340133
+Carcharias taurus,Sand tiger shark,lamniformes,odontaspididae,Carcharias,747,Carcharias,taurus,6871,740,reef-associated,NA,330,TL,46.2,0.0462,0.020545195526340133
+Mustelus schmitti,Narrownose smooth-hound,carcharhiniformes,triakidae,Mustelus,5937,Mustelus,schmitti,244,488,demersal,NA,92,TL,2.3,0.0023,NA
+Notorynchus cepedianus,Broadnose sevengill shark,hexanchiformes,hexanchidae,Notorynchus,2531,Notorynchus,cepedianus,247,5,demersal,49,300,TL,46.2,0.0462,0.23644
+Squatina argentina,Argentine angelshark,squatiniformes,squatinidae,Squatina,727,Squatina,argentina,247,15,demersal,NA,170,TL,2.3,0.0023,NA
+Alopias pelagicus,Pelagic thresher,lamniformes,alopiidae,Alopias,5891,Alopias,pelagicus,247,486,pelagic-oceanic,29,428,TL,36,0.036,0.01980262729617973
+Alopias superciliosus,Bigeye thresher,lamniformes,alopiidae,Alopias,2534,Alopias,superciliosus,247,486,pelagic-oceanic,20,487.9849853515625,TL,36,0.036,0.04444798930123059
+Alopias superciliosus,Bigeye thresher,lamniformes,alopiidae,Alopias,2534,Alopias,superciliosus,247,486,pelagic-oceanic,20,487.9849853515625,TL,36,0.036,0.04444798930123059
+Carcharhiniformes,Ground sharks,carcharhiniformes,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023,NA
+Carcharhinus albimarginatus,Silvertip shark,carcharhiniformes,carcharhinidae,Carcharhinus,858,Carcharhinus,albimarginatus,244,11,reef-associated,NA,300,TL,46.2,0.0462,NA
+Carcharhinus amblyrhynchos,Blacktail reef shark,carcharhiniformes,carcharhinidae,Carcharhinus,861,Carcharhinus,amblyrhynchos,244,11,reef-associated,25,255,TL,2.3,0.0023,0.040796930301621265
+Carcharhinus amblyrhynchos,Blacktail reef shark,carcharhiniformes,carcharhinidae,Carcharhinus,861,Carcharhinus,amblyrhynchos,244,11,reef-associated,25,255,TL,2.3,0.0023,0.040796930301621265
+Carcharhinus amboinensis,Pigeye shark,carcharhiniformes,carcharhinidae,Carcharhinus,862,Carcharhinus,amboinensis,244,11,reef-associated,NA,280,TL,NA,NA,NA
+Carcharhinus leucas,Bull shark,carcharhiniformes,carcharhinidae,Carcharhinus,873,Carcharhinus,leucas,244,11,reef-associated,32,360,TL,46.2,0.0462,0.14263533244310897
+Carcharhinus leucas,Bull shark,carcharhiniformes,carcharhinidae,Carcharhinus,873,Carcharhinus,leucas,244,11,reef-associated,32,360,TL,46.2,0.0462,0.14263533244310897
+Carcharhinus leucas,Bull shark,carcharhiniformes,carcharhinidae,Carcharhinus,873,Carcharhinus,leucas,244,11,reef-associated,32,360,TL,46.2,0.0462,0.14263533244310897
+Carcharhinus limbatus,Blacktip shark,carcharhiniformes,carcharhinidae,Carcharhinus,874,Carcharhinus,limbatus,244,11,reef-associated,12,286,TL,46.2,0.0462,0.1029472561650995
+Carcharhinus limbatus,Blacktip shark,carcharhiniformes,carcharhinidae,Carcharhinus,874,Carcharhinus,limbatus,244,11,reef-associated,12,286,TL,46.2,0.0462,0.1029472561650995
+Carcharhinus limbatus,Blacktip shark,carcharhiniformes,carcharhinidae,Carcharhinus,874,Carcharhinus,limbatus,244,11,reef-associated,12,286,TL,46.2,0.0462,0.1029472561650995
+Carcharhinus limbatus,Blacktip shark,carcharhiniformes,carcharhinidae,Carcharhinus,874,Carcharhinus,limbatus,244,11,reef-associated,12,286,TL,46.2,0.0462,0.1029472561650995
+Carcharhinus obscurus,Dusky shark,carcharhiniformes,carcharhinidae,Carcharhinus,878,Carcharhinus,obscurus,244,11,reef-associated,40,420,TL,36,0.036,0.060536401120772215
+Carcharhinus obscurus,Dusky shark,carcharhiniformes,carcharhinidae,Carcharhinus,878,Carcharhinus,obscurus,244,11,reef-associated,40,420,TL,36,0.036,0.060536401120772215
+Carcharhinus sorrah,Spottail shark,carcharhiniformes,carcharhinidae,Carcharhinus,884,Carcharhinus,sorrah,244,11,reef-associated,8,160,TL,2.3,0.0023,0.20438510459720075
+Carcharhinus sorrah,Spottail shark,carcharhiniformes,carcharhinidae,Carcharhinus,884,Carcharhinus,sorrah,244,11,reef-associated,8,160,TL,2.3,0.0023,0.20438510459720075
+Carcharhinus tilstoni,Australian blacktip shark,carcharhiniformes,carcharhinidae,Carcharhinus,15721,Carcharhinus,tilstoni,6390,11,pelagic-neritic,12,200,TL,46.2,0.0462,0.2137058185031015
+Carcharhinus tilstoni,Australian blacktip shark,carcharhiniformes,carcharhinidae,Carcharhinus,15721,Carcharhinus,tilstoni,6390,11,pelagic-neritic,12,200,TL,46.2,0.0462,0.2137058185031015
+Centrophorus squamosus,Leafscale gulper shark,squaliformes,centrophoridae,Centrophorus,653,Centrophorus,squamosus,247,558,bathydemersal,NA,164,TL,5.6,0.0056,0.05413
+Deania calcea,Birdbeak dogfish,squaliformes,centrophoridae,Deania,NA,NA,NA,NA,NA,NA,NA,NA,NA,5.6,0.0056,0.076586
+Galeocerdo cuvier,Tiger shark,carcharhiniformes,carcharhinidae,Galeocerdo,886,Galeocerdo,cuvier,244,791,benthopelagic,50,750,TL,46.2,0.0462,0.2455082101826307
+Galeocerdo cuvier,Tiger shark,carcharhiniformes,carcharhinidae,Galeocerdo,886,Galeocerdo,cuvier,244,791,benthopelagic,50,750,TL,46.2,0.0462,0.2455082101826307
+Isurus paucus,Longfin mako,lamniformes,lamnidae,Isurus,753,Isurus,paucus,247,9,pelagic-oceanic,NA,427,TL,36,0.036,NA
+Lamna nasus,Porbeagle,lamniformes,lamnidae,Lamna,88,Lamna,nasus,247,9,pelagic-oceanic,65,350,TL,46.2,0.0462,0.07960424589075636
+Lamna nasus,Porbeagle,lamniformes,lamnidae,Lamna,88,Lamna,nasus,247,9,pelagic-oceanic,65,350,TL,46.2,0.0462,0.07960424589075636
+Lamniformes,Mackerel sharks,lamniformes,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,36,0.036,NA
+Nebrius ferrugineus,Tawny nurse shark,orectolobiformes,ginglymostomatidae,Nebrius,5895,Nebrius,ferrugineus,247,493,reef-associated,NA,320,TL,46.2,0.0462,NA
+Odontaspis ferox,Smalltooth sand tiger,lamniformes,odontaspididae,Odontaspis,749,Odontaspis,ferox,247,8,benthopelagic,NA,450,TL,5.6,0.0056,NA
+Pristidae,Sawfishes,rhinopristiformes,pristidae,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,46.2,0.0462,NA
+Pristiophorus,Sawsharks,pristiophoriformes,pristiophoridae,Pristiophorus,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023,NA
+Pristiophorus cirratus,Common sawshark,pristiophoriformes,pristiophoridae,Pristiophorus,721,Pristiophorus,cirratus,247,14,demersal,15,137,TL,NA,NA,NA
+Rhizoprionodon acutus,Milk shark,carcharhiniformes,carcharhinidae,Rhizoprionodon,899,Rhizoprionodon,acutus,244,11,benthopelagic,8,175,TL,2.3,0.0023,NA
+Rhynchobatus australiae,Whitespotted wedgefish,rhinopristiformes,rhinidae,Rhynchobatus,15380,Rhynchobatus,australiae,9915,713,demersal,NA,124,TL,NA,NA,NA
+Scyliorhinidae,Cat/swellsharks,carcharhiniformes,scyliorhinidae,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023,NA
+Sphyrna mokarran,Great hammerhead,carcharhiniformes,sphyrnidae,Sphyrna,914,Sphyrna,mokarran,244,12,pelagic-oceanic,30,610,TL,46.2,0.0462,0.202
+Sphyrna zygaena,Smooth hammerhead,carcharhiniformes,sphyrnidae,Sphyrna,917,Sphyrna,zygaena,244,12,pelagic-oceanic,21,500,TL,46.2,0.0462,NA
+Sphyrnidae,"Hammer, bonnet, scoophead sharks",carcharhiniformes,sphyrnidae,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023,NA
+Squaliformes,"Bramble, sleeper, dogfish sharks",squaliformes,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,5.6,0.0056,NA
+Squalus,Dogfishes,squaliformes,squalidae,Squalus,NA,NA,NA,NA,NA,NA,NA,NA,NA,5.6,0.0056,NA
+Squalus mitsukurii,Shortspine spurdog,squaliformes,squalidae,Squalus,713,Squalus,mitsukurii,247,13,benthopelagic,NA,89.80000305175781,TL,5.6,0.0056,-0.14618251017808145
+Squatina australis,Australian angelshark,squatiniformes,squatinidae,Squatina,728,Squatina,australis,247,15,demersal,NA,152,TL,NA,NA,NA
+Squatina tergocellata,Ornate angelshark,squatiniformes,squatinidae,Squatina,737,Squatina,tergocellata,247,15,bathydemersal,NA,135,TL,NA,NA,NA
+Triaenodon obesus,Whitetip reef shark,carcharhiniformes,carcharhinidae,Triaenodon,907,Triaenodon,obesus,244,11,reef-associated,25,213,TL,2.3,0.0023,NA
+Carcharhinus macloti,Hardnose shark,carcharhiniformes,carcharhinidae,Carcharhinus,876,Carcharhinus,macloti,244,11,demersal,NA,110,TL,2.3,0.0023,NA
+Etmopterus,Lanternsharks,squaliformes,etmopteridae,Etmopterus,NA,NA,NA,NA,NA,NA,NA,NA,NA,5.6,0.0056,NA
+Lamnidae,Mackerel/white sharks,lamniformes,lamnidae,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,36,0.036,NA
+Centroscymnus coelolepis,Portuguese dogfish,squaliformes,somniosidae,Centroscymnus,662,Centroscymnus,coelolepis,247,658,bathydemersal,NA,121,TL,5.6,0.0056,NA
+Centroselachus crepidater,Longnose velvet dogfish,squaliformes,somniosidae,Centroselachus,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Etmopterus princeps,Great lanternshark,squaliformes,etmopteridae,Etmopterus,683,Etmopterus,princeps,247,638,bathydemersal,NA,94,TL,NA,NA,NA
+Etmopterus pusillus,Smooth lanternshark,squaliformes,etmopteridae,Etmopterus,684,Etmopterus,pusillus,247,638,bathydemersal,NA,50,TL,NA,NA,NA
+Carcharhinus dussumieri,Whitecheek shark,carcharhiniformes,carcharhinidae,Carcharhinus,867,Carcharhinus,dussumieri,89954,11,reef-associated,NA,121,TL,2.3,0.0023,NA
+Chiloscyllium arabicum,Arabian carpetshark,orectolobiformes,hemiscylliidae,Chiloscyllium,5901,Chiloscyllium,arabicum,247,492,demersal,NA,62,TL,2.3,0.0023,NA
+Rhynchobatus djiddensis,Giant guitarfish,rhinopristiformes,rhinidae,Rhynchobatus,5503,Rhynchobatus,djiddensis,3919,713,reef-associated,NA,310,TL,46.2,0.0462,NA
+Mustelus,Smoothhounds,carcharhiniformes,triakidae,Mustelus,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023,NA
+Mustelus mustelus,Smooth-hound,carcharhiniformes,triakidae,Mustelus,4996,Mustelus,mustelus,244,488,demersal,24,200,TL,2.3,0.0023,NA
+Ginglymostoma cirratum,Nurse shark,orectolobiformes,ginglymostomatidae,Ginglymostoma,2532,Ginglymostoma,cirratum,247,493,reef-associated,25,430,TL,46.2,0.0462,NA
+Negaprion brevirostris,Lemon shark,carcharhiniformes,carcharhinidae,Negaprion,NA,NA,NA,NA,NA,NA,NA,NA,NA,46.2,0.0462,0.09419219545972635
+Negaprion brevirostris,Lemon shark,carcharhiniformes,carcharhinidae,Negaprion,NA,NA,NA,NA,NA,NA,NA,NA,NA,46.2,0.0462,0.09419219545972635
+Rhizoprionodon porosus,Caribbean sharpnose shark,carcharhiniformes,carcharhinidae,Rhizoprionodon,903,Rhizoprionodon,porosus,244,11,reef-associated,NA,113,TL,2.3,0.0023,NA
+Rhinobatos,Guitarfishes,rhinopristiformes,rhinobatidae,Rhinobatos,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023,NA
+Rhinobatos rhinobatos,Common guitarfish,rhinopristiformes,rhinobatidae,Rhinobatos,5016,Rhinobatos,rhinobatos,2683,17,demersal,NA,185,TL,NA,NA,NA
+Carcharhinus galapagensis,Galapagos shark,carcharhiniformes,carcharhinidae,Carcharhinus,870,Carcharhinus,galapagensis,244,11,reef-associated,24,370,TL,36,0.036,0.1375161107558719
+Carcharhinus galapagensis,Galapagos shark,carcharhiniformes,carcharhinidae,Carcharhinus,870,Carcharhinus,galapagensis,244,11,reef-associated,24,370,TL,36,0.036,0.1375161107558719
+Rhinobatos percellens,Chola guitarfish,rhinopristiformes,rhinobatidae,Rhinobatos,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023,NA
+Sphyrna tiburo,Bonnethead,carcharhiniformes,sphyrnidae,Sphyrna,915,Sphyrna,tiburo,244,12,reef-associated,12,150,TL,2.3,0.0023,0.4280658211681537
+Sphyrna tiburo,Bonnethead,carcharhiniformes,sphyrnidae,Sphyrna,915,Sphyrna,tiburo,244,12,reef-associated,12,150,TL,2.3,0.0023,0.4280658211681537
+Sphyrna tiburo,Bonnethead,carcharhiniformes,sphyrnidae,Sphyrna,915,Sphyrna,tiburo,244,12,reef-associated,12,150,TL,2.3,0.0023,0.4280658211681537
+Squatinidae,Angel sharks,squatiniformes,squatinidae,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023,NA
+Centroscyllium fabricii,Black dogfish,squaliformes,etmopteridae,Centroscyllium,656,Centroscyllium,fabricii,247,638,bathydemersal,NA,107,TL,5.6,0.0056,NA
+Squalus suckleyi,Pacific spiny dogfish,squaliformes,squalidae,Squalus,65869,Squalus,suckleyi,85328,13,benthopelagic,NA,140,TL,5.6,0.0056,NA
+Mustelus mento,Speckled smooth-hound,carcharhiniformes,triakidae,Mustelus,5934,Mustelus,mento,244,488,demersal,NA,141,TL,NA,NA,NA
+Glaucostegus granulatus,Granulated guitarfish,rhinopristiformes,glaucostegidae,Glaucostegus,8731,Glaucostegus,granulatus,35766,714,demersal,NA,280,SL,46.2,0.0462,NA
+Centrophorus,Gulper shark dogfishes,squaliformes,centrophoridae,Centrophorus,NA,NA,NA,NA,NA,NA,NA,NA,NA,5.6,0.0056,NA
+Mustelus henlei,Brown smooth-hound,carcharhiniformes,triakidae,Mustelus,2540,Mustelus,henlei,244,488,demersal,13,100,TL,2.3,0.0023,0.15100287353652742
+Sphyrna media,Scoophead,carcharhiniformes,sphyrnidae,Sphyrna,913,Sphyrna,media,244,12,demersal,NA,150,TL,NA,NA,NA
+Rhinobatidae,"Guitarfishes, fanrays",rhinopristiformes,rhinobatidae,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023,NA
+Cephaloscyllium isabellum,Draughtsboard shark,carcharhiniformes,scyliorhinidae,Cephaloscyllium,NA,NA,NA,NA,NA,NA,NA,NA,NA,5.6,0.0056,NA
+Mustelus lenticulatus,Spotted estuary smooth-hound,carcharhiniformes,triakidae,Mustelus,5933,Mustelus,lenticulatus,244,488,demersal,NA,125,TL,2.3,0.0023,NA
+Carcharodon carcharias,Great white shark,lamniformes,lamnidae,Carcharodon,751,Carcharodon,carcharias,247,9,pelagic-oceanic,36,640,TL,36,0.036,0.11653067154366949
+Carcharodon carcharias,Great white shark,lamniformes,lamnidae,Carcharodon,751,Carcharodon,carcharias,247,9,pelagic-oceanic,36,640,TL,36,0.036,0.11653067154366949
+Scymnodon ringens,Knifetooth dogfish,squaliformes,somniosidae,Scymnodon,700,Scymnodon,ringens,247,658,bathypelagic,NA,110,TL,5.6,0.0056,NA
+Squatina squatina,Angelshark,squatiniformes,squatinidae,Squatina,736,Squatina,squatina,247,15,demersal,NA,183,TL,2.3,0.0023,NA
+Squalus blainville,Longnose spurdog,squaliformes,squalidae,Squalus,708,Squalus,blainville,247,13,demersal,NA,121.5999984741211,TL,5.6,0.0056,NA
+Galeus,Sawtail catsharks,carcharhiniformes,pentanchidae,Galeus,NA,NA,NA,NA,NA,NA,NA,NA,NA,2.3,0.0023,NA
+Centrophorus lusitanicus,Lowfin gulper shark,squaliformes,centrophoridae,Centrophorus,650,Centrophorus,lusitanicus,247,558,bathydemersal,NA,160,TL,5.6,0.0056,NA
+Glaucostegus cemiculus,Blackchin guitarfish,rhinopristiformes,glaucostegidae,Glaucostegus,2074,Glaucostegus,cemiculus,3261,714,demersal,NA,242,TL,NA,NA,NA
+Somniosus microcephalus,Greenland shark,squaliformes,somniosidae,Somniosus,138,Somniosus,microcephalus,50224,658,benthopelagic,392,427,TL,5.6,0.0056,NA
+Mustelus asterias,Starry smooth-hound,carcharhiniformes,triakidae,Mustelus,5938,Mustelus,asterias,244,488,demersal,NA,140,TL,2.3,0.0023,NA
+Leptocharias smithii,Barbeled houndshark,carcharhiniformes,leptochariidae,Leptocharias,2073,Leptocharias,smithii,244,489,demersal,NA,77,TL,NA,NA,NA
+Rhizoprionodon terraenovae,Atlantic sharpnose shark,carcharhiniformes,carcharhinidae,Rhizoprionodon,905,Rhizoprionodon,terraenovae,244,11,demersal,10,110,TL,2.3,0.0023,0.499373
+Rhincodon typus,Whale shark,orectolobiformes,rhincodontidae,Rhincodon,2081,Rhincodon,typus,26319,6,pelagic-oceanic,80.4000015258789,1700,TL,36,0.036,0.187519
+Mustelus lunulatus,Sicklefin smooth-hound,carcharhiniformes,triakidae,Mustelus,2541,Mustelus,lunulatus,244,488,demersal,NA,175,TL,NA,NA,NA
+Nasolamia velox,Whitenose shark,carcharhiniformes,carcharhinidae,Nasolamia,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Rhizoprionodon longurio,Pacific sharpnose shark,carcharhiniformes,carcharhinidae,Rhizoprionodon,901,Rhizoprionodon,longurio,244,11,benthopelagic,NA,110,TL,NA,NA,NA
+Sphyrna corona,Scalloped bonnethead,carcharhiniformes,sphyrnidae,Sphyrna,909,Sphyrna,corona,244,12,demersal,NA,92,TL,NA,NA,NA
+Mustelus whitneyi,Humpback smooth-hound,carcharhiniformes,triakidae,Mustelus,5939,Mustelus,whitneyi,244,488,demersal,NA,NA,NA,2.3,0.0023,NA
+Pseudobatos planiceps,Pacific guitarfish,rhinopristiformes,rhinobatidae,Pseudobatos,149,Pseudobatos,planiceps,5530,17,demersal,NA,113.5,TL,2.3,0.0023,NA
+Carcharhinus signatus,Night shark,carcharhiniformes,carcharhinidae,Carcharhinus,883,Carcharhinus,signatus,244,11,benthopelagic,NA,280,TL,NA,NA,0.204211
+Triakis megalopterus,Sharptooth houndshark,carcharhiniformes,triakidae,Triakis,5948,Triakis,megalopterus,244,488,demersal,NA,142,TL,2.3,0.0023,NA
+Hemitriakis japanica,Japanese topeshark,carcharhiniformes,triakidae,Hemitriakis,5926,Hemitriakis,japanica,244,488,demersal,15,110,TL,NA,NA,NA
+Oxynotus paradoxus,Sailfin roughshark,squaliformes,oxynotidae,Oxynotus,719,Oxynotus,paradoxus,247,659,bathydemersal,NA,120,TL,5.6,0.0056,NA
+Squatina guggenheim,Angular angel shark,squatiniformes,squatinidae,Squatina,53932,Squatina,guggenheim,26375,15,demersal,NA,129,TL,NA,NA,NA
+Triakis semifasciata,Leopard shark,carcharhiniformes,triakidae,Triakis,2543,Triakis,semifasciata,244,488,demersal,30,198,TL,2.3,0.0023,0.1437296745781451
+Triakis semifasciata,Leopard shark,carcharhiniformes,triakidae,Triakis,2543,Triakis,semifasciata,244,488,demersal,30,198,TL,2.3,0.0023,0.1437296745781451
+Apristurus brunneus,Brown catshark,carcharhiniformes,pentanchidae,Apristurus,763,Apristurus,brunneus,244,703,demersal,NA,69,TL,NA,NA,NA
+Carcharhinus amblyrhynchoides,Graceful shark,carcharhiniformes,carcharhinidae,Carcharhinus,860,Carcharhinus,amblyrhynchoides,244,11,pelagic-neritic,NA,182,TL,NA,NA,NA
