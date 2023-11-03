@@ -10,6 +10,8 @@ set.seed(42)
 # 2 Retention Ban ("RB")
 # 3 Catch Quota ("CQ") usually in weight needs editing - also possibly not added at the beginning inform based on real world. Could we simulate an optimal quota? Average 
 
+sim_data = read_csv(here::here("data", "simulation_data.csv"))
+
 # Functions ---------------------------------------------------------------
 
 sim <- function(t, N_0, K, r, avs, prs, q, f, quota, scenario) {
@@ -50,24 +52,101 @@ sim <- function(t, N_0, K, r, avs, prs, q, f, quota, scenario) {
 
 # Set Up ------------------------------------------------------------------
 
-t = 75
+t = 100
 K = 100 
-r = 0.2 #set for each shark
+#r = 0.2 #set for each shark
 N_0 = 100
-avs = 0.8 # at vessel survival; higher = better for shark (test quantile range from RF)
-prs = 0.8 # post release survival; higher = better for shark (test quantile range from RF)
+#avs = 0.8 # at vessel survival; higher = better for shark (test quantile range from RF)
+#prs = 0.8 # post release survival; higher = better for shark (test quantile range from RF)
 q = 1 # catchability, set to 1 for ease of fishing pressure, could vary
 f = 0.3 #vary for sensitivity
-quota = 1 # in count
+quota = 10 # in count
 
-test_bau = sim(t, N_0, K, r, avs, prs, q, f, quota, "BAU")
-test_rb = sim(t, N_0, K, r, avs, prs, q, f, quota, "RB")
-test_cq = sim(t, N_0, K, r, avs, prs, q, f, quota, "CQ")
+# shark sim loop ----------------------------------------------------------
 
-test_sim = list(test_bau, test_rb, test_cq) %>% 
-  reduce(full_join)
+## empty dataframe
+sim_results = data.frame()
 
-ggplot(test_sim, aes(t, pop.array, color = scenario)) +
-  geom_line(linewidth = 2) +
-  theme_bw()
+for(i in 1:nrow(sim_data)) {
+  
+  ## set up mortality grid for shark species
+  avms = c(sim_data$avm_25[i], sim_data$avm_50[i], sim_data$avm_75[i])
+  prms = c(sim_data$prm_25[i], sim_data$prm_50[i], sim_data$prm_75[i])
+  morts = expand.grid(avms, prms)
+  names(morts) = c("avm", "prm")
+  
+  species = sim_data$scientific_name[i]
+  r = sim_data$mean_r[i]
+  
+  ## single business as usual scenario
+  bau = sim(t, N_0, K, r, 1 - morts$avm[1], 1 - morts$prm[1], q, f, quota, "BAU") %>% 
+    mutate(avm = 1,
+           prm = 1,
+           scientific_name = species)
+  
+  sim_results = rbind(sim_results, bau)
+  
+  ## loop through mortality values for retention ban
+  for (j in 1:nrow(morts)) {
+
+    rb = sim(t, N_0, K, r, 1 - morts$avm[j], 1 - morts$prm[j], q, f, quota, "RB") %>% 
+      mutate(avm = morts$avm[j],
+             prm = morts$prm[j],
+             scientific_name = species)
+    
+    sim_results = rbind(sim_results, rb)
+    
+  }
+}
+
+sim_results = sim_results %>% 
+  mutate(total_mort = avm * prm)
+
+p = ggplot(sim_results, aes(t, pop.array)) +
+  geom_line(aes(color = scenario, group = total_mort)) +
+  facet_wrap(~scientific_name) + 
+  theme_bw() 
+p
+
+ggsave(p, file = paste0("initial_sim.pdf"), path = here::here("figs"), height = 10, width = 15)
+
+Galeocerdo_cuvier = sim_results %>% 
+  filter(scientific_name == "Galeocerdo cuvier")
+
+ggplot(Galeocerdo_cuvier, aes(t, pop.array)) +
+  geom_line(aes(color = scenario, group = total_mort)) +
+  theme_bw() 
+
+Carcharhinus_limbatus = sim_results %>% 
+  filter(scientific_name == "Carcharhinus limbatus")
+
+ggplot(Carcharhinus_limbatus, aes(t, pop.array)) +
+  geom_line(aes(color = scenario, group = total_mort)) +
+  theme_bw() 
+
+Isurus_oxyrinchus = sim_results %>% 
+  filter(scientific_name == "Isurus oxyrinchus")
+
+ggplot(Isurus_oxyrinchus, aes(t, pop.array)) +
+  geom_line(aes(color = scenario, group = total_mort)) +
+  theme_bw() 
+
+Alopias_vulpinus = sim_results %>% 
+  filter(scientific_name == "Alopias vulpinus")
+
+ggplot(Alopias_vulpinus, aes(t, pop.array)) +
+  geom_line(aes(color = scenario, group = total_mort)) +
+  theme_bw() 
+
+# Simulation Tests --------------------------------------------------------
+# test_bau = sim(t, N_0, K, r, avs, prs, q, f, quota, "BAU")
+# test_rb = sim(t, N_0, K, r, avs, prs, q, f, quota, "RB")
+# test_cq = sim(t, N_0, K, r, avs, prs, q, f, quota, "CQ")
+# 
+# test_sim = list(test_bau, test_rb, test_cq) %>% 
+#   reduce(full_join)
+# 
+# ggplot(test_sim, aes(t, pop.array, color = scenario)) +
+#   geom_line(linewidth = 2) +
+#   theme_bw()
 
