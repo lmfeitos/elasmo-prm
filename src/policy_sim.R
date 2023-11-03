@@ -59,7 +59,7 @@ N_0 = 100
 #avs = 0.8 # at vessel survival; higher = better for shark (test quantile range from RF)
 #prs = 0.8 # post release survival; higher = better for shark (test quantile range from RF)
 q = 1 # catchability, set to 1 for ease of fishing pressure, could vary
-f = 0.5 #vary for sensitivity
+f = 0.2 #vary for sensitivity
 quota = 10 # in count
 
 # shark sim loop ----------------------------------------------------------
@@ -70,8 +70,8 @@ sim_results = data.frame()
 for(i in 1:nrow(sim_data)) {
   
   ## set up mortality grid for shark species
-  avms = c(sim_data$avm_25[i], sim_data$avm_50[i], sim_data$avm_75[i])
-  prms = c(sim_data$prm_25[i], sim_data$prm_50[i], sim_data$prm_75[i])
+  avms = c(sim_data$avm_25[i], sim_data$avm_50[i])
+  prms = c(sim_data$prm_25[i], sim_data$prm_50[i])
   morts = expand.grid(avms, prms)
   names(morts) = c("avm", "prm")
   
@@ -100,15 +100,24 @@ for(i in 1:nrow(sim_data)) {
 }
 
 sim_results = sim_results %>% 
-  mutate(total_mort = avm * prm)
+  mutate(total_mort = avm * prm) %>% 
+  full_join(sim_data) %>% 
+  mutate(mort_scenario = case_when(
+    scenario == "BAU" ~ "BAU",
+    avm == avm_25 & prm == prm_25 ~ "Low Mortality",
+    avm == avm_50 & prm == prm_50 ~ "Median Mortality",
+    TRUE ~ "In-Between Mortality"
+  )) %>% 
+  mutate(mort_scenario = fct_relevel(mort_scenario, c("BAU", "Low Mortality", "In-Between Mortality", "Median Mortality")))
 
 p = ggplot(sim_results, aes(t, pop.array)) +
-  geom_line(aes(color = scenario, group = total_mort)) +
+  geom_line(aes(color = mort_scenario, group = total_mort)) +
   facet_wrap(~scientific_name) + 
-  theme_bw() 
+  theme_bw() +
+  scale_color_viridis_d()
 p
 
-ggsave(p, file = paste0("initial_sim_0.5.pdf"), path = here::here("figs"), height = 10, width = 15)
+ggsave(p, file = paste0("initial_sim_0.2.pdf"), path = here::here("figs"), height = 10, width = 15)
 
 Galeocerdo_cuvier = sim_results %>% 
   filter(scientific_name == "Galeocerdo cuvier")
