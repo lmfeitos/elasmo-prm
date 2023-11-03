@@ -70,13 +70,13 @@ sim_results = data.frame()
 for(i in 1:nrow(sim_data)) {
   
   ## set up mortality grid for shark species
-  avms = c(sim_data$avm_25[i], sim_data$avm_50[i])
-  prms = c(sim_data$prm_25[i], sim_data$prm_50[i])
+  avms = c(sim_data$avm_25[i], sim_data$mid_avm[i])
+  prms = c(sim_data$prm_25[i], sim_data$mid_prm[i])
   morts = expand.grid(avms, prms)
   names(morts) = c("avm", "prm")
   
   species = sim_data$scientific_name[i]
-  r = sim_data$mean_r[i]
+  r = sim_data$r_value[i]
   
   ## single business as usual scenario
   bau = sim(t, N_0, K, r, 1 - morts$avm[1], 1 - morts$prm[1], q, f, quota, "BAU") %>% 
@@ -105,7 +105,7 @@ sim_results = sim_results %>%
   mutate(mort_scenario = case_when(
     scenario == "BAU" ~ "BAU",
     avm == avm_25 & prm == prm_25 ~ "Low Mortality",
-    avm == avm_50 & prm == prm_50 ~ "Median Mortality",
+    avm == mid_avm & prm == mid_prm ~ "Median Mortality",
     TRUE ~ "In-Between Mortality"
   )) %>% 
   mutate(mort_scenario = fct_relevel(mort_scenario, c("BAU", "Low Mortality", "In-Between Mortality", "Median Mortality")))
@@ -117,7 +117,7 @@ p = ggplot(sim_results, aes(t, pop.array)) +
   scale_color_viridis_d()
 p
 
-ggsave(p, file = paste0("initial_sim_0.2.pdf"), path = here::here("figs"), height = 10, width = 15)
+ggsave(p, file = paste0("initial_sim_0_2.pdf"), path = here::here("figs"), height = 10, width = 15)
 
 Galeocerdo_cuvier = sim_results %>% 
   filter(scientific_name == "Galeocerdo cuvier")
