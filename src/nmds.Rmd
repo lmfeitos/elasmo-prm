@@ -46,22 +46,22 @@ prm_sp_count <- prm_elasmo %>%
 prm_elasmo_subset <- prm_elasmo %>% 
   select(scientific_name, gear_class, habitat_associated, estimate_type, estimate, sample_size,
          method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family) %>% 
-  mutate(max_size_cm = case_when( # filling missing information based on the average per group
+   mutate(max_size_cm = case_when( # filling missing information based on the average per group
     scientific_name == "Dasyatis sp" ~ 146.22,
     scientific_name == "Squalus sp" ~ 141.12,
-    scientific_name == "Mustelus sp" ~ 172.07,
-    scientific_name == "Centrophorus sp" ~ 165,  
-    scientific_name == "sharks" ~ 346.04,
-    scientific_name == "rays" ~ 146.22,
+    scientific_name == "Mustelus sp" ~ 171.9,
+    scientific_name == "Centrophorus sp" ~ 165.75,  
+    scientific_name == "sharks" ~ 347.2639,
+    scientific_name == "rays" ~ 170.2222, # only calculated for the batoid species with disk width measures
     TRUE ~ max_size_cm
   )) %>% 
   mutate(median_depth = case_when( # filling missing information based on the average per group
     scientific_name == "Dasyatis sp" ~ 139.33,
-    scientific_name == "Squalus sp" ~ 139.33,
-    scientific_name == "Mustelus sp" ~ 322.35,
-    scientific_name == "Centrophorus sp" ~ 1065.4,
-    scientific_name == "sharks" ~ 247.87,
-    scientific_name == "rays" ~ 139.33,
+    scientific_name == "Squalus sp" ~ 601.875,
+    scientific_name == "Mustelus sp" ~ 254.3929,
+    scientific_name == "Centrophorus sp" ~ 1136.25,
+    scientific_name == "sharks" ~ 313.2104,
+    scientific_name == "rays" ~ 120.5278,
     TRUE ~ median_depth
   )) %>% 
   mutate(measure = case_when(

@@ -27,6 +27,46 @@ prm_elasmo <- read_csv(here("data", "prm_dataset.csv")) %>%
 ```
 
 ```{r}
+# calculating mean values for those taxa at higher levels than species
+## Dasyatis sp
+dasyatis_sp <- prm_elasmo %>% 
+  filter(str_detect(family, "Dasyatidae")) %>% 
+  mutate(mean_size = mean(max_size_cm, na.rm = TRUE),
+         mean_depth = mean(median_depth, na.rm = TRUE))
+
+## Squalus sp
+squalus_sp <- prm_elasmo %>% 
+  filter(str_detect(scientific_name, "Squalus")) %>% 
+  mutate(mean_size = mean(max_size_cm, na.rm = TRUE),
+         mean_depth = mean(median_depth, na.rm = TRUE))
+
+## Mustelus sp
+mustelus_sp <- prm_elasmo %>% 
+  filter(str_detect(scientific_name, "Mustelus")) %>% 
+  mutate(mean_size = mean(max_size_cm, na.rm = TRUE),
+         mean_depth = mean(median_depth, na.rm = TRUE))
+
+## Centrophorus sp
+centrophorus_sp <- prm_elasmo %>% 
+  filter(str_detect(scientific_name, "Centrophorus")) %>% 
+  mutate(mean_size = mean(max_size_cm, na.rm = TRUE),
+         mean_depth = mean(median_depth, na.rm = TRUE))
+
+## sharks
+sharks <- prm_elasmo %>% 
+  filter(str_detect(common_name, "shark")) %>% 
+  mutate(mean_size = mean(max_size_cm, na.rm = TRUE),
+         mean_depth = mean(median_depth, na.rm = TRUE))
+
+## rays
+rays <- prm_elasmo %>% 
+  filter(str_detect(measure, "disk_width")) %>% 
+  mutate(mean_size = mean(max_size_cm, na.rm = TRUE),
+         mean_depth = mean(median_depth, na.rm = TRUE))
+```
+
+
+```{r}
 # data wrangling
 prm_elasmo_subset <- prm_elasmo %>% 
   select(scientific_name, gear_class, habitat_associated, estimate_type, estimate, sample_size,
@@ -34,19 +74,19 @@ prm_elasmo_subset <- prm_elasmo %>%
   mutate(max_size_cm = case_when( # filling missing information based on the average per group
     scientific_name == "Dasyatis sp" ~ 146.22,
     scientific_name == "Squalus sp" ~ 141.12,
-    scientific_name == "Mustelus sp" ~ 172.07,
-    scientific_name == "Centrophorus sp" ~ 165,  
-    scientific_name == "sharks" ~ 346.04,
-    scientific_name == "rays" ~ 146.22,
+    scientific_name == "Mustelus sp" ~ 171.9,
+    scientific_name == "Centrophorus sp" ~ 165.75,  
+    scientific_name == "sharks" ~ 347.2639,
+    scientific_name == "rays" ~ 170.2222, # only calculated for the batoid species with disk width measures
     TRUE ~ max_size_cm
   )) %>% 
   mutate(median_depth = case_when( # filling missing information based on the average per group
     scientific_name == "Dasyatis sp" ~ 139.33,
-    scientific_name == "Squalus sp" ~ 139.33,
-    scientific_name == "Mustelus sp" ~ 322.35,
-    scientific_name == "Centrophorus sp" ~ 1065.4,
-    scientific_name == "sharks" ~ 247.87,
-    scientific_name == "rays" ~ 139.33,
+    scientific_name == "Squalus sp" ~ 601.875,
+    scientific_name == "Mustelus sp" ~ 254.3929,
+    scientific_name == "Centrophorus sp" ~ 1136.25,
+    scientific_name == "sharks" ~ 313.2104,
+    scientific_name == "rays" ~ 120.5278,
     TRUE ~ median_depth
   )) %>% 
   mutate(measure = case_when(
@@ -260,11 +300,59 @@ ggplot() +
 ```
 
 
+```{r}
+ggplot(data = prm_elasmo %>% 
+         filter(estimate_type != "post-release survival")) +
+  geom_point(aes(x = max_size_cm, estimate)) +
+  facet_wrap(~ estimate_type) +
+  labs(x = "Maximum size (cm)",
+       y = "Proportion of mortality") +
+  theme_bw()
+```
+
+```{r}
+ggplot(data = prm_elasmo %>% 
+         filter(estimate_type != "post-release survival")) +
+  geom_point(aes(x = median_depth, estimate)) +
+  facet_wrap(~ estimate_type) +
+  labs(x = "Median depth of occurrence (m)",
+       y = "Proportion of mortality") +
+  theme_bw()
+```
+
+```{r, fig.width=8, fig.height=8}
+ggplot(data = prm_elasmo %>% 
+         filter(estimate_type != "post-release survival")) +
+  geom_boxplot(aes(x = family, y = estimate)) +
+  facet_wrap(~ estimate_type) +
+  labs(x = "",
+       y = "Proportion of mortality") +
+  coord_flip() +
+  theme_bw()
+```
 
 
+```{r}
+ggplot(data = prm_elasmo %>% 
+         filter(estimate_type != "post-release survival")) +
+  geom_boxplot(aes(x = gear_class, y = estimate)) +
+  facet_wrap(~ estimate_type) +
+  labs(x = "Gear class",
+       y = "Proportion of mortality") +
+  coord_flip() +
+  theme_bw()
+```
 
-
-
+```{r}
+ggplot(data = prm_elasmo %>% 
+         filter(estimate_type != "post-release survival")) +
+  geom_boxplot(aes(x = habitat_associated, y = estimate)) +
+  facet_wrap(~ estimate_type) +
+  labs(x = "Habitat associated",
+       y = "Proportion of mortality") +
+  coord_flip() +
+  theme_bw()
+```
 
 
 
