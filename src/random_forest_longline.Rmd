@@ -30,7 +30,7 @@ set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_dataset.csv")) %>% 
+prm_elasmo <- read_csv(here("data", "prm_dataset.csv")) %>%
   filter(gear_class == "longline")
 
 prm_elasmo <- prm_elasmo %>%
@@ -55,15 +55,15 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name, gear_class, habitat_associated, estimate_type, estimate, sample_size,
     method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family
   ) %>%
-   mutate(max_size_cm = case_when( # filling missing information based on the average per group
+  mutate(max_size_cm = case_when( # filling missing information based on the average per group
     scientific_name == "Dasyatis sp" ~ 146.22,
     scientific_name == "Squalus sp" ~ 141.12,
     scientific_name == "Mustelus sp" ~ 171.9,
-    scientific_name == "Centrophorus sp" ~ 165.75,  
+    scientific_name == "Centrophorus sp" ~ 165.75,
     scientific_name == "sharks" ~ 347.2639,
     scientific_name == "rays" ~ 170.2222, # only calculated for the batoid species with disk width measures
     TRUE ~ max_size_cm
-  )) %>% 
+  )) %>%
   mutate(median_depth = case_when( # filling missing information based on the average per group
     scientific_name == "Dasyatis sp" ~ 139.33,
     scientific_name == "Squalus sp" ~ 601.875,
@@ -110,13 +110,13 @@ gg_miss_var(elasmo_prm)
 ```
 
 ```{r}
-trawl_avm = elasmo_avm %>% 
+trawl_avm <- elasmo_avm %>%
   filter(gear_class == "trawl")
 
-longline_avm = elasmo_avm %>% 
+longline_avm <- elasmo_avm %>%
   filter(gear_class == "longline")
 
-gillnet_avm = elasmo_avm %>% 
+gillnet_avm <- elasmo_avm %>%
   filter(gear_class == "gillnet")
 ```
 
@@ -182,38 +182,38 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 * Minimum data points in each node required for node split
 
 ```{r,include=FALSE}
-avm_tune <- avm_wflw %>% # use cross validation to tune parameters
-  tune_grid(
-    resamples = avm_folds, # add cv folds
-    grid = 10
-  ) # use grid of parameters to test
+# avm_tune <- avm_wflw %>% # use cross validation to tune parameters
+#   tune_grid(
+#     resamples = avm_folds, # add cv folds
+#     grid = 10
+#   ) # use grid of parameters to test
 ```
 
 ```{r,include=FALSE}
-prm_tune <- prm_wflw %>% # use cross validation to tune parameters
-  tune_grid(
-    resamples = prm_folds, # add cv folds
-    grid = 10
-  ) # use grid of parameters to test
+# prm_tune <- prm_wflw %>% # use cross validation to tune parameters
+#   tune_grid(
+#     resamples = prm_folds, # add cv folds
+#     grid = 10
+#   ) # use grid of parameters to test
 ```
 
 Below displays the results of cross validation tuning
 
 ```{r}
-autoplot(avm_tune) + # plot results of tuning
-  theme_bw() # change theme
+# autoplot(avm_tune) + # plot results of tuning
+#   theme_bw() # change theme
 ```
 
 ```{r}
-select_best(avm_tune, metric = "rsq", n = 1) # get the best model
+# select_best(avm_tune, metric = "rsq", n = 1) # get the best model
 ```
 
 ```{r, include=FALSE}
-avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rsq")) # finalize the workflow with the best model
+# avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rsq")) # finalize the workflow with the best model
+#
+# saveRDS(avm_final, here::here("data", "avm_final.rds"))
 
-saveRDS(avm_final, here::here("data", "avm_final.rds"))
-
-#avm_final <- readRDS(here::here("data", "avm_final.rds"))
+avm_final <- readRDS(here::here("data", "avm_final.rds"))
 ```
 
 ```{r, include=FALSE}
@@ -241,24 +241,28 @@ avm_test_metrics
 Below displays the results of cross validation tuning
 
 ```{r}
-autoplot(prm_tune) + # plot results of tuning
-  theme_bw() # change theme
+# autoplot(prm_tune) + # plot results of tuning
+#   theme_bw() # change theme
 ```
 
 ```{r}
-select_best(prm_tune, metric = "rsq", n = 1) # get the best model
+# select_best(prm_tune, metric = "rsq", n = 1) # get the best model
 ```
 
 ```{r, include=FALSE}
-prm_final <- finalize_workflow(prm_wflw, select_best(prm_tune, metric = "rsq")) # finalize the workflow with the best model
+# prm_final <- finalize_workflow(prm_wflw, select_best(prm_tune, metric = "rsq")) # finalize the workflow with the best model
+```
+
+```{r, include=FALSE}
+# prm_fit <- fit(prm_final, elasmo_prm) # fit the data to the training data
+#
+# saveRDS(prm_final, here::here("data", "prm_final.rds"))
+
+prm_final <- readRDS(here::here("data", "prm_final.rds"))
 ```
 
 ```{r, include=FALSE}
 prm_fit <- fit(prm_final, elasmo_prm) # fit the data to the training data
-
-saveRDS(prm_final, here::here("data", "prm_final.rds"))
-
-#prm_final <- readRDS(here::here("data", "prm_final.rds"))
 ```
 
 ```{r, include=FALSE}
@@ -389,8 +393,10 @@ ggplot(prm_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of rea
   geom_point() +
   geom_smooth(method = "lm") + # add trend line
   theme_bw() +
-  labs(x = "Observed Post Release Mortality Rate",
-      y = "Predicted Post Release Mortality Rate") +
+  labs(
+    x = "Observed Post Release Mortality Rate",
+    y = "Predicted Post Release Mortality Rate"
+  ) +
   theme(text = element_text(size = 10))
 
 summary(lm(.pred ~ mortality_prop, data = prm_train_predict))
@@ -436,7 +442,7 @@ ggplot(avm_pred) +
 ## Data distribution for the main five predictor variables for PRM
 
 ```{r}
-prm_pred = prm_train_predict
+prm_pred <- prm_train_predict
 
 ggplot(prm_pred, aes(max_size_cm, .pred)) +
   geom_point() +
@@ -458,3 +464,39 @@ ggplot(prm_pred) +
   geom_boxplot(aes(habitat_associated, .pred)) +
   theme_bw()
 ```
+
+```{r}
+predict_data = full_join(avm_train, avm_test) %>% 
+  rename(avm_mort = mortality_prop) %>%
+  select(-estimate_type, -sample_size, -method, -estimate, -est_count) %>% 
+  full_join(elasmo_prm) %>% 
+  rename(prm_mort = mortality_prop)  %>%
+  select(-estimate_type, -sample_size, -method, -estimate, -est_count) %>% 
+  distinct()
+
+predict_avm = predict(object = avm_fit, new_data = predict_data) %>% # predict the training set
+  bind_cols(predict_data) %>%  # bind training set column to prediction 
+  rename(avm_pred = .pred)
+
+predict_avm_prm = predict(object = prm_fit, new_data = predict_avm) %>% # predict the training set
+  bind_cols(predict_avm) %>% # bind training set column to prediction
+  rename(prm_pred = .pred)
+
+full_prediction_avm = preds_bind(predict_avm_prm, avm_fit) %>% 
+    rename(avm_75 = .pred_75,
+           avm_95 = .pred_95,
+           avm_05 = .pred_05,
+         avm_25 = .pred_25,
+         avm_50 = .pred_50)
+
+full_predictions = preds_bind(full_prediction_avm, prm_fit) %>% 
+  rename(prm_75 = .pred_75,
+           prm_95 = .pred_95,
+           prm_05 = .pred_05,
+         prm_25 = .pred_25,
+         prm_50 = .pred_50)
+
+write_csv(full_predictions, here::here("data", "full_model_predictions.csv"))
+
+```
+
