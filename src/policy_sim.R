@@ -59,7 +59,7 @@ N_0 = 100
 #avs = 0.8 # at vessel survival; higher = better for shark (test quantile range from RF)
 #prs = 0.8 # post release survival; higher = better for shark (test quantile range from RF)
 q = 1 # catchability, set to 1 for ease of fishing pressure, could vary
-f = 0.3 #vary for sensitivity
+f = 0.5 #vary for sensitivity
 quota = 10 # in count
 
 # shark sim loop ----------------------------------------------------------
@@ -108,7 +108,7 @@ p = ggplot(sim_results, aes(t, pop.array)) +
   theme_bw() 
 p
 
-ggsave(p, file = paste0("initial_sim.pdf"), path = here::here("figs"), height = 10, width = 15)
+ggsave(p, file = paste0("initial_sim_0.5.pdf"), path = here::here("figs"), height = 10, width = 15)
 
 Galeocerdo_cuvier = sim_results %>% 
   filter(scientific_name == "Galeocerdo cuvier")
