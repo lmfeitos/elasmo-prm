@@ -52,7 +52,7 @@ sim <- function(t, N_0, K, r, avs, prs, q, f, quota, scenario) {
 
 # Set Up ------------------------------------------------------------------
 
-t = 100
+t = 200
 K = 100 
 #r = 0.2 #set for each shark
 N_0 = 100
