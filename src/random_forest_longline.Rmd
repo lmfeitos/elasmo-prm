@@ -251,10 +251,6 @@ Below displays the results of cross validation tuning
 
 ```{r, include=FALSE}
 # prm_final <- finalize_workflow(prm_wflw, select_best(prm_tune, metric = "rsq")) # finalize the workflow with the best model
-```
-
-```{r, include=FALSE}
-# prm_fit <- fit(prm_final, elasmo_prm) # fit the data to the training data
 #
 # saveRDS(prm_final, here::here("data", "prm_final.rds"))
 
