@@ -462,7 +462,20 @@ ggplot(prm_pred) +
 ```
 
 ```{r}
-predict_data = full_join(avm_train, avm_test) %>% 
+new_dat = read_csv(here::here("data", "sau_spp_taxonomy_ref.csv")) %>% 
+  filter(!is.na(median_depth)) %>% 
+  filter(!is.na(ventilation_method)) %>% 
+  filter(!is.na(reproductive_mode)) %>% 
+  filter(!is.na(habitat_associated)) %>% 
+  filter(habitat_associated != "bathypelagic") %>% 
+  filter(!is.na(max_size_cm)) %>% 
+  select(-order_name, -family_name, -genus_name, -measure) %>% 
+  mutate(ventilation_method = as.factor(ventilation_method)) %>% 
+  mutate(habitat_associated = as.factor(habitat_associated)) %>% 
+  mutate(reproductive_mode = as.factor(reproductive_mode))
+
+predict_data = list(avm_train, avm_test, new_dat) %>% 
+  reduce(full_join)%>% 
   rename(avm_mort = mortality_prop) %>%
   select(-estimate_type, -sample_size, -method, -estimate, -est_count) %>% 
   full_join(elasmo_prm) %>% 
