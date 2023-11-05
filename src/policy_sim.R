@@ -114,10 +114,13 @@ p = ggplot(sim_results, aes(t, pop.array)) +
   geom_line(aes(color = mort_scenario, group = total_mort)) +
   facet_wrap(~scientific_name) + 
   theme_bw() +
-  scale_color_viridis_d()
+  scale_color_viridis_d() +
+  labs(x = "Time",
+       y = "Population Count",
+       color = "Scenario")
 p
 
-ggsave(p, file = paste0("initial_sim_0_2.pdf"), path = here::here("figs"), height = 10, width = 15)
+ggsave(p, file = paste0("initial_sim_0_2.pdf"), path = here::here("figs"), height = 15, width = 20)
 
 Galeocerdo_cuvier = sim_results %>% 
   filter(scientific_name == "Galeocerdo cuvier")
