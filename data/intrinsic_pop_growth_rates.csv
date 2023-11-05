@@ -31,7 +31,7 @@ Carcharhinus plumbeus,Northwestern Atlantic Ocean,lambda,1.022,0.021761491781512
 Lamna nasus,Northwestern Atlantic Ocean,lambda,1.022,0.02176149178151271,0.07960424589075636,Cortes (2002),NA
 Alopias pelagicus,Northwestern Pacific Ocean,lambda,1.02,0.01980262729617973,0.01980262729617973,Cortes (2002),NA
 Squatina californica,Northeastern Pacific Ocean,lambda,1.019,0.018821754240587667,0.018821754240587667,Cortes (2002),NA
-Triakis semifasciata,Northeastern Pacific Ocean,lambda,1.016,0.015873349156290163,0.1437296745781451,Cortes (2002),NA
+Triakis semifasciata,Northeastern Pacific Ocean,lambda,1.016,0.015873349156290163,0.11815311638543005,Cortes (2002),NA
 Carcharhinus leucas,Gulf of Mexico,lambda,0.998,-0.0020020026706730793,0.14263533244310897,Cortes (2002),NA
 Alopias superciliosus,Northwestern Pacific Ocean,lambda,0.996,-0.004008021397538822,0.04444798930123059,Cortes (2002),NA
 Carcharias taurus,Northwestern Atlantic Ocean,lambda,0.978,-0.022245608947319737,0.020545195526340133,Cortes (2002),NA
@@ -81,7 +81,7 @@ Carcharodon carcharias,NA,rmax,0.139571,0.139571,0.11653067154366949,Pardo & Dul
 Isurus oxyrinchus,NA,rmax,0.116395,0.116395,0.1241500354399693,Pardo & Dulvy (2022),NA
 Scyliorhinus canicula,NA,rmax,0.426273,0.426273,0.46624400560415374,Pardo & Dulvy (2022),NA
 Galeorhinus galeus,NA,rmax,0.195574,0.195574,0.13487669908712574,Pardo & Dulvy (2022),NA
-Triakis semifasciata,NA,rmax,0.271586,0.271586,0.1437296745781451,Pardo & Dulvy (2022),NA
+Triakis semifasciata,NA,rmax,0.271586,0.271586,0.11815311638543005,Pardo & Dulvy (2022),NA
 Furgaleus macki,NA,rmax,0.296854,0.296854,0.296854,Pardo & Dulvy (2022),NA
 Mustelus manazo,NA,rmax,0.403794,0.403794,0.24773059426291194,Pardo & Dulvy (2022),NA
 Mustelus antarcticus,NA,rmax,0.387206,0.387206,0.23300859021214493,Pardo & Dulvy (2022),NA
@@ -128,3 +128,4 @@ Zapteryx brevirostris,NA,rmax,0.0925,0.0925,0.0925,D'Alberto et al (2019),"Mean 
 Zapteryx exasperata,NA,rmax,0.19,0.19,0.19,D'Alberto et al (2019),"Mean rmax values calculated from four estimates provided by the authors (Jensen, Hewitt and Hoeing, Frisk, and reciprocal of lifespan estimator)"
 Carcharhinus falciformis,Southwestern Atlantic Ocean,r,0.043,0.043,0.08912132380329817,Santander-Neto et al (2021),NA
 Carcharhinus signatus,Southwestern Atlantic Ocean,r,0.033,0.033,0.1186055,Santana et al (2009),NA
+Triakis semifasciata,Northeastern Pacific Ocean,r,0.067,0.067,0.11815311638543005,Cailliet (1992),NA
