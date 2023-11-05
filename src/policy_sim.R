@@ -123,6 +123,31 @@ p
 
 # ggsave(p, file = paste0("initial_sim_0_2.pdf"), path = here::here("figs"), height = 15, width = 20)
 
+sim_sub = sim_results %>% 
+  filter(t == 10 | t == 200) %>% 
+  mutate(t = as.factor(t)) %>% 
+  distinct()
+errors_mort = sim_sub %>% 
+  filter(scenario == "BAU" | ((avm == mid_avm & prm == mid_prm) | (avm == avm_25 & prm == prm_25) | (avm == avm_75 & prm == prm_75))) %>% 
+  select(t, scenario, avm, prm, scientific_name, mort_scenario, pop.array) %>% 
+  distinct() %>% 
+  group_by(t, scientific_name, mort_scenario) %>% 
+  filter(pop.array == min(pop.array))
+
+p2 = ggplot(errors_mort) +
+  geom_line(aes(t, pop.array, color = mort_scenario, group = mort_scenario)) +
+  geom_point(aes(t, pop.array, color = mort_scenario)) +
+  facet_wrap(~scientific_name) +
+  theme_bw() +
+  labs(
+    x = "Time",
+    y = "Population Count",
+    color = "Scenario"
+  ) + 
+  scale_color_viridis_d()
+p2
+
+ggsave(p2, file = paste0("timepoints_0_2.pdf"), path = here::here("figs"), height = 15, width = 20)
 
 # species plots -----------------------------------------------------------
 Galeocerdo_cuvier <- sim_results %>%
