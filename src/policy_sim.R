@@ -147,7 +147,7 @@ p2 = ggplot(errors_mort) +
   scale_color_viridis_d()
 p2
 
-ggsave(p2, file = paste0("timepoints_0_5.pdf"), path = here::here("figs"), height = 15, width = 20)
+ggsave(p2, file = paste0("timepoints_0_2.pdf"), path = here::here("figs"), height = 15, width = 20)
 
 # species plots -----------------------------------------------------------
 # Galeocerdo_cuvier <- sim_results %>%
