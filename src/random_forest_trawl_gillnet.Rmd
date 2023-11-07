@@ -20,6 +20,8 @@ library(ranger)
 library(googlesheets4)
 library(naniar)
 library(vip)
+library(patchwork)
+library(ggpmisc)
 
 # Set data paths
 basedir <- "G:/Meu Drive/PRM review/"
@@ -30,7 +32,7 @@ set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_dataset.csv")) 
+prm_elasmo <- read_csv(here("data", "prm_dataset.csv"))
 
 prm_elasmo <- prm_elasmo %>%
   rename(scientific_name = species)
@@ -54,15 +56,15 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name, gear_class, habitat_associated, estimate_type, estimate, sample_size,
     method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family
   ) %>%
-   mutate(max_size_cm = case_when( # filling missing information based on the average per group
+  mutate(max_size_cm = case_when( # filling missing information based on the average per group
     scientific_name == "Dasyatis sp" ~ 146.22,
     scientific_name == "Squalus sp" ~ 141.12,
     scientific_name == "Mustelus sp" ~ 171.9,
-    scientific_name == "Centrophorus sp" ~ 165.75,  
+    scientific_name == "Centrophorus sp" ~ 165.75,
     scientific_name == "sharks" ~ 347.2639,
     scientific_name == "rays" ~ 170.2222, # only calculated for the batoid species with disk width measures
     TRUE ~ max_size_cm
-  )) %>% 
+  )) %>%
   mutate(median_depth = case_when( # filling missing information based on the average per group
     scientific_name == "Dasyatis sp" ~ 139.33,
     scientific_name == "Squalus sp" ~ 601.875,
@@ -87,7 +89,7 @@ prm_elasmo_subset <- prm_elasmo %>%
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
 elasmo_trawl <- prm_elasmo_subset %>%
   filter(estimate_type == "at-vessel mortality" & estimate > 0) %>%
-  filter(gear_class == "trawl") %>% 
+  filter(gear_class == "trawl") %>%
   mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
@@ -96,7 +98,7 @@ elasmo_trawl <- prm_elasmo_subset %>%
 # Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
 elasmo_gillnet <- prm_elasmo_subset %>%
   filter(estimate_type == "at-vessel mortality" & estimate > 0) %>%
-  filter(gear_class == "gillnet") %>% 
+  filter(gear_class == "gillnet") %>%
   mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
@@ -183,7 +185,7 @@ Below displays the results of cross validation tuning
 
 ```{r, include=FALSE}
 # trawl_final <- finalize_workflow(trawl_wflw, select_best(trawl_tune, metric = "rsq")) # finalize the workflow with the best model
-# 
+#
 # saveRDS(trawl_final, here::here("data", "trawl_final.rds"))
 
 trawl_final <- readRDS(here::here("data", "trawl_final.rds"))
@@ -212,12 +214,12 @@ Below displays the results of cross validation tuning
 ```
 
 ```{r}
-select_best(gillnet_tune, metric = "rsq", n = 1) # get the best model
+# select_best(gillnet_tune, metric = "rsq", n = 1) # get the best model
 ```
 
 ```{r, include=FALSE}
 # gillnet_final <- finalize_workflow(gillnet_wflw, select_best(gillnet_tune, metric = "rsq")) # finalize the workflow with the best model
-# 
+#
 # saveRDS(gillnet_final, here::here("data", "gillnet_final.rds"))
 
 gillnet_final <- readRDS(here::here("data", "gillnet_final.rds"))
@@ -325,15 +327,18 @@ write_csv(gillnet_quant_test, here::here("data", "gillnet_model_predictions.csv"
 ## trawl model - real values vs predicted values 
 
 ```{r}
-ggplot(trawl_quant_test, aes(x = mortality_prop, y = .pred_50)) + # plot ln of real versus ln of predicted
+p1 <- ggplot(trawl_quant_test, aes(x = mortality_prop, y = .pred_50)) + # plot ln of real versus ln of predicted
   geom_point() +
-  geom_smooth(method = "lm") + # add trend line
+  stat_poly_line() +
+  stat_poly_eq(use_label("eq")) +
+  stat_poly_eq(label.y = 0.9) +
   theme_bw() +
   labs(
     x = "Observed At-Vessel Mortality Rate",
     y = "Predicted At-Vessel Mortality Rate"
   ) +
   theme(text = element_text(size = 10))
+p1
 
 summary(lm(.pred_50 ~ mortality_prop, data = trawl_quant_test))
 ```
@@ -341,26 +346,35 @@ summary(lm(.pred_50 ~ mortality_prop, data = trawl_quant_test))
 ## gillnet model - real values vs predicted values
 
 ```{r}
-ggplot(gillnet_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
+p2 <- ggplot(gillnet_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
   geom_point() +
-  geom_smooth(method = "lm") + # add trend line
+  stat_poly_line() +
+  stat_poly_eq(use_label("eq")) +
+  stat_poly_eq(label.y = 0.9) +
   theme_bw() +
-  labs(x = "Observed Post Release Mortality Rate",
-      y = "Predicted Post Release Mortality Rate") +
+  labs(
+    x = "Observed Post Release Mortality Rate",
+    y = "Predicted Post Release Mortality Rate"
+  ) +
   theme(text = element_text(size = 10))
+p2
 
 summary(lm(.pred ~ mortality_prop, data = gillnet_train_predict))
 ```
 
 ### Variable importance for the at-vessel mortality and post-release mortality RF models
 ```{r}
-trawl_fit %>%
+v1 <- trawl_fit %>%
   extract_fit_parsnip() %>%
-  vip()
+  vip() +
+  theme_bw()
+v1
 
-gillnet_fit %>%
+v2 <- gillnet_fit %>%
   extract_fit_parsnip() %>%
-  vip()
+  vip() +
+  theme_bw()
+v2
 ```
 
 ## Data distribution for the main five predictor variables for trawl 
@@ -392,7 +406,7 @@ ggplot(trawl_pred) +
 ## Data distribution for the main five predictor variables for gillnet
 
 ```{r}
-gillnet_pred = gillnet_train_predict
+gillnet_pred <- gillnet_train_predict
 
 ggplot(gillnet_pred, aes(max_size_cm, .pred)) +
   geom_point() +
@@ -413,4 +427,23 @@ ggplot(gillnet_pred) +
 ggplot(gillnet_pred) +
   geom_boxplot(aes(habitat_associated, .pred)) +
   theme_bw()
+```
+
+## Figures
+
+Trawl
+
+```{r}
+plot1 <- p1 + v1 + plot_annotation(tag_levels = "A")
+
+ggsave(plot1, file = paste0("trawl_val.pdf"), path = here::here("figs"), height = 10, width = 15)
+```
+
+
+Gillnet
+
+```{r}
+plot2 <- p2 + v2 + plot_annotation(tag_levels = "A")
+
+ggsave(plot2, file = paste0("gill_val.pdf"), path = here::here("figs"), height = 10, width = 15)
 ```

@@ -20,6 +20,8 @@ library(ranger)
 library(googlesheets4)
 library(naniar)
 library(vip)
+library(patchwork)
+library(ggpmisc)
 
 # Set data paths
 basedir <- "G:/Meu Drive/PRM review/"
@@ -369,15 +371,18 @@ write_csv(prm_quant_test, here::here("data", "prm_model_predictions.csv"))
 ## AVM model - real values vs predicted values 
 
 ```{r}
-ggplot(avm_quant_test, aes(x = mortality_prop, y = .pred_50)) + # plot ln of real versus ln of predicted
+p1 <- ggplot(avm_quant_test, aes(x = mortality_prop, y = .pred_50)) + # plot ln of real versus ln of predicted
   geom_point() +
-  geom_smooth(method = "lm") + # add trend line
+  stat_poly_line() +
+  stat_poly_eq(use_label("eq")) +
+  stat_poly_eq(label.y = 0.9) +
   theme_bw() +
   labs(
     x = "Observed At-Vessel Mortality Rate",
     y = "Predicted At-Vessel Mortality Rate"
   ) +
   theme(text = element_text(size = 10))
+p1
 
 summary(lm(.pred_50 ~ mortality_prop, data = avm_quant_test))
 ```
@@ -385,28 +390,35 @@ summary(lm(.pred_50 ~ mortality_prop, data = avm_quant_test))
 ## PRM model - real values vs predicted values
 
 ```{r}
-ggplot(prm_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
+p2 <- ggplot(prm_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
   geom_point() +
-  geom_smooth(method = "lm") + # add trend line
+  stat_poly_line() +
+  stat_poly_eq(use_label("eq")) +
+  stat_poly_eq(label.y = 0.9) +
   theme_bw() +
   labs(
     x = "Observed Post Release Mortality Rate",
     y = "Predicted Post Release Mortality Rate"
   ) +
   theme(text = element_text(size = 10))
+p2
 
 summary(lm(.pred ~ mortality_prop, data = prm_train_predict))
 ```
 
 ### Variable importance for the at-vessel mortality and post-release mortality RF models
 ```{r}
-avm_fit %>%
+v1 <- avm_fit %>%
   extract_fit_parsnip() %>%
-  vip()
+  vip() +
+  theme_bw()
+v1
 
-prm_fit %>%
+v2 <- prm_fit %>%
   extract_fit_parsnip() %>%
-  vip()
+  vip() +
+  theme_bw()
+v2
 ```
 
 ## Data distribution for the main five predictor variables for AVM 
@@ -462,50 +474,70 @@ ggplot(prm_pred) +
 ```
 
 ```{r}
-new_dat = read_csv(here::here("data", "sau_spp_taxonomy_ref.csv")) %>% 
-  filter(!is.na(median_depth)) %>% 
-  filter(!is.na(ventilation_method)) %>% 
-  filter(!is.na(reproductive_mode)) %>% 
-  filter(!is.na(habitat_associated)) %>% 
-  filter(habitat_associated != "bathypelagic") %>% 
-  filter(!is.na(max_size_cm)) %>% 
-  select(-order_name, -family_name, -genus_name, -measure) %>% 
-  mutate(ventilation_method = as.factor(ventilation_method)) %>% 
-  mutate(habitat_associated = as.factor(habitat_associated)) %>% 
+new_dat <- read_csv(here::here("data", "sau_spp_taxonomy_ref.csv")) %>%
+  filter(!is.na(median_depth)) %>%
+  filter(!is.na(ventilation_method)) %>%
+  filter(!is.na(reproductive_mode)) %>%
+  filter(!is.na(habitat_associated)) %>%
+  filter(habitat_associated != "bathypelagic") %>%
+  filter(!is.na(max_size_cm)) %>%
+  select(-order_name, -family_name, -genus_name, -measure) %>%
+  mutate(ventilation_method = as.factor(ventilation_method)) %>%
+  mutate(habitat_associated = as.factor(habitat_associated)) %>%
   mutate(reproductive_mode = as.factor(reproductive_mode))
 
-predict_data = list(avm_train, avm_test, new_dat) %>% 
-  reduce(full_join)%>% 
+predict_data <- list(avm_train, avm_test, new_dat) %>%
+  reduce(full_join) %>%
   rename(avm_mort = mortality_prop) %>%
-  select(-estimate_type, -sample_size, -method, -estimate, -est_count) %>% 
-  full_join(elasmo_prm) %>% 
-  rename(prm_mort = mortality_prop)  %>%
-  select(-estimate_type, -sample_size, -method, -estimate, -est_count) %>% 
+  select(-estimate_type, -sample_size, -method, -estimate, -est_count) %>%
+  full_join(elasmo_prm) %>%
+  rename(prm_mort = mortality_prop) %>%
+  select(-estimate_type, -sample_size, -method, -estimate, -est_count) %>%
   distinct()
 
-predict_avm = predict(object = avm_fit, new_data = predict_data) %>% # predict the training set
-  bind_cols(predict_data) %>%  # bind training set column to prediction 
+predict_avm <- predict(object = avm_fit, new_data = predict_data) %>% # predict the training set
+  bind_cols(predict_data) %>% # bind training set column to prediction
   rename(avm_pred = .pred)
 
-predict_avm_prm = predict(object = prm_fit, new_data = predict_avm) %>% # predict the training set
+predict_avm_prm <- predict(object = prm_fit, new_data = predict_avm) %>% # predict the training set
   bind_cols(predict_avm) %>% # bind training set column to prediction
   rename(prm_pred = .pred)
 
-full_prediction_avm = preds_bind(predict_avm_prm, avm_fit) %>% 
-    rename(avm_75 = .pred_75,
-           avm_95 = .pred_95,
-           avm_05 = .pred_05,
-         avm_25 = .pred_25,
-         avm_50 = .pred_50)
+full_prediction_avm <- preds_bind(predict_avm_prm, avm_fit) %>%
+  rename(
+    avm_75 = .pred_75,
+    avm_95 = .pred_95,
+    avm_05 = .pred_05,
+    avm_25 = .pred_25,
+    avm_50 = .pred_50
+  )
 
-full_predictions = preds_bind(full_prediction_avm, prm_fit) %>% 
-  rename(prm_75 = .pred_75,
-           prm_95 = .pred_95,
-           prm_05 = .pred_05,
-         prm_25 = .pred_25,
-         prm_50 = .pred_50)
+full_predictions <- preds_bind(full_prediction_avm, prm_fit) %>%
+  rename(
+    prm_75 = .pred_75,
+    prm_95 = .pred_95,
+    prm_05 = .pred_05,
+    prm_25 = .pred_25,
+    prm_50 = .pred_50
+  )
 
 write_csv(full_predictions, here::here("data", "full_model_predictions.csv"))
-
 ```
 
+## Figures
+
+AVM
+
+```{r}
+plot1 <- p1 + v1 + plot_annotation(tag_levels = "A")
+
+ggsave(plot1, file = paste0("avm_val.pdf"), path = here::here("figs"), height = 10, width = 15)
+```
+
+PRM
+
+```{r}
+plot2 <- p2 + v2 + plot_annotation(tag_levels = "A")
+
+ggsave(plot2, file = paste0("prm_val.pdf"), path = here::here("figs"), height = 10, width = 15)
+```
