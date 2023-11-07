@@ -121,7 +121,7 @@ p <- ggplot(sim_results, aes(t, pop.array)) +
   )
 p
 
-# ggsave(p, file = paste0("initial_sim_0_2.pdf"), path = here::here("figs"), height = 15, width = 20)
+ggsave(p, file = paste0("initial_sim_0_2.pdf"), path = here::here("figs"), height = 15, width = 20)
 
 sim_sub = sim_results %>% 
   filter(t == 10 | t == 200) %>% 
@@ -147,36 +147,36 @@ p2 = ggplot(errors_mort) +
   scale_color_viridis_d()
 p2
 
-ggsave(p2, file = paste0("timepoints_0_2.pdf"), path = here::here("figs"), height = 15, width = 20)
+ggsave(p2, file = paste0("timepoints_0_5.pdf"), path = here::here("figs"), height = 15, width = 20)
 
 # species plots -----------------------------------------------------------
-Galeocerdo_cuvier <- sim_results %>%
-  filter(scientific_name == "Galeocerdo cuvier")
-
-ggplot(Galeocerdo_cuvier, aes(t, pop.array)) +
-  geom_line(aes(color = scenario, group = total_mort)) +
-  theme_bw()
-
-Carcharhinus_limbatus <- sim_results %>%
-  filter(scientific_name == "Carcharhinus limbatus")
-
-ggplot(Carcharhinus_limbatus, aes(t, pop.array)) +
-  geom_line(aes(color = scenario, group = total_mort)) +
-  theme_bw()
-
-Isurus_oxyrinchus <- sim_results %>%
-  filter(scientific_name == "Isurus oxyrinchus")
-
-ggplot(Isurus_oxyrinchus, aes(t, pop.array)) +
-  geom_line(aes(color = scenario, group = total_mort)) +
-  theme_bw()
-
-Alopias_vulpinus <- sim_results %>%
-  filter(scientific_name == "Alopias vulpinus")
-
-ggplot(Alopias_vulpinus, aes(t, pop.array)) +
-  geom_line(aes(color = scenario, group = total_mort)) +
-  theme_bw()
+# Galeocerdo_cuvier <- sim_results %>%
+#   filter(scientific_name == "Galeocerdo cuvier")
+# 
+# ggplot(Galeocerdo_cuvier, aes(t, pop.array)) +
+#   geom_line(aes(color = scenario, group = total_mort)) +
+#   theme_bw()
+# 
+# Carcharhinus_limbatus <- sim_results %>%
+#   filter(scientific_name == "Carcharhinus limbatus")
+# 
+# ggplot(Carcharhinus_limbatus, aes(t, pop.array)) +
+#   geom_line(aes(color = scenario, group = total_mort)) +
+#   theme_bw()
+# 
+# Isurus_oxyrinchus <- sim_results %>%
+#   filter(scientific_name == "Isurus oxyrinchus")
+# 
+# ggplot(Isurus_oxyrinchus, aes(t, pop.array)) +
+#   geom_line(aes(color = scenario, group = total_mort)) +
+#   theme_bw()
+# 
+# Alopias_vulpinus <- sim_results %>%
+#   filter(scientific_name == "Alopias vulpinus")
+# 
+# ggplot(Alopias_vulpinus, aes(t, pop.array)) +
+#   geom_line(aes(color = scenario, group = total_mort)) +
+#   theme_bw()
 
 # Simulation Tests --------------------------------------------------------
 # test_bau = sim(t, N_0, K, r, avs, prs, q, f, quota, "BAU")
