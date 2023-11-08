@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE,
 library(tidyverse)
 library(here)
 library(ggh4x)
+library(patchwork)
 
 # Set data paths
 basedir <- "G:/Meu Drive/PRM review/"
@@ -99,7 +100,11 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name == "rays" ~ "yolk-sac viviparity",
     TRUE ~ reproductive_mode
   )) %>%
-  mutate_if(is.character, as.factor)
+  mutate_if(is.character, as.factor) %>% 
+  mutate(group = case_when(
+    str_detect(family, "Mobulidae|Dasyatiade|Gymnyridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae") ~ "Batoids",
+    TRUE ~ "Sharks"
+  ))
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species
 mort_summary <- prm_elasmo_subset %>% 
@@ -109,8 +114,8 @@ mort_summary <- prm_elasmo_subset %>%
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>% 
   ungroup() %>% 
   group_by(scientific_name, estimate_type) %>% 
-  summarise(mean_mort = mean(mortality_prop)) %>% 
-  drop_na()  
+  mutate(mean_mort = mean(mortality_prop)) %>% 
+  drop_na()
 
 elasmo_avm <- prm_elasmo_subset %>%
   filter(estimate_type == "at-vessel mortality" & estimate > 0) %>% 
@@ -132,30 +137,73 @@ elasmo_prm <- prm_elasmo_subset %>%
 
 
 ```{r, fig.height=12, fig.width=8, message = TRUE}
-# visualization of AVM and PRM proportions per species and family
-ggplot() +
-  geom_point(data = mort_summary %>% 
-#               filter(estimate_type == "at-vessel mortality") %>% 
+# visualization of AVM proportions per species and family
+avm_plot <-
+  ggplot(data = mort_summary %>% 
+               filter(estimate_type == "at-vessel mortality") %>% 
                mutate(estimate_type = str_to_title(estimate_type)), 
              aes(x = fct_reorder(scientific_name, mean_mort), 
                  y = mean_mort, 
-                 color = estimate_type),
-             size = 1.6,
-             show.legend = FALSE) +
+                 color = group)) +
+    geom_segment(aes(xend = scientific_name, yend = 0)) +
+  geom_point(size = 1.6) +
   facet_wrap(~ estimate_type) +
   labs(x = "",
        y = "Mortality proportion",
-       color = "") +
-  scale_y_continuous(expand = c(0.01,0.01)) +
+       color = "Group") +
+  scale_y_continuous(expand = c(0.01, 0.01)) +
+  scale_color_viridis_d(direction = -1) +
   coord_flip() +
   theme_bw() +
-  theme(axis.text = element_text(size = 10, color = "black"),
+  theme(axis.text = element_text(size = 8, color = "black"),
         axis.title = element_text(size = 11, color = "black"),
         legend.position = "bottom",
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
         strip.background = element_rect(fill = "transparent"),
         panel.spacing = unit(5, "mm"))
+```
+
+```{r, fig.height=12, fig.width=8, message = TRUE}
+# visualization of AVM proportions per species and family
+prm_plot <-
+  ggplot(data = mort_summary %>% 
+               filter(estimate_type == "post-release mortality") %>% 
+               mutate(estimate_type = str_to_title(estimate_type)),
+              aes(x = fct_reorder(scientific_name, mean_mort), 
+                 y = mean_mort, 
+                 color = group)) +
+  geom_segment(aes(xend = scientific_name, yend = 0)) +
+  geom_point(size = 1.6) +
+  facet_wrap(~ estimate_type) +
+  labs(x = "",
+       y = "Mortality proportion",
+       color = "Group") +
+  scale_y_continuous(expand = c(0.01, 0.01)) +
+  scale_color_viridis_d(direction = -1) +
+  coord_flip() +
+  theme_bw() +
+  theme(axis.text = element_text(size = 8, color = "black"),
+        axis.title = element_text(size = 11, color = "black"),
+        legend.position = "bottom",
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        strip.background = element_rect(fill = "transparent"),
+        panel.spacing = unit(5, "mm"))
+```
+
+```{r, fig.height=12, fig.width=8}
+mort_proportions_plot <- 
+  avm_plot + prm_plot +
+  plot_layout(guides = "collect",
+              heights = c(5,1),
+              nrow = 1) +
+  plot_annotation(tag_levels = "A") &
+  theme(legend.position = "bottom")
+
+mort_proportions_plot
+
+ggsave(mort_proportions_plot, file = paste0("mort_proportions_plot.pdf"), path = here::here("figs"), height = 12, width = 8)
 ```
 
 
