@@ -103,6 +103,7 @@ prm_elasmo_subset <- prm_elasmo %>%
   mutate_if(is.character, as.factor) %>% 
   mutate(group = case_when(
     str_detect(family, "Mobulidae|Dasyatiade|Gymnyridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae") ~ "Batoids",
+    str_detect(scientific_name, "Himantura|Dasyatis|Gymnura|Neotrygon|Bathytoshia|rays") ~ "Batoids",
     TRUE ~ "Sharks"
   ))
 
