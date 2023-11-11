@@ -187,10 +187,10 @@ mort_proportions_plot_sp <-
                  y = mortality_prop,
                  color = estimate_type),
              size = 1.5,
-             alpha = 0.9) +
-  facet_grid(factor(gear_class,
-                    levels = c("Longline", "Gillnet", "Trawl")) ~
-               factor(group, levels = c("Sharks", "Batoids")),
+             alpha = 0.9,
+             show.legend = F) +
+  facet_grid(factor(group, levels = c("Sharks", "Batoids")) ~ factor(gear_class,
+                    levels = c("Longline", "Gillnet", "Trawl")),
              scales = "free_y",
              space = "free_y") +
   labs(x = "",
@@ -208,7 +208,7 @@ mort_proportions_plot_sp <-
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
         strip.background = element_rect(fill = "transparent"),
-        panel.spacing = unit(5, "mm"))
+        panel.spacing.x = unit(5, "mm"))
 
 ggsave(mort_proportions_plot_sp, file = paste0("mort_proportions_plot_sp.png"), path = here::here("figs"), height = 12, width = 8)
 ```
@@ -265,19 +265,19 @@ mort_proportions_plot_fam <-
   geom_point(aes(x = fct_rev(factor(family, levels = mort_subset_fam)), 
                  y = mortality_prop, 
                  color = estimate_type),
+             show.legend = F,
              size = 1.5,
              alpha = 0.9) +
-  facet_grid(factor(gear_class,
-                    levels = c("Longline", "Gillnet", "Trawl")) ~
-               factor(group, levels = c("Sharks", "Batoids")),
+  facet_grid(factor(group, levels = c("Sharks", "Batoids")) ~ 
+               factor(gear_class,
+                    levels = c("Longline", "Gillnet", "Trawl")),
              scales = "free_y",
              space = "free_y") +
   labs(x = "",
        y = "Mean mortality proportion",
        color = "Estimate type") +
-  scale_y_continuous(expand = c(0.01, 0.01)) +
+  scale_y_continuous(breaks = c(0, 0.25, 0.5, 0.75, 1)) +
   scale_color_manual(values = c("#414487FF", "#22A884FF")) +
-  scale_shape(guide = 'none') +
   coord_flip() +
   theme_bw() +
   theme(axis.text = element_text(size = 8, color = "black"),
@@ -286,20 +286,55 @@ mort_proportions_plot_fam <-
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
         strip.background = element_rect(fill = "transparent"),
-        panel.spacing = unit(5, "mm"))
+        panel.spacing.x = unit(5, "mm"))
 
 ggsave(mort_proportions_plot_fam, file = paste0("mort_proportions_plot_fam.png"), path = here::here("figs"), height = 12, width = 8)
 ```
 
+```{r, fig.height=8, fig.width=6}
+habitat_plot <- 
+  ggplot(data = mort_summary %>% 
+         filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
+                  !is.na(habitat_associated)) %>% 
+              mutate(estimate_type = str_to_title(estimate_type),
+                     gear_class = str_to_title(gear_class)) %>% 
+         mutate(habitat_associated = str_to_title(habitat_associated)),
+                gear_class = str_to_title(gear_class),
+                estimate_type = str_to_sentence(estimate_type)) +
+  geom_point(aes(x = habitat_associated, y = mortality_prop, 
+                 color = estimate_type, group = estimate_type),
+             position = position_jitterdodge(jitter.width = .1)) +
+  geom_boxplot(aes(x = habitat_associated, y = mortality_prop, 
+                   fill = estimate_type),
+               alpha = 0.5) +
+  facet_grid(factor(group, levels = c("Sharks", "Batoids")) ~
+             factor(gear_class,
+                    levels = c("Longline", "Gillnet", "Trawl"))) +
+  labs(x = "",
+       y = "Mean mortality proportion",
+       color = "Estimate type",
+       fill = "Estimate type") +
+  scale_color_manual(values = c("#414487FF", "#22A884FF")) +
+  scale_fill_manual(values = c("#414487FF", "#22A884FF")) +
+  coord_flip() +
+  theme_bw() +
+  theme(axis.text = element_text(size = 8, color = "black"),
+        axis.title = element_text(size = 11, color = "black"),
+        legend.position = "bottom",
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        strip.background = element_rect(fill = "transparent"),
+        panel.spacing.x = unit(5, "mm"))
+```
+
 ```{r, fig.height=14, fig.width=12}
 mort_proportions_plot <-
-  mort_proportions_plot_sp + 
-  mort_proportions_plot_fam +
+  (mort_proportions_plot_sp | 
+  (mort_proportions_plot_fam /
+  habitat_plot)) +
   plot_annotation(tag_levels = "A") +
   plot_layout(guides = "collect") &
-  theme(legend.position = "bottom")
-
-mort_proportions_plot
+  theme(legend.position = "bottom") 
 
 ggsave(mort_proportions_plot, file = paste0("mort_proportions_plot.png"), path = here::here("figs"), height = 14, width = 12)
 ```
@@ -338,26 +373,20 @@ ggplot(data = prm_elasmo %>%
 
 
 ```{r}
-ggplot(data = prm_elasmo %>% 
-         filter(estimate_type != "post-release survival")) +
-  geom_boxplot(aes(x = gear_class, y = estimate)) +
-  facet_wrap(~ estimate_type) +
+ggplot(data = mort_summary %>% 
+         filter(estimate_type != "post-release survival" & 
+                  !gear_class %in% c("purse seine", "pole and line", "handline")) %>% 
+         mutate(gear_class = str_to_title(gear_class))) +
+  geom_jitter(aes(x = gear_class, y = )) +
+  geom_boxplot(aes(x = gear_class, y = estimate),
+               alpha = 0.7) +
+  facet_grid(factor(group)~ estimate_type) +
   labs(x = "Gear class",
        y = "Proportion of mortality") +
   coord_flip() +
   theme_bw()
 ```
 
-```{r}
-ggplot(data = prm_elasmo %>% 
-         filter(estimate_type != "post-release survival")) +
-  geom_boxplot(aes(x = habitat_associated, y = estimate)) +
-  facet_wrap(~ estimate_type) +
-  labs(x = "Habitat associated",
-       y = "Proportion of mortality") +
-  coord_flip() +
-  theme_bw()
-```
 
 
 
