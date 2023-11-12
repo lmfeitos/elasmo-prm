@@ -107,18 +107,31 @@ sim_results <- sim_results %>%
     avm == mid_avm & prm == mid_prm ~ "Median Mortality",
     TRUE ~ "In-Between Mortality"
   )) %>%
-  mutate(mort_scenario = fct_relevel(mort_scenario, c("BAU", "Low Mortality", "In-Between Mortality", "Median Mortality")))
+  mutate(mort_scenario = fct_relevel(mort_scenario, c("BAU", "Low Mortality", "In-Between Mortality", "Median Mortality"))) %>% 
+  mutate(n_div_k = pop.array/K)
 
-p <- ggplot(sim_results, aes(t, pop.array)) +
+p <- ggplot(sim_results, aes(t, n_div_k)) +
   geom_line(aes(color = mort_scenario, group = total_mort)) +
-  facet_wrap(~scientific_name) +
+  geom_hline(yintercept = 0.5,
+             color = "gray",
+             alpha = 0.5,
+             linetype = "dashed") +
+  scale_y_continuous(breaks = c(0, 0.5, 1)) +
+  facet_wrap(~scientific_name,
+             labeller = label_wrap_gen(30)) +
   theme_bw() +
   scale_color_viridis_d() +
   labs(
     x = "Time",
-    y = "Population Count",
+    y = "N/K",
     color = "Scenario"
-  )
+  ) +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        strip.background = element_rect(fill = "transparent"),
+        strip.text.x = element_text(size = 8, color = "black", face = "bold.italic"),
+        axis.title = element_text(size = 10, color = "black"),
+        axis.text = element_text(size = 10, color = "black"))
 p
 
 ggsave(p, file = paste0("initial_sim_0_2.pdf"), path = here::here("figs"), height = 15, width = 20)
