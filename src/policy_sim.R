@@ -15,7 +15,8 @@ sim_data <- read_csv(here::here("data", "simulation_data.csv"))
 # Functions ---------------------------------------------------------------
 
 sim <- function(t, N_0, K, r, avs, prs, q, f, quota, scenario) {
-  # set possible survival when thrown back to 0 as none are thrown back in BAU and QC
+  
+  # set possible survival when thrown back to 0 as none are thrown back in BAU
   if (scenario == "BAU") {
     avs <- 0
     prs <- 0
@@ -33,12 +34,12 @@ sim <- function(t, N_0, K, r, avs, prs, q, f, quota, scenario) {
     dt <- 1
 
     # population growth - fishing + returned bycatch
-    dN.dt <- (r * pop.array[i - 1] * (1 - (pop.array[i - 1] / K))) - ceiling(q * f * pop.array[i - 1]) + floor(((q * f * pop.array[i - 1]) - ifelse(quota > q * f * pop.array[i - 1], q * f * pop.array[i - 1], q * f * pop.array[i - 1] - quota)) * avs * prs) * dt
+    dN.dt = (r * pop.array[i - 1] * (1 - (pop.array[i - 1] / K))) - (q * f * pop.array[i - 1]) + ((q * f * pop.array[i - 1] - quota) * avs * prs) * dt
     pop.array[i] <- pop.array[i - 1] + dN.dt
   }
 
-  # floor(((q * f * pop.array[i - 1]) * (1 - quota)) * avs * prs) # by percent
-  # floor(((q * f * pop.array[i - 1]) - quota) *  avs * prs) # based on count
+  # ((q * f * pop.array[i - 1]) * (1 - quota)) * avs * prs) # by percent
+  # ((q * f * pop.array[i - 1]) - quota) *  avs * prs) # based on count
 
   pop_df <- as.data.frame(pop.array) %>%
     mutate(t = 1:t) %>% # add time column
@@ -59,6 +60,7 @@ N_0 <- 100
 q <- 1 # catchability, set to 1 for ease of fishing pressure, could vary
 f <- 0.2 # vary for sensitivity
 quota <- 10 # in count
+quota.array = c(1, 5, 10, 20) # in count
 
 # shark sim loop ----------------------------------------------------------
 
@@ -67,9 +69,10 @@ sim_results <- data.frame()
 
 for (i in 1:nrow(sim_data)) {
   ## set up mortality grid for shark species
-  avms <- c(sim_data$avm_25[i], sim_data$mid_avm[i])
-  prms <- c(sim_data$prm_25[i], sim_data$mid_prm[i])
-  morts <- expand.grid(avms, prms)
+  avms <- c(sim_data$avm_25[i], sim_data$mid_avm[i], sim_data$avm_75[i])
+  prms <- c(sim_data$prm_25[i], sim_data$mid_prm[i], sim_data$prm_75[i])
+  morts <- expand.grid(avms, prms) %>% 
+    distinct()
   names(morts) <- c("avm", "prm")
 
   species <- sim_data$scientific_name[i]
@@ -80,21 +83,36 @@ for (i in 1:nrow(sim_data)) {
     mutate(
       avm = 1,
       prm = 1,
-      scientific_name = species
+      scientific_name = species, 
+      quota = 0
     )
 
   sim_results <- rbind(sim_results, bau)
 
-  ## loop through mortality values for retention ban
+  ## loop through mortality values for retention ban and catch quota
   for (j in 1:nrow(morts)) {
     rb <- sim(t, N_0, K, r, 1 - morts$avm[j], 1 - morts$prm[j], q, f, quota, "RB") %>%
       mutate(
-        avm = morts$avm[j],
-        prm = morts$prm[j],
-        scientific_name = species
+        avm = 1 - morts$avm[j],
+        prm = 1 - morts$prm[j],
+        scientific_name = species,
+        quota = 0
       )
-
+    
     sim_results <- rbind(sim_results, rb)
+    
+    for (k in 1:length(quota.array)) {
+      cq <- sim(t, N_0, K, r, 1 - morts$avm[j], 1 - morts$prm[j], q, f, quota.array[k], "CQ") %>%
+        mutate(
+          avm = 1 - morts$avm[j],
+          prm = 1 - morts$prm[j],
+          scientific_name = species,
+          quota = quota.array[k]
+        )
+      
+      sim_results <- rbind(sim_results, cq)
+    }
+
   }
 }
 
@@ -103,15 +121,19 @@ sim_results <- sim_results %>%
   full_join(sim_data) %>%
   mutate(mort_scenario = case_when(
     scenario == "BAU" ~ "BAU",
+    avm == avm_75 & prm == prm_75 ~ "High Mortality",
     avm == avm_25 & prm == prm_25 ~ "Low Mortality",
     avm == mid_avm & prm == mid_prm ~ "Median Mortality",
     TRUE ~ "In-Between Mortality"
   )) %>%
-  mutate(mort_scenario = fct_relevel(mort_scenario, c("BAU", "Low Mortality", "In-Between Mortality", "Median Mortality"))) %>% 
+  mutate(mort_scenario = fct_relevel(mort_scenario, c("BAU", "Low Mortality", "In-Between Mortality", "Median Mortality", "High Mortality"))) %>% 
   mutate(n_div_k = pop.array/K)
 
-p <- ggplot(sim_results, aes(t, n_div_k)) +
-  geom_line(aes(color = mort_scenario, group = total_mort)) +
+no_cq = sim_results %>% 
+  filter(scenario != "CQ")
+
+p <- ggplot(no_cq, aes(t, n_div_k)) +
+  geom_line(aes(color = scenario, group = total_mort)) +
   geom_hline(yintercept = 0.5,
              color = "gray",
              alpha = 0.5,
@@ -140,24 +162,45 @@ sim_sub = sim_results %>%
   filter(t == 10 | t == 200) %>% 
   mutate(t = as.factor(t)) %>% 
   distinct()
-errors_mort = sim_sub %>% 
-  filter(scenario == "BAU" | ((avm == mid_avm & prm == mid_prm) | (avm == avm_25 & prm == prm_25) | (avm == avm_75 & prm == prm_75))) %>% 
-  select(t, scenario, avm, prm, scientific_name, mort_scenario, pop.array) %>% 
+
+no_cg_sub = sim_sub %>% 
+  filter(scenario != "CQ")
+
+errors_mort = no_cg_sub %>% 
+  select(t, scenario, avm, prm, scientific_name, mort_scenario, pop.array, n_div_k, total_mort) %>% 
   distinct() %>% 
   group_by(t, scientific_name, mort_scenario) %>% 
-  filter(pop.array == min(pop.array))
+  filter((avm == min(avm) & prm == min(prm)) | (avm == max(avm) & prm == max(prm))) %>% 
+  mutate(mort_scenario = case_when(
+    scenario == "BAU" ~ "BAU",
+    (avm == min(avm) & prm == min(prm)) ~ "High Mortality", 
+    (avm == max(avm) & prm == max(prm)) ~ "Low Mortality"
+  ))
 
 p2 = ggplot(errors_mort) +
-  geom_line(aes(t, pop.array, color = mort_scenario, group = mort_scenario)) +
-  geom_point(aes(t, pop.array, color = mort_scenario)) +
+  geom_line(aes(t, n_div_k, color = mort_scenario, group = mort_scenario)) +
+  geom_point(aes(t, n_div_k, color = mort_scenario)) +
+  geom_hline(yintercept = 0.5,
+             color = "gray",
+             alpha = 0.5,
+             linetype = "dashed") +
+  scale_y_continuous(breaks = c(0, 0.5, 1)) +
+  facet_wrap(~scientific_name,
+             labeller = label_wrap_gen(30)) +
   facet_wrap(~scientific_name) +
   theme_bw() +
   labs(
     x = "Time",
-    y = "Population Count",
+    y = "N/K",
     color = "Scenario"
   ) + 
-  scale_color_viridis_d()
+  scale_color_viridis_d()+
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        strip.background = element_rect(fill = "transparent"),
+        strip.text.x = element_text(size = 8, color = "black", face = "bold.italic"),
+        axis.title = element_text(size = 10, color = "black"),
+        axis.text = element_text(size = 10, color = "black"))
 p2
 
 ggsave(p2, file = paste0("timepoints_0_2.pdf"), path = here::here("figs"), height = 15, width = 20)
