@@ -93,8 +93,8 @@ for (i in 1:nrow(sim_data)) {
   for (j in 1:nrow(morts)) {
     rb <- sim(t, N_0, K, r, 1 - morts$avm[j], 1 - morts$prm[j], q, f, quota, "RB") %>%
       mutate(
-        avm = 1 - morts$avm[j],
-        prm = 1 - morts$prm[j],
+        avm = morts$avm[j],
+        prm = morts$prm[j],
         scientific_name = species,
         quota = 0
       )
@@ -104,8 +104,8 @@ for (i in 1:nrow(sim_data)) {
     for (k in 1:length(quota.array)) {
       cq <- sim(t, N_0, K, r, 1 - morts$avm[j], 1 - morts$prm[j], q, f, quota.array[k], "CQ") %>%
         mutate(
-          avm = 1 - morts$avm[j],
-          prm = 1 - morts$prm[j],
+          avm = morts$avm[j],
+          prm = morts$prm[j],
           scientific_name = species,
           quota = quota.array[k]
         )
@@ -169,16 +169,15 @@ no_cg_sub = sim_sub %>%
 errors_mort = no_cg_sub %>% 
   select(t, scenario, avm, prm, scientific_name, mort_scenario, pop.array, n_div_k, total_mort) %>% 
   distinct() %>% 
-  group_by(t, scientific_name, mort_scenario) %>% 
-  filter((avm == min(avm) & prm == min(prm)) | (avm == max(avm) & prm == max(prm))) %>% 
-  mutate(mort_scenario = case_when(
-    scenario == "BAU" ~ "BAU",
-    (avm == min(avm) & prm == min(prm)) ~ "High Mortality", 
-    (avm == max(avm) & prm == max(prm)) ~ "Low Mortality"
-  ))
+  ungroup() %>% 
+  group_by(scientific_name, mort_scenario) %>% 
+  filter(total_mort == min(total_mort) | total_mort == max(total_mort)) %>% 
+  filter(mort_scenario %in% c("BAU", "Low Mortality", "High Mortality")) %>% 
+  distinct() %>% 
+  ungroup()
 
 p2 = ggplot(errors_mort) +
-  geom_line(aes(t, n_div_k, color = mort_scenario, group = mort_scenario)) +
+  geom_line(aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_point(aes(t, n_div_k, color = mort_scenario)) +
   geom_hline(yintercept = 0.5,
              color = "gray",
@@ -204,6 +203,70 @@ p2 = ggplot(errors_mort) +
 p2
 
 ggsave(p2, file = paste0("timepoints_0_2.pdf"), path = here::here("figs"), height = 15, width = 20)
+
+
+# Species Sub Plots -------------------------------------------------------
+species_sub = c("Lamna nasus", "Alopias vulpinus", "Carcharhinus galapagensis", "Carcharhinus limbatus", "Galeocerdo cuvier", "Isurus oxyrinchus", "Rhincodon typus", "Sphyrna mokarran", "Squalus acanthias")
+
+no_cq = no_cq %>% 
+  filter(scientific_name %in% species_sub)
+
+p <- ggplot(no_cq, aes(t, n_div_k)) +
+  geom_line(aes(color = scenario, group = total_mort)) +
+  geom_hline(yintercept = 0.5,
+             color = "gray",
+             alpha = 0.5,
+             linetype = "dashed") +
+  scale_y_continuous(breaks = c(0, 0.5, 1)) +
+  facet_wrap(~scientific_name,
+             labeller = label_wrap_gen(30)) +
+  theme_bw() +
+  scale_color_viridis_d() +
+  labs(
+    x = "Time",
+    y = "N/K",
+    color = "Scenario"
+  ) +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        strip.background = element_rect(fill = "transparent"),
+        strip.text.x = element_text(size = 8, color = "black", face = "bold.italic"),
+        axis.title = element_text(size = 10, color = "black"),
+        axis.text = element_text(size = 10, color = "black"))
+p
+
+ggsave(p, file = paste0("species_full_0_2.pdf"), path = here::here("figs"), height = 15, width = 20)
+
+errors_mort = errors_mort %>% 
+  filter(scientific_name %in% species_sub)
+
+p2 = ggplot(errors_mort) +
+  geom_line(aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
+  geom_point(aes(t, n_div_k, color = mort_scenario)) +
+  geom_hline(yintercept = 0.5,
+             color = "gray",
+             alpha = 0.5,
+             linetype = "dashed") +
+  scale_y_continuous(breaks = c(0, 0.5, 1)) +
+  facet_wrap(~scientific_name,
+             labeller = label_wrap_gen(30)) +
+  facet_wrap(~scientific_name) +
+  theme_bw() +
+  labs(
+    x = "Time",
+    y = "N/K",
+    color = "Scenario"
+  ) + 
+  scale_color_viridis_d()+
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        strip.background = element_rect(fill = "transparent"),
+        strip.text.x = element_text(size = 8, color = "black", face = "bold.italic"),
+        axis.title = element_text(size = 10, color = "black"),
+        axis.text = element_text(size = 10, color = "black"))
+p2
+
+ggsave(p2, file = paste0("species_timepoints_0_2.pdf"), path = here::here("figs"), height = 15, width = 20)
 
 # species plots -----------------------------------------------------------
 # Galeocerdo_cuvier <- sim_results %>%
