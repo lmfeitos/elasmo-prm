@@ -12,6 +12,7 @@ library(rfishbase)
 library(here)
 library(janitor)
 library(googlesheets4)
+library(vroom)
 
 # Set file paths
 basedir <- "G:/Meu Drive/PRM review/"
@@ -64,7 +65,7 @@ prm_elasmo <- prm_elasmo %>%
   rename(scientific_name = species)
 
 # Call saup species list from Worm et al (XXXX)
-saup_spp <- read_csv(here("data", "sau_spp_taxonomy_ref.csv"))
+saup_spp <- read_csv(here("data", "sau_spp_taxonomy_ref_full.csv"))
 
 # call the weight to count conversion data by species
 weight_conv <- read_csv(here("data", "spp_weight_count_conversion.csv"))
@@ -89,7 +90,8 @@ shark_saup_join <- saup_spp %>%
   left_join(shark_spp, by = "scientific_name") %>% 
   left_join(weight_conv, by = "scientific_name") %>% 
   left_join(int_growth, by = "scientific_name") %>% 
-  select(-c(habitat, value, r_value, reference, observations, areas, pop_growth_rate_measure))
+  select(-c(habitat, value, r_value, reference, observations, areas, pop_growth_rate_measure)) %>% 
+  distinct()
 
 write_csv(shark_saup_join, file = here("data", "shark_saup_fishbase_spp_list.csv"), col_names = TRUE)
 ```
@@ -108,6 +110,5 @@ prm_join <- prm_elasmo %>%
 sheet_write(prm_join, sheet = "prm_dataset_temp_hab")
 
 write_csv(prm_join, file = file.path(basedir, "data", "prm_dataset_temp_hab.csv"), col_names = TRUE)
-
 ```
 
