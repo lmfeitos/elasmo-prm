@@ -81,7 +81,7 @@ int_growth <- read_csv(here("data", "intrinsic_pop_growth_rates.csv")) %>%
   mutate(mean_r = mean(r_value)) %>% # calculates mean r values per species because some species have different r values depending on method/sampling area
   relocate(mean_r, .after = r_value)
 
-write_csv(int_growth, file = here("data", "intrinsic_pop_growth_rates.csv"), col_names = TRUE)
+#write_csv(int_growth, file = here("data", "intrinsic_pop_growth_rates.csv"), col_names = TRUE)
 ```
 
 ```{r}
@@ -90,7 +90,8 @@ shark_saup_join <- saup_spp %>%
   left_join(shark_spp, by = "scientific_name") %>% 
   left_join(weight_conv, by = "scientific_name") %>% 
   left_join(int_growth, by = "scientific_name") %>% 
-  select(-c(habitat, value, r_value, reference, observations, areas, pop_growth_rate_measure)) %>% 
+  select(-c(habitat, value, r_value, reference, observations, areas, pop_growth_rate_measure, spec_code, genus, species, species_ref_no, fam_code, longevity_wild)) %>% 
+  rename(max_size_cm = length) %>% 
   distinct()
 
 write_csv(shark_saup_join, file = here("data", "shark_saup_fishbase_spp_list.csv"), col_names = TRUE)
@@ -111,4 +112,5 @@ sheet_write(prm_join, sheet = "prm_dataset_temp_hab")
 
 write_csv(prm_join, file = file.path(basedir, "data", "prm_dataset_temp_hab.csv"), col_names = TRUE)
 ```
+
 
