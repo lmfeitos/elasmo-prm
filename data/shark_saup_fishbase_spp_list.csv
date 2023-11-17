@@ -1,207 +1,157 @@
-scientific_name,demers_pelag,max_size_cm,l_type_max_m,weight_kg,weight_mt,mean_r
-Alopias vulpinus,pelagic-oceanic,573.29998779296875,TL,36,0.036,0.11778303565638346
-Batoidea,NA,NA,NA,NA,NA,NA
-Carcharhinidae,NA,NA,NA,46.2,0.0462,NA
-Carcharhinus,NA,NA,NA,2.3,0.0023,NA
-Carcharhinus brachyurus,reef-associated,325,TL,46.2,0.0462,0.09639850500621178
-Carcharhinus plumbeus,benthopelagic,300,TL,46.2,0.0462,0.10570114759383757
-Centrophorus granulosus,bathydemersal,170,TL,5.6,0.0056,0.034853173
-Cetorhinus maximus,pelagic-oceanic,1520,TL,36,0.036,0.1468957815
-Dalatias licha,bathydemersal,182,TL,5.6,0.0056,0.220984202
-Dipturus batis,demersal,285,TL,NA,NA,NA
-Dipturus oxyrinchus,bathydemersal,150,TL,NA,NA,NA
-Echinorhinus brucus,bathydemersal,310,TL,5.6,0.0056,NA
-Elasmobranchii,NA,NA,NA,NA,NA,NA
-Etmopterus spinax,bathydemersal,60,TL,5.6,0.0056,0.1833809555
-Galeorhinus galeus,benthopelagic,193,TL,36,0.036,0.1551090157247505
-Galeus melastomus,demersal,75,TL,5.6,0.0056,NA
-Heptranchias perlo,NA,NA,NA,5.6,0.0056,NA
-Hexanchus griseus,bathydemersal,482,TL,5.6,0.0056,NA
-Isurus oxyrinchus,pelagic-oceanic,445,TL,36,0.036,0.12156506895997954
-Leucoraja circularis,demersal,120,TL,NA,NA,NA
-Leucoraja naevus,demersal,81,TL,NA,NA,0.43584893049999995
-Oxynotus centrina,bathydemersal,150,TL,5.6,0.0056,NA
-Raja,NA,NA,NA,NA,NA,NA
-Raja asterias,demersal,75,TL,NA,NA,0.8838490305
-Raja brachyura,demersal,120,TL,NA,NA,0.6523711145
-Raja clavata,demersal,105,TL,NA,NA,0.7313011555
-Raja montagui,demersal,83.5,TL,NA,NA,0.6867221065
-Raja polystigma,demersal,60,TL,NA,NA,NA
-Raja undulata,demersal,100,TL,NA,NA,NA
-Rajidae,NA,NA,NA,NA,NA,NA
-Scyliorhinus,NA,NA,NA,5.6,0.0056,NA
-Scyliorhinus canicula,demersal,100,TL,2.3,0.0023,0.4529202997361025
-Scyliorhinus stellaris,reef-associated,170,TL,2.3,0.0023,NA
-Squalidae,NA,NA,NA,5.6,0.0056,NA
-Squalus acanthias,benthopelagic,160,TL,5.6,0.0056,0.029278413229612395
-Triakidae,NA,NA,NA,2.3,0.0023,NA
-Prionace glauca,NA,NA,NA,36,0.036,0.4971600974516233
-Carcharhinus brevipinna,reef-associated,300,TL,2.3,0.0023,0.15886659931184755
-Alopias,NA,NA,NA,36,0.036,NA
-Carcharhinus falciformis,reef-associated,350,TL,46.2,0.0462,0.10239578504263853
-Carcharhinus longimanus,pelagic-oceanic,400,TL,36,0.036,0.17834739802902122
-Carcharhinus melanopterus,reef-associated,200,TL,2.3,0.0023,NA
-Isurus,NA,NA,NA,36,0.036,NA
-Sphyrna,NA,NA,NA,46.2,0.0462,NA
-Sphyrna lewini,pelagic-oceanic,430,TL,46.2,0.0462,0.33727741075149587
-Dasyatidae,NA,NA,NA,NA,NA,NA
-Myliobatidae,NA,NA,NA,NA,NA,NA
-Atlantoraja castelnaui,demersal,132,TL,NA,NA,NA
-Atlantoraja cyclophora,demersal,78.9000015258789,TL,NA,NA,NA
-Bathyraja brachyurops,demersal,103,TL,NA,NA,NA
-Bathyraja macloviana,demersal,NA,NA,NA,NA,NA
-Carcharias taurus,reef-associated,330,TL,46.2,0.0462,0.034808663684226755
-Mustelus schmitti,demersal,92,TL,2.3,0.0023,NA
-Notorynchus cepedianus,demersal,300,TL,46.2,0.0462,0.236439941
-Rajiformes,NA,NA,NA,NA,NA,NA
-Rioraja agassizii,demersal,33,WD,NA,NA,NA
-Squatina argentina,demersal,170,TL,2.3,0.0023,NA
-Sympterygia acuta,demersal,149.5,TL,NA,NA,NA
-Sympterygia bonapartii,demersal,63,WD,NA,NA,NA
-Zearaja chilensis,NA,NA,NA,NA,NA,NA
-Alopias pelagicus,pelagic-oceanic,428,TL,36,0.036,0.08248141664808988
-Alopias superciliosus,pelagic-oceanic,487.9849853515625,TL,36,0.036,0.06059984720082039
-Carcharhiniformes,NA,NA,NA,2.3,0.0023,NA
-Carcharhinus albimarginatus,reef-associated,300,TL,46.2,0.0462,NA
-Carcharhinus amblyrhynchos,reef-associated,255,TL,2.3,0.0023,0.07466647720108084
-Carcharhinus amboinensis,reef-associated,280,TL,NA,NA,NA
-Carcharhinus leucas,reef-associated,360,TL,46.2,0.0462,0.13545351158233174
-Carcharhinus limbatus,reef-associated,286,TL,46.2,0.0462,0.10858434413207961
-Carcharhinus obscurus,reef-associated,420,TL,36,0.036,0.07086216974718147
-Carcharhinus sorrah,reef-associated,160,TL,2.3,0.0023,0.2428714820648005
-Carcharhinus tilstoni,pelagic-neritic,200,TL,46.2,0.0462,0.23980627366873433
-Centrophorus squamosus,bathydemersal,164,TL,5.6,0.0056,0.054130247
-Deania calcea,NA,NA,NA,5.6,0.0056,0.0765858405
-Galeocerdo cuvier,benthopelagic,750,TL,46.2,0.0462,0.2540313811217538
-Himantura,NA,NA,NA,NA,NA,NA
-Isurus paucus,pelagic-oceanic,427,TL,36,0.036,NA
-Lamna nasus,pelagic-oceanic,350,TL,46.2,0.0462,0.09888503759383757
-Lamniformes,NA,NA,NA,36,0.036,NA
-Manta birostris,NA,NA,NA,NA,NA,0.067362
-Nebrius ferrugineus,reef-associated,320,TL,46.2,0.0462,NA
-Odontaspis ferox,benthopelagic,450,TL,5.6,0.0056,NA
-Pristidae,NA,NA,NA,46.2,0.0462,NA
-Pristiophorus,NA,NA,NA,2.3,0.0023,NA
-Pristiophorus cirratus,demersal,137,TL,NA,NA,NA
-Rhizoprionodon acutus,benthopelagic,175,TL,2.3,0.0023,NA
-Rhynchobatus australiae,demersal,124,TL,NA,NA,0.3875
-Scyliorhinidae,NA,NA,NA,2.3,0.0023,NA
-Sphyrna mokarran,pelagic-oceanic,610,TL,46.2,0.0462,0.202
-Sphyrna zygaena,pelagic-oceanic,500,TL,46.2,0.0462,NA
-Sphyrnidae,NA,NA,NA,2.3,0.0023,NA
-Squaliformes,NA,NA,NA,5.6,0.0056,NA
-Squalus,NA,NA,NA,5.6,0.0056,NA
-Squalus mitsukurii,benthopelagic,89.80000305175781,TL,5.6,0.0056,-0.03079056958904073
-Squatina australis,demersal,152,TL,NA,NA,NA
-Squatina tergocellata,bathydemersal,135,TL,NA,NA,NA
-Triaenodon obesus,reef-associated,213,TL,2.3,0.0023,NA
-Urolophidae,NA,NA,NA,NA,NA,NA
-Carcharhinus macloti,demersal,110,TL,2.3,0.0023,NA
-Etmopterus,NA,NA,NA,5.6,0.0056,NA
-Lamnidae,NA,NA,NA,36,0.036,NA
-Bathyraja eatonii,demersal,100,TL,NA,NA,NA
-Bathyraja irrasa,bathydemersal,120,TL,NA,NA,NA
-Bathyraja murrayi,demersal,60,TL,NA,NA,NA
-Centroscymnus coelolepis,bathydemersal,121,TL,5.6,0.0056,NA
-Centroselachus crepidater,NA,NA,NA,NA,NA,0.100728876
-Etmopterus princeps,bathydemersal,94,TL,NA,NA,NA
-Etmopterus pusillus,bathydemersal,50,TL,NA,NA,NA
-Leucoraja fullonica,bathydemersal,120,TL,NA,NA,NA
-Pteroplatytrygon violacea,pelagic-oceanic,96,WD,NA,NA,0.480791782
-Dasyatis pastinaca,demersal,69.5,WD,NA,NA,0.395480513
-Aetobatus narinari,benthopelagic,230,WD,NA,NA,NA
-Aetomylaeus maculatus,reef-associated,200,WD,NA,NA,NA
-Aetomylaeus nichofii,demersal,65,WD,NA,NA,NA
-Carcharhinus dussumieri,reef-associated,121,TL,2.3,0.0023,NA
-Chiloscyllium arabicum,demersal,62,TL,2.3,0.0023,NA
-Himantura uarnak,reef-associated,200,WD,NA,NA,NA
-Pastinachus sephen,reef-associated,183,WD,NA,NA,NA
-Rhynchobatus djiddensis,reef-associated,310,TL,46.2,0.0462,NA
-Mustelus,NA,NA,NA,2.3,0.0023,NA
-Mustelus mustelus,demersal,200,TL,2.3,0.0023,0.189808752
-Ginglymostoma cirratum,reef-associated,430,TL,46.2,0.0462,NA
-Negaprion brevirostris,NA,NA,NA,46.2,0.0462,0.10491119163981756
-Rhizoprionodon porosus,reef-associated,113,TL,2.3,0.0023,NA
-Rhinobatos,NA,NA,NA,2.3,0.0023,NA
-Dasyatis marmorata,demersal,60,TL,NA,NA,NA
-Rhinobatos rhinobatos,demersal,185,TL,NA,NA,0.3725
-Carcharhinus galapagensis,reef-associated,370,TL,36,0.036,0.15585450717058125
-Dasyatis,NA,NA,NA,NA,NA,NA
-Dasyatis guttata,NA,NA,NA,NA,NA,NA
-Gymnura micrura,demersal,137,WD,NA,NA,NA
-Rhinobatos percellens,NA,NA,NA,2.3,0.0023,NA
-Sphyrna tiburo,reef-associated,150,TL,2.3,0.0023,0.4602395703761153
-Squatinidae,NA,NA,NA,2.3,0.0023,NA
-Raja miraletus,demersal,63,TL,NA,NA,1.395139141
-Centroscyllium fabricii,bathydemersal,107,TL,5.6,0.0056,NA
-Squalus suckleyi,benthopelagic,140,TL,5.6,0.0056,NA
-Raja microocellata,demersal,87,TL,NA,NA,0.6494570165
-Dipturus trachyderma,bathydemersal,264,TL,NA,NA,NA
-Mustelus mento,demersal,141,TL,NA,NA,NA
-Bathyraja griseocauda,bathydemersal,49,TL,NA,NA,NA
-Bathyraja scaphiops,demersal,111,TL,NA,NA,NA
-Bathyraja meridionalis,demersal,120,TL,NA,NA,NA
-Amblyraja georgiana,bathydemersal,115,TL,NA,NA,NA
-Bathyraja maccaini,demersal,120,TL,NA,NA,NA
-Glaucostegus granulatus,demersal,280,SL,46.2,0.0462,NA
-Centrophorus,NA,NA,NA,5.6,0.0056,NA
-Rostroraja alba,demersal,230,TL,NA,NA,NA
-Torpedinidae,NA,NA,NA,NA,NA,NA
-Rhinoptera brasiliensis,demersal,104,WD,NA,NA,NA
-Mustelus henlei,demersal,100,TL,2.3,0.0023,0.3255022232682637
-Sphyrna media,demersal,150,TL,NA,NA,NA
-Rhinobatidae,NA,NA,NA,2.3,0.0023,NA
-Amblyraja radiata,demersal,105,TL,NA,NA,0.284205876
-Rajella lintea,bathydemersal,125,TL,NA,NA,NA
-Cephaloscyllium isabellum,NA,NA,NA,5.6,0.0056,NA
-Mustelus lenticulatus,demersal,125,TL,2.3,0.0023,0.303720423
-Dasyatis longa,NA,NA,NA,NA,NA,NA
-Carcharodon carcharias,pelagic-oceanic,640,TL,36,0.036,0.12421085536244632
-Scymnodon ringens,bathypelagic,110,TL,5.6,0.0056,NA
-Myliobatis aquila,benthopelagic,183,WD,NA,NA,NA
-Squatina squatina,demersal,183,TL,2.3,0.0023,NA
-Torpedo marmorata,reef-associated,100,TL,NA,NA,0.127615015
-Squalus blainville,demersal,121.5999984741211,TL,5.6,0.0056,NA
-Amblyraja taaf,bathydemersal,90,TL,NA,NA,NA
-Amblyraja hyperborea,bathydemersal,112,TL,NA,NA,NA
-Galeus,NA,NA,NA,2.3,0.0023,NA
-Bathyraja,NA,NA,NA,NA,NA,NA
-Centrophorus lusitanicus,bathydemersal,160,TL,5.6,0.0056,NA
-Glaucostegus cemiculus,demersal,242,TL,NA,NA,0.3775
-Mobula mobular,pelagic-neritic,520,WD,NA,NA,NA
-Somniosus microcephalus,benthopelagic,427,TL,5.6,0.0056,NA
-Rajella,NA,NA,NA,NA,NA,NA
-Mustelus asterias,demersal,140,TL,2.3,0.0023,NA
-Aetomylaeus bovinus,benthopelagic,NA,NA,NA,NA,NA
-Gymnura altavela,demersal,400,WD,NA,NA,NA
-Leptocharias smithii,demersal,77,TL,NA,NA,NA
-Dasyatis centroura,NA,NA,NA,NA,NA,NA
-Rhizoprionodon terraenovae,demersal,110,TL,NA,NA,NA
-Rhinoptera steindachneri,reef-associated,91.5999984741211,WD,NA,NA,NA
-Torpedo,NA,NA,NA,NA,NA,NA
-Rhincodon typus,pelagic-oceanic,1700,TL,36,0.036,0.187519214
-Mustelus lunulatus,demersal,175,TL,NA,NA,NA
-Nasolamia velox,NA,NA,NA,NA,NA,NA
-Rhizoprionodon longurio,benthopelagic,110,TL,NA,NA,NA
-Sphyrna corona,demersal,92,TL,NA,NA,NA
-Mustelus whitneyi,demersal,NA,NA,2.3,0.0023,NA
-Pseudobatos planiceps,demersal,113.5,TL,2.3,0.0023,NA
-Torpedo torpedo,demersal,60,TL,NA,NA,0.2638388695
-Himantura gerrardi,NA,NA,NA,NA,NA,NA
-Carcharhinus signatus,benthopelagic,280,TL,NA,NA,0.14714076333333334
-Triakis megalopterus,demersal,142,TL,2.3,0.0023,NA
-Dasyatis akajei,NA,NA,NA,NA,NA,NA
-Hemitriakis japanica,demersal,110,TL,NA,NA,NA
-Oxynotus paradoxus,bathydemersal,120,TL,5.6,0.0056,NA
-Squatina guggenheim,demersal,129,TL,NA,NA,0.184285105
-Leucoraja erinacea,NA,NA,NA,NA,NA,0.655138812
-Rostroraja eglanteria,demersal,84,TL,NA,NA,NA
-Dipturus laevis,demersal,163,TL,NA,NA,0.45
-Malacoraja senta,bathydemersal,71,TL,NA,NA,NA
-Urobatis jamaicensis,reef-associated,76,TL,NA,NA,NA
-Myliobatis californica,demersal,180,WD,NA,NA,NA
-Raja stellulata,NA,NA,NA,NA,NA,NA
-Triakis semifasciata,demersal,198,TL,2.3,0.0023,0.15651138353907254
-Beringraja inornata,demersal,76,TL,NA,NA,NA
-Apristurus brunneus,demersal,69,TL,NA,NA,NA
-Carcharhinus amblyrhynchoides,pelagic-neritic,182,TL,NA,NA,NA
+scientific_name,family,mean_r,weight_kg,weight_mt
+Acroteriobatus annulatus,Rhinobatidae,0.4579898985,NA,NA
+Aetobatus flagellum,Aetobatidae,0.225299829,NA,NA
+Alopias pelagicus,Alopidae,0.08248141664808988,36,0.036
+Alopias superciliosus,Alopidae,0.06059984720082039,36,0.036
+Alopias vulpinus,Alopidae,0.11778303565638346,36,0.036
+Amblyraja georgiana,Rajidae,0.175918412,NA,NA
+Amblyraja radiata,Rajidae,0.308287539,NA,NA
+Anoxypristis cuspidata,Pristidae,0.555295804,NA,NA
+Aptychotrema rostrata,Trygonorrhinidae,0.18123601,NA,NA
+Bathyraja aleutica,Arhynchobatidae,0.273341887,NA,NA
+Bathyraja brachyurops,Arhynchobatidae,0.460763434,NA,NA
+Bathyraja lindbergi,Arhynchobatidae,0.217313262,NA,NA
+Bathyraja maculata,Arhynchobatidae,0.179479612,NA,NA
+Bathyraja minispinosa,Arhynchobatidae,0.184627135,NA,NA
+Bathyraja parmifera,NA,0.345675904,NA,NA
+Bathyraja trachura,Arhynchobatidae,0.386204421,NA,NA
+Beringraja binoculata,Rajidae,0.571268341,NA,NA
+Callorhinchus capensis,NA,0.6044970765,NA,NA
+Callorhinchus milii,NA,0.4917881125,NA,NA
+Carcharhinus acronotus,Carcharhinidae,0.19932762354784428,NA,NA
+Carcharhinus amblyrhynchos,Carcharhinidae,0.07466647720108084,2.3,0.0023
+Carcharhinus brachyurus,Carcharhinidae,0.09639850500621178,46.2,0.0462
+Carcharhinus brevipinna,Carcharhinidae,0.15886659931184755,2.3,0.0023
+Carcharhinus cautus,Carcharhinidae,0.166782051,NA,NA
+Carcharhinus falciformis,Carcharhinidae,0.10239578504263853,46.2,0.0462
+Carcharhinus galapagensis,Carcharhinidae,0.15585450717058125,36,0.036
+Carcharhinus isodon,Carcharhinidae,0.1714329905,NA,NA
+Carcharhinus leucas,Carcharhinidae,0.13545351158233174,46.2,0.0462
+Carcharhinus limbatus,Carcharhinidae,0.10858434413207961,46.2,0.0462
+Carcharhinus longimanus,Carcharhinidae,0.17834739802902122,36,0.036
+Carcharhinus obscurus,Carcharhinidae,0.07086216974718147,36,0.036
+Carcharhinus plumbeus,Carcharhinidae,0.10570114759383757,46.2,0.0462
+Carcharhinus porosus,Carcharhinidae,0.12350496625943001,NA,NA
+Carcharhinus signatus,Carcharhinidae,0.14714076333333334,NA,NA
+Carcharhinus sorrah,Carcharhinidae,0.2428714820648005,2.3,0.0023
+Carcharhinus tilstoni,Carcharhinidae,0.23980627366873433,46.2,0.0462
+Carcharias taurus,Carchariidae,0.034808663684226755,46.2,0.0462
+Carcharodon carcharias,Lamnidae,0.12421085536244632,36,0.036
+Centrophorus granulosus,Centrophoridae,0.034853173,5.6,0.0056
+Centrophorus squamosus,Centrophoridae,0.054130247,5.6,0.0056
+Centroselachus crepidater,Somniosidae,0.100728876,NA,NA
+Cetorhinus maximus,Cetorhinidae,0.1468957815,36,0.036
+Chimaera monstrosa,NA,0.2720239295,NA,NA
+Dalatias licha,Dalatiidae,0.220984202,5.6,0.0056
+Dasyatis americana,NA,0.291562382,NA,NA
+Dasyatis chrysonota,Dasyatidae,0.22935032649999998,NA,NA
+Dasyatis dipterura,NA,0.138737802,NA,NA
+Dasyatis lata,NA,0.123772597,NA,NA
+Dasyatis pastinaca,Dasyatidae,0.320495869,NA,NA
+Deania calcea,NA,0.0765858405,5.6,0.0056
+Dipturus batis,Rajidae,0.345068186,NA,NA
+Dipturus chilensis,Rajidae,0.26504833,NA,NA
+Dipturus intermedia,NA,0.240230226,NA,NA
+Dipturus laevis,Rajidae,0.4132060665,NA,NA
+Dipturus trachydermus,NA,0.2249383295,NA,NA
+Etmopterus baxteri,Etmopteridae,0.075957543,NA,NA
+Etmopterus spinax,Etmopteridae,0.1833809555,5.6,0.0056
+Furgaleus macki,Triakidae,0.2968541385,NA,NA
+Galeocerdo cuvier,Galeocerdonidae,0.2540313811217538,46.2,0.0462
+Galeorhinus galeus,Triakidae,0.1551090157247505,36,0.036
+Glaucostegus cemiculus,Glaucostegidae,0.42431417,NA,NA
+Glaucostegus typus,Glaucostegidae,0.310943149,NA,NA
+Gymnura natalensis,Gymnuridae,0.29787306,NA,NA
+Himantura astra,NA,0.143622179,NA,NA
+Himantura gerrardi,NA,0.437523399,NA,NA
+Isogomphodon oxyrhynchus,Carcharhinidae,0.10693315342595623,NA,NA
+Isurus oxyrinchus,Lamnidae,0.12156506895997954,36,0.036
+Lamna ditropis,Lamnidae,0.21873509200000002,NA,NA
+Lamna nasus,Lamnidae,0.09888503759383757,46.2,0.0462
+Leucoraja erinacea,NA,0.5443052616666667,NA,NA
+Leucoraja naevus,Rajidae,0.5228495066666666,NA,NA
+Leucoraja ocellata,Rajidae,0.342666955,NA,NA
+Malacoraja senta,Rajidae,0.368042286,NA,NA
+Manta alfredi,NA,0.021331948,NA,NA
+Manta birostris,NA,0.045283174,NA,NA
+Mobula mobular,Mobulidae,0.084389508,NA,NA
+Mustelus antarcticus,Triakidae,0.28440785214142994,NA,NA
+Mustelus californicus,Triakidae,0.39861090139049554,NA,NA
+Mustelus canis,Triakidae,0.4516848925,NA,NA
+Mustelus henlei,Triakidae,0.3255022232682637,2.3,0.0023
+Mustelus lenticulatus,Triakidae,0.303720423,2.3,0.0023
+Mustelus manazo,Triakidae,0.299751791508608,NA,NA
+Mustelus mustelus,Triakidae,0.189808752,2.3,0.0023
+Myliobatis californicus,NA,0.324800255,NA,NA
+Narcine brasiliensis,Narcinidae,0.304833271,NA,NA
+Narcine entemedor,Narcinidae,0.337860903,NA,NA
+Negaprion brevirostris,Carcharhinidae,0.10491119163981756,46.2,0.0462
+Neotrygon annotata,Dasyatidae,0.206820076,NA,NA
+Neotrygon kuhlii,Dasyatidae,0.153100715,NA,NA
+Neotrygon picta,Dasyatidae,0.257522863,NA,NA
+Notorynchus cepedianus,Hexanchidae,0.236439941,46.2,0.0462
+Okamejei kenojei,Rajidae,1.036578082,NA,NA
+Platyrhina sinensis,Platyrhinidae,0.51887884,NA,NA
+Prionace glauca,Carcharhinidae,0.4971600974516233,36,0.036
+Pristis clavata,Pristidae,0.227292147,NA,NA
+Pristis pectinata,Pristidae,0.1629502426875793,NA,NA
+Pristis perotteti,Pristidae,0.171686673,NA,NA
+Pristis pristis,Pristidae,0.28281211,NA,NA
+Pristis zijsron,Pristidae,0.223712853,NA,NA
+Pseudobatos horkelii,Rhinobatidae,0.19,NA,NA
+Pseudobatos productus,Rhinobatidae,0.17,NA,NA
+Pteromylaeus bovinus,NA,0.903413178,NA,NA
+Pteroplatytrygon violacea,Dasyatidae,0.49031027466666666,NA,NA
+Raja asterias,Rajidae,0.9154777903333333,NA,NA
+Raja binoculata,NA,0.814461362,NA,NA
+Raja brachyura,Rajidae,0.6020949066666667,NA,NA
+Raja clavata,Rajidae,0.685634821,NA,NA
+Raja eglanteria,NA,0.61666784,NA,NA
+Raja microocellata,Rajidae,0.6502549153333333,NA,NA
+Raja miraletus,Rajidae,1.3549260206666667,NA,NA
+Raja montagui,Rajidae,0.6592095756666667,NA,NA
+Raja radula,Rajidae,0.678227855,NA,NA
+Raja undulata,Rajidae,0.368569332,NA,NA
+Rhincodon typus,Rhincodontidae,0.187519214,36,0.036
+Rhinobatos horkelii,NA,0.279548255,NA,NA
+Rhinobatos percellens,NA,0.212612148,2.3,0.0023
+Rhinobatos productus,NA,0.2633104356666667,NA,NA
+Rhinobatos rhinobatos,Rhinobatidae,0.44852630800000004,NA,NA
+Rhinoptera bonasus,Rhinopteridae,0.071190141,NA,NA
+Rhinoptera steindachneri,Rhinopteridae,0.112937278,NA,NA
+Rhinoraja albomaculata,NA,0.265188631,NA,NA
+Rhinoraja taranetzi,NA,0.404960985,NA,NA
+Rhizoprionodon taylori,Carcharhinidae,0.4995567298242807,NA,NA
+Rhizoprionodon terranovae,NA,0.3095586583210174,2.3,0.0023
+Rhynchobatus australiae,Rhinidae,0.4429662395,NA,NA
+Rostroraja alba,Rajidae,0.200638594,NA,NA
+Scyliorhinus canicula,Scyliorhinidae,0.4529202997361025,2.3,0.0023
+Sphyrna lewini,Sphyrnidae,0.33727741075149587,46.2,0.0462
+Sphyrna mokarran,Sphyrnidae,0.202,46.2,0.0462
+Sphyrna tiburo,Sphyrnidae,0.4602395703761153,2.3,0.0023
+Squalus acanthias,Squalidae,0.029278413229612395,5.6,0.0056
+Squalus blainvillei,Squalidae,0.178268372,NA,NA
+Squalus megalops,Squalidae,0.081497801,NA,NA
+Squalus mitsukurii,Squalidae,-0.03079056958904073,5.6,0.0056
+Squatina californica,Squatinidae,0.11617507112029384,NA,NA
+Squatina guggenheim,Squatinidae,0.184285105,NA,NA
+Squatina occulta,Squatinidae,0.096998614,NA,NA
+Torpedo californica,NA,0.2878290153333333,NA,NA
+Torpedo marmorata,Torpedinidae,0.16139833466666667,NA,NA
+Torpedo torpedo,Torpedinidae,0.2638388695,NA,NA
+Triakis semifasciata,Triakidae,0.15651138353907254,2.3,0.0023
+Trygonoptera imitata,Urolophidae,0.27465506,NA,NA
+Trygonoptera mucosa,Urolophidae,0.13588393850000002,NA,NA
+Trygonoptera personata,Urolophidae,0.159355677,NA,NA
+Urobatis concentricus,Urotrygonidae,0.33669418,NA,NA
+Urobatis halleri,Urotrygonidae,0.56745145,NA,NA
+Urobatis jamaicensis,Urotrygonidae,0.369357484,NA,NA
+Urolophus cruciatus,Urolophidae,0.086241762,NA,NA
+Urolophus expansus,Urolophidae,0.090511135,NA,NA
+Urolophus lobatus,Urolophidae,0.197573724,NA,NA
+Urolophus paucimaculatus,Urolophidae,0.213469867,NA,NA
+Urotrygon aspidura,Urotrygonidae,0.551035051,NA,NA
+Urotrygon rogersi,Urotrygonidae,1.166078111,NA,NA
+Zapteryx brevirostris,Trygonorrhinidae,0.1303053065,NA,NA
+Zapteryx exasperata,Trygonorrhinidae,0.220212934,NA,NA
+Zearaja chilensis,NA,0.26709013,NA,NA

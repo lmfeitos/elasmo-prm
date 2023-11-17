@@ -21,6 +21,15 @@ outdir <- file.path(basedir, "data/outputs") # calls present data from raster fi
 ```
 
 ```{r}
+test_fishbase <- load_taxa() %>% 
+  filter(Class == "Elasmobranchii") %>% 
+  select(Species, Family) %>% 
+  rename(scientific_name = Species,
+         family = Family)
+```
+
+
+```{r}
 pref_temp <- fb_tbl("stocks") 
   clean_names() %>%  
   select(stock_code, spec_code, temp_preferred) %>% 
@@ -81,18 +90,31 @@ int_growth <- read_csv(here("data", "intrinsic_pop_growth_rates.csv")) %>%
   mutate(mean_r = mean(r_value)) %>% # calculates mean r values per species because some species have different r values depending on method/sampling area
   relocate(mean_r, .after = r_value)
 
+
 #write_csv(int_growth, file = here("data", "intrinsic_pop_growth_rates.csv"), col_names = TRUE)
 ```
 
 ```{r}
 # join shark_spp data from fishbase with the saup species list, the species specific weight to count conversion coefficients, and intrinsic population growth rates
 shark_saup_join <- saup_spp %>% 
-  left_join(shark_spp, by = "scientific_name") %>% 
+  bind_rows(int_growth) %>% 
+  left_join(test_fishbase, by = "scientific_name") %>% 
   left_join(weight_conv, by = "scientific_name") %>% 
-  left_join(int_growth, by = "scientific_name") %>% 
-  select(-c(habitat, value, r_value, reference, observations, areas, pop_growth_rate_measure, spec_code, genus, species, species_ref_no, fam_code, longevity_wild)) %>% 
-  rename(max_size_cm = length) %>% 
-  distinct()
+  select(-c(habitat, value, r_value, reference, observations, areas, pop_growth_rate_measure)) %>% 
+  relocate(family, .after = scientific_name) %>% 
+  mutate(family = case_when(
+    str_detect(scientific_name, "dae") ~ scientific_name,
+    str_detect(scientific_name, "Sphyrna") ~ "Sphyrnidae",
+    str_detect(scientific_name, "Alopias") ~ "Alopidae",
+    str_detect(scientific_name, "Scyliorhinus") ~ "Scyliorhinidae",
+    str_detect(scientific_name, "Squalus") ~ "Squalidae",
+    str_detect(scientific_name, "Etmopterus") ~ "Etmopteridae",
+    str_detect(scientific_name, "Mustelus") ~ "Triakidae",
+    TRUE ~ family
+  )) %>% 
+  distinct() %>% 
+  arrange(scientific_name) %>% 
+  drop_na(mean_r)
 
 write_csv(shark_saup_join, file = here("data", "shark_saup_fishbase_spp_list.csv"), col_names = TRUE)
 ```
