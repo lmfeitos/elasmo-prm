@@ -54,24 +54,6 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name, gear_class, habitat_associated, estimate_type, estimate, sample_size,
     method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family
   ) %>%
-   mutate(max_size_cm = case_when( # filling missing information based on the average per group
-    scientific_name == "Dasyatis sp" ~ 146.22,
-    scientific_name == "Squalus sp" ~ 141.12,
-    scientific_name == "Mustelus sp" ~ 171.9,
-    scientific_name == "Centrophorus sp" ~ 165.75,  
-    scientific_name == "sharks" ~ 347.2639,
-    scientific_name == "rays" ~ 170.2222, # only calculated for the batoid species with disk width measures
-    TRUE ~ max_size_cm
-  )) %>% 
-  mutate(median_depth = case_when( # filling missing information based on the average per group
-    scientific_name == "Dasyatis sp" ~ 139.33,
-    scientific_name == "Squalus sp" ~ 601.875,
-    scientific_name == "Mustelus sp" ~ 254.3929,
-    scientific_name == "Centrophorus sp" ~ 1136.25,
-    scientific_name == "sharks" ~ 313.2104,
-    scientific_name == "rays" ~ 120.5278,
-    TRUE ~ median_depth
-  )) %>%
   mutate(measure = case_when(
     scientific_name == "sharks" ~ "total_length",
     scientific_name %in% c("rays", "Dasyatis sp") ~ "disk_width",
@@ -82,7 +64,8 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name == "rays" ~ "yolk-sac viviparity",
     TRUE ~ reproductive_mode
   )) %>%
-  mutate_if(is.character, as.factor)
+  mutate_if(is.character, as.factor) %>% 
+  filter(!grepl("sp", scientific_name))
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
 elasmo_trawl <- prm_elasmo_subset %>%
@@ -155,19 +138,19 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 * Minimum data points in each node required for node split
 
 ```{r,include=FALSE}
-# trawl_tune <- trawl_wflw %>% # use cross validation to tune parameters
-#   tune_grid(
-#     resamples = trawl_folds, # add cv folds
-#     grid = 10
-#   ) # use grid of parameters to test
+trawl_tune <- trawl_wflw %>% # use cross validation to tune parameters
+  tune_grid(
+    resamples = trawl_folds, # add cv folds
+    grid = 10
+  ) # use grid of parameters to test
 ```
 
 ```{r,include=FALSE}
-# gillnet_tune <- gillnet_wflw %>% # use cross validation to tune parameters
-#   tune_grid(
-#     resamples = gillnet_folds, # add cv folds
-#     grid = 10
-#   ) # use grid of parameters to test
+gillnet_tune <- gillnet_wflw %>% # use cross validation to tune parameters
+  tune_grid(
+    resamples = gillnet_folds, # add cv folds
+    grid = 10
+  ) # use grid of parameters to test
 ```
 
 Below displays the results of cross validation tuning
@@ -182,11 +165,11 @@ Below displays the results of cross validation tuning
 ```
 
 ```{r, include=FALSE}
-# trawl_final <- finalize_workflow(trawl_wflw, select_best(trawl_tune, metric = "rsq")) # finalize the workflow with the best model
+trawl_final <- finalize_workflow(trawl_wflw, select_best(trawl_tune, metric = "rsq")) # finalize the workflow with the best model
 # 
 # saveRDS(trawl_final, here::here("data", "trawl_final.rds"))
 
-trawl_final <- readRDS(here::here("data", "trawl_final.rds"))
+# trawl_final <- readRDS(here::here("data", "trawl_final.rds"))
 ```
 
 ```{r, include=FALSE}
@@ -216,11 +199,11 @@ select_best(gillnet_tune, metric = "rsq", n = 1) # get the best model
 ```
 
 ```{r, include=FALSE}
-# gillnet_final <- finalize_workflow(gillnet_wflw, select_best(gillnet_tune, metric = "rsq")) # finalize the workflow with the best model
+gillnet_final <- finalize_workflow(gillnet_wflw, select_best(gillnet_tune, metric = "rsq")) # finalize the workflow with the best model
 # 
 # saveRDS(gillnet_final, here::here("data", "gillnet_final.rds"))
 
-gillnet_final <- readRDS(here::here("data", "gillnet_final.rds"))
+# gillnet_final <- readRDS(here::here("data", "gillnet_final.rds"))
 ```
 
 ```{r, include=FALSE}
@@ -261,96 +244,6 @@ collect_metrics(trawl_cv2)
 collect_metrics(gillnet_cv2)
 ```
 
-## Quantile regression
-
-```{r}
-preds_bind <- function(data_fit, rf_fit) {
-  predict(
-    rf_fit$fit$fit$fit,
-    workflows::extract_recipe(rf_fit) %>% bake(data_fit),
-    type = "quantiles",
-    quantiles = c(.05, .25, .5, .75, .95)
-  ) %>%
-    with(predictions) %>%
-    as_tibble() %>%
-    set_names(paste0(".pred", c("_05", "_25", "_50", "_75", "_95"))) %>%
-    bind_cols(data_fit)
-} # function to preform and extract quantile estimates from random forest
-
-trawl_quant_test <- preds_bind(trawl_train_predict, trawl_fit) %>%
-  mutate(
-    range_50 = .pred_75 - .pred_25,
-    range_95 = .pred_95 - .pred_05
-  )
-
-quant_in_50 <- trawl_quant_test %>%
-  filter(!is.na(mortality_prop)) %>%
-  mutate(in_interval = mortality_prop <= .pred_75 & mortality_prop >= .pred_25) %>%
-  group_by(in_interval) %>%
-  summarize(count = n())
-
-percent_50 <- quant_in_50$count[2] / (quant_in_50$count[1] + quant_in_50$count[2]) * 100
-percent_50
-
-ggplot(trawl_quant_test) +
-  geom_boxplot(aes(range_50)) +
-  theme_bw()
-
-write_csv(trawl_quant_test, here::here("data", "trawl_model_predictions.csv"))
-```
-
-```{r}
-gillnet_quant_test <- preds_bind(gillnet_train_predict, gillnet_fit) %>%
-  mutate(
-    range_50 = .pred_75 - .pred_25,
-    range_95 = .pred_95 - .pred_05
-  )
-
-quant_in_50 <- gillnet_quant_test %>%
-  filter(!is.na(mortality_prop)) %>%
-  mutate(in_interval = mortality_prop <= .pred_75 & mortality_prop >= .pred_25) %>%
-  group_by(in_interval) %>%
-  summarize(count = n())
-
-percent_50 <- quant_in_50$count[2] / (quant_in_50$count[1] + quant_in_50$count[2]) * 100
-percent_50
-
-ggplot(gillnet_quant_test) +
-  geom_boxplot(aes(range_50)) +
-  theme_bw()
-
-write_csv(gillnet_quant_test, here::here("data", "gillnet_model_predictions.csv"))
-```
-
-## trawl model - real values vs predicted values 
-
-```{r}
-ggplot(trawl_quant_test, aes(x = mortality_prop, y = .pred_50)) + # plot ln of real versus ln of predicted
-  geom_point() +
-  geom_smooth(method = "lm") + # add trend line
-  theme_bw() +
-  labs(
-    x = "Observed At-Vessel Mortality Rate",
-    y = "Predicted At-Vessel Mortality Rate"
-  ) +
-  theme(text = element_text(size = 10))
-
-summary(lm(.pred_50 ~ mortality_prop, data = trawl_quant_test))
-```
-
-## gillnet model - real values vs predicted values
-
-```{r}
-ggplot(gillnet_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
-  geom_point() +
-  geom_smooth(method = "lm") + # add trend line
-  theme_bw() +
-  labs(x = "Observed Post Release Mortality Rate",
-      y = "Predicted Post Release Mortality Rate") +
-  theme(text = element_text(size = 10))
-
-summary(lm(.pred ~ mortality_prop, data = gillnet_train_predict))
-```
 
 ### Variable importance for the at-vessel mortality and post-release mortality RF models
 ```{r}
@@ -361,56 +254,4 @@ trawl_fit %>%
 gillnet_fit %>%
   extract_fit_parsnip() %>%
   vip()
-```
-
-## Data distribution for the main five predictor variables for trawl 
-
-```{r}
-trawl_pred <- trawl_train_predict
-
-ggplot(trawl_pred, aes(max_size_cm, .pred)) +
-  geom_point() +
-  geom_smooth(method = "loess") +
-  theme_bw()
-
-ggplot(trawl_pred, aes(median_depth, .pred)) +
-  geom_point() +
-  geom_smooth(method = "loess") +
-  theme_bw()
-
-ggplot(trawl_pred) +
-  geom_boxplot(aes(family, .pred)) +
-  coord_flip() +
-  theme_bw()
-#  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-
-ggplot(trawl_pred) +
-  geom_boxplot(aes(habitat_associated, .pred)) +
-  theme_bw()
-```
-
-## Data distribution for the main five predictor variables for gillnet
-
-```{r}
-gillnet_pred = gillnet_train_predict
-
-ggplot(gillnet_pred, aes(max_size_cm, .pred)) +
-  geom_point() +
-  geom_smooth(method = "loess") +
-  labs() +
-  theme_bw()
-
-ggplot(gillnet_pred, aes(median_depth, .pred)) +
-  geom_point() +
-  geom_smooth(method = "loess") +
-  theme_bw()
-
-ggplot(gillnet_pred) +
-  geom_boxplot(aes(family, .pred)) +
-  coord_flip() +
-  theme_bw()
-
-ggplot(gillnet_pred) +
-  geom_boxplot(aes(habitat_associated, .pred)) +
-  theme_bw()
 ```
