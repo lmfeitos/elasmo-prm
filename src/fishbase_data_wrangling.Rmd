@@ -30,22 +30,6 @@ test_fishbase <- load_taxa() %>%
 
 
 ```{r}
-pref_temp <- fb_tbl("stocks") 
-  clean_names() %>%  
-  select(stock_code, spec_code, temp_preferred) %>% 
-  drop_na()
-
-write_csv(pref_temp, file = file.path(datadir, "preferred_temp.csv"), col_names = TRUE)
-```
-
-```{r}
-spp <- fb_tbl("species") %>%  
-  clean_names() 
-  select(spec_code, genus, species, species_ref_no, fam_code, demers_pelag, longevity_wild) 
-```
-
-
-```{r}
 # get shark and ray scientific names
 shark_spp <- fb_tbl("species") %>% 
   clean_names() %>% 
@@ -59,12 +43,6 @@ write_csv(shark_spp, file = file.path(basedir, "data", "shark_spp_list.csv"), co
 ```
 
 
-```{r}
-# joining both datasets
-temp_join <- pref_temp %>% 
-  left_join(spp, by = "spec_code") %>% 
-  unite(col = "scientific_name", c("genus", "species"), sep = " ")
-```
 
 ```{r}
 # call PRM dataset
@@ -74,7 +52,20 @@ prm_elasmo <- prm_elasmo %>%
   rename(scientific_name = species)
 
 # Call saup species list from Worm et al (XXXX)
-saup_spp <- read_csv(here("data", "sau_spp_taxonomy_ref_full.csv"))
+saup_spp2 <- read_csv(here("data", "sau_spp_taxonomy_ref_full.csv"))
+
+saup_spp <- read_csv(here("data", "sau_spp_taxonomy_ref.csv"))
+
+# create full dataset of species present in saup
+saup_full <- saup_spp2 %>% 
+  left_join(saup_spp, by = "scientific_name") %>% 
+  mutate(family = str_to_sentence(family_name),
+         order = str_to_sentence(order_name)) %>% 
+  select(-c(genus_name, family_name, order_name)) %>% 
+  relocate(family, .after = common_name) %>% 
+  relocate(order, .before = ventilation_method)
+
+write_csv(saup_full, file = here("data", "sau_spp_taxonomy_ref_full.csv"), col_names = TRUE, na = "")
 
 # call the weight to count conversion data by species
 weight_conv <- read_csv(here("data", "spp_weight_count_conversion.csv"))

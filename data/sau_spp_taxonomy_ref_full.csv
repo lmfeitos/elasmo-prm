@@ -1,207 +1,207 @@
-scientific_name
-Alopias vulpinus
-Batoidea
-Carcharhinidae
-Carcharhinus
-Carcharhinus brachyurus
-Carcharhinus plumbeus
-Centrophorus granulosus
-Cetorhinus maximus
-Dalatias licha
-Dipturus batis
-Dipturus oxyrinchus
-Echinorhinus brucus
-Elasmobranchii
-Etmopterus spinax
-Galeorhinus galeus
-Galeus melastomus
-Heptranchias perlo
-Hexanchus griseus
-Isurus oxyrinchus
-Leucoraja circularis
-Leucoraja naevus
-Oxynotus centrina
-Raja
-Raja asterias
-Raja brachyura
-Raja clavata
-Raja montagui
-Raja polystigma
-Raja undulata
-Rajidae
-Scyliorhinus
-Scyliorhinus canicula
-Scyliorhinus stellaris
-Squalidae
-Squalus acanthias
-Triakidae
-Prionace glauca
-Carcharhinus brevipinna
-Alopias
-Carcharhinus falciformis
-Carcharhinus longimanus
-Carcharhinus melanopterus
-Isurus
-Sphyrna
-Sphyrna lewini
-Dasyatidae
-Myliobatidae
-Atlantoraja castelnaui
-Atlantoraja cyclophora
-Bathyraja brachyurops
-Bathyraja macloviana
-Carcharias taurus
-Mustelus schmitti
-Notorynchus cepedianus
-Rajiformes
-Rioraja agassizii
-Squatina argentina
-Sympterygia acuta
-Sympterygia bonapartii
-Zearaja chilensis
-Alopias pelagicus
-Alopias superciliosus
-Carcharhiniformes
-Carcharhinus albimarginatus
-Carcharhinus amblyrhynchos
-Carcharhinus amboinensis
-Carcharhinus leucas
-Carcharhinus limbatus
-Carcharhinus obscurus
-Carcharhinus sorrah
-Carcharhinus tilstoni
-Centrophorus squamosus
-Deania calcea
-Galeocerdo cuvier
-Himantura
-Isurus paucus
-Lamna nasus
-Lamniformes
-Manta birostris
-Nebrius ferrugineus
-Odontaspis ferox
-Pristidae
-Pristiophorus
-Pristiophorus cirratus
-Rhizoprionodon acutus
-Rhynchobatus australiae
-Scyliorhinidae
-Sphyrna mokarran
-Sphyrna zygaena
-Sphyrnidae
-Squaliformes
-Squalus
-Squalus mitsukurii
-Squatina australis
-Squatina tergocellata
-Triaenodon obesus
-Urolophidae
-Carcharhinus macloti
-Etmopterus
-Lamnidae
-Bathyraja eatonii
-Bathyraja irrasa
-Bathyraja murrayi
-Centroscymnus coelolepis
-Centroselachus crepidater
-Etmopterus princeps
-Etmopterus pusillus
-Leucoraja fullonica
-Pteroplatytrygon violacea
-Dasyatis pastinaca
-Aetobatus narinari
-Aetomylaeus maculatus
-Aetomylaeus nichofii
-Carcharhinus dussumieri
-Chiloscyllium arabicum
-Himantura uarnak
-Pastinachus sephen
-Rhynchobatus djiddensis
-Mustelus
-Mustelus mustelus
-Ginglymostoma cirratum
-Negaprion brevirostris
-Rhizoprionodon porosus
-Rhinobatos
-Dasyatis marmorata
-Rhinobatos rhinobatos
-Carcharhinus galapagensis
-Dasyatis
-Dasyatis guttata
-Gymnura micrura
-Rhinobatos percellens
-Sphyrna tiburo
-Squatinidae
-Raja miraletus
-Centroscyllium fabricii
-Squalus suckleyi
-Raja microocellata
-Dipturus trachyderma
-Mustelus mento
-Bathyraja griseocauda
-Bathyraja scaphiops
-Bathyraja meridionalis
-Amblyraja georgiana
-Bathyraja maccaini
-Glaucostegus granulatus
-Centrophorus
-Rostroraja alba
-Torpedinidae
-Rhinoptera brasiliensis
-Mustelus henlei
-Sphyrna media
-Rhinobatidae
-Amblyraja radiata
-Rajella lintea
-Cephaloscyllium isabellum
-Mustelus lenticulatus
-Dasyatis longa
-Carcharodon carcharias
-Scymnodon ringens
-Myliobatis aquila
-Squatina squatina
-Torpedo marmorata
-Squalus blainville
-Amblyraja taaf
-Amblyraja hyperborea
-Galeus
-Bathyraja
-Centrophorus lusitanicus
-Glaucostegus cemiculus
-Mobula mobular
-Somniosus microcephalus
-Rajella
-Mustelus asterias
-Aetomylaeus bovinus
-Gymnura altavela
-Leptocharias smithii
-Dasyatis centroura
-Rhizoprionodon terraenovae
-Rhinoptera steindachneri
-Torpedo
-Rhincodon typus
-Mustelus lunulatus
-Nasolamia velox
-Rhizoprionodon longurio
-Sphyrna corona
-Mustelus whitneyi
-Pseudobatos planiceps
-Torpedo torpedo
-Himantura gerrardi
-Carcharhinus signatus
-Triakis megalopterus
-Dasyatis akajei
-Hemitriakis japanica
-Oxynotus paradoxus
-Squatina guggenheim
-Leucoraja erinacea
-Rostroraja eglanteria
-Dipturus laevis
-Malacoraja senta
-Urobatis jamaicensis
-Myliobatis californica
-Raja stellulata
-Triakis semifasciata
-Beringraja inornata
-Apristurus brunneus
-Carcharhinus amblyrhynchoides
+scientific_name,common_name,family,order,ventilation_method,max_size_cm,measure,median_depth,reproductive_mode,habitat_associated,notes
+Aetobatus narinari,Whitespotted eagle ray,Aetobatidae,Myliobatiformes,stationary,226,disk_width,30,yolk-sac viviparity,coastal,
+Aetomylaeus bovinus,Bull ray,Myliobatidae,Myliobatiformes,stationary,220,disk_width,50,yolk-sac viviparity,coastal,
+Aetomylaeus maculatus,Mottled eagle ray,Myliobatidae,Myliobatiformes,stationary,78,disk_width,30,yolk-sac viviparity,coastal,
+Aetomylaeus nichofii,,Myliobatidae,Myliobatiformes,stationary,72,disk_width,57.5,yolk-sac viviparity,coastal,
+Alopias,Thresher sharks,Alopiidae,Lamniformes,ram,,total_length,,oophagy,pelagic,
+Alopias pelagicus,Pelagic thresher,Alopiidae,Lamniformes,ram,428,total_length,150,oophagy,pelagic,
+Alopias superciliosus,Bigeye thresher,Alopiidae,Lamniformes,ram,484,total_length,361.5,oophagy,pelagic,
+Alopias vulpinus,Thresher,Alopiidae,Lamniformes,ram,573.3,total_length,325,oophagy,pelagic,
+Amblyraja georgiana,Antarctic starry skate,Rajidae,Rajiformes,stationary,115,total_length,632,oviparous,bathydemersal,
+Amblyraja hyperborea,Arctic skate,Rajidae,Rajiformes,stationary,112,total_length,1667,oviparous,bathydemersal,
+Amblyraja radiata,Thorny skate,Rajidae,Rajiformes,stationary,110,total_length,773,oviparous,bathydemersal,
+Amblyraja taaf,Whiteleg skate,Rajidae,Rajiformes,stationary,90,total_length,375,oviparous,bathydemersal,
+Apristurus brunneus,Brown catshark,Pentanchidae,Carcharhiniformes,stationary,69.3,total_length,682.5,oviparous,demersal,
+Atlantoraja castelnaui,Spotback skate,Arhynchobatidae,Rajiformes,stationary,147,total_length,112.5,oviparous,bathydemersal,
+Atlantoraja cyclophora,Eyespot skate,Arhynchobatidae,Rajiformes,stationary,73.9,total_length,165.5,oviparous,bathydemersal,
+Bathyraja,,,Rajiformes,stationary,,,,,,
+Bathyraja brachyurops,Broadnose skate,Arhynchobatidae,Rajiformes,stationary,125,total_length,316,oviparous,bathydemersal,
+Bathyraja eatonii,Eaton's skate,Arhynchobatidae,Rajiformes,stationary,120,total_length,407.5,oviparous,bathydemersal,
+Bathyraja griseocauda,Graytail skate,Arhynchobatidae,Rajiformes,stationary,157,total_length,520,oviparous,bathydemersal,
+Bathyraja irrasa,Kerguelen sandpaper skate,Arhynchobatidae,Rajiformes,stationary,120,total_length,750,oviparous,bathydemersal,
+Bathyraja maccaini,McCain's skate,Arhynchobatidae,Rajiformes,stationary,120,total_length,295.5,oviparous,bathydemersal,
+Bathyraja macloviana,Patagonian skate,Arhynchobatidae,Rajiformes,stationary,71,total_length,281,oviparous,bathydemersal,
+Bathyraja meridionalis,Dark-belly skate,Arhynchobatidae,Rajiformes,stationary,150,total_length,1185,oviparous,bathydemersal,
+Bathyraja murrayi,Murray's skate,Arhynchobatidae,Rajiformes,stationary,60,total_length,410,oviparous,bathydemersal,
+Bathyraja scaphiops,Cuphead skate,Arhynchobatidae,Rajiformes,stationary,116.7,total_length,477.5,oviparous,bathydemersal,
+Batoidea,,,,,,,,,,
+Beringraja inornata,California ray,Rajidae,Rajiformes,stationary,76,total_length,344,oviparous,bathydemersal,
+Carcharhinidae,Requiem sharks,Carcharhinidae,Carcharhiniformes,ram,,total_length,,placental viviparity,,
+Carcharhiniformes,Ground sharks,,Carcharhiniformes,ram,,,,,,
+Carcharhinus,Sharp-nosed sharks,Carcharhinidae,Carcharhiniformes,ram,,total_length,,placental viviparity,,
+Carcharhinus albimarginatus,Silvertip shark,Carcharhinidae,Carcharhiniformes,ram,300,total_length,400,placental viviparity,reef-associated,
+Carcharhinus amblyrhynchoides,Graceful shark,Carcharhinidae,Carcharhiniformes,ram,182,total_length,37.5,placental viviparity,coastal,
+Carcharhinus amblyrhynchos,Blacktail reef shark,Carcharhinidae,Carcharhiniformes,ram,265,total_length,137.5,placental viviparity,reef-associated,
+Carcharhinus amboinensis,Pigeye shark,Carcharhinidae,Carcharhiniformes,ram,280,total_length,50,placental viviparity,reef-associated,
+Carcharhinus brachyurus,Copper shark,Carcharhinidae,Carcharhiniformes,ram,322,total_length,73,placental viviparity,reef-associated,
+Carcharhinus brevipinna,Spinner shark,Carcharhinidae,Carcharhiniformes,ram,304,total_length,100,placental viviparity,coastal,
+Carcharhinus dussumieri,Whitecheek shark,Carcharhinidae,Carcharhiniformes,ram,100.7,total_length,50,placental viviparity,coastal,
+Carcharhinus falciformis,Silky shark,Carcharhinidae,Carcharhiniformes,ram,350,total_length,250,placental viviparity,reef-associated,
+Carcharhinus galapagensis,Galapagos shark,Carcharhinidae,Carcharhiniformes,ram,300,total_length,143,placental viviparity,pelagic,
+Carcharhinus leucas,Bull shark,Carcharhinidae,Carcharhiniformes,ram,366,total_length,82.5,placental viviparity,coastal,
+Carcharhinus limbatus,Blacktip shark,Carcharhinidae,Carcharhiniformes,ram,286,total_length,70,placental viviparity,reef-associated,
+Carcharhinus longimanus,Oceanic whitetip shark,Carcharhinidae,Carcharhiniformes,ram,350,total_length,541,placental viviparity,pelagic,
+Carcharhinus macloti,Hardnose shark,Carcharhinidae,Carcharhiniformes,ram,110,total_length,100.5,placental viviparity,coastal,
+Carcharhinus melanopterus,Blacktip reef shark,Carcharhinidae,Carcharhiniformes,ram,180,total_length,50,placental viviparity,reef-associated,
+Carcharhinus obscurus,Dusky shark,Carcharhinidae,Carcharhiniformes,ram,420,total_length,250,placental viviparity,reef-associated,
+Carcharhinus plumbeus,Sandbar shark,Carcharhinidae,Carcharhiniformes,ram,243,total_length,140,placental viviparity,benthopelagic,
+Carcharhinus signatus,Night shark,Carcharhinidae,Carcharhiniformes,ram,280,total_length,300,placental viviparity,coastal-pelagic,
+Carcharhinus sorrah,Spottail shark,Carcharhinidae,Carcharhiniformes,ram,166,total_length,70,placental viviparity,reef-associated,
+Carcharhinus tilstoni,Australian blacktip shark,Carcharhinidae,Carcharhiniformes,ram,200,total_length,75,placental viviparity,coastal,
+Carcharias taurus,Sand tiger shark,Odontaspididae,Lamniformes,ram,325,total_length,116,oophagy,reef-associated,
+Carcharodon carcharias,Great white shark,Lamnidae,Lamniformes,ram,594.4,total_length,600,oophagy,pelagic,
+Centrophorus,Gulper shark dogfishes,Centrophoridae,Squaliformes,stationary,,,,,,
+Centrophorus granulosus,Gulper shark,Centrophoridae,Squaliformes,stationary,176,total_length,775,yolk-sac viviparity,bathydemersal,
+Centrophorus lusitanicus,Lowfin gulper shark,Centrophoridae,Squaliformes,stationary,119,total_length,850,yolk-sac viviparity,bathydemersal,
+Centrophorus squamosus,Leafscale gulper shark,Centrophoridae,Squaliformes,stationary,166,total_length,1683,yolk-sac viviparity,bathydemersal,
+Centroscyllium fabricii,Black dogfish,Etmopteridae,Squaliformes,stationary,120,total_length,1190,yolk-sac viviparity,bathydemersal,
+Centroscymnus coelolepis,Portuguese dogfish,Somniosidae,Squaliformes,stationary,130,total_length,1901.5,yolk-sac viviparity,bathydemersal,
+Centroselachus crepidater,Longnose velvet dogfish,Somniosidae,Squaliformes,stationary,105,total_length,1140,yolk-sac viviparity,bathydemersal,
+Cephaloscyllium isabellum,Draughtsboard shark,Scyliorhinidae,Carcharhiniformes,stationary,150,total_length,399.5,oviparous,reef-associated,
+Cetorhinus maximus,Basking shark,Cetorhinidae,Lamniformes,ram,1097.3,total_length,632,oophagy,pelagic,
+Chiloscyllium arabicum,Arabian carpetshark,Hemiscylliidae,Orectolobiformes,stationary,80,total_length,51,oviparous,demersal,
+Dalatias licha,Kitefin shark,Dalatiidae,Squaliformes,stationary,182,total_length,915.5,yolk-sac viviparity,bathydemersal,
+Dasyatidae,,,,,,,,,,
+Dasyatis,,Dasyatidae,Myliobatiformes,stationary,,disk_width,,histotrophy,coastal,
+Hemitrygon akajei,Whip stingray,Dasyatidae,Myliobatiformes,stationary,87.7,disk_width,240,histotrophy,coastal,
+Bathytoshia centroura,Roughtail stingray,Dasyatidae,Myliobatiformes,stationary,260,disk_width,137,histotrophy,coastal,
+Hypanus guttatus,Longnose stingray,Dasyatidae,Myliobatiformes,stationary,200,disk_width,35,histotrophy,coastal,
+Hypanus longus,Longtail stingray,Dasyatidae,Myliobatiformes,stationary,180,disk_width,59,histotrophy,coastal,
+Dasyatis marmorata,Marbled stingray,Dasyatidae,Myliobatiformes,stationary,44,disk_width,56,histotrophy,coastal,
+Dasyatis pastinaca,Common stingray,Dasyatidae,Myliobatiformes,stationary,69,disk_width,100.5,histotrophy,coastal,
+Deania calcea,Birdbeak dogfish,Centrophoridae,Squaliformes,stationary,162,total_length,782,yolk-sac viviparity,bathydemersal,
+Dipturus batis,Common skate,Rajidae,Rajiformes,stationary,285,total_length,550,oviparous,demersal,
+Dipturus laevis,Barndoor skate,Rajidae,Rajiformes,stationary,163,total_length,394,oviparous,demersal,
+Dipturus oxyrinchus,Longnosed skate,Rajidae,Rajiformes,stationary,150,total_length,650,oviparous,demersal,
+Dipturus trachydermus,Roughskin skate,Rajidae,Rajiformes,stationary,264,total_length,260,oviparous,demersal,
+Echinorhinus brucus,Bramble shark,Echinorhinidae,Squaliformes,stationary,394,total_length,455,yolk-sac viviparity,bathydemersal,
+Elasmobranchii,,,,,,,,,,
+Etmopterus,Lanternsharks,Etmopteridae,Squaliformes,stationary,,total_length,,yolk-sac viviparity,demersal,
+Etmopterus princeps,Great lanternshark,Etmopteridae,Squaliformes,stationary,94,total_length,1281.5,yolk-sac viviparity,demersal,
+Etmopterus pusillus,Smooth lanternshark,Etmopteridae,Squaliformes,stationary,50.2,total_length,560,yolk-sac viviparity,demersal,
+Etmopterus spinax,Velvet belly,Etmopteridae,Squaliformes,stationary,55,total_length,1280,yolk-sac viviparity,demersal,
+Galeocerdo cuvier,Tiger shark,Carcharhinidae,Carcharhiniformes,ram,740,total_length,556,placental viviparity,coastal-pelagic,
+Galeorhinus galeus,Tope shark,Triakidae,Carcharhiniformes,ram,199,total_length,400,yolk-sac viviparity,benthopelagic,
+Galeus,Sawtail catsharks,Pentanchidae,Carcharhiniformes,stationary,,total_length,,oviparous,demersal,
+Galeus melastomus,Blackmouth catshark,Pentanchidae,Carcharhiniformes,stationary,90,total_length,1027.5,oviparous,demersal,
+Ginglymostoma cirratum,Nurse shark,Ginglymostomatidae,Orectolobiformes,stationary,308,total_length,65,oviparous,reef-associated,
+Glaucostegus cemiculus,Blackchin guitarfish,Glaucostegidae,Rhinopristiformes,stationary,245,total_length,54.5,yolk-sac viviparity,demersal,
+Glaucostegus granulatus,Granulated guitarfish,Glaucostegidae,Rhinopristiformes,stationary,280,total_length,62,yolk-sac viviparity,demersal,
+Gymnura altavela,Spiny butterfly ray,Gymnuridae,Myliobatiformes,stationary,220,disk_width,250,histotrophy,coastal,
+Gymnura micrura,Smooth butterfly ray,Gymnuridae,Myliobatiformes,stationary,120,disk_width,27.5,histotrophy,coastal,
+Hemitriakis japanica,Japanese topeshark,Triakidae,Carcharhiniformes,stationary,120,total_length,50.5,yolk-sac viviparity,demersal,
+Heptranchias perlo,Sharpnose sevengill shark,Hexanchidae,Hexanchiformes,ram,140,total_length,500,yolk-sac viviparity,bathydemersal,
+Hexanchus griseus,Bluntnose sixgill shark,Hexanchidae,Hexanchiformes,ram,550,total_length,1245,yolk-sac viviparity,bathydemersal,
+Himantura,,,,,,,,,,
+Himantura gerrardi,,,,,,,,,,
+Himantura uarnak,,,,,,,,,,
+Isurus,Mako sharks,Lamnidae,Lamniformes,ram,,total_length,,oophagy,pelagic,
+Isurus oxyrinchus,Shortfin mako,Lamnidae,Lamniformes,ram,445,total_length,375,oophagy,pelagic,
+Isurus paucus,Longfin mako,Lamnidae,Lamniformes,ram,427,total_length,876,oophagy,pelagic,
+Lamna nasus,Porbeagle,Lamnidae,Lamniformes,ram,365,total_length,904.5,oophagy,pelagic,
+Lamnidae,Mackerel/white sharks,Lamnidae,Lamniformes,ram,,,,,,
+Lamniformes,Mackerel sharks,,Lamniformes,ram,,total_length,,,,
+Leptocharias smithii,Barbeled houndshark,Leptochariidae,Carcharhiniformes,stationary,82,total_length,42.5,placental viviparity,demersal,
+Leucoraja circularis,Sandy ray,Rajidae,Rajiformes,stationary,120,total_length,405,oviparous,demersal,
+Leucoraja erinacea,Little skate,Rajidae,Rajiformes,stationary,62,total_length,462,oviparous,demersal,
+Leucoraja fullonica,Shagreen skate,Rajidae,Rajiformes,stationary,120,total_length,315,oviparous,bathydemersal,
+Leucoraja naevus,Cuckoo ray,Rajidae,Rajiformes,stationary,81,total_length,456,oviparous,demersal,
+Malacoraja senta,Smooth skate,Rajidae,Rajiformes,stationary,71,total_length,743,oviparous,bathydemersal,
+Mobula birostris,Giant manta ray,Mobulidae,Myliobatiformes,ram,700,disk_width,500,histotrophy,pelagic,
+Mobula mobular,Spinetail devil ray,Mobulidae,Myliobatiformes,ram,350,disk_width,350,histotrophy,pelagic,DW size rescaled to 350 cm according to Notarbartolo di Sciara et al (2020)
+Mustelus,Smoothhounds,Triakidae,Carcharhiniformes,ram,,total_length,,yolk-sac viviparity,demersal,
+Mustelus asterias,Starry smooth-hound,Triakidae,Carcharhiniformes,ram,140,total_length,99.5,yolk-sac viviparity,demersal,
+Mustelus henlei,Brown smooth-hound,Triakidae,Carcharhiniformes,ram,100,total_length,140.5,yolk-sac viviparity,demersal,
+Mustelus lenticulatus,Spotted estuary smooth-hound,Triakidae,Carcharhiniformes,ram,151,total_length,110.5,yolk-sac viviparity,demersal,
+Mustelus lunulatus,Sicklefin smooth-hound,Triakidae,Carcharhiniformes,ram,175,total_length,104.5,yolk-sac viviparity,demersal,
+Mustelus mento,Speckled smooth-hound,Triakidae,Carcharhiniformes,ram,130,total_length,33,yolk-sac viviparity,demersal,
+Mustelus mustelus,Smooth-hound,Triakidae,Carcharhiniformes,ram,174.5,total_length,400,yolk-sac viviparity,demersal,
+Mustelus schmitti,Narrownose smooth-hound,Triakidae,Carcharhiniformes,ram,108.5,total_length,98.5,yolk-sac viviparity,demersal,
+Mustelus whitneyi,Humpback smooth-hound,Triakidae,Carcharhiniformes,ram,87,total_length,113.5,yolk-sac viviparity,demersal,
+Myliobatidae,,,,,,,,,,
+Myliobatis aquila,Common eagle ray,Myliobatidae,Myliobatiformes,stationary,150,disk_width,30,histotrophy,benthopelagic,
+Myliobatis californica,Bat ray,Myliobatidae,Myliobatiformes,stationary,180,disk_width,54,histotrophy,demersal,
+Nasolamia velox,Whitenose shark,Carcharhinidae,Carcharhiniformes,ram,165,total_length,96,placental viviparity,demersal,
+Nebrius ferrugineus,Tawny nurse shark,Ginglymostomatidae,Orectolobiformes,ram,320,total_length,35,yolk-sac viviparity,reef-associated,
+Negaprion brevirostris,Lemon shark,Carcharhinidae,Carcharhiniformes,ram,368,total_length,60,placental viviparity,reef-associated,
+Notorynchus cepedianus,Broadnose sevengill shark,Hexanchidae,Hexanchiformes,ram,296,total_length,285,yolk-sac viviparity,demersal,
+Odontaspis ferox,Smalltooth sand tiger,Odontaspididae,Lamniformes,ram,450,total_length,512.5,oophagy,benthopelagic,
+Oxynotus centrina,Angular roughshark,Oxynotidae,Squaliformes,stationary,150,total_length,420,yolk-sac viviparity,bathydemersal,
+Oxynotus paradoxus,Sailfin roughshark,Oxynotidae,Squaliformes,stationary,118,total_length,492.5,yolk-sac viviparity,bathydemersal,
+Pastinachus sephen,Cowtail stingray,Dasyatidae,Myliobatiformes,stationary,149,total_length,30,histotrophy,reef-associated,
+Prionace glauca,Blue shark,Carcharhinidae,Carcharhiniformes,ram,383.5,total_length,500,placental viviparity,pelagic,
+Pristidae,Sawfishes,Pristidae,Rhinopristiformes,stationary,,total_length,,placental viviparity,benthocoastal,
+Pristiophorus,Sawsharks,Pristiophoridae,Pristiophoriformes,ram,,total_length,,,demersal,
+Pristiophorus cirratus,Common sawshark,Pristiophoridae,Pristiophoriformes,,149,total_length,335,yolk-sac viviparity,demersal,
+Pseudobatos planiceps,Pacific guitarfish,Rhinobatidae,Rhinopristiformes,stationary,98,total_length,25,yolk-sac viviparity,demersal,
+Pteroplatytrygon violacea,Pelagic stingray,Dasyatidae,Myliobatiformes,stationary,80,disk_width,190.5,histotrophy,pelagic,
+Raja,,,,,,,,,,
+Raja asterias,Mediterranean starry ray,Rajidae,Rajiformes,stationary,94,total_length,351,oviparous,demersal,
+Raja brachyura,Blonde ray,Rajidae,Rajiformes,stationary,120,total_length,455,oviparous,demersal,
+Raja clavata,Thornback ray,Rajidae,Rajiformes,stationary,130,total_length,513.5,oviparous,demersal,
+Raja microocellata,Small-eyed ray,Rajidae,Rajiformes,stationary,103,total_length,56,oviparous,demersal,
+Raja miraletus,Brown ray,Rajidae,Rajiformes,stationary,71.7,total_length,283,oviparous,demersal,
+Raja montagui,Spotted ray,Rajidae,Rajiformes,stationary,80,total_length,329,oviparous,demersal,
+Raja polystigma,Speckled ray,Rajidae,Rajiformes,stationary,71,total_length,321.5,oviparous,demersal,
+Raja stellulata,Starry skate,Rajidae,Rajiformes,stationary,76.1,total_length,384,oviparous,demersal,
+Raja undulata,Undulate ray,Rajidae,Rajiformes,stationary,114,total_length,102,oviparous,demersal,
+Rajella,,,,,,,,,,
+Rajella lintea,Sail skate,Rajidae,Rajiformes,stationary,125,total_length,825,oviparous,bathydemersal,
+Rajidae,,,,,,,,,,
+Rajiformes,,,,,,,,,,
+Rhincodon typus,Whale shark,Rhincodontidae,Orectolobiformes,ram,1700,total_length,964,yolk-sac viviparity,pelagic,
+Rhinobatidae,"Guitarfishes, fanrays",Rhinobatidae,Rhinopristiformes,stationary,,,,,,
+Rhinobatos,Guitarfishes,Rhinobatidae,Rhinopristiformes,stationary,,,,,,
+Pseudobatos percellens,Chola guitarfish,Rhinobatidae,Rhinopristiformes,stationary,102,total_length,70,yolk-sac viviparity,demersal,
+Rhinobatos rhinobatos,Common guitarfish,Rhinobatidae,Rhinopristiformes,stationary,181,total_length,55,yolk-sac viviparity,benthocoastal,
+Rhinoptera brasiliensis,Cownose ray,Rhinopteridae,Myliobatiformes,stationary,107,disk_width,30,yolk-sac viviparity,benthopelagic,
+Rhinoptera steindachneri,Pacific cownose ray,Rhinopteridae,Myliobatiformes,stationary,107,disk_width,38.5,yolk-sac viviparity,benthopelagic,
+Rhizoprionodon acutus,Milk shark,Carcharhinidae,Carcharhiniformes,ram,178,total_length,100.5,placental viviparity,coastal,
+Rhizoprionodon longurio,Pacific sharpnose shark,Carcharhinidae,Carcharhiniformes,ram,154,total_length,13.5,placental viviparity,coastal,
+Rhizoprionodon porosus,Caribbean sharpnose shark,Carcharhinidae,Carcharhiniformes,ram,110,total_length,250,placental viviparity,coastal,
+Rhizoprionodon terraenovae,Atlantic sharpnose shark,Carcharhinidae,Carcharhiniformes,ram,113,total_length,140,placental viviparity,coastal,
+Rhynchobatus australiae,Whitespotted wedgefish,Rhinidae,Rhinopristiformes,stationary,300,total_length,30,yolk-sac viviparity,benthocoastal,
+Rhynchobatus djiddensis,Giant guitarfish,Rhinidae,Rhinopristiformes,stationary,310,total_length,38,yolk-sac viviparity,reef-associated,
+Rioraja agassizii,Rio skate,Arhynchobatidae,Rajiformes,stationary,71,total_length,302.5,oviparous,demersal,
+Rostroraja alba,White skate,Rajidae,Rajiformes,stationary,240,total_length,380,oviparous,demersal,
+Rostroraja eglanteria,Clearnose skate,Rajidae,Rajiformes,stationary,84,total_length,164.5,oviparous,demersal,
+Scyliorhinidae,Cat/swellsharks,Scyliorhinidae,Carcharhiniformes,stationary,,,,,,
+Scyliorhinus,Catsharks,Scyliorhinidae,Carcharhiniformes,stationary,,,,,,
+Scyliorhinus canicula,Small-spotted catshark,Scyliorhinidae,Carcharhiniformes,stationary,100,total_length,400.5,oviparous,demersal,
+Scyliorhinus stellaris,Nursehound,Scyliorhinidae,Carcharhiniformes,stationary,162,total_length,190.5,oviparous,reef-associated,
+Scymnodon ringens,Knifetooth dogfish,Somniosidae,Squaliformes,stationary,110,total_length,900,yolk-sac viviparity,bathypelagic,
+Somniosus microcephalus,Greenland shark,Somniosidae,Squaliformes,stationary,730,total_length,1323.5,yolk-sac viviparity,benthopelagic,
+Sphyrna,Hammerhead sharks,Sphyrnidae,Carcharhiniformes,ram,,total_length,,placental viviparity,,
+Sphyrna corona,Scalloped bonnethead,Sphyrnidae,Carcharhiniformes,ram,92,total_length,50,placental viviparity,coastal,
+Sphyrna lewini,Scalloped hammerhead,Sphyrnidae,Carcharhiniformes,ram,430,total_length,521.5,placental viviparity,pelagic,
+Sphyrna media,Scoophead,Sphyrnidae,Carcharhiniformes,ram,150,total_length,50,placental viviparity,coastal,
+Sphyrna mokarran,Great hammerhead,Sphyrnidae,Carcharhiniformes,ram,610,total_length,150,placental viviparity,coastal-pelagic,
+Sphyrna tiburo,Bonnethead,Sphyrnidae,Carcharhiniformes,ram,150,total_length,45,placental viviparity,coastal,
+Sphyrna zygaena,Smooth hammerhead,Sphyrnidae,Carcharhiniformes,ram,400,total_length,100,placental viviparity,pelagic,
+Sphyrnidae,"Hammer, bonnet, scoophead sharks",Sphyrnidae,Carcharhiniformes,ram,,total_length,,placental viviparity,,
+Squalidae,Dogfish sharks,Squalidae,Squaliformes,stationary,,,,,,
+Squaliformes,"Bramble, sleeper, dogfish sharks",Squalifordae,Squaliformes,stationary,,,,,,
+Squalus,Dogfishes,Squalidae,Squaliformes,stationary,,total_length,,yolk-sac viviparity,benthopelagic,
+Squalus acanthias,Picked dogfish,Squalidae,Squaliformes,stationary,200,total_length,989,yolk-sac viviparity,benthopelagic,
+Squalus blainville,Longnose spurdog,Squalidae,Squaliformes,stationary,920,total_length,757.5,yolk-sac viviparity,benthopelagic,
+Squalus mitsukurii,Shortspine spurdog,Squalidae,Squaliformes,stationary,125,total_length,479,yolk-sac viviparity,benthopelagic,
+Squalus suckleyi,Pacific spiny dogfish,Squalidae,Squaliformes,stationary,130,total_length,618,yolk-sac viviparity,benthopelagic,
+Squatina argentina,Argentine angelshark,Squatinidae,Squatiniformes,stationary,1380,total_length,228.5,yolk-sac viviparity,benthocoastal,
+Squatina australis,Australian angelshark,Squatinidae,Squatiniformes,stationary,152,total_length,65,yolk-sac viviparity,benthocoastal,
+Squatina guggenheim,Angular angel shark,Squatinidae,Squatiniformes,stationary,96,total_length,78.5,yolk-sac viviparity,benthocoastal,
+Squatina squatina,Angelshark,Squatinidae,Squatiniformes,stationary,244,total_length,76,yolk-sac viviparity,benthocoastal,
+Squatina tergocellata,Ornate angelshark,Squatinidae,Squatiniformes,stationary,140,total_length,264,yolk-sac viviparity,benthocoastal,
+Squatinidae,Angel sharks,Squatinidae,Squatiniformes,stationary,,,,,,
+Sympterygia acuta,Bignose fanskate,Arhynchobatidae,,stationary,62,disk_width,94,oviparous,demersal,
+Sympterygia bonapartii,Smallnose skate,Arhynchobatidae,,stationary,88,disk_width,250,oviparous,demersal,
+Torpedinidae,,,,,,,,,,
+Torpedo,,,,,,,,,,
+Torpedo marmorata,Marbled electric ray,Torpedinidae,Torpediniformes,stationary,63,total_length,186,yolk-sac viviparity,reef-associated,
+Torpedo torpedo,Ocellate torpedo,Torpedinidae,Torpediniformes,stationary,60,total_length,155,yolk-sac viviparity,demersal,
+Triaenodon obesus,Whitetip reef shark,Carcharhinidae,Carcharhiniformes,stationary,168,total_length,165.5,yolk-sac viviparity,reef-associated,
+Triakidae,Houndsharks,Triakidae,Carcharhiniformes,ram,,,,,,
+Triakis megalopterus,Sharptooth houndshark,Triakidae,Carcharhiniformes,ram,207.5,total_length,25,yolk-sac viviparity,demersal,
+Triakis semifasciata,Leopard shark,Triakidae,Carcharhiniformes,ram,213,total_length,78,yolk-sac viviparity,demersal,
+Urobatis jamaicensis,Yellow stingray,Urotrygonidae,Myliobatiformes,stationary,76,total_length,35.5,histotrophy,reef-associated,
+Urolophidae,,,,,,,,,,
+Dipturus chilensis,Yellownose skate,Rajidae,Rajiformes,stationary,168,total_length,307,oviparous,demersal,
