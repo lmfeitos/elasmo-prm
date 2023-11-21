@@ -2,8 +2,9 @@ library(tidyverse)
 
 predictions = read_csv(here::here("data", "full_model_predictions.csv")) 
 
-r_growth = read_csv(here::here("data", "intrinsic_pop_growth_rates.csv")) %>% 
-  select(scientific_name, mean_r)
+r_growth = read_csv(here::here("data", "intrinsic_pop_growth_rates_full.csv")) %>% 
+  select(scientific_name, mean_r) %>% 
+  distinct()
 
 pred_r = left_join(predictions, r_growth) %>% 
   distinct() %>% 
