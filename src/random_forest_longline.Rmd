@@ -372,6 +372,7 @@ summary(lm(.pred ~ mortality_prop, data = prm_train_predict))
 ```
 
 ### Variable importance for the at-vessel mortality and post-release mortality RF models
+
 ```{r}
 v1 <- avm_fit %>%
   extract_fit_parsnip() %>%
@@ -388,14 +389,14 @@ v2
 
 
 ```{r}
-new_dat <- read_csv(here::here("data", "sau_spp_taxonomy_ref.csv")) %>%
+new_dat <- read_csv(here::here("data", "sau_spp_taxonomy_ref_full.csv")) %>%
   filter(!is.na(median_depth)) %>%
   filter(!is.na(ventilation_method)) %>%
   filter(!is.na(reproductive_mode)) %>%
   filter(!is.na(habitat_associated)) %>%
   filter(habitat_associated != "bathypelagic") %>%
   filter(!is.na(max_size_cm)) %>%
-  select(-order_name, -family_name, -genus_name, -measure) %>%
+  select(-measure) %>%
   mutate(ventilation_method = as.factor(ventilation_method)) %>%
   mutate(habitat_associated = as.factor(habitat_associated)) %>%
   mutate(reproductive_mode = as.factor(reproductive_mode))
@@ -466,7 +467,8 @@ mean_predictions =  full_predictions %>%
   group_by(scientific_name) %>% 
   summarize(avm_pred = mean(avm_pred),
             prm_pred = mean(prm_pred),
-            group = group)
+            group = group) %>% 
+  mutate(group = fct_relevel(group, c("Sharks", "Batoids")))
 
 predictions = mean_predictions %>% 
   pivot_longer(cols = c("avm_pred", "prm_pred"), names_to = "estimate_type", values_to = "mortality_prop")
@@ -508,9 +510,11 @@ predictions_fig = ggplot(data = predictions) +
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
         strip.background = element_rect(fill = "transparent"),
-        panel.spacing.x = unit(5, "mm"))
+        panel.spacing.x = unit(5, "mm")) +
+  facet_grid(rows = vars(factor(group, levels = c("Sharks", "Batoids"))), 
+             scales = "free_y", 
+             space = "free_y")
 predictions_fig
 
-ggsave(predictions_fig, file = paste0("predictions_fig.pdf"), path = here::here("figs"), height = 12, width = 8)
+ggsave(predictions_fig, file = paste0("predictions_fig.pdf"), path = here::here("figs"), height = 20, width = 8)
 ```
-
