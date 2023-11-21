@@ -65,24 +65,43 @@ saup_full <- saup_spp2 %>%
   relocate(family, .after = common_name) %>% 
   relocate(order, .before = ventilation_method)
 
-write_csv(saup_full, file = here("data", "sau_spp_taxonomy_ref_full.csv"), col_names = TRUE, na = "")
+#write_csv(saup_full, file = here("data", "sau_spp_taxonomy_ref_full.csv"), col_names = TRUE, na = "")
 
 # call the weight to count conversion data by species
 weight_conv <- read_csv(here("data", "spp_weight_count_conversion.csv"))
 
+# call the intrinsic population growth rate from Bradley et al (XXXX)
+r_data <- read_csv(here("data", "r_estimate_fish.csv")) %>% 
+  rename(scientific_name = SciName) %>% 
+  pivot_longer(cols = r_fin,
+               names_to = "pop_growth_rate_measure",
+               values_to = "value")
+
 # call in the intrinsic growth rate data and wrangle it to convert lambda to r
 int_growth <- read_csv(here("data", "intrinsic_pop_growth_rates.csv")) %>% 
-  mutate(scientific_name = str_replace(scientific_name, "_", " ")) %>% 
+  mutate(scientific_name = str_replace(scientific_name, "_", " "))
+
+#write_csv(int_growth, file = here("data", "intrinsic_pop_growth_rates.csv"), col_names = TRUE, na = "")
+
+r_data_merge <- shark_spp %>% 
+  left_join(r_data, by = "scientific_name")
+
+r_data_full <- bind_rows(r_data_merge, int_growth) %>% 
+  drop_na(pop_growth_rate_measure) %>% 
+  select(scientific_name, pop_growth_rate_measure, value, areas, reference, observations) %>% 
   mutate(r_value = case_when(
     pop_growth_rate_measure == "lambda" ~ log(value),
     TRUE ~ value
   )) %>% 
   group_by(scientific_name) %>% 
   mutate(mean_r = mean(r_value)) %>% # calculates mean r values per species because some species have different r values depending on method/sampling area
-  relocate(mean_r, .after = r_value)
+  relocate(areas, .after = scientific_name) %>% 
+  relocate(reference, .after = mean_r) %>% 
+  relocate(observations, .after = reference) %>%
+  distinct()
+   
 
-
-#write_csv(int_growth, file = here("data", "intrinsic_pop_growth_rates.csv"), col_names = TRUE)
+#write_csv(r_data_full, file = here("data", "intrinsic_pop_growth_rates_full.csv"), col_names = TRUE, na = "")
 ```
 
 ```{r}

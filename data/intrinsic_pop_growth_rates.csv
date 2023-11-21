@@ -1,310 +1,310 @@
 scientific_name,areas,pop_growth_rate_measure,value,r_value,mean_r,reference,observations
-Scyliorhinus canicula,Northeast Atlantic ocean,lambda,1.659,0.5062150112083075,0.4529202997361025,Cortes (2002),NA
-Sphyrna lewini,West Pacific,lambda,1.6,0.47000362924573563,0.33727741075149587,Cortes (2002),NA
-Prionace glauca,Northwest Atlantic ocean,lambda,1.401,0.33718626735486995,0.4971600974516233,Cortes (2002),NA
-Sphyrna tiburo,Eastern Gulf of Mexico,lambda,1.304,0.26543646350446126,0.4602395703761153,Cortes (2002),NA
-Galeocerdo cuvier,Gulf of Mexico,lambda,1.246,0.2199384203652614,0.2540313811217538,Cortes (2002),NA
-Mustelus henlei,Northeastern Pacific Ocean,lambda,1.163,0.15100287353652742,0.3255022232682637,Cortes (2002),NA
-Carcharhinus tilstoni,Eastern Indian Ocean,lambda,1.145,0.13540463700620298,0.23980627366873433,Cortes (2002),NA
-Isurus oxyrinchus,Northwest Atlantic ocean,lambda,1.141,0.1319050708799386,0.12156506895997954,Cortes (2002),NA
-Mustelus californicus,Northeastern Pacific Ocean,lambda,1.132,0.1239859797809911,0.39861090139049554,Cortes (2002),NA
-Alopias vulpinus,Northeastern Pacific Ocean,lambda,1.125,0.11778303565638346,0.11778303565638346,Cortes (2002),NA
-Carcharhinus longimanus,Pacific Ocean,lambda,1.117,0.11064652008706365,0.17834739802902122,Cortes (2002),NA
-Carcharhinus falciformis,Gulf of Mexico,lambda,1.108,0.10255658832509215,0.10239578504263853,Cortes (2002),NA
-Carcharodon carcharias,Northeastern Pacific Ocean,lambda,1.098,0.093490343,0.12421085536244632,Cortes (2002),NA
-Mustelus manazo,Northwestern Pacific Ocean,lambda,1.096,0.091667189,0.299751792,Cortes (2002),NA
-Carcharhinus sorrah,Eastern Indian Ocean,lambda,1.093,0.088926209,0.2428714820648005,Cortes (2002),NA
-Carcharhinus porosus,Southwestern Atlantic Ocean,lambda,1.086,0.082501222,0.12350496625943001,Cortes (2002),NA
-Carcharhinus porosus,Southwestern Atlantic Ocean,lambda,1.013,0.012916225,0.12350496625943001,Cortes (2002),NA
-Carcharhinus galapagensis,Central Pacific Ocean,lambda,1.086,0.082501222,0.15585450717058125,Cortes (2002),NA
-Sphyrna lewini,Gulf of Mexico,lambda,1.086,0.082501222,0.33727741075149587,Cortes (2002),NA
-Mustelus antarcticus,Southwestern Pacific Ocean,lambda,1.082,0.07881118,0.28440785214142994,Cortes (2002),NA
-Galeorhinus galeus,Southwestern Pacific Ocean,lambda,1.077,0.074179398,0.1551090157247505,Cortes (2002),NA
-Rhizoprionodon taylori,Southwestern Pacific Ocean,lambda,1.073,0.070458464,0.4995567298242807,Cortes (2002),NA
-Negaprion brevirostris,Gulf of Mexico,lambda,1.064,0.062035391,0.10491119163981756,Cortes (2002),NA
-Carcharhinus falciformis,Gulf of Mexico,lambda,1.057,0.055434706888100524,0.10239578504263853,Cortes (2002),NA
-Rhizoprionodon terranovae,Gulf of Mexico,lambda,1.056,0.054488185284069776,0.1197440926420349,Cortes (2002),NA
-Carcharhinus brachyurus,Southwestern Indian Ocean,lambda,1.043,0.042101176018635326,0.096398505,Cortes (2002),NA
-Carcharhinus brevipinna,Gulf of Mexico,lambda,1.037,0.036331929247390204,0.15886659931184755,Cortes (2002),NA
-Carcharhinus obscurus,Northwestern Atlantic Ocean,lambda,1.03,0.029558802,0.07086217,Cortes (2002),NA
-Carcharhinus plumbeus,Northwestern Atlantic Ocean,lambda,1.022,0.021761492,0.10570114759383757,Cortes (2002),NA
-Lamna nasus,Northwestern Atlantic Ocean,lambda,1.022,0.021761492,0.098885038,Cortes (2002),NA
-Alopias pelagicus,Northwestern Pacific Ocean,lambda,1.02,0.019802627,0.082481417,Cortes (2002),NA
-Squatina californica,Northeastern Pacific Ocean,lambda,1.019,0.018821754240587667,0.11617507112029384,Cortes (2002),NA
-Triakis semifasciata,Northeastern Pacific Ocean,lambda,1.016,0.015873349156290163,0.15651138353907254,Cortes (2002),NA
-Carcharhinus leucas,Gulf of Mexico,lambda,0.998,-0.002002003,0.13545351158233174,Cortes (2002),NA
-Alopias superciliosus,Northwestern Pacific Ocean,lambda,0.996,-0.004008021,0.060599847,Cortes (2002),NA
-Carcharias taurus,Northwestern Atlantic Ocean,lambda,0.978,-0.022245609,0.034808663684226755,Cortes (2002),NA
-Carcharhinus limbatus,Gulf of Mexico,lambda,0.974,-0.026343975,0.10858434413207961,Cortes (2002),NA
-Carcharhinus amblyrhynchos,Central Pacific Ocean,lambda,0.941,-0.060812139,0.074666477,Cortes (2002),NA
-Squalus acanthias,Northwestern Atlantic Ocean,lambda,0.938,-0.06400533,0.029278413229612395,Cortes (2002),NA
-Squalus acanthias,Northeastern Pacific Ocean,lambda,0.893,-0.113168698,0.029278413229612395,Cortes (2002),NA
-Squalus mitsukurii,Central Pacific Ocean,lambda,0.864,-0.14618251,-0.03079057,Cortes (2002),NA
-Carcharhinus acronotus,Gulf of Mexico,lambda,0.894,-0.112049504,0.19932762354784428,Cortes (2002),NA
-Isogomphodon oxyrhynchus,Southwestern Atlantic Ocean,lambda,1.029,0.028587456851912472,0.10693315342595623,Lessa et al (2016),NA
-Pristis pectinata,Northeastern Atlantic Ocean,lambda,1.15,0.13976194237515863,0.13976194237515863,Carlson & Simpfendorfer (2015),NA
-Callorhinchus milii,NA,rmax,0.491788,0.491788,0.491788113,Pardo & Dulvy (2022),NA
-Callorhinchus capensis,NA,rmax,0.604497,0.604497,0.604497077,Pardo & Dulvy (2022),NA
-Chimaera monstrosa,NA,rmax,0.272024,0.272024,0.27202393,Pardo & Dulvy (2022),NA
-Leucoraja naevus,NA,rmax,0.435849,0.435849,0.43584893049999995,Pardo & Dulvy (2022),NA
-Leucoraja erinacea,NA,rmax,0.655139,0.655139,0.655138812,Pardo & Dulvy (2022),NA
-Leucoraja ocellata,NA,rmax,0.304721,0.304721,0.304721228,Pardo & Dulvy (2022),NA
-Amblyraja radiata,NA,rmax,0.284206,0.284206,0.284205876,Pardo & Dulvy (2022),NA
-Raja miraletus,NA,rmax,1.395139,1.395139,1.395139141,Pardo & Dulvy (2022),NA
-Raja montagui,NA,rmax,0.686722,0.686722,0.686722107,Pardo & Dulvy (2022),NA
-Raja microocellata,NA,rmax,0.649457,0.649457,0.649457017,Pardo & Dulvy (2022),NA
-Raja brachyura,NA,rmax,0.652371,0.652371,0.652371115,Pardo & Dulvy (2022),NA
-Raja asterias,NA,rmax,0.883849,0.883849,0.883849031,Pardo & Dulvy (2022),NA
-Raja clavata,NA,rmax,0.731301,0.731301,0.731301156,Pardo & Dulvy (2022),NA
-Beringraja binoculata,NA,rmax,0.814461,0.814461,0.814461,Pardo & Dulvy (2022),NA
-Torpedo californica,NA,rmax,0.288543,0.288543,0.28854280499999996,Pardo & Dulvy (2022),NA
-Torpedo marmorata,NA,rmax,0.127615,0.127615,0.127615015,Pardo & Dulvy (2022),NA
-Torpedo torpedo,NA,rmax,0.263839,0.263839,0.26383887,Pardo & Dulvy (2022),NA
-Rhinobatos productus,NA,rmax,0.268414,0.268414,0.268414232,Pardo & Dulvy (2022),NA
-Aetobatus flagellum,NA,rmax,0.221585,0.221585,0.22158514099999999,Pardo & Dulvy (2022),NA
-Myliobatis californicus,NA,rmax,0.296264,0.296264,0.29626389750000004,Pardo & Dulvy (2022),NA
-Manta birostris,NA,rmax,0.067362,0.067362,0.067362,Pardo & Dulvy (2022),NA
-Dasyatis americana,NA,rmax,0.269553,0.269553,0.26955315150000003,Pardo & Dulvy (2022),NA
-Pteroplatytrygon violacea,NA,rmax,0.480792,0.480792,0.480791782,Pardo & Dulvy (2022),NA
-Notorynchus cepedianus,NA,rmax,0.23644,0.23644,0.236439941,Pardo & Dulvy (2022),NA
-Deania calcea,NA,rmax,0.076586,0.076586,0.076585841,Pardo & Dulvy (2022),NA
-Centrophorus squamosus,NA,rmax,0.05413,0.05413,0.054130247,Pardo & Dulvy (2022),NA
-Squalus acanthias,NA,rmax,0.147144,0.147144,0.029278413229612395,Pardo & Dulvy (2022),NA
-Etmopterus spinax,NA,rmax,0.183381,0.183381,0.183380956,Pardo & Dulvy (2022),NA
-Rhincodon typus,NA,rmax,0.187519,0.187519,0.187519214,Pardo & Dulvy (2022),NA
-Alopias superciliosus,NA,rmax,0.092904,0.092904,0.060599847,Pardo & Dulvy (2022),NA
-Carcharias taurus,NA,rmax,0.063336,0.063336,0.034808663684226755,Pardo & Dulvy (2022),NA
-Cetorhinus maximus,NA,rmax,0.146896,0.146896,0.146895782,Pardo & Dulvy (2022),NA
-Lamna ditropis,NA,rmax,0.218735,0.218735,0.21873509200000002,Pardo & Dulvy (2022),NA
-Lamna nasus,NA,rmax,0.137447,0.137447,0.098885038,Pardo & Dulvy (2022),NA
-Carcharodon carcharias,NA,rmax,0.139571,0.139571,0.12421085536244632,Pardo & Dulvy (2022),NA
-Isurus oxyrinchus,NA,rmax,0.116395,0.116395,0.12156506895997954,Pardo & Dulvy (2022),NA
-Scyliorhinus canicula,NA,rmax,0.426273,0.426273,0.4529202997361025,Pardo & Dulvy (2022),NA
-Galeorhinus galeus,NA,rmax,0.195574,0.195574,0.1551090157247505,Pardo & Dulvy (2022),NA
-Triakis semifasciata,NA,rmax,0.271586,0.271586,0.15651138353907254,Pardo & Dulvy (2022),NA
-Furgaleus macki,NA,rmax,0.296854,0.296854,0.296854139,Pardo & Dulvy (2022),NA
-Mustelus manazo,NA,rmax,0.403794,0.403794,0.299751792,Pardo & Dulvy (2022),NA
-Mustelus antarcticus,NA,rmax,0.387206,0.387206,0.28440785214142994,Pardo & Dulvy (2022),NA
-Mustelus canis,NA,rmax,0.451685,0.451685,0.451684893,Pardo & Dulvy (2022),NA
-Galeocerdo cuvier,NA,rmax,0.271078,0.271078,0.2540313811217538,Pardo & Dulvy (2022),NA
-Sphyrna lewini,NA,rmax,0.464941,0.464941,0.33727741075149587,Pardo & Dulvy (2022),NA
-Sphyrna tiburo,NA,rmax,0.556761,0.556761,0.4602395703761153,Pardo & Dulvy (2022),NA
-Rhizoprionodon terranovae,NA,rmax,0.499373,0.499373,0.499373224,Pardo & Dulvy (2022),NA
-Negaprion brevirostris,NA,rmax,0.126349,0.126349,0.10491119163981756,Pardo & Dulvy (2022),NA
-Carcharhinus limbatus,NA,rmax,0.131133,0.131133,0.10858434413207961,Pardo & Dulvy (2022),NA
-Carcharhinus tilstoni,NA,rmax,0.292007,0.292007,0.23980627366873433,Pardo & Dulvy (2022),NA
-Carcharhinus signatus,NA,rmax,0.204211,0.204211,0.14714076333333334,Pardo & Dulvy (2022),NA
-Carcharhinus amblyrhynchos,NA,rmax,0.142406,0.142406,0.074666477,Pardo & Dulvy (2022),NA
-Carcharhinus falciformis,NA,rmax,0.155494,0.155494,0.10239578504263853,Pardo & Dulvy (2022),NA
-Prionace glauca,NA,rmax,0.577147,0.577147,0.4971600974516233,Pardo & Dulvy (2022),NA
-Carcharhinus plumbeus,NA,rmax,0.147671,0.147671,0.10570114759383757,Pardo & Dulvy (2022),NA
-Carcharhinus sorrah,NA,rmax,0.319844,0.319844,0.2428714820648005,Pardo & Dulvy (2022),NA
-Carcharhinus longimanus,NA,rmax,0.212198,0.212198,0.17834739802902122,Pardo & Dulvy (2022),NA
-Carcharhinus obscurus,NA,rmax,0.091514,0.091514,0.07086217,Pardo & Dulvy (2022),NA
-Carcharhinus galapagensis,NA,rmax,0.192531,0.192531,0.15585450717058125,Pardo & Dulvy (2022),NA
-Carcharhinus leucas,NA,rmax,0.113908,0.113908,0.13545351158233174,Pardo & Dulvy (2022),NA
-Carcharhinus brevipinna,NA,rmax,0.179567,0.179567,0.15886659931184755,Pardo & Dulvy (2022),NA
-Carcharhinus brachyurus,NA,rmax,0.123547,0.123547,0.096398505,Pardo & Dulvy (2022),NA
-Carcharhinus acronotus,NA,rmax,0.24068,0.24068,0.19932762354784428,Pardo & Dulvy (2022),NA
-Sphyrna mokarran,NA,rmax,0.202,0.202,0.202,Pardo et al (2018),NA
-Carcharhinus isodon,NA,rmax,0.197,0.197,0.171432991,Pardo et al (2018),NA
-Carcharhinus limbatus,Gulf of Mexico,rmax,0.195,0.195,0.10858434413207961,Pardo et al (2018),NA
-Rhizoprionodon terranovae,NA,rmax,0.185,0.185,0.1197440926420349,Pardo et al (2018),NA
-Carcharhinus limbatus,Atlantic Ocean,rmax,0.112,0.112,0.10858434413207961,Pardo et al (2018),NA
-Carcharhinus acronotus,NA,rmax,0.428,0.428,0.19932762354784428,Pardo et al (2018),NA
-Carcharhinus brevipinna,NA,rmax,0.24,0.24,0.15886659931184755,Pardo et al (2018),NA
-Carcharhinus leucas,NA,rmax,0.316,0.316,0.13545351158233174,Pardo et al (2018),NA
-Sphyrna tiburo,NA,rmax,0.462,0.462,0.4602395703761153,Pardo et al (2018),NA
-Sphyrna lewini,NA,rmax,0.204,0.204,0.33727741075149587,Pardo et al (2018),NA
-Dipturus laevis,NA,r,0.45,0.45,0.45,Gedamcke et al,calculated r
-Rhynchobatus australiae,NA,rmax,0.3875,0.3875,0.3875,D'Alberto et al (2019),"Mean rmax values calculated from the means of four estimates provided by the authors (Jensen, Hewitt and Hoeing, Frisk, and reciprocal of lifespan estimator)"
-Glaucostegus cemiculus,NA,rmax,0.3775,0.3775,0.3775,D'Alberto et al (2019),"Mean rmax values calculated from four estimates provided by the authors (Jensen, Hewitt and Hoeing, Frisk, and reciprocal of lifespan estimator)"
-Glaucostegus typus,NA,rmax,0.27,0.27,0.27,D'Alberto et al (2019),"Mean rmax values calculated from four estimates provided by the authors (Jensen, Hewitt and Hoeing, Frisk, and reciprocal of lifespan estimator)"
-Acroteriobatus annulatus,NA,rmax,0.35,0.35,0.35,D'Alberto et al (2019),"Mean rmax values calculated from four estimates provided by the authors (Jensen, Hewitt and Hoeing, Frisk, and reciprocal of lifespan estimator)"
-Pseudobatos horkelii,NA,rmax,0.19,0.19,0.19,D'Alberto et al (2019),"Mean rmax values calculated from four estimates provided by the authors (Jensen, Hewitt and Hoeing, Frisk, and reciprocal of lifespan estimator)"
-Pseudobatos productus,NA,rmax,0.17,0.17,0.17,D'Alberto et al (2019),"Mean rmax values calculated from four estimates provided by the authors (Jensen, Hewitt and Hoeing, Frisk, and reciprocal of lifespan estimator)"
-Rhinobatos rhinobatos,NA,rmax,0.3725,0.3725,0.3725,D'Alberto et al (2019),"Mean rmax values calculated from four estimates provided by the authors (Jensen, Hewitt and Hoeing, Frisk, and reciprocal of lifespan estimator)"
-Zapteryx brevirostris,NA,rmax,0.0925,0.0925,0.0925,D'Alberto et al (2019),"Mean rmax values calculated from four estimates provided by the authors (Jensen, Hewitt and Hoeing, Frisk, and reciprocal of lifespan estimator)"
-Zapteryx exasperata,NA,rmax,0.19,0.19,0.19,D'Alberto et al (2019),"Mean rmax values calculated from four estimates provided by the authors (Jensen, Hewitt and Hoeing, Frisk, and reciprocal of lifespan estimator)"
-Carcharhinus falciformis,Southwestern Atlantic Ocean,r,0.043,0.043,0.10239578504263853,Santander-Neto et al (2021),NA
-Carcharhinus signatus,Southwestern Atlantic Ocean,r,0.033,0.033,0.14714076333333334,Santana et al (2009),NA
-Triakis semifasciata,Northeastern Pacific Ocean,r,0.067,0.067,0.15651138353907254,Cailliet (1992),NA
-Carcharhinus acronotus,NA,rmax,0.240679998,0.240679998,0.19932762354784428,Pardo et al (2016),NA
-Carcharhinus amblyrhynchos,NA,rmax,0.142405571,0.142405571,0.074666477,Pardo et al (2016),NA
-Carcharhinus brachyurus,NA,rmax,0.123547339,0.123547339,0.096398505,Pardo et al (2016),NA
-Carcharhinus brevipinna,NA,rmax,0.179567468,0.179567468,0.15886659931184755,Pardo et al (2016),NA
-Carcharhinus cautus,NA,rmax,0.166782051,0.166782051,0.166782051,Pardo et al (2016),NA
-Carcharhinus falciformis,NA,rmax,0.15549363,0.15549363,0.10239578504263853,Pardo et al (2016),NA
-Carcharhinus galapagensis,NA,rmax,0.1925313,0.1925313,0.15585450717058125,Pardo et al (2016),NA
-Carcharhinus isodon,NA,rmax,0.145865981,0.145865981,0.171432991,Pardo et al (2016),NA
-Carcharhinus leucas,NA,rmax,0.113908049,0.113908049,0.13545351158233174,Pardo et al (2016),NA
-Carcharhinus limbatus,NA,rmax,0.131132696,0.131132696,0.10858434413207961,Pardo et al (2016),NA
-Carcharhinus longimanus,NA,rmax,0.212197674,0.212197674,0.17834739802902122,Pardo et al (2016),NA
-Carcharhinus obscurus,NA,rmax,0.091513707,0.091513707,0.07086217,Pardo et al (2016),NA
-Carcharhinus plumbeus,NA,rmax,0.147670951,0.147670951,0.10570114759383757,Pardo et al (2016),NA
-Carcharhinus porosus,NA,rmax,0.275097452,0.275097452,0.12350496625943001,Pardo et al (2016),NA
-Carcharhinus signatus,NA,rmax,0.20421129,0.20421129,0.14714076333333334,Pardo et al (2016),NA
-Carcharhinus sorrah,NA,rmax,0.319844237,0.319844237,0.2428714820648005,Pardo et al (2016),NA
-Carcharhinus tilstoni,NA,rmax,0.292007184,0.292007184,0.23980627366873433,Pardo et al (2016),NA
-Galeocerdo cuvier,NA,rmax,0.271077723,0.271077723,0.2540313811217538,Pardo et al (2016),NA
-Isogomphodon oxyrhynchus,NA,rmax,0.18527885,0.18527885,0.10693315342595623,Pardo et al (2016),NA
-Negaprion brevirostris,NA,rmax,0.126349184,0.126349184,0.10491119163981756,Pardo et al (2016),NA
-Prionace glauca,NA,rmax,0.577147025,0.577147025,0.4971600974516233,Pardo et al (2016),NA
-Rhizoprionodon taylori,NA,rmax,0.928654996,0.928654996,0.4995567298242807,Pardo et al (2016),NA
-Rhizoprionodon terranovae,NA,rmax,0.499373448,0.499373448,0.499373224,Pardo et al (2016),NA
-Scyliorhinus canicula,NA,rmax,0.426272888,0.426272888,0.4529202997361025,Pardo et al (2016),NA
-Sphyrna lewini,NA,rmax,0.464941203,0.464941203,0.33727741075149587,Pardo et al (2016),NA
-Sphyrna tiburo,NA,rmax,0.556760818,0.556760818,0.4602395703761153,Pardo et al (2016),NA
-Furgaleus macki,NA,rmax,0.296854277,0.296854277,0.296854139,Pardo et al (2016),NA
-Galeorhinus galeus,NA,rmax,0.195573649,0.195573649,0.1551090157247505,Pardo et al (2016),NA
-Mustelus antarcticus,NA,rmax,0.387206376,0.387206376,0.28440785214142994,Pardo et al (2016),NA
-Mustelus californicus,NA,rmax,0.673235823,0.673235823,0.39861090139049554,Pardo et al (2016),NA
-Mustelus canis,NA,rmax,0.451684785,0.451684785,0.451684893,Pardo et al (2016),NA
-Mustelus henlei,NA,rmax,0.500001573,0.500001573,0.3255022232682637,Pardo et al (2016),NA
-Mustelus lenticulatus,NA,rmax,0.303720423,0.303720423,0.303720423,Pardo et al (2016),NA
-Mustelus manazo,NA,rmax,0.403794186,0.403794186,0.299751792,Pardo et al (2016),NA
-Mustelus mustelus,NA,rmax,0.189808752,0.189808752,0.189808752,Pardo et al (2016),NA
-Triakis semifasciata,NA,rmax,0.271586185,0.271586185,0.15651138353907254,Pardo et al (2016),NA
-Notorynchus cepedianus,NA,rmax,0.236439882,0.236439882,0.236439941,Pardo et al (2016),NA
-Alopias pelagicus,NA,rmax,0.14516020600000001,0.14516020600000001,0.082481417,Pardo et al (2016),NA
-Alopias superciliosus,NA,rmax,0.092903563,0.092903563,0.060599847,Pardo et al (2016),NA
-Carcharodon carcharias,NA,rmax,0.139571223,0.139571223,0.12421085536244632,Pardo et al (2016),NA
-Isurus oxyrinchus,NA,rmax,0.116395136,0.116395136,0.12156506895997954,Pardo et al (2016),NA
-Lamna ditropis,NA,rmax,0.218735184,0.218735184,0.21873509200000002,Pardo et al (2016),NA
-Lamna nasus,NA,rmax,0.137446621,0.137446621,0.098885038,Pardo et al (2016),NA
-Carcharias taurus,NA,rmax,0.0633356,0.0633356,0.034808663684226755,Pardo et al (2016),NA
-Rhincodon typus,NA,rmax,0.187519428,0.187519428,0.187519214,Pardo et al (2016),NA
-Centroselachus crepidater,NA,rmax,0.100728876,0.100728876,0.100728876,Pardo et al (2016),NA
-Centrophorus granulosus,NA,rmax,0.034853173,0.034853173,0.034853173,Pardo et al (2016),NA
-Centrophorus squamosus,NA,rmax,0.054130494,0.054130494,0.054130247,Pardo et al (2016),NA
-Deania calcea,NA,rmax,0.076585681,0.076585681,0.076585841,Pardo et al (2016),NA
-Dalatias licha,NA,rmax,0.220984202,0.220984202,0.220984202,Pardo et al (2016),NA
-Etmopterus baxteri,NA,rmax,0.075957543,0.075957543,0.075957543,Pardo et al (2016),NA
-Etmopterus spinax,NA,rmax,0.183380911,0.183380911,0.183380956,Pardo et al (2016),NA
-Squalus acanthias,NA,rmax,0.147143681,0.147143681,0.029278413229612395,Pardo et al (2016),NA
-Squalus blainvillei,NA,rmax,0.178268372,0.178268372,0.178268372,Pardo et al (2016),NA
-Squalus megalops,NA,rmax,0.081497801,0.081497801,0.081497801,Pardo et al (2016),NA
-Squalus mitsukurii,NA,rmax,0.084601371,0.084601371,-0.03079057,Pardo et al (2016),NA
-Squatina californica,NA,rmax,0.213528388,0.213528388,0.11617507112029384,Pardo et al (2016),NA
-Squatina guggenheim,NA,rmax,0.184285105,0.184285105,0.184285105,Pardo et al (2016),NA
-Squatina occulta,NA,rmax,0.096998614,0.096998614,0.096998614,Pardo et al (2016),NA
-Dasyatis americana,NA,rmax,0.269553303,0.269553303,0.26955315150000003,Pardo et al (2016),NA
-Dasyatis chrysonota,NA,rmax,0.221867248,0.221867248,0.221867248,Pardo et al (2016),NA
-Dasyatis dipterura,NA,rmax,0.133123212,0.133123212,0.133123212,Pardo et al (2016),NA
-Dasyatis pastinaca,NA,rmax,0.395480513,0.395480513,0.395480513,Pardo et al (2016),NA
-Pteroplatytrygon violacea,NA,rmax,0.480791564,0.480791564,0.480791782,Pardo et al (2016),NA
-Aetobatus flagellum,NA,rmax,0.221585282,0.221585282,0.22158514099999999,Pardo et al (2016),NA
-Myliobatis californicus,NA,rmax,0.296263795,0.296263795,0.29626389750000004,Pardo et al (2016),NA
-Rhinoptera bonasus,NA,rmax,0.089724271,0.089724271,0.089724271,Pardo et al (2016),NA
-Trygonoptera mucosa,NA,rmax,0.116486948,0.116486948,0.116486948,Pardo et al (2016),NA
-Trygonoptera personata,NA,rmax,0.138605218,0.138605218,0.138605218,Pardo et al (2016),NA
-Urolophus lobatus,NA,rmax,0.185682128,0.185682128,0.185682128,Pardo et al (2016),NA
-Urolophus paucimaculatus,NA,rmax,0.231740722,0.231740722,0.231740722,Pardo et al (2016),NA
-Pristis perotteti,NA,rmax,0.171686673,0.171686673,0.171686673,Pardo et al (2016),NA
-Amblyraja radiata,NA,rmax,0.284205752,0.284205752,0.284205876,Pardo et al (2016),NA
-Dipturus chilensis,NA,rmax,0.26504833,0.26504833,0.26504833,Pardo et al (2016),NA
-Dipturus trachydermus,NA,rmax,0.225656918,0.225656918,0.225656918,Pardo et al (2016),NA
-Leucoraja erinacea,NA,rmax,0.655138624,0.655138624,0.655138812,Pardo et al (2016),NA
-Leucoraja naevus,NA,rmax,0.435848861,0.435848861,0.43584893049999995,Pardo et al (2016),NA
-Leucoraja ocellata,NA,rmax,0.304721456,0.304721456,0.304721228,Pardo et al (2016),NA
-Raja asterias,NA,rmax,0.883849061,0.883849061,0.883849031,Pardo et al (2016),NA
-Raja binoculata,NA,rmax,0.814461362,0.814461362,0.814461362,Pardo et al (2016),NA
-Raja brachyura,NA,rmax,0.652371229,0.652371229,0.652371115,Pardo et al (2016),NA
-Raja clavata,NA,rmax,0.731301311,0.731301311,0.731301156,Pardo et al (2016),NA
-Raja microocellata,NA,rmax,0.649457033,0.649457033,0.649457017,Pardo et al (2016),NA
-Raja miraletus,NA,rmax,1.395139282,1.395139282,1.395139141,Pardo et al (2016),NA
-Raja montagui,NA,rmax,0.686722213,0.686722213,0.686722107,Pardo et al (2016),NA
-Rhinobatos horkelii,NA,rmax,0.29691643,0.29691643,0.29691643,Pardo et al (2016),NA
-Rhinobatos productus,NA,rmax,0.268414463,0.268414463,0.268414232,Pardo et al (2016),NA
-Torpedo californica,NA,rmax,0.28854261,0.28854261,0.28854280499999996,Pardo et al (2016),NA
-Torpedo marmorata,NA,rmax,0.12761503,0.12761503,0.127615015,Pardo et al (2016),NA
-Torpedo torpedo,NA,rmax,0.263838739,0.263838739,0.26383887,Pardo et al (2016),NA
-Callorhinchus capensis,NA,rmax,0.604497153,0.604497153,0.604497077,Pardo et al (2016),NA
-Callorhinchus milii,NA,rmax,0.491788225,0.491788225,0.491788113,Pardo et al (2016),NA
-Chimaera monstrosa,NA,rmax,0.272023859,0.272023859,0.27202393,Pardo et al (2016),NA
-Cetorhinus maximus,NA,rmax,0.146895563,0.146895563,0.146895782,Pardo et al (2016),NA
-Acroteriobatus_annulatus,,rmax,0.565979797,,,Barrowclift et al (2023),
-Aetobatus_flagellum,,rmax,0.232729205,,,Barrowclift et al (2023),
-Pteromylaeus_bovinus,,rmax,0.903413178,,,Barrowclift et al (2023),
-Amblyraja_georgiana,,rmax,0.175918412,,,Barrowclift et al (2023),
-Amblyraja_radiata,,rmax,0.356450865,,,Barrowclift et al (2023),
-Anoxypristis_cuspidata,,rmax,0.555295804,,,Barrowclift et al (2023),
-Aptychotrema_rostrata,,rmax,0.18123601,,,Barrowclift et al (2023),
-Bathyraja_parmifera,,rmax,0.345675904,,,Barrowclift et al (2023),
-Rhinoraja_albomaculata,,rmax,0.265188631,,,Barrowclift et al (2023),
-Bathyraja_aleutica,,rmax,0.273341887,,,Barrowclift et al (2023),
-Bathyraja_brachyurops,,rmax,0.460763434,,,Barrowclift et al (2023),
-Bathyraja_lindbergi,,rmax,0.217313262,,,Barrowclift et al (2023),
-Bathyraja_maculata,,rmax,0.179479612,,,Barrowclift et al (2023),
-Bathyraja_minispinosa,,rmax,0.184627135,,,Barrowclift et al (2023),
-Rhinoraja_taranetzi,,rmax,0.404960985,,,Barrowclift et al (2023),
-Bathyraja_trachura,,rmax,0.386204421,,,Barrowclift et al (2023),
-Dasyatis_lata,,rmax,0.123772597,,,Barrowclift et al (2023),
-Beringraja_binoculata,,rmax,0.328075682,,,Barrowclift et al (2023),
-Dasyatis_chrysonota,,rmax,0.236833405,,,Barrowclift et al (2023),
-Dasyatis_pastinaca,,rmax,0.245511225,,,Barrowclift et al (2023),
-Dipturus_batis,,rmax,0.345068186,,,Barrowclift et al (2023),
-Zearaja_chilensis,,rmax,0.26709013,,,Barrowclift et al (2023),
-Dipturus_intermedia,,rmax,0.240230226,,,Barrowclift et al (2023),
-Dipturus_laevis,,rmax,0.376412133,,,Barrowclift et al (2023),
-Dipturus_trachydermus,,rmax,0.224219741,,,Barrowclift et al (2023),
-Glaucostegus_cemiculus,,rmax,0.47112834,,,Barrowclift et al (2023),
-Glaucostegus_typus,,rmax,0.351886298,,,Barrowclift et al (2023),
-Gymnura_natalensis,,rmax,0.29787306,,,Barrowclift et al (2023),
-Dasyatis_americana,,rmax,0.335580843,,,Barrowclift et al (2023),
-Dasyatis_dipterura,,rmax,0.144352392,,,Barrowclift et al (2023),
-Leucoraja_erinacea,,rmax,0.322638161,,,Barrowclift et al (2023),
-Leucoraja_naevus,,rmax,0.696850659,,,Barrowclift et al (2023),
-Leucoraja_ocellata,,rmax,0.418558409,,,Barrowclift et al (2023),
-Himantura_gerrardi,,rmax,0.437523399,,,Barrowclift et al (2023),
-Himantura_astra,,rmax,0.143622179,,,Barrowclift et al (2023),
-Malacoraja_senta,,rmax,0.368042286,,,Barrowclift et al (2023),
-Manta_alfredi,,rmax,0.021331948,,,Barrowclift et al (2023),
-Manta_birostris,,rmax,0.023204348,,,Barrowclift et al (2023),
-Mobula_mobular,,rmax,0.084389508,,,Barrowclift et al (2023),
-Myliobatis_californicus,,rmax,0.38187297,,,Barrowclift et al (2023),
-Narcine_brasiliensis,,rmax,0.304833271,,,Barrowclift et al (2023),
-Narcine_entemedor,,rmax,0.337860903,,,Barrowclift et al (2023),
-Neotrygon_annotata,,rmax,0.206820076,,,Barrowclift et al (2023),
-Neotrygon_picta,,rmax,0.257522863,,,Barrowclift et al (2023),
-Neotrygon_kuhlii,,rmax,0.153100715,,,Barrowclift et al (2023),
-Okamejei_kenojei,,rmax,1.036578082,,,Barrowclift et al (2023),
-Platyrhina_sinensis,,rmax,0.51887884,,,Barrowclift et al (2023),
-Pristis_clavata,,rmax,0.227292147,,,Barrowclift et al (2023),
-Pristis_pectinata,,rmax,0.186138543,,,Barrowclift et al (2023),
-Pristis_pristis,,rmax,0.28281211,,,Barrowclift et al (2023),
-Pristis_zijsron,,rmax,0.223712853,,,Barrowclift et al (2023),
-Rhinobatos_horkelii,,rmax,0.26218008,,,Barrowclift et al (2023),
-Rhinobatos_percellens,,rmax,0.212612148,,,Barrowclift et al (2023),
-Rhinobatos_productus,,rmax,0.253102844,,,Barrowclift et al (2023),
-Pteroplatytrygon_violacea,,rmax,0.50934726,,,Barrowclift et al (2023),
-Raja_asterias,,rmax,0.97873531,,,Barrowclift et al (2023),
-Raja_brachyura,,rmax,0.501542491,,,Barrowclift et al (2023),
-Raja_clavata,,rmax,0.594302152,,,Barrowclift et al (2023),
-Raja_microocellata,,rmax,0.651850713,,,Barrowclift et al (2023),
-Raja_miraletus,,rmax,1.27449978,,,Barrowclift et al (2023),
-Raja_montagui,,rmax,0.604184514,,,Barrowclift et al (2023),
-Raja_radula,,rmax,0.678227855,,,Barrowclift et al (2023),
-Raja_undulata,,rmax,0.368569332,,,Barrowclift et al (2023),
-Rhinobatos_rhinobatos,,rmax,0.524552616,,,Barrowclift et al (2023),
-Rhinoptera_bonasus,,rmax,0.052656011,,,Barrowclift et al (2023),
-Rhinoptera_steindachneri,,rmax,0.112937278,,,Barrowclift et al (2023),
-Rhynchobatus_australiae,,rmax,0.498432479,,,Barrowclift et al (2023),
-Rostroraja_alba,,rmax,0.200638594,,,Barrowclift et al (2023),
-Raja_eglanteria,,rmax,0.61666784,,,Barrowclift et al (2023),
-Torpedo_californica,,rmax,0.286401436,,,Barrowclift et al (2023),
-Torpedo_marmorata,,rmax,0.228964974,,,Barrowclift et al (2023),
-Trygonoptera_imitata,,rmax,0.27465506,,,Barrowclift et al (2023),
-Trygonoptera_mucosa,,rmax,0.155280929,,,Barrowclift et al (2023),
-Trygonoptera_personata,,rmax,0.180106136,,,Barrowclift et al (2023),
-Urobatis_concentricus,,rmax,0.33669418,,,Barrowclift et al (2023),
-Urobatis_halleri,,rmax,0.56745145,,,Barrowclift et al (2023),
-Urobatis_jamaicensis,,rmax,0.369357484,,,Barrowclift et al (2023),
-Urolophus_cruciatus,,rmax,0.086241762,,,Barrowclift et al (2023),
-Urolophus_expansus,,rmax,0.090511135,,,Barrowclift et al (2023),
-Urolophus_lobatus,,rmax,0.20946532,,,Barrowclift et al (2023),
-Urolophus_paucimaculatus,,rmax,0.195199012,,,Barrowclift et al (2023),
-Urotrygon_aspidura,,rmax,0.551035051,,,Barrowclift et al (2023),
-Urotrygon_rogersi,,rmax,1.166078111,,,Barrowclift et al (2023),
-Zapteryx_brevirostris,,rmax,0.168110613,,,Barrowclift et al (2023),
-Zapteryx_exasperata,,rmax,0.250425868,,,Barrowclift et al (2023),
+Scyliorhinus canicula,Northeast Atlantic ocean,lambda,1.659,0.5062150112083075,0.4529202997361025,Cortes (2002),
+Sphyrna lewini,West Pacific,lambda,1.6,0.4700036292457356,0.33727741075149587,Cortes (2002),
+Prionace glauca,Northwest Atlantic ocean,lambda,1.401,0.33718626735486995,0.4971600974516233,Cortes (2002),
+Sphyrna tiburo,Eastern Gulf of Mexico,lambda,1.304,0.26543646350446126,0.4602395703761153,Cortes (2002),
+Galeocerdo cuvier,Gulf of Mexico,lambda,1.246,0.2199384203652614,0.2540313811217538,Cortes (2002),
+Mustelus henlei,Northeastern Pacific Ocean,lambda,1.163,0.15100287353652742,0.3255022232682637,Cortes (2002),
+Carcharhinus tilstoni,Eastern Indian Ocean,lambda,1.145,0.13540463700620298,0.23980627366873433,Cortes (2002),
+Isurus oxyrinchus,Northwest Atlantic ocean,lambda,1.141,0.1319050708799386,0.12156506895997954,Cortes (2002),
+Mustelus californicus,Northeastern Pacific Ocean,lambda,1.132,0.1239859797809911,0.39861090139049554,Cortes (2002),
+Alopias vulpinus,Northeastern Pacific Ocean,lambda,1.125,0.11778303565638346,0.11778303565638346,Cortes (2002),
+Carcharhinus longimanus,Pacific Ocean,lambda,1.117,0.11064652008706365,0.17834739802902122,Cortes (2002),
+Carcharhinus falciformis,Gulf of Mexico,lambda,1.108,0.10255658832509217,0.10239578504263852,Cortes (2002),
+Carcharodon carcharias,Northeastern Pacific Ocean,lambda,1.098,0.093490343,0.12421085536244632,Cortes (2002),
+Mustelus manazo,Northwestern Pacific Ocean,lambda,1.096,0.091667189,0.299751792,Cortes (2002),
+Carcharhinus sorrah,Eastern Indian Ocean,lambda,1.093,0.088926209,0.2428714820648005,Cortes (2002),
+Carcharhinus porosus,Southwestern Atlantic Ocean,lambda,1.086,0.082501222,0.12350496625943,Cortes (2002),
+Carcharhinus porosus,Southwestern Atlantic Ocean,lambda,1.013,0.012916225,0.12350496625943,Cortes (2002),
+Carcharhinus galapagensis,Central Pacific Ocean,lambda,1.086,0.082501222,0.15585450717058125,Cortes (2002),
+Sphyrna lewini,Gulf of Mexico,lambda,1.086,0.082501222,0.33727741075149587,Cortes (2002),
+Mustelus antarcticus,Southwestern Pacific Ocean,lambda,1.082,0.07881118,0.28440785214142994,Cortes (2002),
+Galeorhinus galeus,Southwestern Pacific Ocean,lambda,1.077,0.074179398,0.1551090157247505,Cortes (2002),
+Rhizoprionodon taylori,Southwestern Pacific Ocean,lambda,1.073,0.070458464,0.4995567298242807,Cortes (2002),
+Negaprion brevirostris,Gulf of Mexico,lambda,1.064,0.062035391,0.10491119163981756,Cortes (2002),
+Carcharhinus falciformis,Gulf of Mexico,lambda,1.057,0.05543470688810052,0.10239578504263852,Cortes (2002),
+Rhizoprionodon terranovae,Gulf of Mexico,lambda,1.056,0.05448818528406977,0.1197440926420349,Cortes (2002),
+Carcharhinus brachyurus,Southwestern Indian Ocean,lambda,1.043,0.04210117601863532,0.096398505,Cortes (2002),
+Carcharhinus brevipinna,Gulf of Mexico,lambda,1.037,0.0363319292473902,0.15886659931184757,Cortes (2002),
+Carcharhinus obscurus,Northwestern Atlantic Ocean,lambda,1.03,0.029558802,0.07086217,Cortes (2002),
+Carcharhinus plumbeus,Northwestern Atlantic Ocean,lambda,1.022,0.021761492,0.10570114759383756,Cortes (2002),
+Lamna nasus,Northwestern Atlantic Ocean,lambda,1.022,0.021761492,0.098885038,Cortes (2002),
+Alopias pelagicus,Northwestern Pacific Ocean,lambda,1.02,0.019802627,0.082481417,Cortes (2002),
+Squatina californica,Northeastern Pacific Ocean,lambda,1.019,0.01882175424058766,0.11617507112029384,Cortes (2002),
+Triakis semifasciata,Northeastern Pacific Ocean,lambda,1.016,0.01587334915629016,0.15651138353907254,Cortes (2002),
+Carcharhinus leucas,Gulf of Mexico,lambda,0.998,-0.002002003,0.13545351158233174,Cortes (2002),
+Alopias superciliosus,Northwestern Pacific Ocean,lambda,0.996,-0.004008021,0.060599847,Cortes (2002),
+Carcharias taurus,Northwestern Atlantic Ocean,lambda,0.978,-0.022245609,0.03480866368422675,Cortes (2002),
+Carcharhinus limbatus,Gulf of Mexico,lambda,0.974,-0.026343975,0.1085843441320796,Cortes (2002),
+Carcharhinus amblyrhynchos,Central Pacific Ocean,lambda,0.941,-0.060812139,0.074666477,Cortes (2002),
+Squalus acanthias,Northwestern Atlantic Ocean,lambda,0.938,-0.06400533,0.02927841322961239,Cortes (2002),
+Squalus acanthias,Northeastern Pacific Ocean,lambda,0.893,-0.113168698,0.02927841322961239,Cortes (2002),
+Squalus mitsukurii,Central Pacific Ocean,lambda,0.864,-0.14618251,-0.03079057,Cortes (2002),
+Carcharhinus acronotus,Gulf of Mexico,lambda,0.894,-0.112049504,0.19932762354784428,Cortes (2002),
+Isogomphodon oxyrhynchus,Southwestern Atlantic Ocean,lambda,1.029,0.02858745685191247,0.10693315342595625,Lessa et al (2016),
+Pristis pectinata,Northeastern Atlantic Ocean,lambda,1.15,0.13976194237515863,0.13976194237515863,Carlson & Simpfendorfer (2015),
+Callorhinchus milii,,rmax,0.491788,0.491788,0.491788113,Pardo & Dulvy (2022),
+Callorhinchus capensis,,rmax,0.604497,0.604497,0.604497077,Pardo & Dulvy (2022),
+Chimaera monstrosa,,rmax,0.272024,0.272024,0.27202393,Pardo & Dulvy (2022),
+Leucoraja naevus,,rmax,0.435849,0.435849,0.4358489304999999,Pardo & Dulvy (2022),
+Leucoraja erinacea,,rmax,0.655139,0.655139,0.655138812,Pardo & Dulvy (2022),
+Leucoraja ocellata,,rmax,0.304721,0.304721,0.304721228,Pardo & Dulvy (2022),
+Amblyraja radiata,,rmax,0.284206,0.284206,0.284205876,Pardo & Dulvy (2022),
+Raja miraletus,,rmax,1.395139,1.395139,1.395139141,Pardo & Dulvy (2022),
+Raja montagui,,rmax,0.686722,0.686722,0.686722107,Pardo & Dulvy (2022),
+Raja microocellata,,rmax,0.649457,0.649457,0.649457017,Pardo & Dulvy (2022),
+Raja brachyura,,rmax,0.652371,0.652371,0.652371115,Pardo & Dulvy (2022),
+Raja asterias,,rmax,0.883849,0.883849,0.883849031,Pardo & Dulvy (2022),
+Raja clavata,,rmax,0.731301,0.731301,0.731301156,Pardo & Dulvy (2022),
+Beringraja binoculata,,rmax,0.814461,0.814461,0.814461,Pardo & Dulvy (2022),
+Torpedo californica,,rmax,0.288543,0.288543,0.28854280499999996,Pardo & Dulvy (2022),
+Torpedo marmorata,,rmax,0.127615,0.127615,0.127615015,Pardo & Dulvy (2022),
+Torpedo torpedo,,rmax,0.263839,0.263839,0.26383887,Pardo & Dulvy (2022),
+Rhinobatos productus,,rmax,0.268414,0.268414,0.268414232,Pardo & Dulvy (2022),
+Aetobatus flagellum,,rmax,0.221585,0.221585,0.221585141,Pardo & Dulvy (2022),
+Myliobatis californicus,,rmax,0.296264,0.296264,0.29626389750000004,Pardo & Dulvy (2022),
+Manta birostris,,rmax,0.067362,0.067362,0.067362,Pardo & Dulvy (2022),
+Dasyatis americana,,rmax,0.269553,0.269553,0.26955315150000003,Pardo & Dulvy (2022),
+Pteroplatytrygon violacea,,rmax,0.480792,0.480792,0.480791782,Pardo & Dulvy (2022),
+Notorynchus cepedianus,,rmax,0.23644,0.23644,0.236439941,Pardo & Dulvy (2022),
+Deania calcea,,rmax,0.076586,0.076586,0.076585841,Pardo & Dulvy (2022),
+Centrophorus squamosus,,rmax,0.05413,0.05413,0.054130247,Pardo & Dulvy (2022),
+Squalus acanthias,,rmax,0.147144,0.147144,0.02927841322961239,Pardo & Dulvy (2022),
+Etmopterus spinax,,rmax,0.183381,0.183381,0.183380956,Pardo & Dulvy (2022),
+Rhincodon typus,,rmax,0.187519,0.187519,0.187519214,Pardo & Dulvy (2022),
+Alopias superciliosus,,rmax,0.092904,0.092904,0.060599847,Pardo & Dulvy (2022),
+Carcharias taurus,,rmax,0.063336,0.063336,0.03480866368422675,Pardo & Dulvy (2022),
+Cetorhinus maximus,,rmax,0.146896,0.146896,0.146895782,Pardo & Dulvy (2022),
+Lamna ditropis,,rmax,0.218735,0.218735,0.218735092,Pardo & Dulvy (2022),
+Lamna nasus,,rmax,0.137447,0.137447,0.098885038,Pardo & Dulvy (2022),
+Carcharodon carcharias,,rmax,0.139571,0.139571,0.12421085536244632,Pardo & Dulvy (2022),
+Isurus oxyrinchus,,rmax,0.116395,0.116395,0.12156506895997954,Pardo & Dulvy (2022),
+Scyliorhinus canicula,,rmax,0.426273,0.426273,0.4529202997361025,Pardo & Dulvy (2022),
+Galeorhinus galeus,,rmax,0.195574,0.195574,0.1551090157247505,Pardo & Dulvy (2022),
+Triakis semifasciata,,rmax,0.271586,0.271586,0.15651138353907254,Pardo & Dulvy (2022),
+Furgaleus macki,,rmax,0.296854,0.296854,0.296854139,Pardo & Dulvy (2022),
+Mustelus manazo,,rmax,0.403794,0.403794,0.299751792,Pardo & Dulvy (2022),
+Mustelus antarcticus,,rmax,0.387206,0.387206,0.28440785214142994,Pardo & Dulvy (2022),
+Mustelus canis,,rmax,0.451685,0.451685,0.451684893,Pardo & Dulvy (2022),
+Galeocerdo cuvier,,rmax,0.271078,0.271078,0.2540313811217538,Pardo & Dulvy (2022),
+Sphyrna lewini,,rmax,0.464941,0.464941,0.33727741075149587,Pardo & Dulvy (2022),
+Sphyrna tiburo,,rmax,0.556761,0.556761,0.4602395703761153,Pardo & Dulvy (2022),
+Rhizoprionodon terranovae,,rmax,0.499373,0.499373,0.499373224,Pardo & Dulvy (2022),
+Negaprion brevirostris,,rmax,0.126349,0.126349,0.10491119163981756,Pardo & Dulvy (2022),
+Carcharhinus limbatus,,rmax,0.131133,0.131133,0.1085843441320796,Pardo & Dulvy (2022),
+Carcharhinus tilstoni,,rmax,0.292007,0.292007,0.23980627366873433,Pardo & Dulvy (2022),
+Carcharhinus signatus,,rmax,0.204211,0.204211,0.14714076333333334,Pardo & Dulvy (2022),
+Carcharhinus amblyrhynchos,,rmax,0.142406,0.142406,0.074666477,Pardo & Dulvy (2022),
+Carcharhinus falciformis,,rmax,0.155494,0.155494,0.10239578504263852,Pardo & Dulvy (2022),
+Prionace glauca,,rmax,0.577147,0.577147,0.4971600974516233,Pardo & Dulvy (2022),
+Carcharhinus plumbeus,,rmax,0.147671,0.147671,0.10570114759383756,Pardo & Dulvy (2022),
+Carcharhinus sorrah,,rmax,0.319844,0.319844,0.2428714820648005,Pardo & Dulvy (2022),
+Carcharhinus longimanus,,rmax,0.212198,0.212198,0.17834739802902122,Pardo & Dulvy (2022),
+Carcharhinus obscurus,,rmax,0.091514,0.091514,0.07086217,Pardo & Dulvy (2022),
+Carcharhinus galapagensis,,rmax,0.192531,0.192531,0.15585450717058125,Pardo & Dulvy (2022),
+Carcharhinus leucas,,rmax,0.113908,0.113908,0.13545351158233174,Pardo & Dulvy (2022),
+Carcharhinus brevipinna,,rmax,0.179567,0.179567,0.15886659931184757,Pardo & Dulvy (2022),
+Carcharhinus brachyurus,,rmax,0.123547,0.123547,0.096398505,Pardo & Dulvy (2022),
+Carcharhinus acronotus,,rmax,0.24068,0.24068,0.19932762354784428,Pardo & Dulvy (2022),
+Sphyrna mokarran,,rmax,0.202,0.202,0.202,Pardo et al (2018),
+Carcharhinus isodon,,rmax,0.197,0.197,0.171432991,Pardo et al (2018),
+Carcharhinus limbatus,Gulf of Mexico,rmax,0.195,0.195,0.1085843441320796,Pardo et al (2018),
+Rhizoprionodon terranovae,,rmax,0.185,0.185,0.1197440926420349,Pardo et al (2018),
+Carcharhinus limbatus,Atlantic Ocean,rmax,0.112,0.112,0.1085843441320796,Pardo et al (2018),
+Carcharhinus acronotus,,rmax,0.428,0.428,0.19932762354784428,Pardo et al (2018),
+Carcharhinus brevipinna,,rmax,0.24,0.24,0.15886659931184757,Pardo et al (2018),
+Carcharhinus leucas,,rmax,0.316,0.316,0.13545351158233174,Pardo et al (2018),
+Sphyrna tiburo,,rmax,0.462,0.462,0.4602395703761153,Pardo et al (2018),
+Sphyrna lewini,,rmax,0.204,0.204,0.33727741075149587,Pardo et al (2018),
+Dipturus laevis,,r,0.45,0.45,0.45,Gedamcke et al,calculated r
+Rhynchobatus australiae,,rmax,0.3875,0.3875,0.3875,D'Alberto et al (2019),"Mean rmax values calculated from the means of four estimates provided by the authors (Jensen, Hewitt and Hoeing, Frisk, and reciprocal of lifespan estimator)"
+Glaucostegus cemiculus,,rmax,0.3775,0.3775,0.3775,D'Alberto et al (2019),"Mean rmax values calculated from four estimates provided by the authors (Jensen, Hewitt and Hoeing, Frisk, and reciprocal of lifespan estimator)"
+Glaucostegus typus,,rmax,0.27,0.27,0.27,D'Alberto et al (2019),"Mean rmax values calculated from four estimates provided by the authors (Jensen, Hewitt and Hoeing, Frisk, and reciprocal of lifespan estimator)"
+Acroteriobatus annulatus,,rmax,0.35,0.35,0.35,D'Alberto et al (2019),"Mean rmax values calculated from four estimates provided by the authors (Jensen, Hewitt and Hoeing, Frisk, and reciprocal of lifespan estimator)"
+Pseudobatos horkelii,,rmax,0.19,0.19,0.19,D'Alberto et al (2019),"Mean rmax values calculated from four estimates provided by the authors (Jensen, Hewitt and Hoeing, Frisk, and reciprocal of lifespan estimator)"
+Pseudobatos productus,,rmax,0.17,0.17,0.17,D'Alberto et al (2019),"Mean rmax values calculated from four estimates provided by the authors (Jensen, Hewitt and Hoeing, Frisk, and reciprocal of lifespan estimator)"
+Rhinobatos rhinobatos,,rmax,0.3725,0.3725,0.3725,D'Alberto et al (2019),"Mean rmax values calculated from four estimates provided by the authors (Jensen, Hewitt and Hoeing, Frisk, and reciprocal of lifespan estimator)"
+Zapteryx brevirostris,,rmax,0.0925,0.0925,0.0925,D'Alberto et al (2019),"Mean rmax values calculated from four estimates provided by the authors (Jensen, Hewitt and Hoeing, Frisk, and reciprocal of lifespan estimator)"
+Zapteryx exasperata,,rmax,0.19,0.19,0.19,D'Alberto et al (2019),"Mean rmax values calculated from four estimates provided by the authors (Jensen, Hewitt and Hoeing, Frisk, and reciprocal of lifespan estimator)"
+Carcharhinus falciformis,Southwestern Atlantic Ocean,r,0.043,0.043,0.10239578504263852,Santander-Neto et al (2021),
+Carcharhinus signatus,Southwestern Atlantic Ocean,r,0.033,0.033,0.14714076333333334,Santana et al (2009),
+Triakis semifasciata,Northeastern Pacific Ocean,r,0.067,0.067,0.15651138353907254,Cailliet (1992),
+Carcharhinus acronotus,,rmax,0.240679998,0.240679998,0.19932762354784428,Pardo et al (2016),
+Carcharhinus amblyrhynchos,,rmax,0.142405571,0.142405571,0.074666477,Pardo et al (2016),
+Carcharhinus brachyurus,,rmax,0.123547339,0.123547339,0.096398505,Pardo et al (2016),
+Carcharhinus brevipinna,,rmax,0.179567468,0.179567468,0.15886659931184757,Pardo et al (2016),
+Carcharhinus cautus,,rmax,0.166782051,0.166782051,0.166782051,Pardo et al (2016),
+Carcharhinus falciformis,,rmax,0.15549363,0.15549363,0.10239578504263852,Pardo et al (2016),
+Carcharhinus galapagensis,,rmax,0.1925313,0.1925313,0.15585450717058125,Pardo et al (2016),
+Carcharhinus isodon,,rmax,0.145865981,0.145865981,0.171432991,Pardo et al (2016),
+Carcharhinus leucas,,rmax,0.113908049,0.113908049,0.13545351158233174,Pardo et al (2016),
+Carcharhinus limbatus,,rmax,0.131132696,0.131132696,0.1085843441320796,Pardo et al (2016),
+Carcharhinus longimanus,,rmax,0.212197674,0.212197674,0.17834739802902122,Pardo et al (2016),
+Carcharhinus obscurus,,rmax,0.091513707,0.091513707,0.07086217,Pardo et al (2016),
+Carcharhinus plumbeus,,rmax,0.147670951,0.147670951,0.10570114759383756,Pardo et al (2016),
+Carcharhinus porosus,,rmax,0.275097452,0.275097452,0.12350496625943,Pardo et al (2016),
+Carcharhinus signatus,,rmax,0.20421129,0.20421129,0.14714076333333334,Pardo et al (2016),
+Carcharhinus sorrah,,rmax,0.319844237,0.319844237,0.2428714820648005,Pardo et al (2016),
+Carcharhinus tilstoni,,rmax,0.292007184,0.292007184,0.23980627366873433,Pardo et al (2016),
+Galeocerdo cuvier,,rmax,0.271077723,0.271077723,0.2540313811217538,Pardo et al (2016),
+Isogomphodon oxyrhynchus,,rmax,0.18527885,0.18527885,0.10693315342595625,Pardo et al (2016),
+Negaprion brevirostris,,rmax,0.126349184,0.126349184,0.10491119163981756,Pardo et al (2016),
+Prionace glauca,,rmax,0.577147025,0.577147025,0.4971600974516233,Pardo et al (2016),
+Rhizoprionodon taylori,,rmax,0.928654996,0.928654996,0.4995567298242807,Pardo et al (2016),
+Rhizoprionodon terranovae,,rmax,0.499373448,0.499373448,0.499373224,Pardo et al (2016),
+Scyliorhinus canicula,,rmax,0.426272888,0.426272888,0.4529202997361025,Pardo et al (2016),
+Sphyrna lewini,,rmax,0.464941203,0.464941203,0.33727741075149587,Pardo et al (2016),
+Sphyrna tiburo,,rmax,0.556760818,0.556760818,0.4602395703761153,Pardo et al (2016),
+Furgaleus macki,,rmax,0.296854277,0.296854277,0.296854139,Pardo et al (2016),
+Galeorhinus galeus,,rmax,0.195573649,0.195573649,0.1551090157247505,Pardo et al (2016),
+Mustelus antarcticus,,rmax,0.387206376,0.387206376,0.28440785214142994,Pardo et al (2016),
+Mustelus californicus,,rmax,0.673235823,0.673235823,0.39861090139049554,Pardo et al (2016),
+Mustelus canis,,rmax,0.451684785,0.451684785,0.451684893,Pardo et al (2016),
+Mustelus henlei,,rmax,0.500001573,0.500001573,0.3255022232682637,Pardo et al (2016),
+Mustelus lenticulatus,,rmax,0.303720423,0.303720423,0.303720423,Pardo et al (2016),
+Mustelus manazo,,rmax,0.403794186,0.403794186,0.299751792,Pardo et al (2016),
+Mustelus mustelus,,rmax,0.189808752,0.189808752,0.189808752,Pardo et al (2016),
+Triakis semifasciata,,rmax,0.271586185,0.271586185,0.15651138353907254,Pardo et al (2016),
+Notorynchus cepedianus,,rmax,0.236439882,0.236439882,0.236439941,Pardo et al (2016),
+Alopias pelagicus,,rmax,0.14516020600000001,0.14516020600000001,0.082481417,Pardo et al (2016),
+Alopias superciliosus,,rmax,0.092903563,0.092903563,0.060599847,Pardo et al (2016),
+Carcharodon carcharias,,rmax,0.139571223,0.139571223,0.12421085536244632,Pardo et al (2016),
+Isurus oxyrinchus,,rmax,0.116395136,0.116395136,0.12156506895997954,Pardo et al (2016),
+Lamna ditropis,,rmax,0.218735184,0.218735184,0.218735092,Pardo et al (2016),
+Lamna nasus,,rmax,0.137446621,0.137446621,0.098885038,Pardo et al (2016),
+Carcharias taurus,,rmax,0.0633356,0.0633356,0.03480866368422675,Pardo et al (2016),
+Rhincodon typus,,rmax,0.187519428,0.187519428,0.187519214,Pardo et al (2016),
+Centroselachus crepidater,,rmax,0.100728876,0.100728876,0.100728876,Pardo et al (2016),
+Centrophorus granulosus,,rmax,0.034853173,0.034853173,0.034853173,Pardo et al (2016),
+Centrophorus squamosus,,rmax,0.054130494,0.054130494,0.054130247,Pardo et al (2016),
+Deania calcea,,rmax,0.076585681,0.076585681,0.076585841,Pardo et al (2016),
+Dalatias licha,,rmax,0.220984202,0.220984202,0.220984202,Pardo et al (2016),
+Etmopterus baxteri,,rmax,0.075957543,0.075957543,0.075957543,Pardo et al (2016),
+Etmopterus spinax,,rmax,0.183380911,0.183380911,0.183380956,Pardo et al (2016),
+Squalus acanthias,,rmax,0.147143681,0.147143681,0.02927841322961239,Pardo et al (2016),
+Squalus blainvillei,,rmax,0.178268372,0.178268372,0.178268372,Pardo et al (2016),
+Squalus megalops,,rmax,0.081497801,0.081497801,0.081497801,Pardo et al (2016),
+Squalus mitsukurii,,rmax,0.084601371,0.084601371,-0.03079057,Pardo et al (2016),
+Squatina californica,,rmax,0.213528388,0.213528388,0.11617507112029384,Pardo et al (2016),
+Squatina guggenheim,,rmax,0.184285105,0.184285105,0.184285105,Pardo et al (2016),
+Squatina occulta,,rmax,0.096998614,0.096998614,0.096998614,Pardo et al (2016),
+Dasyatis americana,,rmax,0.269553303,0.269553303,0.26955315150000003,Pardo et al (2016),
+Dasyatis chrysonota,,rmax,0.221867248,0.221867248,0.221867248,Pardo et al (2016),
+Dasyatis dipterura,,rmax,0.133123212,0.133123212,0.133123212,Pardo et al (2016),
+Dasyatis pastinaca,,rmax,0.395480513,0.395480513,0.395480513,Pardo et al (2016),
+Pteroplatytrygon violacea,,rmax,0.480791564,0.480791564,0.480791782,Pardo et al (2016),
+Aetobatus flagellum,,rmax,0.221585282,0.221585282,0.221585141,Pardo et al (2016),
+Myliobatis californicus,,rmax,0.296263795,0.296263795,0.29626389750000004,Pardo et al (2016),
+Rhinoptera bonasus,,rmax,0.089724271,0.089724271,0.089724271,Pardo et al (2016),
+Trygonoptera mucosa,,rmax,0.116486948,0.116486948,0.116486948,Pardo et al (2016),
+Trygonoptera personata,,rmax,0.138605218,0.138605218,0.138605218,Pardo et al (2016),
+Urolophus lobatus,,rmax,0.185682128,0.185682128,0.185682128,Pardo et al (2016),
+Urolophus paucimaculatus,,rmax,0.231740722,0.231740722,0.231740722,Pardo et al (2016),
+Pristis perotteti,,rmax,0.171686673,0.171686673,0.171686673,Pardo et al (2016),
+Amblyraja radiata,,rmax,0.284205752,0.284205752,0.284205876,Pardo et al (2016),
+Dipturus chilensis,,rmax,0.26504833,0.26504833,0.26504833,Pardo et al (2016),
+Dipturus trachydermus,,rmax,0.225656918,0.225656918,0.225656918,Pardo et al (2016),
+Leucoraja erinacea,,rmax,0.655138624,0.655138624,0.655138812,Pardo et al (2016),
+Leucoraja naevus,,rmax,0.435848861,0.435848861,0.4358489304999999,Pardo et al (2016),
+Leucoraja ocellata,,rmax,0.304721456,0.304721456,0.304721228,Pardo et al (2016),
+Raja asterias,,rmax,0.883849061,0.883849061,0.883849031,Pardo et al (2016),
+Raja binoculata,,rmax,0.814461362,0.814461362,0.814461362,Pardo et al (2016),
+Raja brachyura,,rmax,0.652371229,0.652371229,0.652371115,Pardo et al (2016),
+Raja clavata,,rmax,0.731301311,0.731301311,0.731301156,Pardo et al (2016),
+Raja microocellata,,rmax,0.649457033,0.649457033,0.649457017,Pardo et al (2016),
+Raja miraletus,,rmax,1.395139282,1.395139282,1.395139141,Pardo et al (2016),
+Raja montagui,,rmax,0.686722213,0.686722213,0.686722107,Pardo et al (2016),
+Rhinobatos horkelii,,rmax,0.29691643,0.29691643,0.29691643,Pardo et al (2016),
+Rhinobatos productus,,rmax,0.268414463,0.268414463,0.268414232,Pardo et al (2016),
+Torpedo californica,,rmax,0.28854261,0.28854261,0.28854280499999996,Pardo et al (2016),
+Torpedo marmorata,,rmax,0.12761503,0.12761503,0.127615015,Pardo et al (2016),
+Torpedo torpedo,,rmax,0.263838739,0.263838739,0.26383887,Pardo et al (2016),
+Callorhinchus capensis,,rmax,0.604497153,0.604497153,0.604497077,Pardo et al (2016),
+Callorhinchus milii,,rmax,0.491788225,0.491788225,0.491788113,Pardo et al (2016),
+Chimaera monstrosa,,rmax,0.272023859,0.272023859,0.27202393,Pardo et al (2016),
+Cetorhinus maximus,,rmax,0.146895563,0.146895563,0.146895782,Pardo et al (2016),
+Acroteriobatus annulatus,,rmax,0.565979797,,,Barrowclift et al (2023),
+Aetobatus flagellum,,rmax,0.232729205,,,Barrowclift et al (2023),
+Pteromylaeus bovinus,,rmax,0.903413178,,,Barrowclift et al (2023),
+Amblyraja georgiana,,rmax,0.175918412,,,Barrowclift et al (2023),
+Amblyraja radiata,,rmax,0.356450865,,,Barrowclift et al (2023),
+Anoxypristis cuspidata,,rmax,0.555295804,,,Barrowclift et al (2023),
+Aptychotrema rostrata,,rmax,0.18123601,,,Barrowclift et al (2023),
+Bathyraja parmifera,,rmax,0.345675904,,,Barrowclift et al (2023),
+Rhinoraja albomaculata,,rmax,0.265188631,,,Barrowclift et al (2023),
+Bathyraja aleutica,,rmax,0.273341887,,,Barrowclift et al (2023),
+Bathyraja brachyurops,,rmax,0.460763434,,,Barrowclift et al (2023),
+Bathyraja lindbergi,,rmax,0.217313262,,,Barrowclift et al (2023),
+Bathyraja maculata,,rmax,0.179479612,,,Barrowclift et al (2023),
+Bathyraja minispinosa,,rmax,0.184627135,,,Barrowclift et al (2023),
+Rhinoraja taranetzi,,rmax,0.404960985,,,Barrowclift et al (2023),
+Bathyraja trachura,,rmax,0.386204421,,,Barrowclift et al (2023),
+Dasyatis lata,,rmax,0.123772597,,,Barrowclift et al (2023),
+Beringraja binoculata,,rmax,0.328075682,,,Barrowclift et al (2023),
+Dasyatis chrysonota,,rmax,0.236833405,,,Barrowclift et al (2023),
+Dasyatis pastinaca,,rmax,0.245511225,,,Barrowclift et al (2023),
+Dipturus batis,,rmax,0.345068186,,,Barrowclift et al (2023),
+Zearaja chilensis,,rmax,0.26709013,,,Barrowclift et al (2023),
+Dipturus intermedia,,rmax,0.240230226,,,Barrowclift et al (2023),
+Dipturus laevis,,rmax,0.376412133,,,Barrowclift et al (2023),
+Dipturus trachydermus,,rmax,0.224219741,,,Barrowclift et al (2023),
+Glaucostegus cemiculus,,rmax,0.47112834,,,Barrowclift et al (2023),
+Glaucostegus typus,,rmax,0.351886298,,,Barrowclift et al (2023),
+Gymnura natalensis,,rmax,0.29787306,,,Barrowclift et al (2023),
+Dasyatis americana,,rmax,0.335580843,,,Barrowclift et al (2023),
+Dasyatis dipterura,,rmax,0.144352392,,,Barrowclift et al (2023),
+Leucoraja erinacea,,rmax,0.322638161,,,Barrowclift et al (2023),
+Leucoraja naevus,,rmax,0.696850659,,,Barrowclift et al (2023),
+Leucoraja ocellata,,rmax,0.418558409,,,Barrowclift et al (2023),
+Himantura gerrardi,,rmax,0.437523399,,,Barrowclift et al (2023),
+Himantura astra,,rmax,0.143622179,,,Barrowclift et al (2023),
+Malacoraja senta,,rmax,0.368042286,,,Barrowclift et al (2023),
+Manta alfredi,,rmax,0.021331948,,,Barrowclift et al (2023),
+Manta birostris,,rmax,0.023204348,,,Barrowclift et al (2023),
+Mobula mobular,,rmax,0.084389508,,,Barrowclift et al (2023),
+Myliobatis californicus,,rmax,0.38187297,,,Barrowclift et al (2023),
+Narcine brasiliensis,,rmax,0.304833271,,,Barrowclift et al (2023),
+Narcine entemedor,,rmax,0.337860903,,,Barrowclift et al (2023),
+Neotrygon annotata,,rmax,0.206820076,,,Barrowclift et al (2023),
+Neotrygon picta,,rmax,0.257522863,,,Barrowclift et al (2023),
+Neotrygon kuhlii,,rmax,0.153100715,,,Barrowclift et al (2023),
+Okamejei kenojei,,rmax,1.036578082,,,Barrowclift et al (2023),
+Platyrhina sinensis,,rmax,0.51887884,,,Barrowclift et al (2023),
+Pristis clavata,,rmax,0.227292147,,,Barrowclift et al (2023),
+Pristis pectinata,,rmax,0.186138543,,,Barrowclift et al (2023),
+Pristis pristis,,rmax,0.28281211,,,Barrowclift et al (2023),
+Pristis zijsron,,rmax,0.223712853,,,Barrowclift et al (2023),
+Rhinobatos horkelii,,rmax,0.26218008,,,Barrowclift et al (2023),
+Rhinobatos percellens,,rmax,0.212612148,,,Barrowclift et al (2023),
+Rhinobatos productus,,rmax,0.253102844,,,Barrowclift et al (2023),
+Pteroplatytrygon violacea,,rmax,0.50934726,,,Barrowclift et al (2023),
+Raja asterias,,rmax,0.97873531,,,Barrowclift et al (2023),
+Raja brachyura,,rmax,0.501542491,,,Barrowclift et al (2023),
+Raja clavata,,rmax,0.594302152,,,Barrowclift et al (2023),
+Raja microocellata,,rmax,0.651850713,,,Barrowclift et al (2023),
+Raja miraletus,,rmax,1.27449978,,,Barrowclift et al (2023),
+Raja montagui,,rmax,0.604184514,,,Barrowclift et al (2023),
+Raja radula,,rmax,0.678227855,,,Barrowclift et al (2023),
+Raja undulata,,rmax,0.368569332,,,Barrowclift et al (2023),
+Rhinobatos rhinobatos,,rmax,0.524552616,,,Barrowclift et al (2023),
+Rhinoptera bonasus,,rmax,0.052656011,,,Barrowclift et al (2023),
+Rhinoptera steindachneri,,rmax,0.112937278,,,Barrowclift et al (2023),
+Rhynchobatus australiae,,rmax,0.498432479,,,Barrowclift et al (2023),
+Rostroraja alba,,rmax,0.200638594,,,Barrowclift et al (2023),
+Raja eglanteria,,rmax,0.61666784,,,Barrowclift et al (2023),
+Torpedo californica,,rmax,0.286401436,,,Barrowclift et al (2023),
+Torpedo marmorata,,rmax,0.228964974,,,Barrowclift et al (2023),
+Trygonoptera imitata,,rmax,0.27465506,,,Barrowclift et al (2023),
+Trygonoptera mucosa,,rmax,0.155280929,,,Barrowclift et al (2023),
+Trygonoptera personata,,rmax,0.180106136,,,Barrowclift et al (2023),
+Urobatis concentricus,,rmax,0.33669418,,,Barrowclift et al (2023),
+Urobatis halleri,,rmax,0.56745145,,,Barrowclift et al (2023),
+Urobatis jamaicensis,,rmax,0.369357484,,,Barrowclift et al (2023),
+Urolophus cruciatus,,rmax,0.086241762,,,Barrowclift et al (2023),
+Urolophus expansus,,rmax,0.090511135,,,Barrowclift et al (2023),
+Urolophus lobatus,,rmax,0.20946532,,,Barrowclift et al (2023),
+Urolophus paucimaculatus,,rmax,0.195199012,,,Barrowclift et al (2023),
+Urotrygon aspidura,,rmax,0.551035051,,,Barrowclift et al (2023),
+Urotrygon rogersi,,rmax,1.166078111,,,Barrowclift et al (2023),
+Zapteryx brevirostris,,rmax,0.168110613,,,Barrowclift et al (2023),
+Zapteryx exasperata,,rmax,0.250425868,,,Barrowclift et al (2023),
