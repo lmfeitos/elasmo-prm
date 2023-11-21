@@ -55,24 +55,6 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name, gear_class, habitat_associated, estimate_type, estimate, sample_size,
     method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family
   ) %>%
-  mutate(max_size_cm = case_when( # filling missing information based on the average per group
-    scientific_name == "Dasyatis sp" ~ 146.22,
-    scientific_name == "Squalus sp" ~ 141.12,
-    scientific_name == "Mustelus sp" ~ 171.9,
-    scientific_name == "Centrophorus sp" ~ 165.75,
-    scientific_name == "sharks" ~ 347.2639,
-    scientific_name == "rays" ~ 170.2222, # only calculated for the batoid species with disk width measures
-    TRUE ~ max_size_cm
-  )) %>%
-  mutate(median_depth = case_when( # filling missing information based on the average per group
-    scientific_name == "Dasyatis sp" ~ 139.33,
-    scientific_name == "Squalus sp" ~ 601.875,
-    scientific_name == "Mustelus sp" ~ 254.3929,
-    scientific_name == "Centrophorus sp" ~ 1136.25,
-    scientific_name == "sharks" ~ 313.2104,
-    scientific_name == "rays" ~ 120.5278,
-    TRUE ~ median_depth
-  )) %>%
   mutate(measure = case_when(
     scientific_name == "sharks" ~ "total_length",
     scientific_name %in% c("rays", "Dasyatis sp") ~ "disk_width",
@@ -83,7 +65,8 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name == "rays" ~ "yolk-sac viviparity",
     TRUE ~ reproductive_mode
   )) %>%
-  mutate_if(is.character, as.factor)
+  mutate_if(is.character, as.factor) %>% 
+  filter(!grepl("sp", scientific_name))
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
 elasmo_avm <- prm_elasmo_subset %>%
@@ -200,8 +183,8 @@ prm_tune <- prm_wflw %>% # use cross validation to tune parameters
 Below displays the results of cross validation tuning
 
 ```{r}
-autoplot(avm_tune) + # plot results of tuning
-  theme_bw() # change theme
+# autoplot(avm_tune) + # plot results of tuning
+#   theme_bw() # change theme
 ```
 
 ```{r}
@@ -210,6 +193,10 @@ select_best(avm_tune, metric = "rsq", n = 1) # get the best model
 
 ```{r, include=FALSE}
 avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rsq")) # finalize the workflow with the best model
+#
+# saveRDS(avm_final, here::here("data", "avm_final.rds"))
+
+# avm_final <- readRDS(here::here("data", "avm_final.rds"))
 ```
 
 ```{r, include=FALSE}
@@ -237,16 +224,20 @@ avm_test_metrics
 Below displays the results of cross validation tuning
 
 ```{r}
-autoplot(prm_tune) + # plot results of tuning
-  theme_bw() # change theme
+# autoplot(prm_tune) + # plot results of tuning
+#   theme_bw() # change theme
 ```
 
 ```{r}
-select_best(prm_tune, metric = "rsq", n = 1) # get the best model
+# select_best(prm_tune, metric = "rsq", n = 1) # get the best model
 ```
 
 ```{r, include=FALSE}
 prm_final <- finalize_workflow(prm_wflw, select_best(prm_tune, metric = "rsq")) # finalize the workflow with the best model
+#
+# saveRDS(prm_final, here::here("data", "prm_final.rds"))
+
+# prm_final <- readRDS(here::here("data", "prm_final.rds"))
 ```
 
 ```{r, include=FALSE}
@@ -294,3 +285,14 @@ collect_metrics(avm_cv2)
 collect_metrics(prm_cv2)
 ```
 
+
+### Variable importance for the at-vessel mortality and post-release mortality RF models
+```{r}
+avm_fit %>%
+  extract_fit_parsnip() %>%
+  vip()
+
+prm_fit %>%
+  extract_fit_parsnip() %>%
+  vip()
+```
