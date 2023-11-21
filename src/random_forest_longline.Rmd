@@ -113,10 +113,10 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + habitat_associated + reproductive_mode, data = avm_train) %>%
+avm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat_associated, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
-prm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat_associated + reproductive_mode, data = elasmo_prm) %>%
+prm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + habitat_associated, data = elasmo_prm) %>%
   step_normalize(all_numeric_predictors())
 ```
 
@@ -177,7 +177,7 @@ Below displays the results of cross validation tuning
 
 ```{r, include=FALSE}
 # avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rsq")) # finalize the workflow with the best model
-#
+# 
 # saveRDS(avm_final, here::here("data", "avm_final.rds"))
 
 avm_final <- readRDS(here::here("data", "avm_final.rds"))
@@ -218,7 +218,7 @@ Below displays the results of cross validation tuning
 
 ```{r, include=FALSE}
 # prm_final <- finalize_workflow(prm_wflw, select_best(prm_tune, metric = "rsq")) # finalize the workflow with the best model
-#
+# 
 # saveRDS(prm_final, here::here("data", "prm_final.rds"))
 
 prm_final <- readRDS(here::here("data", "prm_final.rds"))
@@ -386,57 +386,6 @@ v2 <- prm_fit %>%
 v2
 ```
 
-## Data distribution for the main five predictor variables for AVM 
-
-```{r}
-avm_pred <- full_join(avm_test_predict, avm_train_predict)
-
-ggplot(avm_pred, aes(max_size_cm, .pred)) +
-  geom_point() +
-  geom_smooth(method = "loess") +
-  theme_bw()
-
-ggplot(avm_pred, aes(median_depth, .pred)) +
-  geom_point() +
-  geom_smooth(method = "loess") +
-  theme_bw()
-
-ggplot(avm_pred) +
-  geom_boxplot(aes(family, .pred)) +
-  coord_flip() +
-  theme_bw()
-#  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-
-ggplot(avm_pred) +
-  geom_boxplot(aes(habitat_associated, .pred)) +
-  theme_bw()
-```
-
-## Data distribution for the main five predictor variables for PRM
-
-```{r}
-prm_pred <- prm_train_predict
-
-ggplot(prm_pred, aes(max_size_cm, .pred)) +
-  geom_point() +
-  geom_smooth(method = "loess") +
-  labs() +
-  theme_bw()
-
-ggplot(prm_pred, aes(median_depth, .pred)) +
-  geom_point() +
-  geom_smooth(method = "loess") +
-  theme_bw()
-
-ggplot(prm_pred) +
-  geom_boxplot(aes(family, .pred)) +
-  coord_flip() +
-  theme_bw()
-
-ggplot(prm_pred) +
-  geom_boxplot(aes(habitat_associated, .pred)) +
-  theme_bw()
-```
 
 ```{r}
 new_dat <- read_csv(here::here("data", "sau_spp_taxonomy_ref.csv")) %>%
