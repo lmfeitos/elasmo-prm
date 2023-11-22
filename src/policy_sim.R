@@ -59,8 +59,8 @@ N_0 <- 100
 # prs = 0.8 # post release survival; higher = better for shark (test quantile range from RF)
 q <- 1 # catchability, set to 1 for ease of fishing pressure, could vary
 f <- 0.2 # vary for sensitivity
-quota <- 10 # in count
-quota.array = c(1, 5, 10, 20) # in count
+quota <- 0 # in count
+quota.array = c(5) # in count
 
 # shark sim loop ----------------------------------------------------------
 
@@ -109,16 +109,19 @@ for (i in 1:nrow(sim_data)) {
           scientific_name = species,
           quota = quota.array[k]
         )
-      
+
       sim_results <- rbind(sim_results, cq)
     }
 
   }
 }
 
+join_data = sim_data %>% 
+  select(scientific_name, avm_75, prm_75, avm_25, prm_25, mid_avm, mid_prm)
+
 sim_results <- sim_results %>%
   mutate(total_mort = avm * prm) %>%
-  full_join(sim_data) %>%
+  full_join(join_data) %>%
   mutate(mort_scenario = case_when(
     scenario == "BAU" ~ "BAU",
     avm == avm_75 & prm == prm_75 ~ "High Mortality",
@@ -129,182 +132,4 @@ sim_results <- sim_results %>%
   mutate(mort_scenario = fct_relevel(mort_scenario, c("BAU", "Low Mortality", "In-Between Mortality", "Median Mortality", "High Mortality"))) %>% 
   mutate(n_div_k = pop.array/K)
 
-no_cq = sim_results %>% 
-  filter(scenario != "CQ")
-
-p <- ggplot(no_cq, aes(t, n_div_k)) +
-  geom_line(aes(color = scenario, group = total_mort)) +
-  geom_hline(yintercept = 0.5,
-             color = "gray",
-             alpha = 0.5,
-             linetype = "dashed") +
-  scale_y_continuous(breaks = c(0, 0.5, 1)) +
-  facet_wrap(~scientific_name,
-             labeller = label_wrap_gen(30)) +
-  theme_bw() +
-  scale_color_viridis_d() +
-  labs(
-    x = "Time",
-    y = "N/K",
-    color = "Scenario"
-  ) +
-  theme(panel.grid.minor = element_blank(),
-        panel.grid.major.x = element_blank(),
-        strip.background = element_rect(fill = "transparent"),
-        strip.text.x = element_text(size = 8, color = "black", face = "bold.italic"),
-        axis.title = element_text(size = 10, color = "black"),
-        axis.text = element_text(size = 10, color = "black"))
-p
-
-ggsave(p, file = paste0("initial_sim_0_2.pdf"), path = here::here("figs"), height = 15, width = 20)
-
-sim_sub = sim_results %>% 
-  filter(t == 10 | t == 200) %>% 
-  mutate(t = as.factor(t)) %>% 
-  distinct()
-
-no_cg_sub = sim_sub %>% 
-  filter(scenario != "CQ")
-
-errors_mort = no_cg_sub %>% 
-  select(t, scenario, avm, prm, scientific_name, mort_scenario, pop.array, n_div_k, total_mort) %>% 
-  distinct() %>% 
-  ungroup() %>% 
-  group_by(scientific_name, mort_scenario) %>% 
-  filter(total_mort == min(total_mort) | total_mort == max(total_mort)) %>% 
-  filter(mort_scenario %in% c("BAU", "Low Mortality", "High Mortality")) %>% 
-  distinct() %>% 
-  ungroup()
-
-p2 = ggplot(errors_mort) +
-  geom_line(aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
-  geom_point(aes(t, n_div_k, color = mort_scenario)) +
-  geom_hline(yintercept = 0.5,
-             color = "gray",
-             alpha = 0.5,
-             linetype = "dashed") +
-  scale_y_continuous(breaks = c(0, 0.5, 1)) +
-  facet_wrap(~scientific_name,
-             labeller = label_wrap_gen(30)) +
-  facet_wrap(~scientific_name) +
-  theme_bw() +
-  labs(
-    x = "Time",
-    y = "N/K",
-    color = "Scenario"
-  ) + 
-  scale_color_viridis_d()+
-  theme(panel.grid.minor = element_blank(),
-        panel.grid.major.x = element_blank(),
-        strip.background = element_rect(fill = "transparent"),
-        strip.text.x = element_text(size = 8, color = "black", face = "bold.italic"),
-        axis.title = element_text(size = 10, color = "black"),
-        axis.text = element_text(size = 10, color = "black"))
-p2
-
-ggsave(p2, file = paste0("timepoints_0_2.pdf"), path = here::here("figs"), height = 15, width = 20)
-
-
-# Species Sub Plots -------------------------------------------------------
-species_sub = c("Lamna nasus", "Alopias vulpinus", "Carcharhinus galapagensis", "Carcharhinus limbatus", "Galeocerdo cuvier", "Isurus oxyrinchus", "Rhincodon typus", "Sphyrna mokarran", "Squalus acanthias")
-
-no_cq = no_cq %>% 
-  filter(scientific_name %in% species_sub)
-
-p <- ggplot(no_cq, aes(t, n_div_k)) +
-  geom_line(aes(color = scenario, group = total_mort)) +
-  geom_hline(yintercept = 0.5,
-             color = "gray",
-             alpha = 0.5,
-             linetype = "dashed") +
-  scale_y_continuous(breaks = c(0, 0.5, 1)) +
-  facet_wrap(~scientific_name,
-             labeller = label_wrap_gen(30)) +
-  theme_bw() +
-  scale_color_viridis_d() +
-  labs(
-    x = "Time",
-    y = "N/K",
-    color = "Scenario"
-  ) +
-  theme(panel.grid.minor = element_blank(),
-        panel.grid.major.x = element_blank(),
-        strip.background = element_rect(fill = "transparent"),
-        strip.text.x = element_text(size = 8, color = "black", face = "bold.italic"),
-        axis.title = element_text(size = 10, color = "black"),
-        axis.text = element_text(size = 10, color = "black"))
-p
-
-ggsave(p, file = paste0("species_full_0_2.pdf"), path = here::here("figs"), height = 15, width = 20)
-
-errors_mort = errors_mort %>% 
-  filter(scientific_name %in% species_sub)
-
-p2 = ggplot(errors_mort) +
-  geom_line(aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
-  geom_point(aes(t, n_div_k, color = mort_scenario)) +
-  geom_hline(yintercept = 0.5,
-             color = "gray",
-             alpha = 0.5,
-             linetype = "dashed") +
-  scale_y_continuous(breaks = c(0, 0.5, 1)) +
-  facet_wrap(~scientific_name,
-             labeller = label_wrap_gen(30)) +
-  facet_wrap(~scientific_name) +
-  theme_bw() +
-  labs(
-    x = "Time",
-    y = "N/K",
-    color = "Scenario"
-  ) + 
-  scale_color_viridis_d()+
-  theme(panel.grid.minor = element_blank(),
-        panel.grid.major.x = element_blank(),
-        strip.background = element_rect(fill = "transparent"),
-        strip.text.x = element_text(size = 8, color = "black", face = "bold.italic"),
-        axis.title = element_text(size = 10, color = "black"),
-        axis.text = element_text(size = 10, color = "black"))
-p2
-
-ggsave(p2, file = paste0("species_timepoints_0_2.pdf"), path = here::here("figs"), height = 15, width = 20)
-
-# species plots -----------------------------------------------------------
-# Galeocerdo_cuvier <- sim_results %>%
-#   filter(scientific_name == "Galeocerdo cuvier")
-# 
-# ggplot(Galeocerdo_cuvier, aes(t, pop.array)) +
-#   geom_line(aes(color = scenario, group = total_mort)) +
-#   theme_bw()
-# 
-# Carcharhinus_limbatus <- sim_results %>%
-#   filter(scientific_name == "Carcharhinus limbatus")
-# 
-# ggplot(Carcharhinus_limbatus, aes(t, pop.array)) +
-#   geom_line(aes(color = scenario, group = total_mort)) +
-#   theme_bw()
-# 
-# Isurus_oxyrinchus <- sim_results %>%
-#   filter(scientific_name == "Isurus oxyrinchus")
-# 
-# ggplot(Isurus_oxyrinchus, aes(t, pop.array)) +
-#   geom_line(aes(color = scenario, group = total_mort)) +
-#   theme_bw()
-# 
-# Alopias_vulpinus <- sim_results %>%
-#   filter(scientific_name == "Alopias vulpinus")
-# 
-# ggplot(Alopias_vulpinus, aes(t, pop.array)) +
-#   geom_line(aes(color = scenario, group = total_mort)) +
-#   theme_bw()
-
-# Simulation Tests --------------------------------------------------------
-# test_bau = sim(t, N_0, K, r, avs, prs, q, f, quota, "BAU")
-# test_rb = sim(t, N_0, K, r, avs, prs, q, f, quota, "RB")
-# test_cq = sim(t, N_0, K, r, avs, prs, q, f, quota, "CQ")
-#
-# test_sim = list(test_bau, test_rb, test_cq) %>%
-#   reduce(full_join)
-#
-# ggplot(test_sim, aes(t, pop.array, color = scenario)) +
-#   geom_line(linewidth = 2) +
-#   theme_bw()
+write_csv(sim_results, here::here("data", "simulation_results.csv"))
