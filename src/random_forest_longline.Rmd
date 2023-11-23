@@ -441,6 +441,11 @@ write_csv(full_predictions, here::here("data", "full_model_predictions.csv"))
 
 ## Figures
 
+```{r}
+full_predictions <- read_csv(here("data", "full_model_predictions.csv"))
+```
+
+
 AVM
 
 ```{r}
@@ -461,7 +466,7 @@ ggsave(plot2, file = paste0("prm_val.pdf"), path = here::here("figs"), height = 
 mean_predictions =  full_predictions %>% 
   mutate(group = case_when(
     str_detect(family, "Mobulidae|Dasyatiade|Gymnyridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae") ~ "Batoids",
-    str_detect(scientific_name, "Himantura|Dasyatis|Gymnura|Neotrygon|Bathytoshia|rays") ~ "Batoids",
+    str_detect(scientific_name, "Himantura|Dasyatis|Gymnura|trygon|Bathytoshia|rays|raja|Rhinoptera|Sympterygia|Pastinachus|Urobatis|Glaucostegus|Hypanus") ~ "Batoids",
     TRUE ~ "Sharks"
   )) %>% 
   group_by(scientific_name) %>% 
