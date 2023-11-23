@@ -503,7 +503,9 @@ predictions_fig = ggplot(data = predictions) +
              size = 1.5,
              alpha = 0.9,
              show.legend = F) +
-  scale_y_continuous(expand = c(0.01, 0.01)) +
+  scale_y_continuous(breaks = seq(0, 0.8, 0.2),
+                     limits = c(0.05, 0.8),
+                     expand = c(0.01, 0.01)) +
   scale_color_manual(values = c("#414487FF", "#22A884FF")) +
   labs(x = "",
        y = "Mean estimated mortality proportion",
