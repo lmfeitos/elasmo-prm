@@ -23,9 +23,10 @@ outdir <- file.path(basedir, "data/outputs") # calls present data from raster fi
 ```{r}
 test_fishbase <- load_taxa() %>% 
   filter(Class == "Elasmobranchii") %>% 
-  select(Species, Family) %>% 
+  select(Species, Family, Order) %>% 
   rename(scientific_name = Species,
-         family = Family)
+         family = Family,
+         order = Order)
 ```
 
 
@@ -34,8 +35,8 @@ test_fishbase <- load_taxa() %>%
 shark_spp <- fb_tbl("species") %>% 
   clean_names() %>% 
   filter(str_detect(genus, "Carcharhinus|Glyphis|Isogomphodon|Lamiopsis|Loxodon|Rhizoprionodon|Scoliodon|Triaenodon|Galeocerdo|Chaenogaleus|Hemigaleus|Hemipristis|Paragaleus|Leptocharias|Ctenacis|Eridacnis|Gollum|Proscyllium|Pseudotriakis|Apristurus|Asymbolus|Bythaelurus|Cephalurus|Figaro|Galeus|Halaelurus|Haploblepharus|Holohalaelurus|Parmaturus|Pentanchus|Atelomycterus|Aulohalaelurus|Cephaloscyllium|Poroderma|Schroederichthys|Scyliorhinus|Sphyrna|Furgaleus|Galeorhinus|Hemitriakis|Hypogaleus|Iago|Mustelus|Triakis|Scylliogaleus|Heterodontus|Hexanchus|Notorynchus|Chlamydoselachus|Carcharias|Carcharias|Carcharodon|Isurus|Lamna|Alopias|Cetorhinus|Megachasma|Mitsukurina|Odontaspis|Brachaelurus|inglymostoma|Nebrius|Chiloscyllium|Hemiscyllium|Orectolobus|Eucrossorhinus|Sutorectus|Cirrhoscyllium|Parascyllium|Rhincodon|Stegostoma|Pristiophorus|Pliotrema|Squatina|Squalus|Etmopterus|Centrophorus|Daenia|Dalatias|Euprotomicroides|Heteroscymnoides|Isistius|Mollisquama|Squaliolus|Echinorhinus|Aculeola|Centroscyllium|Centroscymnus|Scymnodalatias|Scymnodon|Somniosus|Cirrhigaleus|Oxynotus|Aetobatus|Bathytoshia|trygon|Dasyatis|Himantura|Hypanus|Maculabatis|Pastinachus|Pateobatis|Taeniura|Urogymnus|Gymnura|Aetomylaeus|Myliobatis|Manta|Mobula|Plesiobatis|Rhinoptera|Spinilophus|Urolophus|Urobatis|raja|batis|Springeria|Irolita|Sympterygia|Gurgesiella|Dipturus|Hongeo|Okamejei|Raja|Rajella|Glaucostegus|Platyrhin|Pristis|Anoxypristis|Acroteriobatus|Pseudobatos|Rhinobatos|Rhina|Rhynchobatus|Aptychotrema|Trygonorrhina|Zapteryx|Zanobatus|Hypnos|Benthobatis|Diplobatis|Discopyge|Narcine|Crassinarke|Electrolux|Heteronarce|Narke|Temera|Typhlonarke|Tetronarce|Torpedo")) %>%  
-  filter(!str_detect(genus, "Potamotrygon|Paratrygon|Heliotrygon|Plesiotrygon|Glyphis"))  %>% # remove freshwater stingrays and sharks
-  select(spec_code, genus, species, species_ref_no, fam_code, demers_pelag, longevity_wild, length, l_type_max_m) %>% 
+  filter(!str_detect(genus, "Potamotrygon|Paratrygon|Heliotrygon|Plesiotrygon|Glyphis")) %>% # remove freshwater stingrays and sharks
+  select(genus, species, demers_pelag, length, l_type_max_m, depth_range_shallow, depth_range_deep) %>% 
   unite(scientific_name, c("genus", "species"), sep = " ", remove = FALSE)
 
 write_csv(shark_spp, file = file.path(basedir, "data", "shark_spp_list.csv"), col_names = TRUE)
@@ -57,13 +58,13 @@ saup_spp2 <- read_csv(here("data", "sau_spp_taxonomy_ref_full.csv"))
 saup_spp <- read_csv(here("data", "sau_spp_taxonomy_ref.csv"))
 
 # create full dataset of species present in saup
-saup_full <- saup_spp2 %>% 
-  left_join(saup_spp, by = "scientific_name") %>% 
-  mutate(family = str_to_sentence(family_name),
-         order = str_to_sentence(order_name)) %>% 
-  select(-c(genus_name, family_name, order_name)) %>% 
-  relocate(family, .after = common_name) %>% 
-  relocate(order, .before = ventilation_method)
+# saup_full <- saup_spp2 %>% 
+#   left_join(saup_spp, by = "scientific_name") %>% 
+#   mutate(family = str_to_sentence(family_name),
+#          order = str_to_sentence(order_name)) %>% 
+#   select(-c(genus_name, family_name, order_name)) %>% 
+#   relocate(family, .after = common_name) %>% 
+#   relocate(order, .before = ventilation_method)
 
 #write_csv(saup_full, file = here("data", "sau_spp_taxonomy_ref_full.csv"), col_names = TRUE, na = "")
 
@@ -83,8 +84,15 @@ int_growth <- read_csv(here("data", "intrinsic_pop_growth_rates.csv")) %>%
 
 #write_csv(int_growth, file = here("data", "intrinsic_pop_growth_rates.csv"), col_names = TRUE, na = "")
 
-r_data_merge <- shark_spp %>% 
-  left_join(r_data, by = "scientific_name")
+#iucn data
+iucn_data <- read_csv(here("data", "iucn_data", "taxonomy.csv")) %>% 
+  clean_names() %>% 
+  select(scientific_name, family_name) %>% 
+  rename(family = family_name) %>% 
+  mutate(family = str_to_sentence(family))
+
+# r_data_merge <- shark_spp %>% 
+#   left_join(r_data, by = "scientific_name")
 
 r_data_full <- bind_rows(r_data_merge, int_growth) %>% 
   drop_na(pop_growth_rate_measure) %>% 
@@ -105,13 +113,32 @@ r_data_full <- bind_rows(r_data_merge, int_growth) %>%
 ```
 
 ```{r}
+# join iucn and the sau_spp_taxonomy_ref_full datasets
+iucn_saup_join <- iucn_data %>% 
+  left_join(test_fishbase, by = c("scientific_name", "family")) %>% 
+  left_join(saup_spp2, by = c("scientific_name", "family", "order")) %>% 
+  left_join(shark_spp, by = c("scientific_name")) %>% 
+
+  mutate(median_depth_2 = rowMeans(select(., depth_range_shallow, depth_range_deep))) %>% 
+  select(-c(genus, species, depth_range_shallow, depth_range_deep)) %>% 
+  mutate(measure_fb = case_when(
+    l_type_max_m == "TL" ~ "total_length",
+    l_type_max_m == "WD" ~ "disk_width"
+    )) %>% 
+  relocate(common_name, .before = family)
+
+write_csv(iucn_saup_join, file = here("data", "iucn_fishbase_list.csv"), col_names = TRUE, na = "")
+```
+
+
+
+```{r}
 # join shark_spp data from fishbase with the saup species list, the species specific weight to count conversion coefficients, and intrinsic population growth rates
-shark_saup_join <- saup_spp %>% 
+shark_saup_join <- iucn_data %>% 
   bind_rows(int_growth) %>% 
-  left_join(test_fishbase, by = "scientific_name") %>% 
+  left_join(test_fishbase, by = c("scientific_name", "family")) %>%  
   left_join(weight_conv, by = "scientific_name") %>% 
-  select(-c(habitat, value, r_value, reference, observations, areas, pop_growth_rate_measure)) %>% 
-  relocate(family, .after = scientific_name) %>% 
+  select(-c(habitat, value, r_value, reference, observations, areas, pop_growth_rate_measure)) 
   mutate(family = case_when(
     str_detect(scientific_name, "dae") ~ scientific_name,
     str_detect(scientific_name, "Sphyrna") ~ "Sphyrnidae",
