@@ -35,8 +35,8 @@ test_fishbase <- load_taxa() %>%
 shark_spp <- fb_tbl("species") %>% 
   clean_names() %>% 
   filter(str_detect(genus, "Carcharhinus|Glyphis|Isogomphodon|Lamiopsis|Loxodon|Rhizoprionodon|Scoliodon|Triaenodon|Galeocerdo|Chaenogaleus|Hemigaleus|Hemipristis|Paragaleus|Leptocharias|Ctenacis|Eridacnis|Gollum|Proscyllium|Pseudotriakis|Apristurus|Asymbolus|Bythaelurus|Cephalurus|Figaro|Galeus|Halaelurus|Haploblepharus|Holohalaelurus|Parmaturus|Pentanchus|Atelomycterus|Aulohalaelurus|Cephaloscyllium|Poroderma|Schroederichthys|Scyliorhinus|Sphyrna|Furgaleus|Galeorhinus|Hemitriakis|Hypogaleus|Iago|Mustelus|Triakis|Scylliogaleus|Heterodontus|Hexanchus|Notorynchus|Chlamydoselachus|Carcharias|Carcharias|Carcharodon|Isurus|Lamna|Alopias|Cetorhinus|Megachasma|Mitsukurina|Odontaspis|Brachaelurus|inglymostoma|Nebrius|Chiloscyllium|Hemiscyllium|Orectolobus|Eucrossorhinus|Sutorectus|Cirrhoscyllium|Parascyllium|Rhincodon|Stegostoma|Pristiophorus|Pliotrema|Squatina|Squalus|Etmopterus|Centrophorus|Daenia|Dalatias|Euprotomicroides|Heteroscymnoides|Isistius|Mollisquama|Squaliolus|Echinorhinus|Aculeola|Centroscyllium|Centroscymnus|Scymnodalatias|Scymnodon|Somniosus|Cirrhigaleus|Oxynotus|Aetobatus|Bathytoshia|trygon|Dasyatis|Himantura|Hypanus|Maculabatis|Pastinachus|Pateobatis|Taeniura|Urogymnus|Gymnura|Aetomylaeus|Myliobatis|Manta|Mobula|Plesiobatis|Rhinoptera|Spinilophus|Urolophus|Urobatis|raja|batis|Springeria|Irolita|Sympterygia|Gurgesiella|Dipturus|Hongeo|Okamejei|Raja|Rajella|Glaucostegus|Platyrhin|Pristis|Anoxypristis|Acroteriobatus|Pseudobatos|Rhinobatos|Rhina|Rhynchobatus|Aptychotrema|Trygonorrhina|Zapteryx|Zanobatus|Hypnos|Benthobatis|Diplobatis|Discopyge|Narcine|Crassinarke|Electrolux|Heteronarce|Narke|Temera|Typhlonarke|Tetronarce|Torpedo")) %>%  
-  filter(!str_detect(genus, "Potamotrygon|Paratrygon|Heliotrygon|Plesiotrygon|Glyphis")) %>% # remove freshwater stingrays and sharks
-  select(genus, species, demers_pelag, length, l_type_max_m, depth_range_shallow, depth_range_deep) %>% 
+  filter(!str_detect(genus, "Potamotrygon|Paratrygon|Heliotrygon|Plesiotrygon|Glyphis")) %>%  # remove freshwater stingrays and sharks
+  select(genus, species, demers_pelag, length, l_type_max_m, depth_range_shallow, depth_range_deep, demers_pelag) %>% 
   unite(scientific_name, c("genus", "species"), sep = " ", remove = FALSE)
 
 write_csv(shark_spp, file = file.path(basedir, "data", "shark_spp_list.csv"), col_names = TRUE)
@@ -47,10 +47,43 @@ write_csv(shark_spp, file = file.path(basedir, "data", "shark_spp_list.csv"), co
 
 ```{r}
 # call PRM dataset
-prm_elasmo <- read_csv(here("data", "prm_dataset.csv"))
+prm_elasmo <- read_csv(here("data", "prm_dataset_updated.csv"))
 
 prm_elasmo <- prm_elasmo %>% 
   rename(scientific_name = species)
+
+prm_elasmo_join <- prm_elasmo %>% 
+  left_join(shark_spp, by = "scientific_name") %>% 
+  #select(-c(genus, species, length, l_type_max_m, depth_range_shallow, depth_range_deep, stock_code, spec_code, species_ref_no, fam_code, habitat_associated)) %>% 
+  # rename(habitat_associated = demers_pelag) %>% 
+  # relocate(habitat_associated, .after = median_temp) %>% 
+  mutate(habitat_associated = case_when(
+    habitat_associated == "pelagic-oceanic" ~ "pelagic",
+    scientific_name == "Prionace glauca" ~ "pelagic",
+    str_detect(scientific_name, "canis") ~ "demersal",
+    str_detect(scientific_name, "Centrophorus") ~ "bathydemersal",
+    str_detect(scientific_name, "perlo") ~ "bathydemersal",
+    str_detect(scientific_name, "Deania") ~ "bathydemersal",
+    str_detect(scientific_name, "Himantura") ~ "demersal",
+    str_detect(scientific_name, "Negaprion") ~ "reef-associated",
+    str_detect(scientific_name, "limbatus") ~ "reef-associated",
+    str_detect(scientific_name, "Leucoraja") ~ "demersal",
+    str_detect(scientific_name, "Rhizo") ~ "demersal",
+    str_detect(scientific_name, "antarticus") ~ "demersal",
+    str_detect(scientific_name, "Pseudo") ~ "pelagic",
+    str_detect(scientific_name, "Centroscymnus owstoni") ~ "bathydemersal",
+    str_detect(scientific_name, "Trygonoptera testacea") ~ "demersal",
+    TRUE ~ habitat_associated
+  )) %>% 
+  mutate(scientific_name = case_when(
+    str_detect(scientific_name, "antarticus") ~ "Mustelus antarcticus",
+    str_detect(scientific_name, "Rhizoprionodon terranovae") ~ "Rhizoprionodon terraenovae",
+    str_detect(scientific_name, "Squalus sp.") ~ "Squalus sp",
+    str_detect(scientific_name, "Orectolobus spp.") ~ "Orectolobus sp",
+    TRUE ~ scientific_name
+  ))
+
+write_csv(prm_elasmo_join, file =  here("data", "prm_dataset_updated.csv"), col_names = TRUE, na = "")
 
 # Call saup species list from Worm et al (XXXX)
 saup_spp2 <- read_csv(here("data", "sau_spp_taxonomy_ref_full.csv"))
@@ -79,8 +112,7 @@ r_data <- read_csv(here("data", "r_estimate_fish.csv")) %>%
                values_to = "value")
 
 # call in the intrinsic growth rate data and wrangle it to convert lambda to r
-int_growth <- read_csv(here("data", "intrinsic_pop_growth_rates.csv")) %>% 
-  mutate(scientific_name = str_replace(scientific_name, "_", " "))
+int_growth <- read_csv(here("data", "intrinsic_pop_growth_rates.csv"))  
 
 #write_csv(int_growth, file = here("data", "intrinsic_pop_growth_rates.csv"), col_names = TRUE, na = "")
 
@@ -92,7 +124,7 @@ iucn_data <- read_csv(here("data", "iucn_data", "taxonomy.csv")) %>%
   mutate(family = str_to_sentence(family))
 
 # r_data_merge <- shark_spp %>% 
-#   left_join(r_data, by = "scientific_name")
+#    left_join(r_data, by = "scientific_name")
 
 r_data_full <- bind_rows(r_data_merge, int_growth) %>% 
   drop_na(pop_growth_rate_measure) %>% 
