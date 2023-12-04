@@ -30,21 +30,8 @@ set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_dataset.csv")) 
-
-prm_elasmo <- prm_elasmo %>%
-  rename(scientific_name = species)
-
-# sp counts per estimate type
-avm_sp_count <- prm_elasmo %>%
-  filter(estimate_type == "at-vessel mortality") %>%
-  distinct(scientific_name) %>%
-  count()
-
-prm_sp_count <- prm_elasmo %>%
-  filter(estimate_type == "post-release mortality") %>%
-  distinct(scientific_name) %>%
-  count()
+prm_elasmo <- read_csv(here("data", "prm_dataset_updated.csv")) %>% 
+  filter(!grepl("Rajidae", family))
 ```
 
 ```{r}

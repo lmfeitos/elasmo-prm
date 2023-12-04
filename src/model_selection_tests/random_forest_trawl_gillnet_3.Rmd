@@ -30,21 +30,8 @@ set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_dataset.csv")) 
-
-prm_elasmo <- prm_elasmo %>%
-  rename(scientific_name = species)
-
-# sp counts per estimate type
-avm_sp_count <- prm_elasmo %>%
-  filter(estimate_type == "at-vessel mortality") %>%
-  distinct(scientific_name) %>%
-  count()
-
-prm_sp_count <- prm_elasmo %>%
-  filter(estimate_type == "post-release mortality") %>%
-  distinct(scientific_name) %>%
-  count()
+prm_elasmo <- read_csv(here("data", "prm_dataset_updated.csv")) %>% 
+  filter(!grepl("Rajidae", family))
 ```
 
 ```{r}
@@ -102,10 +89,10 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-trawl_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat_associated, data = elasmo_trawl) %>%
+trawl_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm  + reproductive_mode, data = elasmo_trawl) %>%
   step_normalize(all_numeric_predictors())
 
-gillnet_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat_associated, data = elasmo_gillnet) %>%
+gillnet_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm  + reproductive_mode, data = elasmo_gillnet) %>%
   step_normalize(all_numeric_predictors())
 ```
 

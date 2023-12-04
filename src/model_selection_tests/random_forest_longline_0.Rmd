@@ -30,11 +30,9 @@ set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_dataset.csv")) %>%
-  filter(gear_class == "longline")
-
-prm_elasmo <- prm_elasmo %>%
-  rename(scientific_name = species)
+prm_elasmo <- read_csv(here("data", "prm_dataset_updated.csv")) %>%
+  filter(gear_class == "longline") %>% 
+  filter(!grepl("Rajidae", family))
 
 # sp counts per estimate type
 avm_sp_count <- prm_elasmo %>%
@@ -83,24 +81,6 @@ elasmo_prm <- prm_elasmo_subset %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
   drop_na()
-```
-
-```{r, include = FALSE}
-# Check for NAs
-gg_miss_var(elasmo_avm)
-
-gg_miss_var(elasmo_prm)
-```
-
-```{r}
-trawl_avm <- elasmo_avm %>%
-  filter(gear_class == "trawl")
-
-longline_avm <- elasmo_avm %>%
-  filter(gear_class == "longline")
-
-gillnet_avm <- elasmo_avm %>%
-  filter(gear_class == "gillnet")
 ```
 
 ```{r}
