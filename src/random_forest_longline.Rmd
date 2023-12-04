@@ -100,7 +100,7 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + reproductive_mode, data = avm_train) %>%
+avm_recipe <- recipe(mortality_prop ~ reproductive_mode + median_depth + max_size_cm + habitat_associated, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
 prm_recipe <- recipe(mortality_prop ~ reproductive_mode + median_depth + max_size_cm + habitat_associated, data = elasmo_prm) %>%
