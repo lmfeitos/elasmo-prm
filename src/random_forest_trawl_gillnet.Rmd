@@ -104,10 +104,10 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-trawl_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat_associated + reproductive_mode, data = elasmo_trawl) %>%
+trawl_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + reproductive_mode, data = elasmo_trawl) %>%
   step_normalize(all_numeric_predictors())
 
-gillnet_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + habitat_associated, data = elasmo_gillnet) %>%
+gillnet_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + reproductive_mode + habitat_associated, data = elasmo_gillnet) %>%
   step_normalize(all_numeric_predictors())
 ```
 
