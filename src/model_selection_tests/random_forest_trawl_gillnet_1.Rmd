@@ -30,8 +30,7 @@ set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_dataset_updated.csv")) %>% 
-  filter(!grepl("Rajidae", family))
+prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv"))
 ```
 
 ```{r}

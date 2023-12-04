@@ -32,22 +32,9 @@ set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_dataset.csv")) %>%
-  filter(gear_class == "longline")
-
-prm_elasmo <- prm_elasmo %>%
-  rename(scientific_name = species)
-
-# sp counts per estimate type
-avm_sp_count <- prm_elasmo %>%
-  filter(estimate_type == "at-vessel mortality") %>%
-  distinct(scientific_name) %>%
-  count()
-
-prm_sp_count <- prm_elasmo %>%
-  filter(estimate_type == "post-release mortality") %>%
-  distinct(scientific_name) %>%
-  count()
+prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
+  filter(gear_class == "longline") %>% 
+  filter(!grepl("Rajidae", family))
 ```
 
 ```{r}
@@ -389,14 +376,18 @@ v2
 
 
 ```{r}
-new_dat <- read_csv(here::here("data", "sau_spp_taxonomy_ref_full.csv")) %>%
+new_dat <- read_csv(here::here("data", "iucn_fishbase_list.csv")) %>% 
+  rename(median_depth = median_depth_2) %>% 
+  rename(habitat_associated = demers_pelag) %>% 
+  rename(max_size_cm = length) %>% 
+  filter(order != "Rajiformes") %>%
   filter(!is.na(median_depth)) %>%
   filter(!is.na(ventilation_method)) %>%
   filter(!is.na(reproductive_mode)) %>%
   filter(!is.na(habitat_associated)) %>%
-  filter(habitat_associated != "bathypelagic") %>%
+  # filter(habitat_associated != "bathypelagic") %>%
   filter(!is.na(max_size_cm)) %>%
-  select(-measure) %>%
+  select(-measure_fb) %>%
   mutate(ventilation_method = as.factor(ventilation_method)) %>%
   mutate(habitat_associated = as.factor(habitat_associated)) %>%
   mutate(reproductive_mode = as.factor(reproductive_mode))

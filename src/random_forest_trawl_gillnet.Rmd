@@ -32,10 +32,7 @@ set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_dataset.csv"))
-
-prm_elasmo <- prm_elasmo %>%
-  rename(scientific_name = species)
+prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv"))
 
 # sp counts per estimate type
 avm_sp_count <- prm_elasmo %>%
@@ -107,7 +104,7 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 trawl_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + reproductive_mode, data = elasmo_trawl) %>%
   step_normalize(all_numeric_predictors())
 
-gillnet_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + reproductive_mode + habitat_associated, data = elasmo_gillnet) %>%
+gillnet_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + ventilation_method, data = elasmo_gillnet) %>%
   step_normalize(all_numeric_predictors())
 ```
 
@@ -140,19 +137,19 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 * Minimum data points in each node required for node split
 
 ```{r,include=FALSE}
-# trawl_tune <- trawl_wflw %>% # use cross validation to tune parameters
-#   tune_grid(
-#     resamples = trawl_folds, # add cv folds
-#     grid = 10
-#   ) # use grid of parameters to test
+trawl_tune <- trawl_wflw %>% # use cross validation to tune parameters
+  tune_grid(
+    resamples = trawl_folds, # add cv folds
+    grid = 10
+  ) # use grid of parameters to test
 ```
 
 ```{r,include=FALSE}
-# gillnet_tune <- gillnet_wflw %>% # use cross validation to tune parameters
-#   tune_grid(
-#     resamples = gillnet_folds, # add cv folds
-#     grid = 10
-#   ) # use grid of parameters to test
+gillnet_tune <- gillnet_wflw %>% # use cross validation to tune parameters
+  tune_grid(
+    resamples = gillnet_folds, # add cv folds
+    grid = 10
+  ) # use grid of parameters to test
 ```
 
 Below displays the results of cross validation tuning
@@ -167,9 +164,9 @@ Below displays the results of cross validation tuning
 ```
 
 ```{r, include=FALSE}
-# trawl_final <- finalize_workflow(trawl_wflw, select_best(trawl_tune, metric = "rsq")) # finalize the workflow with the best model
-# 
-# saveRDS(trawl_final, here::here("data", "trawl_final.rds"))
+trawl_final <- finalize_workflow(trawl_wflw, select_best(trawl_tune, metric = "rsq")) # finalize the workflow with the best model
+
+saveRDS(trawl_final, here::here("data", "trawl_final.rds"))
 
 trawl_final <- readRDS(here::here("data", "trawl_final.rds"))
 ```
@@ -201,9 +198,9 @@ Below displays the results of cross validation tuning
 ```
 
 ```{r, include=FALSE}
-# gillnet_final <- finalize_workflow(gillnet_wflw, select_best(gillnet_tune, metric = "rsq")) # finalize the workflow with the best model
-# 
-# saveRDS(gillnet_final, here::here("data", "gillnet_final.rds"))
+gillnet_final <- finalize_workflow(gillnet_wflw, select_best(gillnet_tune, metric = "rsq")) # finalize the workflow with the best model
+
+saveRDS(gillnet_final, here::here("data", "gillnet_final.rds"))
 
 gillnet_final <- readRDS(here::here("data", "gillnet_final.rds"))
 ```
