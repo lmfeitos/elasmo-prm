@@ -439,9 +439,8 @@ write_csv(full_predictions, here::here("data", "full_model_predictions.csv"))
 ## Figures
 
 ```{r}
-full_predictions <- read_csv(here("data", "full_model_predictions.csv"))
+# full_predictions <- read_csv(here("data", "full_model_predictions.csv"))
 ```
-
 
 AVM
 
