@@ -23,8 +23,7 @@ outdir <- file.path(basedir, "data/outputs") # calls present data from raster fi
 
 ```{r}
 # read in the data
-prm_elasmo <- read_csv(here("data", "prm_dataset.csv")) %>% 
-  rename(scientific_name = species)
+prm_elasmo <- read_csv(here("data", "prm_dataset_updated.csv"))
 ```
 
 ```{r}
@@ -73,21 +72,21 @@ prm_elasmo_subset <- prm_elasmo %>%
   select(scientific_name, gear_class, habitat_associated, estimate_type, estimate, sample_size,
          method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family) %>% 
   mutate(max_size_cm = case_when( # filling missing information based on the average per group
-    scientific_name == "Dasyatis sp" ~ 146.22,
-    scientific_name == "Squalus sp" ~ 141.12,
-    scientific_name == "Mustelus sp" ~ 171.9,
+    scientific_name == "Dasyatis sp" ~ 143.36,
+    scientific_name == "Squalus sp" ~ 166.36,
+    scientific_name == "Mustelus sp" ~ 167.24,
     scientific_name == "Centrophorus sp" ~ 165.75,  
-    scientific_name == "sharks" ~ 347.2639,
-    scientific_name == "rays" ~ 170.2222, # only calculated for the batoid species with disk width measures
+    scientific_name == "sharks" ~ 347.9391,
+    scientific_name == "rays" ~ 164.261, # only calculated for the batoid species with disk width measures
     TRUE ~ max_size_cm
   )) %>% 
   mutate(median_depth = case_when( # filling missing information based on the average per group
-    scientific_name == "Dasyatis sp" ~ 139.33,
-    scientific_name == "Squalus sp" ~ 601.875,
-    scientific_name == "Mustelus sp" ~ 254.3929,
+    scientific_name == "Dasyatis sp" ~ 117.63,
+    scientific_name == "Squalus sp" ~ 767.786,
+    scientific_name == "Mustelus sp" ~ 246.1,
     scientific_name == "Centrophorus sp" ~ 1136.25,
-    scientific_name == "sharks" ~ 313.2104,
-    scientific_name == "rays" ~ 120.5278,
+    scientific_name == "sharks" ~ 308.615,
+    scientific_name == "rays" ~ 99.87,
     TRUE ~ median_depth
   )) %>% 
   mutate(measure = case_when(
@@ -105,11 +104,21 @@ prm_elasmo_subset <- prm_elasmo %>%
     str_detect(family, "Mobulidae|Dasyatiade|Gymnyridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae") ~ "Batoids",
     str_detect(scientific_name, "Himantura|Dasyatis|Gymnura|Neotrygon|Bathytoshia|rays") ~ "Batoids",
     TRUE ~ "Sharks"
+  )) %>% 
+  mutate(estimate = case_when(
+    estimate_type == "post-release survival" ~ 1 - estimate, # Converts post-release survival into PRM
+    TRUE ~ estimate
+  )) %>% 
+  mutate(estimate_type = case_when(
+    estimate_type == "post-release survival" ~ "post-release mortality",
+    TRUE ~ estimate_type
   ))
+
+write_csv(prm_elasmo_subset, file = here("data", "prm_elasmo_subset.csv"), col_names = TRUE, na = "")
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species
 mort_summary <- prm_elasmo_subset %>% 
-  filter(estimate_type %in% c("at-vessel mortality", "post-release mortality") & estimate > 0) %>% 
+  filter(estimate > 0) %>% 
   mutate(est_count = sample_size * estimate) %>% 
   group_by(scientific_name, estimate_type) %>% 
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>% 
@@ -142,34 +151,6 @@ elasmo_prm <- prm_elasmo_subset %>%
   filter(!gear_class %in% c("handline", "purse seine", "pole and line"))
 ```
 
-
-```{r, fig.height=12, fig.width=8, message = TRUE}
-# visualization of AVM proportions per species and family
-avm_plot <-
-  ggplot(data = mort_summary %>% 
-               filter(estimate_type == "at-vessel mortality") %>% 
-               mutate(estimate_type = str_to_title(estimate_type)), 
-             aes(x = fct_reorder(scientific_name, mean_mort), 
-                 y = mean_mort, 
-                 color = group)) +
-    geom_segment(aes(xend = scientific_name, yend = 0)) +
-  geom_point(size = 1.6) +
-  facet_wrap(~ estimate_type) +
-  labs(x = "",
-       y = "Mortality proportion",
-       color = "Group") +
-  scale_y_continuous(expand = c(0.01, 0.01)) +
-  scale_color_viridis_d(direction = -1) +
-  coord_flip() +
-  theme_bw() +
-  theme(axis.text = element_text(size = 8, color = "black"),
-        axis.title = element_text(size = 11, color = "black"),
-        legend.position = "bottom",
-        panel.grid.minor = element_blank(),
-        panel.grid.major.x = element_blank(),
-        strip.background = element_rect(fill = "transparent"),
-        panel.spacing = unit(5, "mm"))
-```
 
 ```{r, fig.height=12, fig.width=8}
 mort_proportions_plot_sp <-
@@ -219,7 +200,7 @@ mort_proportions_plot_sp <-
 ```{r}
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per family 
 mort_summary_fam <- prm_elasmo_subset %>%
-  filter(estimate_type %in% c("at-vessel mortality", "post-release mortality") & estimate > 0) %>% 
+  filter(estimate > 0) %>% 
   mutate(est_count = sample_size * estimate) %>% 
   group_by(family, estimate_type) %>% 
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>% 
