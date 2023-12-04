@@ -468,7 +468,7 @@ mean_predictions =  full_predictions %>%
   group_by(scientific_name) %>% 
   summarize(avm_pred = mean(avm_pred),
             prm_pred = mean(prm_pred),
-            group = group) %>% 
+            group = as.factor(group)) %>% 
   mutate(group = fct_relevel(group, c("Sharks", "Batoids")))
 
 predictions = mean_predictions %>% 
@@ -519,5 +519,5 @@ predictions_fig = ggplot(data = predictions) +
              space = "free_y")
 predictions_fig
 
-ggsave(predictions_fig, file = paste0("predictions_fig.pdf"), path = here::here("figs"), height = 20, width = 8)
+ggsave(predictions_fig, file = paste0("predictions_fig.pdf"), path = here::here("figs"), height = 20, width = 15)
 ```
