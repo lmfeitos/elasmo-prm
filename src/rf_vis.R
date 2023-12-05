@@ -6,8 +6,9 @@ full_predictions <- read_csv(here::here("data", "full_model_predictions.csv"))
 
 mean_predictions =  full_predictions %>% 
   mutate(group = case_when(
-    str_detect(family, "Mobulidae|Dasyatiade|Gymnyridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae") ~ "Batoids",
-    str_detect(scientific_name, "Himantura|Dasyatis|Gymnura|trygon|Bathytoshia|rays|raja|Rhinoptera|Sympterygia|Pastinachus|Urobatis|Glaucostegus|Hypanus") ~ "Batoids",
+    str_detect(family, "Mobulidae|Dasyatidae|Gymnyridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae|Plesiobatidae|Potamo|Urolophidae|Zanobatidae|Narcinidae|Platyrhinidae|Trygon|Hypnidae|Narkidae") ~ "Batoids",
+    str_detect(scientific_name, 
+               "Himantura|Dasyatis|Gymnura|trygon|Bathytoshia|rays|raja|Rhinoptera|Sympterygia|Pastinachus|Urobatis|Glaucostegus|Hypanus") ~ "Batoids",
     TRUE ~ "Sharks"
   )) %>% 
   group_by(scientific_name) %>% 
@@ -26,7 +27,8 @@ predictions = mean_predictions %>%
   ))
 
 p1 = ggplot(predictions) +
-  geom_point(aes(max_size_cm, mortality_prop, color = reproductive_mode)) +
+  geom_point(aes(max_size_cm, mortality_prop, color = reproductive_mode),
+             alpha = 0.5) +
   # geom_smooth(method = "loess", aes(max_size_cm, mortality_prop, color = reproductive_mode), se = FALSE) +
   theme_bw() +
   labs(y = "Mortality",
@@ -43,7 +45,8 @@ p1 = ggplot(predictions) +
   scale_color_viridis_d()
 
 p2 = ggplot(predictions) +
-  geom_point(aes(median_depth, mortality_prop, color = reproductive_mode)) +
+  geom_point(aes(median_depth, mortality_prop, color = reproductive_mode),
+             alpha = 0.5) +
   # geom_smooth(method = "loess", aes(median_depth, mortality_prop, color = reproductive_mode), se = FALSE) +
   theme_bw() +
   labs(y = "Mortality",
@@ -61,8 +64,12 @@ p2 = ggplot(predictions) +
 
 
 p3 = ggplot(predictions %>% filter(estimate_type == "AVM")) +
-  geom_boxplot(aes(mortality_prop, ventilation_method, fill = group), outlier.alpha = 0) +
-  geom_jitter(aes(mortality_prop, ventilation_method, color = group), alpha = 0.1) +
+  geom_point(aes(mortality_prop, ventilation_method, color = group),
+             alpha = 0.5,
+             position = position_jitterdodge(jitter.width = .1)) +
+  geom_boxplot(aes(mortality_prop, ventilation_method, fill = group), 
+               outlier.alpha = 0,
+               alpha = 0.85) +
   theme_bw() +
   labs(x = "Mortality",
        y = "Ventilation Method",
@@ -80,8 +87,14 @@ p3 = ggplot(predictions %>% filter(estimate_type == "AVM")) +
   scale_color_viridis_d()
 
 p4 = ggplot(predictions %>% filter(estimate_type == "PRM")) +
-  geom_boxplot(aes(mortality_prop, habitat_associated, fill = group), outlier.alpha = 0) +
-  geom_jitter(aes(mortality_prop, habitat_associated, color = group), alpha = 0.1) +
+  geom_point(aes(mortality_prop, habitat_associated, color = group),
+             position = position_jitterdodge(jitter.width = .1),
+             alpha = 0.1,
+             show.legend = F) +
+  geom_boxplot(aes(mortality_prop, habitat_associated, fill = group), 
+               outlier.alpha = 0,
+               alpha = 0.85,
+               show.legend = F) +
   theme_bw() +
   labs(x = "Mortality",
        y = "Habitat",
