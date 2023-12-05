@@ -48,7 +48,7 @@ sim_pca = sim_pca_w_species %>%
   )
 
 fviz_nbclust(sim_pca, FUNcluster = kmeans) 
-km.out <- kmeans(sim_pca, centers = 4, nstart = 20)
+km.out <- kmeans(sim_pca, centers = 3, nstart = 20)
 
 sim_pca_w_species$kmeans = as.factor(km.out$cluster)
 

@@ -18,7 +18,7 @@ no_cq = no_cq %>%
   mutate(scientific_name = fct_reorder(as.factor(scientific_name), kmeans))
 
 p <- ggplot() +
-  geom_rect(data = clustered_post, aes(xmin = -Inf, xmax = Inf, ymin = 1.1, ymax = 1.45, fill = as.factor(kmeans)), alpha = 0.4) +
+  geom_rect(data = clustered_post, aes(xmin = -Inf, xmax = Inf, ymin = 1.1, ymax = 1.25, fill = as.factor(kmeans)), alpha = 0.4) +
   geom_line(data = no_cq, aes(t, n_div_k, color = scenario, group = total_mort)) +
   geom_hline(yintercept = 0.5,
              color = "gray",
@@ -68,7 +68,7 @@ errors_mort = no_cg_sub %>%
   mutate(scientific_name = as.factor(scientific_name))
 
 p2 = ggplot(errors_mort)  +
-  geom_rect(data = clustered_post, aes(xmin = -Inf, xmax = Inf, ymin = 1.1, ymax = 1.45, fill = as.factor(kmeans)), alpha = 0.4) +
+  geom_rect(data = clustered_post, aes(xmin = -Inf, xmax = Inf, ymin = 1.1, ymax = 1.25, fill = as.factor(kmeans)), alpha = 0.4) +
   geom_line(aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_point(aes(t, n_div_k, color = mort_scenario)) +
   geom_hline(yintercept = 0.5,

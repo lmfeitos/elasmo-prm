@@ -16,9 +16,7 @@ pred_r = left_join(predictions, r_growth) %>%
     !is.na(prm_mort) ~ prm_mort, 
     is.na(prm_mort) ~ prm_pred
   )) %>% 
-  mutate(r_value = case_when(
-    !is.na(mean_r) ~ mean_r,
-    is.na(mean_r) ~ mean(r_growth$mean_r, na.rm=TRUE)
-  ))
+  rename(r_value = mean_r) %>% 
+  filter(!is.na(r_value))
 
 write_csv(pred_r, here::here("data", "simulation_data.csv"))
