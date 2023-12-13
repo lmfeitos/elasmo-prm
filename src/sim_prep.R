@@ -1,11 +1,45 @@
 library(tidyverse)
-library( FishLife )
+library(FishLife)
 
 predictions = read_csv(here::here("data", "full_model_predictions.csv")) 
 
 r_growth = read_csv(here::here("data", "intrinsic_pop_growth_rates_full.csv")) %>% 
   select(scientific_name, mean_r) %>% 
   distinct()
+
+fish_data = FishLife::FishBase_and_RAM$beta_gv %>% 
+  as.data.frame()
+
+data_filled = data.frame()
+
+predictions = predictions %>% 
+  filter(!scientific_name %in% c("Centroscymnus owstoni", "Carcharhinus limbatus/tilstoni", 
+                                 "Bythaelurus bachi", "Bythaelurus naylori",
+                                 "Bythaelurus tenuicephalus", "Carcharhinus obsoletus",
+                                 "Centrophorus lesliei", "Centrophorus longipinnis",
+                                 "Centroselachus crepidater", "Cephaloscyllium formosanum",
+                                 "Chiloscyllium hasselti", "Etmopterus alphus",
+                                 "Etmopterus brosei", "Etmopterus lailae", 
+                                 "Etmopterus marshae", "Etmopterus sheikoi",
+                                 "Hexanchus vitulus", "Mustelus andamanensis",
+                                 "Parmaturus angelae", "Planonasus indicus", 
+                                 "Pliotrema annae", "Pliotrema kajae",
+                                 "Scymnodon ichiharai", "Scymnodon plunketi",
+                                 "Squalus acutipinnis", "Squalus albicaudus",
+                                 "Squalus bahiensis", "Squalus bassi", "Squalus boretzi",
+                                 "Squalus clarkae", "Squalus hawaiiensis", "Squalus lobularis",
+                                 "Squalus mahia", "Squalus margaretsmithae",
+                                 "Squalus quasimodo", "Squatina david",
+                                 "Stegostoma tigrinum"))
+
+for(i in 1:nrow(predictions)) {
+  species = Match_species(genus_species = predictions$scientific_name[i])
+  
+  data_filled = rbind(fish_data[species[[1]],], data_filled)
+}
+
+predictions$fish_r = data_filled$r
+
 
 pred_r = left_join(predictions, r_growth) %>% 
   distinct() %>% 
@@ -17,7 +51,6 @@ pred_r = left_join(predictions, r_growth) %>%
     !is.na(prm_mort) ~ prm_mort, 
     is.na(prm_mort) ~ prm_pred
   )) %>% 
-  rename(r_value = mean_r) %>% 
-  filter(!is.na(r_value))
+  rename(r_value = fish_r) 
 
 write_csv(pred_r, here::here("data", "simulation_data.csv"))
