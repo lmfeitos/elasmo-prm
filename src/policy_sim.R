@@ -10,7 +10,18 @@ set.seed(42)
 # 2 Retention Ban ("RB")
 # 3 Catch Quota ("CQ") usually in weight needs editing - also possibly not added at the beginning inform based on real world. Could we simulate an optimal quota? Average
 
-sim_data <- read_csv(here::here("data", "simulation_data.csv"))
+sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>%
+  select(prm_75, prm_25, avm_25, avm_75, scientific_name, r_value, mid_avm, mid_prm) %>% 
+  group_by(scientific_name) %>% 
+  mutate(prm_75 = max(prm_75),
+         prm_25 = min(prm_25),
+         mid_prm = mean(mid_prm),
+         avm_75 = max(avm_75),
+         avm_25 = min(avm_25),
+         mid_avm = mean(mid_avm),
+         r_value = mean(r_value)) %>% 
+  distinct()
+    
 
 # Functions ---------------------------------------------------------------
 
@@ -122,14 +133,6 @@ join_data = sim_data %>%
 sim_results <- sim_results %>%
   mutate(total_mort = avm * prm) %>%
   full_join(join_data) %>%
-  mutate(mort_scenario = case_when(
-    scenario == "BAU" ~ "BAU",
-    avm == avm_75 & prm == prm_75 ~ "High Mortality",
-    avm == avm_25 & prm == prm_25 ~ "Low Mortality",
-    avm == mid_avm & prm == mid_prm ~ "Median Mortality",
-    TRUE ~ "In-Between Mortality"
-  )) %>%
-  mutate(mort_scenario = fct_relevel(mort_scenario, c("BAU", "Low Mortality", "In-Between Mortality", "Median Mortality", "High Mortality"))) %>% 
   mutate(n_div_k = pop.array/K)
 
 write_csv(sim_results, here::here("data", "simulation_results.csv"))
