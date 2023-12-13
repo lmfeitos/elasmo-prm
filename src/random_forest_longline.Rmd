@@ -387,6 +387,11 @@ new_dat <- read_csv(here::here("data", "iucn_fishbase_list.csv")) %>%
   filter(order != "Myliobatiformes") %>%
   filter(order != "Torpediniformes") %>% 
   filter(!grepl("batidae", family)) %>% 
+  filter(family != "Dasyatidae") %>% 
+  filter(family != "Dasyatidae") %>% 
+  filter(family != "Glaucostegidae") %>% 
+  filter(family != "Pristidae") %>% 
+  filter(family != "Trygonorrhinidae") %>% 
   filter(!is.na(median_depth)) %>%
   filter(!is.na(ventilation_method)) %>%
   filter(!is.na(reproductive_mode)) %>%
@@ -436,7 +441,8 @@ full_predictions <- preds_bind(full_prediction_avm, prm_fit) %>%
     prm_05 = .pred_05,
     prm_25 = .pred_25,
     prm_50 = .pred_50
-  )
+  ) %>% 
+  filter(family != "Dasyatidae")
 
 write_csv(full_predictions, here::here("data", "full_model_predictions.csv"))
 ```
