@@ -15,6 +15,6 @@ sim_results05 <- read_csv(here::here("data", "simulation_results_05.csv")) %>%
 
 sim_results = list(sim_results05, sim_results5, sim_results4, sim_results3,
                    sim_results1, sim_results2) %>% 
-  reduce(full_join)
+  reduce(full_join) 
 
 rm(sim_results05, sim_results5, sim_results4, sim_results3, sim_results1, sim_results2)
