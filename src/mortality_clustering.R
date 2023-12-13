@@ -21,6 +21,20 @@ sim_sub = sim_results %>%
   filter(n_div_k == max(n_div_k)) %>% 
   distinct()
 
+max_avm = sim_sub %>% 
+  filter(n_div_k >= 0.5) %>% 
+  pull(avm) %>% 
+  max()
+max_prm = sim_sub %>% 
+  filter(n_div_k >= 0.5)%>% 
+  pull(prm) %>% 
+  max()
+max_total = sim_sub %>% 
+  filter(n_div_k >= 0.5) %>% 
+  mutate(total_mort = avm * prm)%>% 
+  pull(total_mort) %>% 
+  max()
+
 ggplot(sim_sub %>% filter(mort_scenario != "BAU")) +
   geom_point(aes(n_div_k, avm)) +
   geom_vline(aes(xintercept = 0.5), color = "red", linetype = "dashed")
@@ -48,7 +62,7 @@ sim_pca = sim_pca_w_species %>%
   )
 
 fviz_nbclust(sim_pca, FUNcluster = kmeans) 
-km.out <- kmeans(sim_pca, centers = 3, nstart = 20)
+km.out <- kmeans(sim_pca, centers = 2, nstart = 20)
 
 sim_pca_w_species$kmeans = as.factor(km.out$cluster)
 
@@ -58,29 +72,32 @@ sim_pca_w_species = sim_pca_w_species %>%
 sim_sub = sim_sub %>% 
   full_join(sim_pca_w_species)
 
-p1 = ggplot(sim_sub) +
+p1 = ggplot(sim_sub %>% filter(mort_scenario != "BAU")) +
   geom_point(aes(n_div_k, r_value, color = kmeans)) +
   theme_bw() +
   labs(x = "N/K",
        y = "Growth Rate",
        color = "Group") +
-  scale_color_viridis_d()
+  scale_color_viridis_d() +
+  geom_vline(aes(xintercept = 0.5), color = "red", linetype = "dashed")
 
-p2 = ggplot(sim_sub) +
+p2 = ggplot(sim_sub %>% filter(mort_scenario != "BAU")) +
   geom_point(aes(n_div_k, avm, color = kmeans)) +
   theme_bw() +
   labs(x = "N/K",
        y = "At Vessel Mortality",
        color = "Group") +
-  scale_color_viridis_d()
+  scale_color_viridis_d() +
+  geom_vline(aes(xintercept = 0.5), color = "red", linetype = "dashed")
 
-p3 = ggplot(sim_sub) +
+p3 = ggplot(sim_sub %>% filter(mort_scenario != "BAU")) +
   geom_point(aes(n_div_k, prm, color = kmeans))  +
   theme_bw() +
   labs(x = "N/K",
        y = "Post Release Mortality",
        color = "Group") +
-  scale_color_viridis_d()
+  scale_color_viridis_d() +
+  geom_vline(aes(xintercept = 0.5), color = "red", linetype = "dashed")
 
 plot1 = p1 /  p2 / p3 + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
 plot1

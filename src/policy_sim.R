@@ -58,7 +58,7 @@ N_0 <- 100
 # avs = 0.8 # at vessel survival; higher = better for shark (test quantile range from RF)
 # prs = 0.8 # post release survival; higher = better for shark (test quantile range from RF)
 q <- 1 # catchability, set to 1 for ease of fishing pressure, could vary
-f <- 0.05 # vary for sensitivity
+f <- 0.2 # vary for sensitivity
 quota <- 0 # in count
 quota.array = c(5) # in count
 
@@ -132,4 +132,4 @@ sim_results <- sim_results %>%
   mutate(mort_scenario = fct_relevel(mort_scenario, c("BAU", "Low Mortality", "In-Between Mortality", "Median Mortality", "High Mortality"))) %>% 
   mutate(n_div_k = pop.array/K)
 
-write_csv(sim_results, here::here("data", "simulation_results_05.csv"))
+write_csv(sim_results, here::here("data", "simulation_results.csv"))
