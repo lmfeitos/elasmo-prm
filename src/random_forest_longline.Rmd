@@ -364,13 +364,15 @@ summary(lm(.pred ~ mortality_prop, data = prm_train_predict))
 v1 <- avm_fit %>%
   extract_fit_parsnip() %>%
   vip() +
-  theme_bw()
+  theme_bw() +
+  labs(y = "Variable Importance for At-Vessel Mortality")
 v1
 
 v2 <- prm_fit %>%
   extract_fit_parsnip() %>%
   vip() +
-  theme_bw()
+  theme_bw() +
+  labs(y = "Variable Importance for Post-Release Mortality")
 v2
 ```
 
@@ -382,6 +384,9 @@ new_dat <- read_csv(here::here("data", "iucn_fishbase_list.csv")) %>%
   rename(habitat_associated = demers_pelag) %>% 
   rename(max_size_cm = length) %>% 
   filter(order != "Rajiformes") %>%
+  filter(order != "Myliobatiformes") %>%
+  filter(order != "Torpediniformes") %>% 
+  filter(!grepl("batidae", family)) %>% 
   filter(!is.na(median_depth)) %>%
   filter(!is.na(ventilation_method)) %>%
   filter(!is.na(reproductive_mode)) %>%
@@ -437,18 +442,11 @@ write_csv(full_predictions, here::here("data", "full_model_predictions.csv"))
 ```
 
 ## Figures 
-AVM
+
 
 ```{r}
-plot1 <- p1 + v1 + plot_annotation(tag_levels = "A")
+plot1 <- (p1 + v1) / (p2 + v2) + plot_annotation(tag_levels = "A")
 
-ggsave(plot1, file = paste0("avm_val.pdf"), path = here::here("figs"), height = 10, width = 15)
+ggsave(plot1, file = paste0("longline_val.pdf"), path = here::here("figs"), height = 10, width = 15)
 ```
 
-PRM
-
-```{r}
-plot2 <- p2 + v2 + plot_annotation(tag_levels = "A")
-
-ggsave(plot2, file = paste0("prm_val.pdf"), path = here::here("figs"), height = 10, width = 15)
-```
