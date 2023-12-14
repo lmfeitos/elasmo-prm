@@ -14,12 +14,12 @@ sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
 
 sim_sub = sim_results %>% 
   filter(t == 200) %>% 
+  filter(!is.na(mort_scenario)) %>% 
   mutate(t = as.factor(t)) %>% 
   select(n_div_k, avm, prm, scientific_name, total_mort, mort_scenario, r_value) %>% 
   group_by(scientific_name, mort_scenario) %>% 
   filter(n_div_k == max(n_div_k)) %>% 
-  distinct() %>% 
-  filter(!is.na(mort_scenario))
+  distinct()
 
 max_avm = sim_sub %>% 
   filter(n_div_k >= 0.5) %>% 
@@ -70,7 +70,7 @@ sim_pca_w_species = sim_pca_w_species %>%
   select(scientific_name, kmeans)
 
 sim_sub = sim_sub %>% 
-  full_join(sim_pca_w_species)
+  full_join(sim_pca_w_species) 
 
 p1 = ggplot(sim_sub %>% filter(mort_scenario != "BAU")) +
   geom_point(aes(n_div_k, r_value, color = kmeans)) +
@@ -103,5 +103,10 @@ plot1 = p1 /  p2 / p3 + plot_annotation(tag_levels = "A") + plot_layout(guides =
 plot1
 
 ggsave(plot1, file = paste0("clustering.pdf"), path = here::here("figs"), height = 15, width = 12)
+
+sim_sub = sim_sub %>% 
+  ungroup() %>% 
+  select(scientific_name, kmeans) %>% 
+  distinct()
 
 write_csv(sim_sub, here::here("data", "simulation_results_clustered.csv"))
