@@ -67,6 +67,7 @@ pred_r = left_join(predictions_full, r_growth) %>%
     !is.na(mean_r) ~ mean_r,
     !is.na(fish_r) ~ fish_r
   ))  %>% 
-  filter(!is.na(r_value))
+  filter(!is.na(r_value)) %>% 
+  mutate(dif_r = mean_r - fish_r)
 
 write_csv(pred_r, here::here("data", "simulation_data.csv"))
