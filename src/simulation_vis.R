@@ -82,10 +82,10 @@ ggsave(p, file = paste0("initial_sim_0_2.pdf"), path = here::here("figs"), heigh
 
 # Species Sub Plots -------------------------------------------------------
 
-species_sub = c("Prionace glauca", "Carcharhinus leucas", "Galeocerdo cuvier", "Isurus oxyrinchus", 
-                "Mustelus canis", "Negaprion brevirostris", "Rhynchobatus djiddensis", "Squalus acanthias", 
+species_sub = c("Prionace glauca", "Pristis pristis", "Galeocerdo cuvier", "Isurus oxyrinchus", 
+                "Mustelus canis", "Rhinobatos albomaculatus", "Rhynchobatus djiddensis", "Squalus acanthias", 
                 "Alopias vulpinus", "Pseudocarcharias kamoharai", "Carcharhinus falciformis", "Sphyrna mokarran",
-                "Carcharhinus hemiodon", "Galeorhinus galeus", "Isogomphodon oxyrhynchus", "Squalus brevirostris")
+                "Carcharhinus hemiodon", "Squatina squatina", "Isogomphodon oxyrhynchus", "Squalus brevirostris")
 
 no_cq_sub = no_cq %>% 
   filter(scientific_name %in% species_sub) 
