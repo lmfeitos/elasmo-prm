@@ -135,4 +135,30 @@ sim_results <- sim_results %>%
   full_join(join_data) %>%
   mutate(n_div_k = pop.array/K)
 
-write_csv(sim_results, here::here("data", "simulation_results.csv"))
+species_max_mort = sim_results %>% 
+  filter(scenario != "BAU") %>% 
+  group_by(scientific_name) %>% 
+  summarize(max_mort = max(total_mort))
+species_min_mort = sim_results %>% 
+  filter(scenario != "BAU") %>% 
+  group_by(scientific_name) %>% 
+  summarize(min_mort = min(total_mort))
+species_median_mort = sim_results %>% 
+  filter(scenario != "BAU") %>% 
+  select(scientific_name, avm, mid_avm, prm, mid_prm, total_mort) %>% 
+  distinct() %>%
+  filter(avm == mid_avm & prm == mid_prm) %>% 
+  group_by(scientific_name) %>% 
+  summarize(med_mort = max(total_mort))
+
+summarized = list(species_max_mort, species_median_mort, species_min_mort, sim_results) %>% 
+  reduce(full_join) %>% 
+  mutate(mort_scenario = case_when(
+    scenario == "BAU" ~ "BAU",
+    total_mort == med_mort ~ "Median Mortality",
+    total_mort == min_mort ~ "Low Mortality",
+    total_mort == max_mort ~ "High Mortality"
+  )) %>% 
+  select(-med_mort, -min_mort, -max_mort)
+
+write_csv(summarized, here::here("data", "simulation_results.csv"))
