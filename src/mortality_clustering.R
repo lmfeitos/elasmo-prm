@@ -42,18 +42,7 @@ sim_sub = sim_results %>%
   distinct()
 
 max_avm = sim_sub %>% 
-  filter(n_div_k >= 0.5) %>% 
-  pull(avm) %>% 
-  max()
-max_prm = sim_sub %>% 
-  filter(n_div_k >= 0.5)%>% 
-  pull(prm) %>% 
-  max()
-max_total = sim_sub %>% 
-  filter(n_div_k >= 0.5) %>% 
-  mutate(total_mort = avm * prm)%>% 
-  pull(total_mort) %>% 
-  max()
+  filter(n_div_k >= 0.5)
 
 sim_pca_w_species = sim_sub %>%  
   pivot_wider(names_from = mort_scenario, values_from = c(avm, prm, total_mort, n_div_k)) %>% 
