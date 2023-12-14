@@ -4,6 +4,14 @@ library(factoextra)
 library(ggfortify)
 library(patchwork)
 
+# data directory from gdrive
+basedir <- "G:/Meu Drive/PRM review/"
+datadir <- file.path(basedir, "data/fish_base_data")
+outdir <- file.path(basedir, "data/outputs") # calls present data from raster files
+
+sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>% 
+  left_join(sim_data)
+
 # Sim Results -------------------------------------------------------------
 
 sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>%
@@ -11,6 +19,18 @@ sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>%
 
 sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>% 
   left_join(sim_data)
+
+iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>% 
+  mutate(status = case_when(
+    str_detect(redlistCategory, "Near") ~ "NT",
+    str_detect(redlistCategory, "Vuln") ~ "VU",
+    str_detect(redlistCategory, "Least") ~ "LC",
+    str_detect(redlistCategory, "Critically") ~ "CR",
+    str_detect(redlistCategory, "Data") ~ "DD",
+    redlistCategory == "Endangered" ~ "EN"
+  )) %>% 
+  rename(scientific_name = scientificName) %>% 
+  select(scientific_name, status)
 
 sim_sub = sim_results %>% 
   filter(t == 200) %>% 
@@ -73,40 +93,42 @@ sim_sub = sim_sub %>%
   full_join(sim_pca_w_species) 
 
 p1 = ggplot(sim_sub %>% filter(mort_scenario != "BAU")) +
-  geom_point(aes(n_div_k, r_value, color = kmeans)) +
+  geom_point(aes(r_value, n_div_k, color = kmeans)) +
   theme_bw() +
-  labs(x = "N/K",
-       y = "Growth Rate",
+  labs(x = "Growth Rate",
+       y = "N/K",
        color = "Group") +
   scale_color_viridis_d() +
-  geom_vline(aes(xintercept = 0.5), color = "red", linetype = "dashed")
+  geom_hline(aes(yintercept = 0.5), color = "red", linetype = "dashed")
 
 p2 = ggplot(sim_sub %>% filter(mort_scenario != "BAU")) +
   geom_point(aes(n_div_k, avm, color = kmeans)) +
   theme_bw() +
-  labs(x = "N/K",
-       y = "At Vessel Mortality",
+  labs(x = "At-Vessel Mortality",
+       y = "N/K",
        color = "Group") +
   scale_color_viridis_d() +
-  geom_vline(aes(xintercept = 0.5), color = "red", linetype = "dashed")
+  geom_hline(aes(yintercept = 0.5), color = "red", linetype = "dashed")
 
 p3 = ggplot(sim_sub %>% filter(mort_scenario != "BAU")) +
   geom_point(aes(n_div_k, prm, color = kmeans))  +
   theme_bw() +
-  labs(x = "N/K",
-       y = "Post Release Mortality",
+  labs(x = "Post Release Mortality",
+       y = "N/K",
        color = "Group") +
   scale_color_viridis_d() +
-  geom_vline(aes(xintercept = 0.5), color = "red", linetype = "dashed")
+  geom_hline(aes(yintercept = 0.5), color = "red", linetype = "dashed")
 
 plot1 = p1 /  p2 / p3 + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
 plot1
 
-ggsave(plot1, file = paste0("clustering.pdf"), path = here::here("figs"), height = 15, width = 12)
+ggsave(plot1, file = paste0("clustering2.pdf"), path = here::here("figs"), height = 15, width = 12)
 
+# Add IUCN Red List category for each species
 sim_sub = sim_sub %>% 
   ungroup() %>% 
   select(scientific_name, kmeans) %>% 
-  distinct()
+  distinct() %>% 
+  left_join(iucn_data, by = "scientific_name")
 
 write_csv(sim_sub, here::here("data", "simulation_results_clustered.csv"))

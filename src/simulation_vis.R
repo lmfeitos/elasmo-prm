@@ -2,11 +2,29 @@ library(tidyverse)
 library(patchwork)
 set.seed(42)
 
+# data directory from gdrive
+basedir <- "G:/Meu Drive/PRM review/"
+datadir <- file.path(basedir, "data/fish_base_data")
+outdir <- file.path(basedir, "data/outputs") 
+
+sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>% 
+  filter(scenario != "CQ") %>% 
+  filter(!is.na(mort_scenario))
+
+sim_results_count <- sim_results %>% 
+  filter(t == 200 & mort_scenario == "Low Mortality" & n_div_k <= 0.5) %>% 
+  select(scientific_name)  %>% 
+  distinct()
+
+sim_results_total_count <- sim_results %>% 
+  select(scientific_name)  %>% 
+  distinct()
+
 sim_results = read_csv(here::here("data", "simulation_results.csv"))%>% 
   filter(scenario != "CQ") %>% 
   filter(!is.na(mort_scenario))
 
-clustered_post = read_csv(here::here("data", "simulation_results_clustered.csv")) %>% 
+clustered_post = read_csv(here::here(basedir, "data", "simulation_results_clustered.csv")) %>% 
   arrange(kmeans)
 
 no_cq = sim_results %>% 
@@ -32,8 +50,8 @@ p <- ggplot() +
              alpha = 0.5,
              linetype = "dashed") +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
-  facet_wrap(~fct_reorder(as.factor(scientific_name), kmeans),
-             labeller = label_wrap_gen(30), scales = "free") +
+  facet_wrap(~ fct_reorder(as.factor(scientific_name), kmeans),
+             labeller = label_wrap_gen(10)) +
   theme_bw() +
   scale_color_viridis_d() +
   scale_fill_manual(values = c("#d0e11c","#4ac16d")) +
@@ -58,10 +76,10 @@ ggsave(p, file = paste0("initial_sim_0_2.pdf"), path = here::here("figs"), heigh
 
 # Species Sub Plots -------------------------------------------------------
 
-species_sub = c("Carcharhinus leucas", "Galeocerdo cuvier", "Isurus oxyrinchus", "Lamna nasus",
-                "Negaprion brevirostris", "Rhynchobatus australiae", "Squalus megalops", 
-                "Alopias vulpinus", "Carcharhinus amblyrhynchos", "Carcharhinus falciformis", 
-                "Rhincodon typus", "Sphyrna corona", "Sphyrna mokarran")
+species_sub = c("Prionace glauca", "Carcharhinus leucas", "Galeocerdo cuvier", "Isurus oxyrinchus", 
+                "Mustelus canis", "Negaprion brevirostris", "Rhynchobatus djiddensis", "Squalus acanthias", 
+                "Alopias vulpinus", "Pseudocarcharias kamoharai", "Carcharhinus falciformis", "Sphyrna mokarran",
+                "Carcharhinus hemiodon", "Galeorhinus galeus", "Isogomphodon oxyrhynchus", "Squalus brevirostris")
 
 no_cq_sub = no_cq %>% 
   filter(scientific_name %in% species_sub) 
@@ -78,7 +96,8 @@ p <- ggplot() +
              linetype = "dashed") +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
   facet_wrap(~fct_reorder(as.factor(scientific_name), kmeans),
-             labeller = label_wrap_gen(30), scales = "free") +
+             labeller = label_wrap_gen(10),
+             nrow = 4) +
   theme_bw() +
   scale_color_viridis_d() +
   scale_fill_manual(values = c("#d0e11c", "#4ac16d")) +

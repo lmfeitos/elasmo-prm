@@ -176,7 +176,7 @@ mort_proportions_plot_sp <-
              scales = "free_y",
              space = "free_y") +
   labs(x = "",
-       y = "Mean mortality proportion",
+       y = "Fishing mortality",
        color = "Estimate type") +
   scale_y_continuous(expand = c(0.01, 0.01)) +
   scale_color_manual(values = c("#414487FF", "#22A884FF")) +
@@ -273,14 +273,15 @@ mort_proportions_plot_fam <-
                  y = mortality_prop, 
                  fill = estimate_type),
              show.legend = F,
-             alpha = 0.5) +
+             alpha = 0.5,
+         fatten = 1) +
   facet_grid(factor(group, levels = c("Sharks", "Batoids")) ~ 
                factor(gear_class,
                     levels = c("Longline", "Gillnet", "Trawl")),
              scales = "free_y",
              space = "free_y") +
   labs(x = "",
-       y = "Mean mortality proportion",
+       y = "Fishing mortality",
        color = "Estimate type",
        fill = "Estimate type") +
   scale_y_continuous(breaks = c(0, 0.25, 0.5, 0.75, 1)) +
@@ -327,13 +328,14 @@ habitat_plot <-
          aes(x = fct_inorder(habitat_associated), 
              y = mortality_prop, 
              fill = estimate_type),
-               alpha = 0.5) +
+               alpha = 0.5,
+         fatten = 1) +
   facet_grid(factor(group, levels = c("Sharks", "Batoids")) ~
              factor(gear_class,
                     levels = c("Longline", "Gillnet", "Trawl")),
              scales = "free_y") +
   labs(x = "",
-       y = "Mean mortality proportion",
+       y = "Fishing mortality",
        color = "Estimate type",
        fill = "Estimate type") +
   scale_color_manual(values = c("#414487FF", "#22A884FF")) +
@@ -351,16 +353,15 @@ habitat_plot <-
 
 ```{r, fig.height=14, fig.width=12}
 mort_proportions_plot <-
-  (mort_proportions_plot_sp | 
-  (mort_proportions_plot_fam /
-  habitat_plot)) +
+  mort_proportions_plot_fam +
+  habitat_plot +
   plot_annotation(tag_levels = "A") +
   plot_layout(guides = "collect") &
   theme(legend.position = "bottom") 
 
 mort_proportions_plot
 
-ggsave(mort_proportions_plot, file = paste0("mort_proportions_plot.pdf"), path = here::here("figs"), height = 14, width = 12)
+ggsave(mort_proportions_plot, file = paste0("mort_proportions_plot.pdf"), path = here::here("figs"), height = 8, width = 10)
 ```
 
 

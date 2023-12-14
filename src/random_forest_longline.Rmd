@@ -389,8 +389,8 @@ new_dat <- read_csv(here::here("data", "iucn_fishbase_list.csv")) %>%
   filter(!grepl("batidae", family)) %>% 
   filter(family != "Dasyatidae") %>% 
   filter(family != "Dasyatidae") %>% 
-  filter(family != "Glaucostegidae") %>% 
-  filter(family != "Pristidae") %>% 
+  filter(family != "Glaucostegidae") %>% # I'd remove this filter 
+  filter(family != "Pristidae") %>% # I'd remove this filter 
   filter(family != "Trygonorrhinidae") %>% 
   filter(!is.na(median_depth)) %>%
   filter(!is.na(ventilation_method)) %>%
