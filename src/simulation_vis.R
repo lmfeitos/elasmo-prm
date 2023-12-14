@@ -7,16 +7,22 @@ sim_results = read_csv(here::here("data", "simulation_results.csv"))%>%
   filter(!is.na(mort_scenario))
 
 clustered_post = read_csv(here::here("data", "simulation_results_clustered.csv")) %>% 
-  select(scientific_name, kmeans) %>% 
-  distinct() %>% 
   arrange(kmeans)
 
 no_cq = sim_results %>% 
-  right_join(clustered_post) %>%
-  drop_na() %>%
+  full_join(clustered_post)%>%
   mutate(scientific_name = fct_reorder(as.factor(scientific_name), kmeans)) %>% 
-  select(t, n_div_k, mort_scenario, total_mort, scientific_name) %>% 
-  distinct() 
+  mutate(mort_scenario = fct_relevel(as.factor(mort_scenario), "Low Mortality", after = Inf)) %>% 
+  distinct()
+
+g1 = no_cq %>% 
+  filter(kmeans == 1)
+clustered_post1 = clustered_post %>% 
+  filter(scientific_name %in% g1$scientific_name)
+g2 = no_cq %>% 
+  filter(kmeans == 2)
+clustered_post2 = clustered_post %>% 
+  filter(scientific_name %in% g2$scientific_name)
 
 p <- ggplot() +
   geom_rect(data = clustered_post, aes(xmin = -Inf, xmax = Inf, ymin = 1.1, ymax = 1.25, fill = as.factor(kmeans)), alpha = 0.4) +
@@ -58,8 +64,7 @@ species_sub = c("Carcharhinus leucas", "Galeocerdo cuvier", "Isurus oxyrinchus",
                 "Rhincodon typus", "Sphyrna corona", "Sphyrna mokarran")
 
 no_cq_sub = no_cq %>% 
-  filter(scientific_name %in% species_sub) %>% 
-  distinct()
+  filter(scientific_name %in% species_sub) 
 
 clustered_post_sub = clustered_post %>% 
   filter(scientific_name %in% species_sub)
