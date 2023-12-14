@@ -16,10 +16,10 @@ sim_sub = sim_results %>%
   filter(t == 200) %>% 
   mutate(t = as.factor(t)) %>% 
   select(n_div_k, avm, prm, scientific_name, total_mort, mort_scenario, r_value) %>% 
-  filter(mort_scenario != "In-Between Mortality") %>%
   group_by(scientific_name, mort_scenario) %>% 
   filter(n_div_k == max(n_div_k)) %>% 
-  distinct()
+  distinct() %>% 
+  filter(!is.na(mort_scenario))
 
 max_avm = sim_sub %>% 
   filter(n_div_k >= 0.5) %>% 

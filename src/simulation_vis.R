@@ -2,24 +2,25 @@ library(tidyverse)
 library(patchwork)
 set.seed(42)
 
-sim_results = read_csv(here::here("data", "simulation_results.csv"))
-
-no_cq = sim_results %>% 
-  filter(scenario != "CQ")
+sim_results = read_csv(here::here("data", "simulation_results.csv"))%>% 
+  filter(scenario != "CQ") %>% 
+  filter(!is.na(mort_scenario))
 
 clustered_post = read_csv(here::here("data", "simulation_results_clustered.csv")) %>% 
   select(scientific_name, kmeans) %>% 
   distinct() %>% 
   arrange(kmeans)
 
-no_cq = no_cq %>% 
+no_cq = sim_results %>% 
   right_join(clustered_post) %>%
   drop_na() %>%
-  mutate(scientific_name = fct_reorder(as.factor(scientific_name), kmeans))
+  mutate(scientific_name = fct_reorder(as.factor(scientific_name), kmeans)) %>% 
+  select(t, n_div_k, mort_scenario, total_mort, scientific_name) %>% 
+  distinct() 
 
 p <- ggplot() +
   geom_rect(data = clustered_post, aes(xmin = -Inf, xmax = Inf, ymin = 1.1, ymax = 1.25, fill = as.factor(kmeans)), alpha = 0.4) +
-  geom_line(data = no_cq, aes(t, n_div_k, color = scenario, group = total_mort)) +
+  geom_line(data = no_cq, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_hline(yintercept = 0.5,
              color = "gray",
              alpha = 0.5,
@@ -29,7 +30,7 @@ p <- ggplot() +
              labeller = label_wrap_gen(30), scales = "free") +
   theme_bw() +
   scale_color_viridis_d() +
-  scale_fill_manual(values = c("#d0e11c","#a0da39", "#73d056", "#4ac16d")) +
+  scale_fill_manual(values = c("#d0e11c","#4ac16d")) +
   labs(
     x = "Time",
     y = "N/K",
@@ -51,17 +52,21 @@ ggsave(p, file = paste0("initial_sim_0_2.pdf"), path = here::here("figs"), heigh
 
 # Species Sub Plots -------------------------------------------------------
 
-species_sub = c("Prionace glauca", "Carcharhinus limbatus", "Galeorhinus galeus", "Galeocerdo cuvier", "Rhincodon typus", "Squalus acanthias",  "Mustelus lunulatus")
+species_sub = c("Carcharhinus leucas", "Galeocerdo cuvier", "Isurus oxyrinchus", "Lamna nasus",
+                "Negaprion brevirostris", "Rhynchobatus australiae", "Squalus megalops", 
+                "Alopias vulpinus", "Carcharhinus amblyrhynchos", "Carcharhinus falciformis", 
+                "Rhincodon typus", "Sphyrna corona", "Sphyrna mokarran")
 
 no_cq_sub = no_cq %>% 
-  filter(scientific_name %in% species_sub)
+  filter(scientific_name %in% species_sub) %>% 
+  distinct()
 
 clustered_post_sub = clustered_post %>% 
   filter(scientific_name %in% species_sub)
 
 p <- ggplot() +
-  geom_rect(data = clustered_post_sub, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.1, fill = as.factor(kmeans)), alpha = 0.4) +
-  geom_line(data = no_cq_sub, aes(t, n_div_k, color = scenario, group = total_mort)) +
+  geom_rect(data = clustered_post_sub, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.25, fill = as.factor(kmeans)), alpha = 0.4) +
+  geom_line(data = no_cq_sub, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_hline(yintercept = 0.5,
              color = "gray",
              alpha = 0.5,
@@ -71,7 +76,7 @@ p <- ggplot() +
              labeller = label_wrap_gen(30), scales = "free") +
   theme_bw() +
   scale_color_viridis_d() +
-  scale_fill_manual(values = c("#d0e11c","#a0da39", "#73d056", "#4ac16d")) +
+  scale_fill_manual(values = c("#d0e11c", "#4ac16d")) +
   labs(
     x = "Time",
     y = "N/K",
