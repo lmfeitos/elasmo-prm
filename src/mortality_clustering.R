@@ -55,22 +55,6 @@ max_total = sim_sub %>%
   pull(total_mort) %>% 
   max()
 
-ggplot(sim_sub %>% filter(mort_scenario != "BAU")) +
-  geom_point(aes(n_div_k, avm)) +
-  geom_vline(aes(xintercept = 0.5), color = "red", linetype = "dashed")
-
-ggplot(sim_sub %>% filter(mort_scenario != "BAU")) +
-  geom_point(aes(n_div_k, prm)) +
-  geom_vline(aes(xintercept = 0.5), color = "red", linetype = "dashed")
-
-ggplot(sim_sub %>% filter(mort_scenario != "BAU")) +
-  geom_point(aes(n_div_k, prm*avm)) +
-  geom_vline(aes(xintercept = 0.5), color = "red", linetype = "dashed")
-
-ggplot(sim_sub %>% filter(mort_scenario != "BAU")) +
-  geom_point(aes(n_div_k, r_value)) +
-  geom_vline(aes(xintercept = 0.5), color = "red", linetype = "dashed")
-
 sim_pca_w_species = sim_sub %>%  
   pivot_wider(names_from = mort_scenario, values_from = c(avm, prm, total_mort, n_div_k)) %>% 
   ungroup()
@@ -82,7 +66,7 @@ sim_pca = sim_pca_w_species %>%
   )
 
 fviz_nbclust(sim_pca, FUNcluster = kmeans) 
-km.out <- kmeans(sim_pca, centers = 2, nstart = 20)
+km.out <- kmeans(sim_pca, centers = 3, nstart = 20)
 
 sim_pca_w_species$kmeans = as.factor(km.out$cluster)
 
@@ -122,7 +106,7 @@ p3 = ggplot(sim_sub %>% filter(mort_scenario != "BAU")) +
 plot1 = p1 /  p2 / p3 + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
 plot1
 
-ggsave(plot1, file = paste0("clustering2.pdf"), path = here::here("figs"), height = 15, width = 12)
+ggsave(plot1, file = paste0("clustering.pdf"), path = here::here("figs"), height = 15, width = 12)
 
 # Add IUCN Red List category for each species
 sim_sub = sim_sub %>% 
@@ -130,5 +114,9 @@ sim_sub = sim_sub %>%
   select(scientific_name, kmeans) %>% 
   distinct() %>% 
   left_join(iucn_data, by = "scientific_name")
+
+iucn_summary = sim_sub %>% 
+  group_by(status, kmeans) %>% 
+  summarize(count = n())
 
 write_csv(sim_sub, here::here("data", "simulation_results_clustered.csv"))
