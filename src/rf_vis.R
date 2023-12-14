@@ -114,10 +114,7 @@ predictions_fig = ggplot(data = predictions) +
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
         strip.background = element_rect(fill = "transparent"),
-        panel.spacing.x = unit(5, "mm")) +
-  facet_grid(rows = vars(factor(group, levels = c("Sharks", "Batoids"))),
-             scales = "free_y",
-             space = "free_y")
+        panel.spacing.x = unit(5, "mm")) 
 predictions_fig
 # 
 # ggsave(predictions_fig, file = paste0("predictions_fig.pdf"), path = here::here("figs"), height = 20, width = 15)
@@ -160,10 +157,9 @@ p2 = ggplot(predictions) +
 
 
 p3 = ggplot(predictions %>% filter(estimate_type == "AVM")) +
-  geom_point(aes(mortality_prop, ventilation_method, color = group),
-             alpha = 0.5,
-             position = position_jitterdodge(jitter.width = .1)) +
-  geom_boxplot(aes(mortality_prop, ventilation_method, fill = group), 
+  geom_point(aes(mortality_prop, ventilation_method),
+             alpha = 0.5) +
+  geom_boxplot(aes(mortality_prop, ventilation_method), 
                outlier.alpha = 0,
                alpha = 0.85) +
   theme_bw() +
@@ -183,11 +179,10 @@ p3 = ggplot(predictions %>% filter(estimate_type == "AVM")) +
   scale_color_viridis_d()
 
 p4 = ggplot(predictions %>% filter(estimate_type == "PRM")) +
-  geom_point(aes(mortality_prop, habitat_associated, color = group),
-             position = position_jitterdodge(jitter.width = .1),
+  geom_point(aes(mortality_prop, habitat_associated),,
              alpha = 0.1,
              show.legend = F) +
-  geom_boxplot(aes(mortality_prop, habitat_associated, fill = group), 
+  geom_boxplot(aes(mortality_prop, habitat_associated), 
                outlier.alpha = 0,
                alpha = 0.85,
                show.legend = F) +
