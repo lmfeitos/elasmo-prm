@@ -26,6 +26,8 @@ sim_results = read_csv(here::here("data", "simulation_results.csv"))%>%
 
 clustered_post = read_csv(here::here(basedir, "data", "simulation_results_clustered.csv")) %>% 
   arrange(kmeans)
+# clustered_post = read_csv(here::here("data", "simulation_results_clustered.csv")) %>% 
+#   arrange(kmeans)
 
 no_cq = sim_results %>% 
   full_join(clustered_post)%>%
@@ -41,6 +43,10 @@ g2 = no_cq %>%
   filter(kmeans == 2)
 clustered_post2 = clustered_post %>% 
   filter(scientific_name %in% g2$scientific_name)
+g3 = no_cq %>% 
+  filter(kmeans == 3)
+clustered_post3 = clustered_post %>% 
+  filter(scientific_name %in% g3$scientific_name)
 
 p <- ggplot() +
   geom_rect(data = clustered_post, aes(xmin = -Inf, xmax = Inf, ymin = 1.1, ymax = 1.25, fill = as.factor(kmeans)), alpha = 0.4) +
@@ -54,7 +60,7 @@ p <- ggplot() +
              labeller = label_wrap_gen(10)) +
   theme_bw() +
   scale_color_viridis_d() +
-  scale_fill_manual(values = c("#d0e11c","#4ac16d")) +
+  scale_fill_manual(values = c("#a0da39", "#d0e11c",  "#4ac16d")) +
   labs(
     x = "Time",
     y = "N/K",
@@ -100,7 +106,7 @@ p <- ggplot() +
              nrow = 4) +
   theme_bw() +
   scale_color_viridis_d() +
-  scale_fill_manual(values = c("#d0e11c", "#4ac16d")) +
+  scale_fill_manual(values = c("#a0da39", "#d0e11c",  "#4ac16d")) +
   labs(
     x = "Time",
     y = "N/K",
