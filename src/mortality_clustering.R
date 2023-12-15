@@ -3,6 +3,9 @@ library(FactoMineR)
 library(factoextra)
 library(ggfortify)
 library(patchwork)
+library(vegan)
+
+set.seed(42)
 
 # data directory from gdrive
 basedir <- "G:/Meu Drive/PRM review/"
@@ -96,6 +99,73 @@ plot1 = p1 /  p2 / p3 + plot_annotation(tag_levels = "A") + plot_layout(guides =
 plot1
 
 ggsave(plot1, file = paste0("clustering.pdf"), path = here::here("figs"), height = 15, width = 12)
+
+
+# nmds --------------------------------------------------------------------
+sim_pca = sim_pca %>%
+  mutate(r_value = case_when(
+    r_value >= 0 ~ r_value,
+    r_value < 0 ~ 0
+  ))
+
+nmds <- metaMDS(sim_pca, distance = "euclidian")
+
+# extract NMDS scores (x and y coordinates)
+filled_scores <- as.data.frame(scores(nmds)$sites)
+
+# add columns to data frame
+filled_scores$scientific_name <- sim_pca_w_species$scientific_name
+filled_scores$kmeans <- sim_pca_w_species$kmeans
+
+filled_scores <- filled_scores %>%
+  mutate(scientific_name = as.factor(scientific_name), 
+         kmeans = as.factor(kmeans))
+
+centroid <- filled_scores %>%
+  group_by(kmeans) %>%
+  summarize(NMDS1 = mean(NMDS1), NMDS2 = mean(NMDS2))
+
+species_scores <- as.data.frame(nmds[["species"]])
+
+rownames(species_scores) <- c("r", "BAU AVM", "Low Mortality AVM", "Median Mortality AVM", "High Mortaltity AVM" ,
+                               "BAU PRM", "Low Mortality PRM", "Median Mortality PRM", "High Mortaltity PRM",
+                               "BAU Total", "Low Mortality Total", "Median Mortality Total", "High Mortaltity Total" ,
+                               "BAU N/K", "Low Mortality N/K", "Median Mortality N/K", "High Mortaltity N/K")
+
+species_scores <- species_scores %>% 
+  rownames_to_column(var = "var") 
+
+species_scores = species_scores %>% 
+  filter(abs(MDS1) >= 0.1) %>% 
+  filter(abs(MDS2) >= 0.1)
+
+
+nmds <- ggplot(filled_scores, aes(x = NMDS1, y = NMDS2)) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "grey")+
+  geom_hline(yintercept = 0, linetype = "dashed", color = "grey") +
+  geom_point(aes(color = kmeans), alpha = 0.3) +
+  theme_bw(base_size = 16)+
+  stat_ellipse(geom = "polygon", aes(color = kmeans, fill = kmeans), linewidth = 0.25, alpha = 0.2, show.legend = FALSE) +
+  geom_point(data = centroid, aes(color = kmeans), size = 4, alpha = 0.9)+
+  scale_color_manual(values = c("#a0da39", "#d0e11c",  "#4ac16d")) +
+  scale_fill_manual(values = c("#a0da39", "#d0e11c",  "#4ac16d")) +
+  labs(x = "nMDS1", y = "nMDS2", color = "Group") +
+  scale_y_continuous(position = "right")+
+  theme(legend.position = "left", panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  annotate("text", x = 0.7, y = 0.8, label = "Stress: 0.138") +
+  geom_segment(data = species_scores, aes(x = 0, xend = MDS1, y = 0, yend = MDS2), arrow = arrow(length = unit(0.25, "cm")), linewidth = 0.5, colour = "grey20") +
+  ggrepel::geom_label_repel(data = species_scores, aes(x = MDS1, y = MDS2, label = var), fill = "white", cex = 3, direction = "both", segment.size = .25) 
+nmds
+
+
+  
+  
+  
+   
+  
+
+nmds4
+
 
 # Add IUCN Red List category for each species
 sim_sub = sim_sub %>% 
