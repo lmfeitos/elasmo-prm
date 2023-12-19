@@ -162,7 +162,7 @@ p2 = ggplot(predictions) +
   scale_color_viridis_d()
 
 
-p3 = ggplot(predictions) +
+p3 = ggplot(predictions %>% filter(estimate_type == "AVM")) +
   geom_point(aes(mortality_prop, ventilation_method),
              alpha = 0.5) +
   geom_boxplot(aes(mortality_prop, ventilation_method), 
@@ -184,7 +184,7 @@ p3 = ggplot(predictions) +
   scale_fill_viridis_d() +
   scale_color_viridis_d()
 
-p4 = ggplot(predictions) +
+p4 = ggplot(predictions %>% filter(estimate_type == "PRM")) +
   geom_point(aes(mortality_prop, habitat_associated),,
              alpha = 0.1,
              show.legend = F) +
@@ -232,7 +232,7 @@ p5 = ggplot(predictions) +
   scale_fill_viridis_d() +
   scale_color_viridis_d()
 
-plot = p1  / p2 / p3 / p4 / p5 + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
+plot = p1  / p2 / (p3 + p4) / p5 + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
 plot
 
 ggsave(plot, file = paste0("preds_predictors.pdf"), path = here::here("figs"), height = 12, width = 10)
