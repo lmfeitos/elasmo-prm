@@ -38,6 +38,25 @@ prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
 ```
 
 ```{r}
+prm = prm_elasmo %>% 
+  filter(estimate_type == "post-release mortality") %>% 
+  rename(prm = estimate) %>% 
+  select(scientific_name,  prm)
+  
+
+avm = prm_elasmo %>% 
+  filter(estimate_type == "at-vessel mortality") %>% 
+  rename(avm = estimate)%>% 
+  select(scientific_name, avm)
+
+cor_check = full_join(avm, prm) %>% 
+  filter(!is.na(avm) & !is.na(prm))
+
+cor(cor_check$prm,cor_check$avm)
+```
+
+
+```{r}
 # create data subset with variables that will be used in the random forest model
 prm_elasmo_subset <- prm_elasmo %>%
   select(
@@ -136,11 +155,11 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 * Minimum data points in each node required for node split
 
 ```{r,include=FALSE}
-avm_tune <- avm_wflw %>% # use cross validation to tune parameters
-  tune_grid(
-    resamples = avm_folds, # add cv folds
-    grid = 10
-  ) # use grid of parameters to test
+# avm_tune <- avm_wflw %>% # use cross validation to tune parameters
+#   tune_grid(
+#     resamples = avm_folds, # add cv folds
+#     grid = 10
+#   ) # use grid of parameters to test
 ```
 
 ```{r,include=FALSE}
@@ -163,9 +182,9 @@ Below displays the results of cross validation tuning
 ```
 
 ```{r, include=FALSE}
-avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rsq")) # finalize the workflow with the best model
-
-saveRDS(avm_final, here::here("data", "avm_final.rds"))
+# avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rsq")) # finalize the workflow with the best model
+# 
+# saveRDS(avm_final, here::here("data", "avm_final.rds"))
 
 avm_final <- readRDS(here::here("data", "avm_final.rds"))
 ```

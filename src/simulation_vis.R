@@ -33,7 +33,7 @@ no_cq = sim_results %>%
   full_join(clustered_post)%>%
   mutate(scientific_name = fct_reorder(as.factor(scientific_name), kmeans)) %>% 
   mutate(mort_scenario = fct_relevel(as.factor(mort_scenario), "Low Mortality", after = Inf)) %>% 
-  distinct()
+  distinct() 
 
 g1 = no_cq %>% 
   filter(kmeans == 1)
