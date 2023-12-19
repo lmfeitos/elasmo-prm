@@ -100,7 +100,7 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ reproductive_mode + median_depth + max_size_cm + habitat_associated, data = avm_train) %>%
+avm_recipe <- recipe(mortality_prop ~ reproductive_mode + median_depth + max_size_cm + ventilation_method, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
 prm_recipe <- recipe(mortality_prop ~ reproductive_mode + median_depth + max_size_cm + habitat_associated, data = elasmo_prm) %>%
@@ -136,11 +136,11 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 * Minimum data points in each node required for node split
 
 ```{r,include=FALSE}
-# avm_tune <- avm_wflw %>% # use cross validation to tune parameters
-#   tune_grid(
-#     resamples = avm_folds, # add cv folds
-#     grid = 10
-#   ) # use grid of parameters to test
+avm_tune <- avm_wflw %>% # use cross validation to tune parameters
+  tune_grid(
+    resamples = avm_folds, # add cv folds
+    grid = 10
+  ) # use grid of parameters to test
 ```
 
 ```{r,include=FALSE}
@@ -163,9 +163,9 @@ Below displays the results of cross validation tuning
 ```
 
 ```{r, include=FALSE}
-# avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rsq")) # finalize the workflow with the best model
-# 
-# saveRDS(avm_final, here::here("data", "avm_final.rds"))
+avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rsq")) # finalize the workflow with the best model
+
+saveRDS(avm_final, here::here("data", "avm_final.rds"))
 
 avm_final <- readRDS(here::here("data", "avm_final.rds"))
 ```
