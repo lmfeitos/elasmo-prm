@@ -17,6 +17,12 @@ predictions = mean_predictions %>%
   mutate(estimate_type = case_when(
     estimate_type == "avm_pred" ~ "AVM",
     estimate_type == "prm_pred" ~ "PRM"
+  )) %>% 
+  mutate(group = case_when(
+    str_detect(family, "Mobulidae|Dasyatidae|Gymnyridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae|Plesiobatidae|Potamo|Urolophidae|Zanobatidae|Narcinidae|Platyrhinidae|Trygon|Hypnidae|Narkidae") ~ "Batoids",
+    str_detect(scientific_name, 
+               "Himantura|Dasyatis|Gymnura|trygon|Bathytoshia|rays|raja|Rhinoptera|Sympterygia|Pastinachus|Urobatis|Glaucostegus|Hypanus") ~ "Batoids",
+    TRUE ~ "Sharks"
   ))
 
 mort_subset <- mean_predictions %>%
@@ -120,16 +126,16 @@ predictions_fig
 # ggsave(predictions_fig, file = paste0("predictions_fig.pdf"), path = here::here("figs"), height = 20, width = 15)
 
 p1 = ggplot(predictions) +
-  geom_point(aes(max_size_cm, mortality_prop, color = reproductive_mode),
+  geom_point(aes(max_size_cm, mortality_prop, color = group),
              alpha = 0.5) +
   # geom_smooth(method = "loess", aes(max_size_cm, mortality_prop, color = reproductive_mode), se = FALSE) +
   theme_bw() +
-  labs(y = "Mortality",
+  labs(y = "Estimated mortality",
        x = "Size (cm)",
-       color = "Reproductive Mode") +
+       color = "Group") +
   facet_wrap(~ estimate_type, scales = "free_x") +
   theme(axis.text = element_text(size = 8, color = "black"),
-        axis.text.y = element_text(face = "italic"),
+        axis.text.y = element_text(size = 10, color = "black"),
         axis.title = element_text(size = 11, color = "black"),
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
@@ -138,16 +144,16 @@ p1 = ggplot(predictions) +
   scale_color_viridis_d()
 
 p2 = ggplot(predictions) +
-  geom_point(aes(median_depth, mortality_prop, color = reproductive_mode),
+  geom_point(aes(median_depth, mortality_prop, color = group),
              alpha = 0.5) +
   # geom_smooth(method = "loess", aes(median_depth, mortality_prop, color = reproductive_mode), se = FALSE) +
   theme_bw() +
-  labs(y = "Mortality",
-       x = "Median Depth",
-       color = "Reproductive Mode") +
+  labs(y = "Estimated mortality",
+       x = "Median Depth (m)",
+       color = "Group") +
   facet_wrap(~ estimate_type, scales = "free_x") +
   theme(axis.text = element_text(size = 8, color = "black"),
-        axis.text.y = element_text(face = "italic"),
+        axis.text.y = element_text(size = 10, color = "black"),
         axis.title = element_text(size = 11, color = "black"),
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
@@ -156,20 +162,20 @@ p2 = ggplot(predictions) +
   scale_color_viridis_d()
 
 
-p3 = ggplot(predictions %>% filter(estimate_type == "AVM")) +
+p3 = ggplot(predictions) +
   geom_point(aes(mortality_prop, ventilation_method),
              alpha = 0.5) +
   geom_boxplot(aes(mortality_prop, ventilation_method), 
                outlier.alpha = 0,
                alpha = 0.85) +
   theme_bw() +
-  labs(x = "Mortality",
+  labs(x = "Estimated mortality",
        y = "Ventilation Method",
        fill = "",
        color = "") +
   facet_wrap(~ estimate_type, scales = "free_x") +
   theme(axis.text = element_text(size = 8, color = "black"),
-        axis.text.y = element_text(face = "italic"),
+        axis.text.y = element_text(size = 10, color = "black"),
         axis.title = element_text(size = 11, color = "black"),
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
@@ -178,7 +184,7 @@ p3 = ggplot(predictions %>% filter(estimate_type == "AVM")) +
   scale_fill_viridis_d() +
   scale_color_viridis_d()
 
-p4 = ggplot(predictions %>% filter(estimate_type == "PRM")) +
+p4 = ggplot(predictions) +
   geom_point(aes(mortality_prop, habitat_associated),,
              alpha = 0.1,
              show.legend = F) +
@@ -187,13 +193,13 @@ p4 = ggplot(predictions %>% filter(estimate_type == "PRM")) +
                alpha = 0.85,
                show.legend = F) +
   theme_bw() +
-  labs(x = "Mortality",
+  labs(x = "Estimated mortality",
        y = "Habitat",
        fill = "",
        color = "") +
   facet_wrap(~ estimate_type, scales = "free_x") +
   theme(axis.text = element_text(size = 8, color = "black"),
-        axis.text.y = element_text(face = "italic"),
+        axis.text.y = element_text(size = 10, color = "black"),
         axis.title = element_text(size = 11, color = "black"),
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
@@ -202,7 +208,31 @@ p4 = ggplot(predictions %>% filter(estimate_type == "PRM")) +
   scale_fill_viridis_d() +
   scale_color_viridis_d()
 
-plot = p1  / p2 / (p3 + p4) + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
+p5 = ggplot(predictions) +
+  geom_point(aes(mortality_prop, reproductive_mode),
+             alpha = 0.1,
+             show.legend = F) +
+  geom_boxplot(aes(mortality_prop, reproductive_mode), 
+               outlier.alpha = 0,
+               alpha = 0.85,
+               show.legend = F) +
+  theme_bw() +
+  labs(x = "Estimated mortality",
+       y = "Reproductive mode",
+       fill = "",
+       color = "") +
+  facet_wrap(~ estimate_type, scales = "free_x") +
+  theme(axis.text = element_text(size = 8, color = "black"),
+        axis.text.y = element_text(size = 10, color = "black"),
+        axis.title = element_text(size = 11, color = "black"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        strip.background = element_rect(fill = "transparent"),
+        panel.spacing.x = unit(5, "mm")) +
+  scale_fill_viridis_d() +
+  scale_color_viridis_d()
+
+plot = p1  / p2 / p3 / p4 / p5 + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
 plot
 
 ggsave(plot, file = paste0("preds_predictors.pdf"), path = here::here("figs"), height = 12, width = 10)

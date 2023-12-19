@@ -1,0 +1,151 @@
+---
+title: "propeller_plot"
+author: "Leonardo Feitosa"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, 
+                      message = FALSE)
+library(tidyverse)
+library(here)
+library(janitor)
+library(data.table)
+
+# data directory from gdrive
+basedir <- "G:/Meu Drive/PRM review/"
+datadir <- file.path(basedir, "data/fish_base_data")
+outdir <- file.path(basedir, "data/outputs") 
+
+```
+
+
+```{r}
+# read in the  data
+iucn_data <- read_csv(here("data", "iucn_data", "assessments.csv")) %>% 
+  clean_names() %>% 
+  filter(!str_detect(systems, "Freshwater")) %>% 
+  select(scientific_name, redlist_category, year_published) %>% 
+  mutate(redlist_category = case_when(
+    str_detect(redlist_category, "Near") ~ "NT",
+    str_detect(redlist_category, "Vul") ~ "VU",
+    str_detect(redlist_category, "Data") ~ "DD",
+    redlist_category == "Endangered" ~ "EN",
+    redlist_category == "Critically Endangered" ~ "CR",
+    str_detect(redlist_category, "Least") ~ "LC",
+    TRUE ~ redlist_category
+  ))
+
+sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>% 
+  filter(scenario != "CQ") %>% 
+  filter(!is.na(mort_scenario)) %>% 
+  select(scientific_name, t, mort_scenario, n_div_k)
+
+top_shark_mort <- read_csv(here("data", "saup_eez_high_seas_shark_mortality.csv")) %>% 
+  group_by(scientific_name) %>% 
+  summarise(mort_sum = sum(mortality)) %>% 
+  arrange(desc(mort_sum))
+```
+
+```{r}
+# data wrangling for the plot
+sim_results_iucn <- sim_results %>% 
+  left_join(iucn_data, by = "scientific_name")
+
+sim_results_iucn_pct <- sim_results_iucn %>%
+  filter(!mort_scenario == "BAU") %>% 
+  filter(t == 1 | t == 100) %>%  
+  pivot_wider(names_from = t,
+              values_from = n_div_k) %>%
+  rename(t_1 = "1",
+         t_100 = "100") %>% 
+  group_by(scientific_name) %>%
+  mutate(n_div_k_diff = t_100 - t_1) %>% 
+  inner_join(sim_results_iucn_test, by = "scientific_name") %>% 
+  mutate(n_div_k_diff_rel_BAU = (n_div_k_diff_BAU - n_div_k_diff) / n_div_k_diff_BAU * 100) %>% 
+  mutate(n_div_k_diff_rel_BAU = round(n_div_k_diff_rel_BAU, 4)) %>% 
+  ungroup() %>% 
+  filter(redlist_category %in% c("VU", "EN", "CR")) %>% 
+  rowid_to_column("id") 
+  
+# Set a number of empty bars to add at the end of each group
+empty_bar <- 4
+to_add <- data.frame(matrix(NA, empty_bar*nlevels(sim_results_iucn_pct$redlist_category), ncol(sim_results_iucn_pct)))
+colnames(to_add) <- colnames(sim_results_iucn_pct)
+to_add$redlist_category <- rep(levels(sim_results_iucn_pct$redlist_category), each = empty_bar)
+sim_results_iucn_pct <- rbind(sim_results_iucn_pct, to_add)
+sim_results_iucn_pct <- sim_results_iucn_pct %>% arrange(redlist_category)
+sim_results_iucn_pct$id <- seq(1, nrow(sim_results_iucn_pct))
+
+# get the name and the y position of each label
+label_data_m <- sim_results_iucn_pct %>% 
+  filter(mort_scenario == "Median Mortality")
+number_of_bar <- nrow(label_data_m)
+angle <- 90 - 360 * (label_data_m$id - 0.5) /  number_of_bar
+label_data_m$hjust <- ifelse(angle < -90, 1, 0)
+label_data_m$angle <- ifelse(angle < -90, angle + 180, angle)
+
+# Not sure how to use the code below 
+redlist_breaks <- sim_results_iucn_pct_plot %>% 
+    group_by(redlist_category) %>% 
+    summarize(start = min(id), 
+              end = max(id) - 3) %>% 
+    rowwise() %>% 
+    mutate(title = mean(c(start, end))) %>% 
+    ungroup() %>% 
+    mutate(end = data.table::shift(end + 1, n = 1, type = "shift", fill = max(end) + 1),
+           start = start -1)
+
+max_value <- max(sim_results_iucn_pct_plot$n_div_k_diff_rel_BAU, na.rm = T)
+  
+y_max <- 20 * ceiling(max_value/20)
+
+v <- c(20, 40, 60, 80, 100)
+
+redlist_breaks <- redlist_breaks %>% 
+  mutate(v = list(v)) %>% 
+  unnest(cols = c(v))
+```
+
+
+
+```{r, fig.height = 10, fig.width=10}
+sim_results_iucn_pct_plot_m <- sim_results_iucn_pct %>% 
+  filter(mort_scenario == "Median Mortality") 
+
+ggplot(data = sim_results_iucn_pct_plot_m) +
+  geom_col(aes(x = fct_reorder(as.factor(id), n_div_k_diff_rel_BAU), 
+               y = n_div_k_diff_rel_BAU, 
+               fill = redlist_category),
+           width = 0.8) +
+  ylim(-20, max(sim_results_iucn_pct_plot_m$n_div_k_diff_rel_BAU)) +
+  scale_fill_brewer(palette = "YlOrRd",
+                    direction = -1) +
+  theme_minimal() +
+  theme(axis.title = element_blank(),
+        axis.text = element_blank(),
+        panel.grid = element_blank(),
+        plot.margin = unit(rep(0, 4), "cm")) +
+  coord_polar(start = 0) 
+  geom_text(data = label_data_m, 
+            aes(x = id, y = n_div_k_diff_rel_BAU+10, label = scientific_name, hjust = hjust),
+              color = "black", size = 4, angle = sim_results_iucn_pct_plot_m$angle, inherit.aes = FALSE)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
