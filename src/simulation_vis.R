@@ -29,38 +29,46 @@ clustered_post = read_csv(here::here(basedir, "data", "simulation_results_cluste
 clustered_post = read_csv(here::here("data", "simulation_results_clustered.csv")) %>%
   arrange(kmeans)
 
+iucn_data <- read_csv(here("data", "iucn_data", "assessments.csv")) %>% 
+  clean_names() %>% 
+  filter(!str_detect(systems, "Freshwater")) %>% 
+  select(scientific_name, redlist_category, year_published) %>% 
+  mutate(redlist_category = case_when(
+    str_detect(redlist_category, "Near") ~ "NT",
+    str_detect(redlist_category, "Vul") ~ "VU",
+    str_detect(redlist_category, "Data") ~ "DD",
+    redlist_category == "Endangered" ~ "EN",
+    redlist_category == "Critically Endangered" ~ "CR",
+    str_detect(redlist_category, "Least") ~ "LC",
+    is.na(redlist_category) ~ "NE",
+    TRUE ~ redlist_category
+  )) %>% 
+  select(scientific_name, redlist_category)
+
 no_cq = sim_results %>% 
   full_join(clustered_post)%>%
-  mutate(scientific_name = fct_reorder(as.factor(scientific_name), kmeans)) %>% 
   mutate(mort_scenario = fct_relevel(as.factor(mort_scenario), "Low Mortality", after = Inf)) %>% 
-  distinct() 
-
-g1 = no_cq %>% 
-  filter(kmeans == 1)
-clustered_post1 = clustered_post %>% 
-  filter(scientific_name %in% g1$scientific_name)
-g2 = no_cq %>% 
-  filter(kmeans == 2)
-clustered_post2 = clustered_post %>% 
-  filter(scientific_name %in% g2$scientific_name)
-g3 = no_cq %>% 
-  filter(kmeans == 3)
-clustered_post3 = clustered_post %>% 
-  filter(scientific_name %in% g3$scientific_name)
+  distinct() %>% 
+  left_join(iucn_data) %>% 
+  mutate(redlist_category = case_when(
+    is.na(redlist_category) ~ "NE",
+    TRUE ~ redlist_category
+  ))  %>% 
+  mutate(redlist_category = fct_relevel(as.factor(redlist_category), c("LC", "NT", "VU", "EN", "CR", "NE")))
 
 p <- ggplot() +
-  geom_rect(data = clustered_post, aes(xmin = -Inf, xmax = Inf, ymin = 1.1, ymax = 2.5, fill = as.factor(kmeans)), alpha = 0.4) +
+  geom_rect(data = no_cq, aes(xmin = -Inf, xmax = Inf, ymin = 1.1, ymax = 2.5, fill = as.factor(redlist_category)), alpha = 0.4) +
   geom_line(data = no_cq, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_hline(yintercept = 0.5,
              color = "gray",
              alpha = 0.5,
              linetype = "dashed") +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
-  facet_wrap(~ fct_reorder(as.factor(scientific_name), kmeans),
+  facet_wrap(~ scientific_name,
              labeller = label_wrap_gen(10)) +
   theme_bw() +
   scale_color_viridis_d() +
-  scale_fill_manual(values = c("#a0da39", "#d0e11c",  "#4ac16d")) +
+  scale_fill_manual(values = c("#ffffb2", "#fecc5c", "#fd8d3c", "#f03b20", "#bd0026", "grey")) +
   labs(
     x = "Time",
     y = "N/K",
@@ -76,7 +84,7 @@ p <- ggplot() +
   coord_cartesian(clip="off", ylim = c(0, 1))
 p
 
-ggsave(p, file = paste0("initial_sim_0_2.pdf"), path = here::here("figs", "supp"), height = 20, width = 25)
+ggsave(p, file = paste0("initial_sim.pdf"), path = here::here("figs", "supp"), height = 20, width = 25)
 
 # Species Sub Plots -------------------------------------------------------
 
@@ -92,19 +100,19 @@ clustered_post_sub = clustered_post %>%
   filter(scientific_name %in% species_sub)
 
 p <- ggplot() +
-  geom_rect(data = clustered_post_sub, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.17, fill = as.factor(kmeans)), alpha = 0.4) +
+  geom_rect(data = no_cq_sub, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.17, fill = as.factor(redlist_category)), alpha = 0.2) +
   geom_line(data = no_cq_sub, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_hline(yintercept = 0.5,
              color = "gray",
              alpha = 0.5,
              linetype = "dashed") +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
-  facet_wrap(~fct_reorder(as.factor(scientific_name), kmeans),
+  facet_wrap(~scientific_name,
              labeller = label_wrap_gen(10),
              nrow = 4) +
   theme_bw() +
   scale_color_viridis_d() +
-  scale_fill_manual(values = c("#a0da39", "#d0e11c",  "#4ac16d")) +
+  scale_fill_manual(values = c("#ffffb2", "#fecc5c", "#fd8d3c", "#f03b20", "#bd0026", "grey")) +
   labs(
     x = "Time",
     y = "N/K",
@@ -120,7 +128,7 @@ p <- ggplot() +
   coord_cartesian(clip="off", ylim = c(0, 1))
 p
 
-ggsave(p, file = paste0("species_full_0_2.pdf"), path = here::here("figs"), height = 15, width = 20)
+ggsave(p, file = paste0("species_full.pdf"), path = here::here("figs"), height = 15, width = 20)
 
 
 # old ---------------------------------------------------------------------

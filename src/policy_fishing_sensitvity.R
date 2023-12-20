@@ -1,29 +1,19 @@
 library(tidyverse)
 
-sim_results2 <- read_csv(here::here("data", "simulation_results.csv")) %>% 
-  mutate(fp = 0.2)%>% 
-  filter(scenario != "CQ")
-sim_results1 <- read_csv(here::here("data", "simulation_results_1.csv")) %>% 
-  mutate(fp = 0.1)%>% 
-  filter(scenario != "CQ")
-sim_results3 <- read_csv(here::here("data", "simulation_results_3.csv")) %>% 
-  mutate(fp = 0.3)%>% 
-  filter(scenario != "CQ")
-sim_results4 <- read_csv(here::here("data", "simulation_results_4.csv")) %>% 
-  mutate(fp = 0.4)%>% 
-  filter(scenario != "CQ")
-sim_results5 <- read_csv(here::here("data", "simulation_results_5.csv")) %>% 
-  mutate(fp = 0.5) %>% 
-  filter(scenario != "CQ")
-sim_results05 <- read_csv(here::here("data", "simulation_results_05.csv")) %>% 
-  mutate(fp = 0.05)%>% 
-  filter(scenario != "CQ")
+sim_results1 <- read_csv(here::here("data", "simulation_results.csv")) %>% 
+  filter(scenario != "CQ") %>% 
+  mutate(fp = 1.5)
+sim_results2 <- read_csv(here::here("data", "simulation_results_2msy.csv")) %>% 
+  filter(scenario != "CQ") %>% 
+  mutate(fp = 2)
+sim_results5 <- read_csv(here::here("data", "simulation_results_5msy.csv")) %>% 
+  filter(scenario != "CQ")%>% 
+  mutate(fp = 5)
 
-sim_results = list(sim_results05, sim_results5, sim_results4, sim_results3,
-                   sim_results1, sim_results2) %>% 
+sim_results = list(sim_results5, sim_results1, sim_results2) %>% 
   reduce(full_join) 
 
-rm(sim_results05, sim_results5, sim_results4, sim_results3, sim_results1, sim_results2)
+rm(sim_results5, sim_results1, sim_results2)
 gc()
 
 eq = sim_results %>% 
@@ -52,5 +42,5 @@ p = ggplot(eq) +
   scale_color_viridis_d()
 p
 
-ggsave(p, file = paste0("fishing_sensitivity.pdf"), path = here::here("figs"), height = 10, width = 8)
+ggsave(p, file = paste0("fishing_sensitivity.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
   
