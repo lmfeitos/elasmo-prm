@@ -64,6 +64,7 @@ pred_r = left_join(predictions_full, r_growth) %>%
     is.na(prm_mort) ~ prm_pred
   )) %>% 
   mutate(r_value = case_when(
+    mean_r < 0 ~ fish_r,
     !is.na(mean_r) ~ mean_r,
     !is.na(fish_r) ~ fish_r
   ))  %>% 
