@@ -364,7 +364,7 @@ Trawl
 ```{r}
 plot1 <- p1 + v1 + plot_annotation(tag_levels = "A")
 
-ggsave(plot1, file = paste0("trawl_val.pdf"), path = here::here("figs"), height = 10, width = 15)
+ggsave(plot1, file = paste0("trawl_val.pdf"), path = here::here("figs", "supp"), height = 10, width = 15)
 ```
 
 
@@ -373,5 +373,5 @@ Gillnet
 ```{r}
 plot2 <- p2 + v2 + plot_annotation(tag_levels = "A")
 
-ggsave(plot2, file = paste0("gill_val.pdf"), path = here::here("figs"), height = 10, width = 15)
+ggsave(plot2, file = paste0("gill_val.pdf"), path = here::here("figs", "supp"), height = 10, width = 15)
 ```
