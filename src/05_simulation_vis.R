@@ -26,7 +26,7 @@ sim_results = read_csv(here::here("data", "simulation_results.csv"))%>%
 
 iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>% 
   janitor::clean_names() %>% 
-  filter(!str_detect(systems, "Freshwater")) %>% 
+  filter(str_detect(systems, "Marine")) %>% 
   select(scientific_name, redlist_category, year_published) %>% 
   mutate(redlist_category = case_when(
     str_detect(redlist_category, "Near") ~ "NT",
@@ -48,21 +48,29 @@ no_cq = sim_results %>%
     is.na(redlist_category) ~ "NE",
     TRUE ~ redlist_category
   ))  %>% 
-  mutate(redlist_category = fct_relevel(as.factor(redlist_category), c("LC", "NT", "VU", "EN", "CR", "DD", "NE")))
+  mutate(redlist_category = fct_relevel(as.factor(redlist_category), c("CR", "EN", "VU", "NT", "LC", "DD", "NE"))) 
+  arrange(redlist_category, scientific_name)
 
-p <- ggplot() +
-  geom_rect(data = no_cq, aes(xmin = -Inf, xmax = Inf, ymin = 1.1, ymax = 2.5, fill = as.factor(redlist_category)), alpha = 0.4) +
+
+no_cq_sci <- no_cq %>% 
+  distinct(scientific_name) %>% 
+  pull()
+
+p <- 
+  ggplot() +
+  geom_rect(data = no_cq, aes(xmin = -Inf, xmax = Inf, ymin = 1.1, ymax = 1.9, fill = as.factor(redlist_category))) +
   geom_line(data = no_cq, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_hline(yintercept = 0.5,
              color = "gray",
              alpha = 0.5,
              linetype = "dashed") +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
-  facet_wrap(~ scientific_name,
-             labeller = label_wrap_gen(10)) +
+  facet_wrap(~ factor(scientific_name,
+                      levels = no_cq_sci),
+             labeller = label_wrap_gen(15)) +
   theme_bw() +
   scale_color_viridis_d() +
-  scale_fill_manual(values = c("#ffffb2", "#fecc5c", "#fd8d3c", "#f03b20", "#bd0026", "white", "grey")) +
+  scale_fill_manual(values = c("#bd0026", "#f03b20", "#fd8d3c", "#fecc5c", "#ffffb2", "white", "grey")) +
   labs(
     x = "Time",
     y = "N/K",
