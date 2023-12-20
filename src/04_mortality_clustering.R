@@ -44,12 +44,10 @@ sim_sub = sim_results %>%
   filter(n_div_k == max(n_div_k)) %>% 
   distinct()
 
-max_avm = sim_sub %>% 
-  filter(n_div_k >= 0.5)
-
 sim_pca_w_species = sim_sub %>%  
   pivot_wider(names_from = mort_scenario, values_from = c(avm, prm, total_mort, n_div_k)) %>% 
-  ungroup()
+  ungroup() %>% 
+  select(-r_value)
 
 sim_pca = sim_pca_w_species %>% 
   select(-scientific_name)%>% 
@@ -57,7 +55,8 @@ sim_pca = sim_pca_w_species %>%
     across(everything(), ~replace_na(.x, 0))
   )
 
-fviz_nbclust(sim_pca, FUNcluster = kmeans) 
+fviz_nbclust(sim_pca, FUNcluster = kmeans, method = "gap_stat") 
+fviz_nbclust(sim_pca, FUNcluster = kmeans, method = "wss") 
 km.out <- kmeans(sim_pca, centers = 3, nstart = 20)
 
 sim_pca_w_species$kmeans = as.factor(km.out$cluster)
@@ -67,15 +66,6 @@ sim_pca_w_species = sim_pca_w_species %>%
 
 sim_sub = sim_sub %>% 
   full_join(sim_pca_w_species) 
-
-p1 = ggplot(sim_sub %>% filter(mort_scenario != "BAU")) +
-  geom_point(aes(r_value, n_div_k, color = kmeans)) +
-  theme_bw() +
-  labs(x = "Growth Rate",
-       y = "N/K",
-       color = "Group") +
-  scale_color_viridis_d() +
-  geom_hline(aes(yintercept = 0.5), color = "red", linetype = "dashed")
 
 p2 = ggplot(sim_sub %>% filter(mort_scenario != "BAU")) +
   geom_point(aes(n_div_k, avm, color = kmeans)) +
@@ -95,18 +85,13 @@ p3 = ggplot(sim_sub %>% filter(mort_scenario != "BAU")) +
   scale_color_viridis_d() +
   geom_hline(aes(yintercept = 0.5), color = "red", linetype = "dashed")
 
-plot1 = p1 /  p2 / p3 + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
+plot1 = p2 / p3 + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
 plot1
 
 ggsave(plot1, file = paste0("clustering.pdf"), path = here::here("figs"), height = 15, width = 12)
 
 
 # nmds --------------------------------------------------------------------
-sim_pca = sim_pca %>%
-  mutate(r_value = case_when(
-    r_value >= 0 ~ r_value,
-    r_value < 0 ~ 0
-  ))
 
 nmds <- metaMDS(sim_pca, distance = "euclidian")
 
@@ -127,7 +112,7 @@ centroid <- filled_scores %>%
 
 species_scores <- as.data.frame(nmds[["species"]])
 
-rownames(species_scores) <- c("r", "BAU AVM", "Low Mortality AVM", "Median Mortality AVM", "High Mortaltity AVM" ,
+rownames(species_scores) <- c("BAU AVM", "Low Mortality AVM", "Median Mortality AVM", "High Mortaltity AVM" ,
                                "BAU PRM", "Low Mortality PRM", "Median Mortality PRM", "High Mortaltity PRM",
                                "BAU Total", "Low Mortality Total", "Median Mortality Total", "High Mortaltity Total" ,
                                "BAU N/K", "Low Mortality N/K", "Median Mortality N/K", "High Mortaltity N/K")
@@ -152,19 +137,10 @@ nmds <- ggplot(filled_scores, aes(x = NMDS1, y = NMDS2)) +
   labs(x = "nMDS1", y = "nMDS2", color = "Group") +
   scale_y_continuous(position = "right")+
   theme(legend.position = "left", panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
-  annotate("text", x = 0.7, y = 0.8, label = "Stress: 0.138") +
+  annotate("text", x = 0.7, y = 0.8, label = "Stress: 0.0.09") +
   geom_segment(data = species_scores, aes(x = 0, xend = MDS1, y = 0, yend = MDS2), arrow = arrow(length = unit(0.25, "cm")), linewidth = 0.5, colour = "grey20") +
   ggrepel::geom_label_repel(data = species_scores, aes(x = MDS1, y = MDS2, label = var), fill = "white", cex = 3, direction = "both", segment.size = .25) 
 nmds
-
-
-  
-  
-  
-   
-  
-
-nmds4
 
 
 # Add IUCN Red List category for each species

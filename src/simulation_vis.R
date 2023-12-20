@@ -78,8 +78,6 @@ p
 
 ggsave(p, file = paste0("initial_sim_0_2.pdf"), path = here::here("figs", "supp"), height = 20, width = 25)
 
-
-
 # Species Sub Plots -------------------------------------------------------
 
 species_sub = c("Prionace glauca", "Pristis pristis", "Galeocerdo cuvier", "Isurus oxyrinchus", 

@@ -21,9 +21,10 @@ sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>%
          mid_avm = mean(mid_avm),
          r_value = mean(r_value)) %>% 
   distinct() %>% 
-  mutate(msy = r_value * 100/4 / 100) %>% 
+  mutate(msy = r_value * 100 / 4 / 100) %>% 
   mutate(f = 1.5 * msy) %>% 
-  mutate(usf = 2 * msy)
+  mutate(usf = 2 * msy)%>% 
+  mutate(hsf = 5 * msy)
     
 
 # Functions ---------------------------------------------------------------
