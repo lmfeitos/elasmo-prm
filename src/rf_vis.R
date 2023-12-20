@@ -32,11 +32,19 @@ mort_subset <- mean_predictions %>%
   distinct(family) %>%
   pull(family)
 
+prm_elasmo <- read_csv(here::here("data", "prm_elasmo_subset.csv")) %>%
+  filter(gear_class == "longline") %>% 
+  filter(!grepl("Rajidae", family)) %>% 
+  mutate(estimate_type = case_when(
+    estimate_type == "at-vessel mortality" ~ "AVM",
+    estimate_type == "post-release mortality" ~ "PRM"
+  ))
 
-
-p6 = ggplot(data = predictions) +
-  geom_density_ridges(aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset)), fill = fct_rev(factor(family, levels = mort_subset))), alpha = 0.5)+
-  geom_point(aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset)), color = fct_rev(factor(family, levels = mort_subset))), alpha = 0.5) +
+p6 = ggplot() +
+  # geom_density_ridges(data = prm_elasmo, aes(x = estimate, y = fct_rev(factor(family, levels = mort_subset))), alpha = 0.5)+
+  # geom_point(data = prm_elasmo, aes(x = estimate, y = fct_rev(factor(family, levels = mort_subset))), alpha = 0.3)+
+  geom_density_ridges(data = predictions, aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset)), fill = fct_rev(factor(family, levels = mort_subset))), alpha = 0.5)+
+  geom_point(data = predictions, aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset)), color = fct_rev(factor(family, levels = mort_subset))), alpha = 0.5) +
   theme_bw() +
   scale_fill_viridis_d()+
   scale_color_viridis_d()+
@@ -162,29 +170,29 @@ p2 = ggplot(predictions) +
   scale_color_viridis_d()
 
 
-p3 = ggplot(predictions %>% filter(estimate_type == "AVM")) +
-  geom_point(aes(mortality_prop, ventilation_method),
-             alpha = 0.5) +
-  geom_boxplot(aes(mortality_prop, ventilation_method), 
-               outlier.alpha = 0,
-               alpha = 0.85) +
-  theme_bw() +
-  labs(x = "Estimated mortality",
-       y = "Ventilation Method",
-       fill = "",
-       color = "") +
-  facet_wrap(~ estimate_type, scales = "free_x") +
-  theme(axis.text = element_text(size = 8, color = "black"),
-        axis.text.y = element_text(size = 10, color = "black"),
-        axis.title = element_text(size = 11, color = "black"),
-        panel.grid.minor = element_blank(),
-        panel.grid.major.x = element_blank(),
-        strip.background = element_rect(fill = "transparent"),
-        panel.spacing.x = unit(5, "mm")) +
-  scale_fill_viridis_d() +
-  scale_color_viridis_d()
+# p3 = ggplot(predictions) +
+#   geom_point(aes(mortality_prop, ventilation_method),
+#              alpha = 0.5) +
+#   geom_boxplot(aes(mortality_prop, ventilation_method), 
+#                outlier.alpha = 0,
+#                alpha = 0.85) +
+#   theme_bw() +
+#   labs(x = "Estimated mortality",
+#        y = "Ventilation Method",
+#        fill = "",
+#        color = "") +
+#   facet_wrap(~ estimate_type, scales = "free_x") +
+#   theme(axis.text = element_text(size = 8, color = "black"),
+#         axis.text.y = element_text(size = 10, color = "black"),
+#         axis.title = element_text(size = 11, color = "black"),
+#         panel.grid.minor = element_blank(),
+#         panel.grid.major.x = element_blank(),
+#         strip.background = element_rect(fill = "transparent"),
+#         panel.spacing.x = unit(5, "mm")) +
+#   scale_fill_viridis_d() +
+#   scale_color_viridis_d()
 
-p4 = ggplot(predictions %>% filter(estimate_type == "PRM")) +
+p4 = ggplot(predictions) +
   geom_point(aes(mortality_prop, habitat_associated),
              alpha = 0.1,
              show.legend = F) +
@@ -232,7 +240,7 @@ p5 = ggplot(predictions) +
   scale_fill_viridis_d() +
   scale_color_viridis_d()
 
-plot = p1  / p2 / (p3 + p4) / p5 + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
+plot = p1  / p2 / (p4) / p5 + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
 plot
 
 ggsave(plot, file = paste0("preds_predictors.pdf"), path = here::here("figs", "supp"), height = 12, width = 10)
