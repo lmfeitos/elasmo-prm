@@ -20,7 +20,10 @@ sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>%
          avm_25 = min(avm_25),
          mid_avm = mean(mid_avm),
          r_value = mean(r_value)) %>% 
-  distinct()
+  distinct() %>% 
+  mutate(msy = r_value * 100/4 / 100) %>% 
+  mutate(f = 1.5 * msy) %>% 
+  mutate(usf = 2 * msy)
     
 
 # Functions ---------------------------------------------------------------
@@ -69,8 +72,8 @@ N_0 <- 100
 # avs = 0.8 # at vessel survival; higher = better for shark (test quantile range from RF)
 # prs = 0.8 # post release survival; higher = better for shark (test quantile range from RF)
 q <- 1 # catchability, set to 1 for ease of fishing pressure, could vary
-f <- 0.2 # vary for sensitivity
-quota <- 0 # in count
+# f <- 0.2 # vary for sensitivity
+# quota <- 0 # in count
 quota.array = c(5) # in count
 
 # shark sim loop ----------------------------------------------------------
@@ -88,6 +91,8 @@ for (i in 1:nrow(sim_data)) {
 
   species <- sim_data$scientific_name[i]
   r <- sim_data$r_value[i]
+  
+  f <- sim_data$f[i]
 
   ## single business as usual scenario
   bau <- sim(t, N_0, K, r, 1 - morts$avm[1], 1 - morts$prm[1], q, f, quota, "BAU") %>%
@@ -95,7 +100,8 @@ for (i in 1:nrow(sim_data)) {
       avm = 1,
       prm = 1,
       scientific_name = species, 
-      quota = 0
+      quota = 0, 
+      f = f
     )
 
   sim_results <- rbind(sim_results, bau)
@@ -107,22 +113,23 @@ for (i in 1:nrow(sim_data)) {
         avm = morts$avm[j],
         prm = morts$prm[j],
         scientific_name = species,
-        quota = 0
+        quota = 0,
+        f = f
       )
     
     sim_results <- rbind(sim_results, rb)
     
-    for (k in 1:length(quota.array)) {
-      cq <- sim(t, N_0, K, r, 1 - morts$avm[j], 1 - morts$prm[j], q, f, quota.array[k], "CQ") %>%
-        mutate(
-          avm = morts$avm[j],
-          prm = morts$prm[j],
-          scientific_name = species,
-          quota = quota.array[k]
-        )
-
-      sim_results <- rbind(sim_results, cq)
-    }
+    # for (k in 1:length(quota.array)) {
+    #   cq <- sim(t, N_0, K, r, 1 - morts$avm[j], 1 - morts$prm[j], q, f, quota.array[k], "CQ") %>%
+    #     mutate(
+    #       avm = morts$avm[j],
+    #       prm = morts$prm[j],
+    #       scientific_name = species,
+    #       quota = quota.array[k]
+    #     )
+    # 
+    #   sim_results <- rbind(sim_results, cq)
+    # }
 
   }
 }
