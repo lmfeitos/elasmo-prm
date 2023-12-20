@@ -24,13 +24,8 @@ sim_results = read_csv(here::here("data", "simulation_results.csv"))%>%
   filter(scenario != "CQ") %>% 
   filter(!is.na(mort_scenario))
 
-clustered_post = read_csv(here::here(basedir, "data", "simulation_results_clustered.csv")) %>% 
-  arrange(kmeans)
-clustered_post = read_csv(here::here("data", "simulation_results_clustered.csv")) %>%
-  arrange(kmeans)
-
-iucn_data <- read_csv(here("data", "iucn_data", "assessments.csv")) %>% 
-  clean_names() %>% 
+iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>% 
+  janitor::clean_names() %>% 
   filter(!str_detect(systems, "Freshwater")) %>% 
   select(scientific_name, redlist_category, year_published) %>% 
   mutate(redlist_category = case_when(
@@ -46,7 +41,6 @@ iucn_data <- read_csv(here("data", "iucn_data", "assessments.csv")) %>%
   select(scientific_name, redlist_category)
 
 no_cq = sim_results %>% 
-  full_join(clustered_post)%>%
   mutate(mort_scenario = fct_relevel(as.factor(mort_scenario), "Low Mortality", after = Inf)) %>% 
   distinct() %>% 
   left_join(iucn_data) %>% 
@@ -95,9 +89,6 @@ species_sub = c("Prionace glauca", "Pristis pristis", "Galeocerdo cuvier", "Isur
 
 no_cq_sub = no_cq %>% 
   filter(scientific_name %in% species_sub) 
-
-clustered_post_sub = clustered_post %>% 
-  filter(scientific_name %in% species_sub)
 
 p <- ggplot() +
   geom_rect(data = no_cq_sub, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.17, fill = as.factor(redlist_category)), alpha = 0.2) +
