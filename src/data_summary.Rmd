@@ -23,7 +23,7 @@ outdir <- file.path(basedir, "data/outputs") # calls present data from raster fi
 
 ```{r}
 # read in the data
-prm_elasmo <- read_csv(here("data", "prm_dataset_updated.csv"))
+prm_elasmo <- read_csv(here("data", "prm_dataset_updated.csv")) 
 ```
 
 ```{r}
@@ -76,7 +76,7 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name == "Squalus sp" ~ 166.36,
     scientific_name == "Mustelus sp" ~ 167.24,
     scientific_name == "Centrophorus sp" ~ 165.75,  
-    scientific_name == "sharks" ~ 347.9391,
+    scientific_name == "sharks" ~ 351.6828,
     scientific_name == "rays" ~ 164.261, # only calculated for the batoid species with disk width measures
     TRUE ~ max_size_cm
   )) %>% 
@@ -85,7 +85,7 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name == "Squalus sp" ~ 767.786,
     scientific_name == "Mustelus sp" ~ 246.1,
     scientific_name == "Centrophorus sp" ~ 1136.25,
-    scientific_name == "sharks" ~ 308.615,
+    scientific_name == "sharks" ~ 309.9474,
     scientific_name == "rays" ~ 99.87,
     TRUE ~ median_depth
   )) %>% 
@@ -363,58 +363,6 @@ mort_proportions_plot
 
 ggsave(mort_proportions_plot, file = paste0("mort_proportions_plot.pdf"), path = here::here("figs"), height = 8, width = 10)
 ```
-
-
-```{r}
-ggplot(data = prm_elasmo %>% 
-         filter(estimate_type != "post-release survival")) +
-  geom_point(aes(x = max_size_cm, estimate)) +
-  facet_wrap(~ estimate_type) +
-  labs(x = "Maximum size (cm)",
-       y = "Proportion of mortality") +
-  theme_bw()
-```
-
-```{r}
-ggplot(data = prm_elasmo %>% 
-         filter(estimate_type != "post-release survival")) +
-  geom_point(aes(x = median_depth, estimate)) +
-  facet_wrap(~ estimate_type) +
-  labs(x = "Median depth of occurrence (m)",
-       y = "Proportion of mortality") +
-  theme_bw()
-```
-
-```{r, fig.width=8, fig.height=8}
-ggplot(data = prm_elasmo %>% 
-         filter(estimate_type != "post-release survival")) +
-  geom_boxplot(aes(x = family, y = estimate)) +
-  facet_wrap(~ estimate_type) +
-  labs(x = "",
-       y = "Proportion of mortality") +
-  coord_flip() +
-  theme_bw()
-```
-
-
-```{r}
-ggplot(data = mort_summary %>% 
-         filter(estimate_type != "post-release survival" & 
-                  !gear_class %in% c("purse seine", "pole and line", "handline")) %>% 
-         mutate(gear_class = str_to_title(gear_class))) +
-  geom_jitter(aes(x = gear_class, y = )) +
-  geom_boxplot(aes(x = gear_class, y = estimate),
-               alpha = 0.7) +
-  facet_grid(factor(group)~ estimate_type) +
-  labs(x = "Gear class",
-       y = "Proportion of mortality") +
-  coord_flip() +
-  theme_bw()
-```
-
-
-
-
 
 
 

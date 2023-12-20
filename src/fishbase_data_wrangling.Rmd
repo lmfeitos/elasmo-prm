@@ -54,9 +54,9 @@ prm_elasmo <- prm_elasmo %>%
 
 prm_elasmo_join <- prm_elasmo %>% 
   left_join(shark_spp, by = "scientific_name") %>% 
-  #select(-c(genus, species, length, l_type_max_m, depth_range_shallow, depth_range_deep, stock_code, spec_code, species_ref_no, fam_code, habitat_associated)) %>% 
-  # rename(habitat_associated = demers_pelag) %>% 
-  # relocate(habitat_associated, .after = median_temp) %>% 
+  select(-c(genus, species, length, l_type_max_m, depth_range_shallow, depth_range_deep, stock_code, spec_code, species_ref_no, fam_code, habitat_associated)) %>% 
+  rename(habitat_associated = demers_pelag) %>% 
+  relocate(habitat_associated, .after = median_temp) %>% 
   mutate(habitat_associated = case_when(
     habitat_associated == "pelagic-oceanic" ~ "pelagic",
     scientific_name == "Prionace glauca" ~ "pelagic",
