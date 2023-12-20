@@ -48,7 +48,7 @@ no_cq = sim_results %>%
     is.na(redlist_category) ~ "NE",
     TRUE ~ redlist_category
   ))  %>% 
-  mutate(redlist_category = fct_relevel(as.factor(redlist_category), c("LC", "NT", "VU", "EN", "CR", "NE")))
+  mutate(redlist_category = fct_relevel(as.factor(redlist_category), c("LC", "NT", "VU", "EN", "CR", "DD", "NE")))
 
 p <- ggplot() +
   geom_rect(data = no_cq, aes(xmin = -Inf, xmax = Inf, ymin = 1.1, ymax = 2.5, fill = as.factor(redlist_category)), alpha = 0.4) +
@@ -62,7 +62,7 @@ p <- ggplot() +
              labeller = label_wrap_gen(10)) +
   theme_bw() +
   scale_color_viridis_d() +
-  scale_fill_manual(values = c("#ffffb2", "#fecc5c", "#fd8d3c", "#f03b20", "#bd0026", "grey")) +
+  scale_fill_manual(values = c("#ffffb2", "#fecc5c", "#fd8d3c", "#f03b20", "#bd0026", "white", "grey")) +
   labs(
     x = "Time",
     y = "N/K",
@@ -103,7 +103,7 @@ p <- ggplot() +
              nrow = 4) +
   theme_bw() +
   scale_color_viridis_d() +
-  scale_fill_manual(values = c("#ffffb2", "#fecc5c", "#fd8d3c", "#f03b20", "#bd0026", "grey")) +
+  scale_fill_manual(values = c("#ffffb2", "#fecc5c", "#fd8d3c", "#f03b20", "#bd0026", "white")) +
   labs(
     x = "Time",
     y = "N/K",
