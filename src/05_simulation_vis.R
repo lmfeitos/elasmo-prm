@@ -67,7 +67,7 @@ p <- ggplot() +
     x = "Time",
     y = "N/K",
     color = "Scenario",
-    fill = "Group"
+    fill = "IUCN Category"
   ) +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
@@ -108,7 +108,7 @@ p <- ggplot() +
     x = "Time",
     y = "N/K",
     color = "Scenario",
-    fill = "Group"
+    fill = "IUCN Category"
   ) +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
