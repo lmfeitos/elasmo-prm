@@ -1,19 +1,22 @@
 library(tidyverse)
 
-sim_results1 <- read_csv(here::here("data", "simulation_results.csv")) %>% 
+sim_results1 <- read_csv(here::here("data", "simulation_results_msy.csv")) %>% 
+  filter(scenario != "CQ") %>% 
+  mutate(fp = 1)
+sim_results1_5 <- read_csv(here::here("data", "simulation_results.csv")) %>% 
   filter(scenario != "CQ") %>% 
   mutate(fp = 1.5)
 sim_results2 <- read_csv(here::here("data", "simulation_results_2msy.csv")) %>% 
   filter(scenario != "CQ") %>% 
   mutate(fp = 2)
-sim_results5 <- read_csv(here::here("data", "simulation_results_5msy.csv")) %>% 
+sim_results3 <- read_csv(here::here("data", "simulation_results_3msy.csv")) %>% 
   filter(scenario != "CQ")%>% 
-  mutate(fp = 5)
+  mutate(fp = 3)
 
-sim_results = list(sim_results5, sim_results1, sim_results2) %>% 
+sim_results = list(sim_results1_5, sim_results1, sim_results2, sim_results3) %>% 
   reduce(full_join) 
 
-rm(sim_results5, sim_results1, sim_results2)
+rm(sim_results1_5, sim_results1, sim_results2, sim_results3)
 gc()
 
 eq = sim_results %>% 
