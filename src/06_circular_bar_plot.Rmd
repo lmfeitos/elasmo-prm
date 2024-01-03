@@ -124,7 +124,7 @@ redlist_breaks <- redlist_breaks %>%
 
 ```{r}
 # get improvement averages per iucn status
-sim_results_iucn_pct_plot_m_ave <- sim_results_iucn_pct_plot_m %>% 
+sim_results_iucn_pct_plot_m_ave <- sim_results_iucn_pct %>% 
   group_by(redlist_category) %>% 
   summarise(mean_n_div_k_rel_BAU = median(n_div_k_diff_rel_BAU, na.rm = TRUE))
 ```
