@@ -55,7 +55,7 @@ p6 = ggplot() +
        x = "Estimated Mortality") +
   scale_shape(guide = 'none') +
   theme(axis.text = element_text(size = 8, color = "black"),
-        axis.text.y = element_text(face = "italic"),
+        #axis.text.y = element_text(face = "italic"),
         axis.title = element_text(size = 11, color = "black"),
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),

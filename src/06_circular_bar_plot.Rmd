@@ -58,13 +58,13 @@ sim_results_top = left_join(top_shark_mort, sim_results_iucn) %>%
   filter(!is.na(n_div_k))
 
 sim_results_iucn_pct <- sim_results_iucn %>%
-  filter(t == 1 | t == 100) %>%  
+  filter(t == 1 | t == 200)  %>% 
   pivot_wider(names_from = t,
               values_from = n_div_k) %>%
   rename(t_1 = "1",
-         t_100 = "100") %>% 
+         t_200 = "200") %>% 
   group_by(scientific_name, mort_scenario) %>%
-  mutate(n_div_k_diff = t_100 - t_1) %>% 
+  mutate(n_div_k_diff = t_200 - t_1) %>% 
   mutate(mort_scenario = case_when(
     mort_scenario == "BAU" ~ "BAU",
     mort_scenario == "Median Mortality" ~ "median_mortality"
@@ -73,7 +73,7 @@ sim_results_iucn_pct <- sim_results_iucn %>%
               values_from = n_div_k_diff) %>% 
   fill(BAU, .direction = "down") %>% 
   fill(median_mortality, .direction = "up") %>% 
-  select(-t_1, -t_100) %>% 
+  select(-t_1, -t_200) %>% 
   distinct() %>% 
   mutate(n_div_k_diff_rel_BAU = (BAU - median_mortality) / BAU * 100) %>% 
   mutate(n_div_k_diff_rel_BAU = round(n_div_k_diff_rel_BAU, 4)) %>% 
@@ -120,6 +120,13 @@ v <- c(20, 40, 60, 80, 100)
 redlist_breaks <- redlist_breaks %>% 
   mutate(v = list(v)) %>% 
   unnest(cols = c(v))
+```
+
+```{r}
+# get improvement averages per iucn status
+sim_results_iucn_pct_plot_m_ave <- sim_results_iucn_pct_plot_m %>% 
+  group_by(redlist_category) %>% 
+  summarise(mean_n_div_k_rel_BAU = median(n_div_k_diff_rel_BAU, na.rm = TRUE))
 ```
 
 

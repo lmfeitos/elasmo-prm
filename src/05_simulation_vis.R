@@ -99,11 +99,10 @@ no_cq_sub = no_cq %>%
   filter(scientific_name %in% species_sub) 
 
 p <- ggplot() +
-  geom_rect(data = no_cq_sub, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.17, fill = as.factor(redlist_category)), alpha = 0.2) +
+  geom_rect(data = no_cq_sub, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.17, fill = as.factor(redlist_category))) +
   geom_line(data = no_cq_sub, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_hline(yintercept = 0.5,
              color = "gray",
-             alpha = 0.5,
              linetype = "dashed") +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
   facet_wrap(~scientific_name,
@@ -111,12 +110,12 @@ p <- ggplot() +
              nrow = 4) +
   theme_bw() +
   scale_color_viridis_d() +
-  scale_fill_manual(values = c("#ffffb2", "#fecc5c", "#fd8d3c", "#f03b20", "#bd0026", "white")) +
+  scale_fill_manual(values = c("#bd0026", "#f03b20", "#fd8d3c", "#fecc5c", "#ffffb2")) +
   labs(
     x = "Time",
     y = "N/K",
-    color = "Scenario",
-    fill = "IUCN Category"
+    fill = "IUCN Category",
+    color = "Scenario"
   ) +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),

@@ -22,11 +22,39 @@ outdir <- file.path(basedir, "data/outputs") # calls present data from raster fi
 
 ```{r}
 test_fishbase <- load_taxa() %>% 
-  filter(Class == "Elasmobranchii") %>% 
+  filter(Class == "Elasmobranchii")  %>% 
   select(Species, Family, Order) %>% 
   rename(scientific_name = Species,
          family = Family,
          order = Order)
+```
+
+```{r}
+test_fishbase <- test_fishbase %>% 
+  mutate(group = case_when(
+    str_detect(family, "Mobulidae|Dasyatidae|Gymnyridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae|Plesiobatidae|Potamo|Urolophidae|Zanobatidae|Narcinidae|Platyrhinidae|Trygon|Hypnidae|Narkidae") ~ "Batoids",
+    str_detect(scientific_name, 
+               "Himantura|Dasyatis|Gymnura|trygon|Bathytoshia|rays|raja|Rhinoptera|Sympterygia|Pastinachus|Urobatis|Glaucostegus|Hypanus") ~ "Batoids",
+    TRUE ~ "Sharks"
+  ))
+```
+
+```{r}
+# count species of sharks and rays present in fishbase
+fishbase_sharks <- test_fishbase %>% 
+  filter(group == "Sharks") %>% 
+  count() %>% 
+  mutate(pct = 100 * (94/n))
+
+fishbase_batoids <- test_fishbase %>% 
+  filter(group == "Batoids") %>% 
+  count() %>% 
+  mutate(pct = 100*(35/n))
+
+fishbase_rhino <- test_fishbase %>% 
+  filter(order == "Rhinopristiformes") %>% 
+  count() %>% 
+  mutate(pct = 100 * (4/n))
 ```
 
 
