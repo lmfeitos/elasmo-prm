@@ -25,7 +25,7 @@ outdir <- file.path(basedir, "data/outputs")
 # read in the  data
 iucn_data <- read_csv(here("data", "iucn_data", "assessments.csv")) %>% 
   clean_names() %>% 
-  filter(!str_detect(systems, "Freshwater")) %>% 
+  filter(str_detect(systems, "Marine")) %>% 
   select(scientific_name, redlist_category, year_published) %>% 
   mutate(redlist_category = case_when(
     str_detect(redlist_category, "Near") ~ "NT",
@@ -37,7 +37,7 @@ iucn_data <- read_csv(here("data", "iucn_data", "assessments.csv")) %>%
     TRUE ~ redlist_category
   ))
 
-sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>% 
+sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>% 
   filter(scenario != "CQ") %>% 
   filter(!is.na(mort_scenario)) %>% 
   select(scientific_name, t, mort_scenario, n_div_k) %>% 
