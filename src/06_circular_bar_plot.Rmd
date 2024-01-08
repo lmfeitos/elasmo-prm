@@ -135,7 +135,10 @@ sim_results_iucn_pct_plot_m_ave <- sim_results_iucn_pct %>%
 sim_results_iucn_pct_plot_m <- sim_results_iucn_pct 
 
 prop = ggplot(data = sim_results_iucn_pct_plot_m) +
-  geom_col(aes(x = id, 
+    geom_segment(data = redlist_breaks,
+               aes(x = end, y = v, xend = start, yend = v),
+               color = "grey", linewidth = 0.3, inherit.aes = FALSE) +
+    geom_col(aes(x = id, 
                y = n_div_k_diff_rel_BAU, 
                fill = redlist_category),
            width = 0.8) +
