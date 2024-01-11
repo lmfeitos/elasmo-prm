@@ -135,14 +135,18 @@ sim_results_iucn_pct_plot_m_ave <- sim_results_iucn_pct %>%
 sim_results_iucn_pct_plot_m <- sim_results_iucn_pct 
 
 prop = ggplot(data = sim_results_iucn_pct_plot_m) +
-    geom_segment(data = redlist_breaks,
+    geom_segment(data = redlist_breaks %>% 
+                   filter(v != 100),
                aes(x = end, y = v, xend = start, yend = v),
                color = "grey", linewidth = 0.3, inherit.aes = FALSE) +
+  annotate("text",
+             x = rep(max(sim_results_iucn_pct_plot_m$id, length(v))),
+             y = v -5, label = paste0(head(v), "%"), color = "grey", size = 4 , angle = 0, fontface = "bold", hjust = 0.7) +
     geom_col(aes(x = id, 
                y = n_div_k_diff_rel_BAU, 
                fill = redlist_category),
            width = 0.8) +
-  ylim(-20, max(sim_results_iucn_pct_plot_m$n_div_k_diff_rel_BAU)) +
+  ylim(-40, max(sim_results_iucn_pct_plot_m$n_div_k_diff_rel_BAU)) +
   scale_fill_brewer(palette = "YlOrRd",
                     direction = -1) +
   theme_minimal() +
@@ -151,9 +155,17 @@ prop = ggplot(data = sim_results_iucn_pct_plot_m) +
         panel.grid = element_blank(),
         plot.margin = unit(rep(0, 4), "cm")) +
   coord_polar(start = 0) +
-  geom_text(data = label_data_m, 
+ geom_text(data = label_data_m, 
             aes(x = id, y = n_div_k_diff_rel_BAU + 30, label = scientific_name, angle = angle), nudge_x = -0.25, nudge_y = 0.25,
               color = "black", size = 3,  inherit.aes = FALSE) +
+  geom_segment(data = redlist_breaks,
+               aes(x = start, y = -5, xend = end, yend = -5),
+               colour = "black", alpha = 0.8, inherit.aes = FALSE) +
+  geom_text(data = redlist_breaks,
+            aes(x = title, y = -18, label = redlist_category), 
+            hjust = c(1,1,0), colour = "black", alpha=0.8, size=4, fontface="bold", inherit.aes = FALSE)
+  geom_text(data = redlist_breaks, 
+              aes(x = title, y = 48, label = redlist_category),  colour = "black", alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE) +
   labs(fill = "Redlist Category") #y = 80
 prop
 
