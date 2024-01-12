@@ -138,7 +138,7 @@ percent_calc = sim_results %>%
   group_by(scientific_name) %>% 
   mutate(lag = lag(n_div_k)) %>% 
   filter(mort_scenario == "Median Mortality") %>% 
-  mutate(pct_change = (lag - n_div_k) / lag * 100) %>% 
+  mutate(pct_change = (n_div_k - lag) / abs(lag) * 100) %>% 
   ungroup() %>% 
   mutate(mean = mean(pct_change))
 

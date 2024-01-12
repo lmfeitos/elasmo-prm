@@ -25,6 +25,11 @@ predictions = mean_predictions %>%
     TRUE ~ "Sharks"
   ))
 
+group_count = prm_elasmo %>% 
+  select(group, scientific_name) %>% 
+  group_by(group) %>% 
+  summarise(n = n())
+
 mort_subset <- mean_predictions %>%
   group_by(family) %>% 
   summarize(fam_mean = mean(avm_pred)) %>% 
