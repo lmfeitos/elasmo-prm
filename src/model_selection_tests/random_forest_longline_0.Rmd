@@ -32,7 +32,11 @@ set.seed(42)
 ```{r}
 prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
   filter(gear_class == "longline") %>% 
-  filter(!grepl("Rajidae", family))
+  filter(!grepl("Rajidae", family)) %>% 
+  filter(family != "Dasyatidae") %>% 
+  filter(family != "Pristidae") %>% 
+  filter(family != "Rhinidae") %>% 
+  filter(family != "Rhinobatidae")
 ```
 
 ```{r}
