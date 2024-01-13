@@ -163,9 +163,9 @@ prop = ggplot(data = sim_results_iucn_pct_plot_m) +
                colour = "black", alpha = 0.8, inherit.aes = FALSE) +
   geom_text(data = redlist_breaks,
             aes(x = title, y = -18, label = redlist_category), 
-            hjust = c(1,1,0), colour = "black", alpha=0.8, size=4, fontface="bold", inherit.aes = FALSE)
-  geom_text(data = redlist_breaks, 
-              aes(x = title, y = 48, label = redlist_category),  colour = "black", alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE) +
+            hjust = 1, colour = "black", alpha=0.8, size=4, fontface="bold", inherit.aes = FALSE) +
+  # geom_text(data = redlist_breaks, 
+  #             aes(x = title, y = 48, label = redlist_category),  colour = "black", alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE) +
   labs(fill = "Redlist Category") #y = 80
 prop
 

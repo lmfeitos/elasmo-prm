@@ -100,7 +100,7 @@ no_cq_sub = no_cq %>%
 
 p <- ggplot() +
   geom_rect(data = no_cq_sub, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.17, fill = as.factor(redlist_category))) +
-  geom_line(data = no_cq_sub, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
+  geom_line(data = no_cq_sub, aes(t, n_div_k, color = mort_scenario, group = total_mort), linewidth = 2) +
   geom_hline(yintercept = 0.5,
              color = "gray",
              linetype = "dashed") +
@@ -146,11 +146,11 @@ percent_over_50 = percent_calc %>%
   filter(pct_change >= 50)
 
 percent_under_10 = percent_calc %>% 
-  filter(pct_change <= 25)
+  filter(pct_change <= 10)
 
-28/466*100
+23/431*100
 
-24/466*100
+4/431*100
 
 # old ---------------------------------------------------------------------
 
