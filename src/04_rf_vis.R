@@ -17,18 +17,7 @@ predictions = mean_predictions %>%
   mutate(estimate_type = case_when(
     estimate_type == "avm_pred" ~ "AVM",
     estimate_type == "prm_pred" ~ "PRM"
-  )) %>% 
-  mutate(group = case_when(
-    str_detect(family, "Mobulidae|Dasyatidae|Gymnyridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae|Plesiobatidae|Potamo|Urolophidae|Zanobatidae|Narcinidae|Platyrhinidae|Trygon|Hypnidae|Narkidae") ~ "Batoids",
-    str_detect(scientific_name, 
-               "Himantura|Dasyatis|Gymnura|trygon|Bathytoshia|rays|raja|Rhinoptera|Sympterygia|Pastinachus|Urobatis|Glaucostegus|Hypanus") ~ "Batoids",
-    TRUE ~ "Sharks"
   ))
-
-group_count = prm_elasmo %>% 
-  select(group, scientific_name) %>% 
-  group_by(group) %>% 
-  summarise(n = n())
 
 mort_subset <- mean_predictions %>%
   group_by(family) %>% 
@@ -154,7 +143,8 @@ p1 = ggplot(predictions) +
         panel.grid.major.x = element_blank(),
         strip.background = element_rect(fill = "transparent"),
         panel.spacing.x = unit(5, "mm")) +
-  scale_color_viridis_d()
+  scale_color_viridis_d()+
+  theme(legend.position = "none")
 
 p2 = ggplot(predictions) +
   geom_point(aes(median_depth, mortality_prop, color = group),
@@ -172,30 +162,32 @@ p2 = ggplot(predictions) +
         panel.grid.major.x = element_blank(),
         strip.background = element_rect(fill = "transparent"),
         panel.spacing.x = unit(5, "mm")) +
-  scale_color_viridis_d()
+  scale_color_viridis_d()+
+  theme(legend.position = "none")
 
 
-# p3 = ggplot(predictions) +
-#   geom_point(aes(mortality_prop, ventilation_method),
-#              alpha = 0.5) +
-#   geom_boxplot(aes(mortality_prop, ventilation_method), 
-#                outlier.alpha = 0,
-#                alpha = 0.85) +
-#   theme_bw() +
-#   labs(x = "Estimated mortality",
-#        y = "Ventilation Method",
-#        fill = "",
-#        color = "") +
-#   facet_wrap(~ estimate_type, scales = "free_x") +
-#   theme(axis.text = element_text(size = 8, color = "black"),
-#         axis.text.y = element_text(size = 10, color = "black"),
-#         axis.title = element_text(size = 11, color = "black"),
-#         panel.grid.minor = element_blank(),
-#         panel.grid.major.x = element_blank(),
-#         strip.background = element_rect(fill = "transparent"),
-#         panel.spacing.x = unit(5, "mm")) +
-#   scale_fill_viridis_d() +
-#   scale_color_viridis_d()
+p3 = ggplot(predictions %>% filter(estimate_type=="AVM")) +
+  geom_point(aes(mortality_prop, ventilation_method),
+             alpha = 0.5) +
+  geom_boxplot(aes(mortality_prop, ventilation_method),
+               outlier.alpha = 0,
+               alpha = 0.85) +
+  theme_bw() +
+  labs(x = "Estimated mortality",
+       y = "Ventilation Method",
+       fill = "",
+       color = "") +
+  facet_wrap(~ estimate_type, scales = "free_x") +
+  theme(axis.text = element_text(size = 8, color = "black"),
+        axis.text.y = element_text(size = 10, color = "black"),
+        axis.title = element_text(size = 11, color = "black"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        strip.background = element_rect(fill = "transparent"),
+        panel.spacing.x = unit(5, "mm")) +
+  scale_fill_viridis_d() +
+  scale_color_viridis_d()+
+  theme(legend.position = "none")
 
 p4 = ggplot(predictions) +
   geom_point(aes(mortality_prop, habitat_associated),
@@ -219,7 +211,8 @@ p4 = ggplot(predictions) +
         strip.background = element_rect(fill = "transparent"),
         panel.spacing.x = unit(5, "mm")) +
   scale_fill_viridis_d() +
-  scale_color_viridis_d()
+  scale_color_viridis_d()+
+  theme(legend.position = "none")
 
 p5 = ggplot(predictions) +
   geom_point(aes(mortality_prop, reproductive_mode),
@@ -243,9 +236,10 @@ p5 = ggplot(predictions) +
         strip.background = element_rect(fill = "transparent"),
         panel.spacing.x = unit(5, "mm")) +
   scale_fill_viridis_d() +
-  scale_color_viridis_d()
+  scale_color_viridis_d() +
+  theme(legend.position = "none")
 
-plot = p1  / p2 / (p4) / p5 + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
+plot = p1  / p2 / (p4) / p5 / p3 + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
 plot
 
 ggsave(plot, file = paste0("preds_predictors.pdf"), path = here::here("figs", "supp"), height = 12, width = 10)

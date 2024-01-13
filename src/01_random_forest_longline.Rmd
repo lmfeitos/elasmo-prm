@@ -34,7 +34,11 @@ set.seed(42)
 ```{r}
 prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
   filter(gear_class == "longline") %>% 
-  filter(!grepl("Rajidae", family))
+  filter(!grepl("Rajidae", family)) %>% 
+  filter(family != "Dasyatidae") %>% 
+  filter(family != "Pristidae") %>% 
+  filter(family != "Rhinidae") %>% 
+  filter(family != "Rhinobatidae")
 ```
 
 ```{r}
@@ -119,7 +123,7 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ reproductive_mode + median_depth + max_size_cm + habitat_associated, data = avm_train) %>%
+avm_recipe <- recipe(mortality_prop ~ reproductive_mode + median_depth + max_size_cm + habitat_associated + ventilation_method, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
 prm_recipe <- recipe(mortality_prop ~ reproductive_mode + median_depth + max_size_cm + habitat_associated, data = elasmo_prm) %>%
@@ -384,14 +388,16 @@ v1 <- avm_fit %>%
   extract_fit_parsnip() %>%
   vip() +
   theme_bw() +
-  labs(y = "Variable Importance for At-Vessel Mortality")
+  labs(y = "Variable Importance for At-Vessel Mortality") +
+  scale_x_discrete(labels = c("Ventilation Method",  "Associated Habitat", "Reproductive Mode", "Median Depth (m)","Maximum Size (cm)"))
 v1
 
 v2 <- prm_fit %>%
   extract_fit_parsnip() %>%
   vip() +
   theme_bw() +
-  labs(y = "Variable Importance for Post-Release Mortality")
+  labs(y = "Variable Importance for Post-Release Mortality")+
+  scale_x_discrete(labels = c("Maximum Size (cm)", "Median Depth (m)", "Associated Habitat", "Reproductive Mode"))
 v2
 ```
 
@@ -419,7 +425,15 @@ new_dat <- read_csv(here::here("data", "iucn_fishbase_list.csv")) %>%
   select(-measure_fb) %>%
   mutate(ventilation_method = as.factor(ventilation_method)) %>%
   mutate(habitat_associated = as.factor(habitat_associated)) %>%
-  mutate(reproductive_mode = as.factor(reproductive_mode))
+  mutate(reproductive_mode = as.factor(reproductive_mode)) %>% 
+  mutate(group = case_when(
+    str_detect(family, "Mobulidae|Dasyatidae|Gymnyridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae|Plesiobatidae|Potamo|Urolophidae|Zanobatidae|Narcinidae|Platyrhinidae|Trygon|Hypnidae|Narkidae") ~ "Batoids",
+    str_detect(scientific_name, 
+               "Himantura|Dasyatis|Gymnura|trygon|Bathytoshia|rays|raja|Rhinoptera|Sympterygia|Pastinachus|Urobatis|Glaucostegus|Hypanus") ~ "Batoids",
+    TRUE ~ "Sharks"
+  )) %>% 
+  filter(group != "Batoids") %>% 
+  filter(reproductive_mode != 'histotrophy')
 
 predict_data <- list(avm_train, avm_test, new_dat) %>%
   reduce(full_join) %>%
