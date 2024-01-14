@@ -63,6 +63,11 @@ rays <- prm_elasmo %>%
   filter(str_detect(measure, "disk_width")) %>% 
   mutate(mean_size = mean(max_size_cm, na.rm = TRUE),
          mean_depth = mean(median_depth, na.rm = TRUE))
+
+prm_elasmo_count <- prm_elasmo %>% 
+  select(estimate_type, reference) %>% 
+  group_by(estimate_type) %>% 
+  count()
 ```
 
 
@@ -101,8 +106,8 @@ prm_elasmo_subset <- prm_elasmo %>%
   )) %>%
   mutate_if(is.character, as.factor) %>% 
   mutate(group = case_when(
-    str_detect(family, "Mobulidae|Dasyatiade|Gymnyridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae") ~ "Batoids",
-    str_detect(scientific_name, "Himantura|Dasyatis|Gymnura|Neotrygon|Bathytoshia|rays") ~ "Batoids",
+    str_detect(family, "Mobulidae|Dasyatidae|Gymnyridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae") ~ "Batoids",
+    str_detect(scientific_name, "Himantura|Dasyatis|Gymnura|Neotrygon|Bathytoshia|rays|Rhinoptera|Rhynchobatus|Aptychotrema|Trygon") ~ "Batoids",
     TRUE ~ "Sharks"
   )) %>% 
   mutate(estimate = case_when(
@@ -115,6 +120,10 @@ prm_elasmo_subset <- prm_elasmo %>%
   ))
 
 write_csv(prm_elasmo_subset, file = here("data", "prm_elasmo_subset.csv"), col_names = TRUE, na = "")
+
+prm_sharks <- prm_elasmo_subset %>% 
+  filter(group == "Sharks") %>% 
+  distinct(scientific_name)
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species
 mort_summary <- prm_elasmo_subset %>% 
