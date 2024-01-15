@@ -51,20 +51,15 @@ ggsave(p, file = paste0("fishing_sensitivity.pdf"), path = here::here("figs", "s
 # results sum -------------------------------------------------------------
 
 percent_calc = sim_results %>% 
-  filter(t == 200) %>% 
-  filter(mort_scenario == "BAU" | mort_scenario == "Median Mortality") %>% 
-  mutate(n_div_k = n_div_k - 1) %>% 
-  arrange(scientific_name, mort_scenario, fp)%>% 
-  select(scientific_name, mort_scenario, n_div_k, fp, avm, prm) %>% 
-  group_by(scientific_name, fp) %>% 
-  mutate(lag = lag(n_div_k)) %>% 
-  filter(mort_scenario == "Median Mortality") %>% 
-  mutate(pct_change = (lag - n_div_k) / lag * 100) %>% 
+  mutate(f_mort = ((100 * f) - 100 * f * mid_avm * mid_prm) / 100) %>% 
+  select(scientific_name, f, f_mort, fp) %>% 
+  distinct()%>% 
+  mutate(percent_diff = (f - f_mort) / f * 100) %>% 
   ungroup() %>% 
   group_by(fp) %>% 
-  mutate(mean = mean(pct_change)) %>% 
-  ungroup() %>% 
-  mutate(mort = 1 - avm * prm)
+  mutate(mean_diff = mean(percent_diff, na.rm=TRUE)) %>% 
+  ungroup() 
+
 
 onex = percent_calc %>% 
   filter(fp == 1)

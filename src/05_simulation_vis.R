@@ -132,17 +132,11 @@ ggsave(p, file = paste0("species_full.pdf"), path = here::here("figs"), height =
 
 
 percent_calc = sim_results %>% 
-  filter(t == 200) %>% 
-  filter(mort_scenario == "BAU" | mort_scenario == "Median Mortality") %>% 
-  mutate(n_div_k = n_div_k - 1) %>% 
-  arrange(scientific_name, mort_scenario) %>% 
-  select(scientific_name, mort_scenario, n_div_k) %>% 
-  group_by(scientific_name) %>% 
-  mutate(lag = lag(n_div_k)) %>% 
-  filter(mort_scenario == "Median Mortality") %>% 
-  mutate(pct_change = (n_div_k - lag) / abs(lag) * 100) %>% 
-  ungroup() %>% 
-  mutate(mean = mean(pct_change))
+  mutate(f_mort = ((100 * f) - 100 * f * mid_avm * mid_prm) / 100) %>% 
+  select(scientific_name, f, f_mort) %>% 
+  distinct()%>% 
+  mutate(percent_diff = (f - f_mort) / f * 100) %>% 
+  mutate(mean_diff = mean(percent_diff, na.rm=TRUE))
 
 percent_over_50 = percent_calc %>% 
   filter(pct_change >= 50)
