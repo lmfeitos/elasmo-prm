@@ -165,5 +165,5 @@ prop = ggplot(data = sim_results_iucn_pct_plot_m) +
   labs(fill = "Redlist Category") #y = 80
 prop
 
-ggsave(prop, file = paste0("propeller_plot_f_reduc.pdf"), path = here::here("figs"), height = 20, width = 20)
+ggsave(prop, file = paste0("propeller_plot.pdf"), path = here::here("figs"), height = 20, width = 20)
 ```
