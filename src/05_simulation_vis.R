@@ -70,7 +70,7 @@ p <-
              labeller = label_wrap_gen(15)) +
   theme_bw() +
   scale_color_viridis_d() +
-  scale_fill_manual(values = c("#bd0026", "#f03b20", "#fd8d3c", "#fecc5c", "#ffffb2", "white", "grey")) +
+  scale_fill_manual(values = c("#bd0026", "#f03b20", "#fd8d3c", "#fecc5c", "#ffffb2", "grey", "white")) +
   labs(
     x = "Time",
     y = "N/K",
@@ -90,27 +90,29 @@ ggsave(p, file = paste0("initial_sim.pdf"), path = here::here("figs", "supp"), h
 
 # Species Sub Plots -------------------------------------------------------
 
-species_sub = c("Prionace glauca", "Pristis pristis", "Galeocerdo cuvier", "Isurus oxyrinchus", 
-                "Mustelus canis", "Rhinobatos albomaculatus", "Rhynchobatus djiddensis", "Squalus acanthias", 
-                "Alopias vulpinus", "Pseudocarcharias kamoharai", "Carcharhinus falciformis", "Sphyrna mokarran",
-                "Carcharhinus hemiodon", "Squatina squatina", "Isogomphodon oxyrhynchus", "Squalus brevirostris")
+species_sub = c("Prionace glauca", "Carcharhinus limbatus", "Isurus oxyrinchus", 
+                "Mustelus canis", "Squalus acanthias", "Alopias vulpinus", 
+                "Pseudocarcharias kamoharai", "Carcharhinus falciformis", "Sphyrna mokarran",
+                "Carcharhinus hemiodon", "Squatina squatina", "Isogomphodon oxyrhynchus", "Squalus blainville",
+                "Echinorhinus cookei", "Sphyrna corona", "Galeorhinus galeus")
 
 no_cq_sub = no_cq %>% 
   filter(scientific_name %in% species_sub) 
 
 p <- ggplot() +
-  geom_rect(data = no_cq_sub, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.17, fill = as.factor(redlist_category))) +
-  geom_line(data = no_cq_sub, aes(t, n_div_k, color = mort_scenario, group = total_mort), linewidth = 2) +
   geom_hline(yintercept = 0.5,
              color = "gray",
              linetype = "dashed") +
+  geom_rect(data = no_cq_sub,
+            aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.13, fill = as.factor(redlist_category))) +
+  geom_line(data = no_cq_sub, aes(t, n_div_k, color = mort_scenario, group = total_mort), linewidth = 2) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
   facet_wrap(~scientific_name,
-             labeller = label_wrap_gen(10),
+             #labeller = label_wrap_gen(10),
              nrow = 4) +
   theme_bw() +
   scale_color_viridis_d() +
-  scale_fill_manual(values = c("#bd0026", "#f03b20", "#fd8d3c", "#fecc5c", "#ffffb2")) +
+  scale_fill_manual(values = c("#E31A1C", "#FD8D3C", "#FED976", "#91CF60", "#1A9850", "gray")) +
   labs(
     x = "Time",
     y = "N/K",
@@ -119,8 +121,8 @@ p <- ggplot() +
   ) +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
-        strip.background = element_rect(fill=NA),
-        strip.text.x = element_text(size = 8, color = "black", face = "bold.italic"),
+        strip.background = element_rect(fill = NA),
+        strip.text.x = element_text(size = 10, color = "black", face = "bold.italic"),
         axis.title = element_text(size = 10, color = "black"),
         axis.text = element_text(size = 10, color = "black")) +
   coord_cartesian(clip="off", ylim = c(0, 1))

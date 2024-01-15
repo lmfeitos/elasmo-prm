@@ -28,7 +28,7 @@ Carcharhinus limbatus,gillnet,reef-associated,post-release mortality,0.31,2898,p
 Sphyrna tiburo,gillnet,reef-associated,post-release mortality,0.4,4352,prm model,ram,150,total_length,45,placental viviparity,Sphyrnidae,Sharks
 Carcharhinus leucas,handline,reef-associated,post-release mortality,0.26,27,satellite tag,ram,366,total_length,82.5,placental viviparity,Carcharhinidae,Sharks
 Galeocerdo cuvier,handline,benthopelagic,post-release mortality,0,28,satellite tag,ram,740,total_length,556,placental viviparity,Carcharhinidae,Sharks
-Sphyrna mokarran,handline,pelagic,post-release mortality,0.43,28,satellite tag,ram,610,total_length,150,placental viviparity,Sphyrnidae,Sharks
+Sphyrna mokarran,handline,pelagic,post-release mortality,0.43000000000000005,28,satellite tag,ram,610,total_length,150,placental viviparity,Sphyrnidae,Sharks
 Galeocerdo cuvier,longline,benthopelagic,post-release mortality,0,21,satellite tag,ram,740,total_length,556,placental viviparity,Carcharhinidae,Sharks
 Carcharhinus obscurus,longline,reef-associated,post-release mortality,0.29,50,satellite tag,ram,420,total_length,250,placental viviparity,Carcharhinidae,Sharks
 Carcharhinus plumbeus,longline,benthopelagic,post-release mortality,0.2,119,satellite tag,ram,243,total_length,140,placental viviparity,Carcharhinidae,Sharks
@@ -53,7 +53,7 @@ Centroscymnus coelolepis,longline,bathydemersal,at-vessel mortality,0.045,44,vis
 Deania calcea,longline,bathydemersal,at-vessel mortality,0.088,171,visual,stationary,162,total_length,782,yolk-sac viviparity,Centrophoridae,Sharks
 Galeus melastomus,longline,demersal,at-vessel mortality,0.38,21,visual,stationary,90,total_length,1027.5,oviparous,Scyliorhinidae,Sharks
 Carcharhinus falciformis,longline,reef-associated,post-release mortality,0.07,69,satellite tag,ram,350,total_length,250,placental viviparity,Carcharhinidae,Sharks
-Carcharhinus falciformis,longline,reef-associated,post-release mortality,0.152,69,satellite tag,ram,350,total_length,250,placental viviparity,Carcharhinidae,Sharks
+Carcharhinus falciformis,longline,reef-associated,post-release mortality,0.15200000000000002,69,satellite tag,ram,350,total_length,250,placental viviparity,Carcharhinidae,Sharks
 Gymnura natalensis,trawl,demersal,at-vessel mortality,0.464,84,visual,stationary,250,disk_width,37.5,placental viviparity,Gymnuridae,Batoids
 Himantura gerrardi,trawl,demersal,at-vessel mortality,0.426,47,visual,stationary,107,disk_width,37.5,histotrophy,Dasyatidae,Batoids
 Dasyatis chrysonota,trawl,demersal,at-vessel mortality,0.177,34,visual,stationary,75,disk_width,50.5,histotrophy,Dasyatidae,Batoids
@@ -194,7 +194,7 @@ Carcharhinus brachyurus,longline,reef-associated,at-vessel mortality,0.056,19,vi
 Carcharhinus falciformis,longline,reef-associated,at-vessel mortality,0.265,3242,visual,ram,350,total_length,250,placental viviparity,Carcharhinidae,Sharks
 Carcharhinus longimanus,longline,pelagic,at-vessel mortality,0.306,917,visual,ram,350,total_length,541,placental viviparity,Carcharhinidae,Sharks
 Prionace glauca,longline,pelagic,at-vessel mortality,0.196,3452,visual,ram,383.5,total_length,500,placental viviparity,Carcharhinidae,Sharks
-Pteroplatytrygon violacea,longline,pelagic,at-vessel mortality,0.185,501,visual,stationary,80,disk_width,190.5,histotrophy,Dasyatidae,Sharks
+Pteroplatytrygon violacea,longline,pelagic,at-vessel mortality,0.185,501,visual,stationary,80,disk_width,190.5,histotrophy,Dasyatidae,Batoids
 Carcharhinus amblyrhynchos,longline,reef-associated,at-vessel mortality,0.5,4,visual,ram,265,total_length,137.5,placental viviparity,Carcharhinidae,Sharks
 Carcharhinus galapagensis,longline,reef-associated,at-vessel mortality,0.25,8,visual,ram,300,total_length,143,placental viviparity,Carcharhinidae,Sharks
 Carcharhinus limbatus,longline,reef-associated,at-vessel mortality,0.6,10,visual,ram,286,total_length,70,placental viviparity,Carcharhinidae,Sharks
@@ -202,7 +202,7 @@ Carcharhinus plumbeus,longline,benthopelagic,at-vessel mortality,0,1,visual,ram,
 Sphyrna lewini,longline,pelagic,at-vessel mortality,0.75,5,visual,ram,430,total_length,521.5,placental viviparity,Sphyrnidae,Sharks
 Sphyrna mokarran,longline,pelagic,at-vessel mortality,0.75,3,visual,ram,610,total_length,150,placental viviparity,Sphyrnidae,Sharks
 Galeocerdo cuvier,longline,benthopelagic,at-vessel mortality,0.6,5,visual,ram,740,total_length,556,placental viviparity,Carcharhinidae,Sharks
-Prionace glauca,longline,pelagic,post-release mortality,0.05,33,blood chemistry,ram,383.5,total_length,500,placental viviparity,Carcharhinidae,Sharks
+Prionace glauca,longline,pelagic,post-release mortality,0.050000000000000044,33,blood chemistry,ram,383.5,total_length,500,placental viviparity,Carcharhinidae,Sharks
 Prionace glauca,longline,pelagic,post-release mortality,0,11,satellite tag,ram,383.5,total_length,500,placental viviparity,Carcharhinidae,Sharks
 Prionace glauca,longline,pelagic,post-release mortality,0.12,17,satellite tag,ram,383.5,total_length,500,placental viviparity,Carcharhinidae,Sharks
 Carcharhinus melanopterus,gillnet,reef-associated,at-vessel mortality,0.38,37,blood chemistry,ram,180,total_length,50,placental viviparity,Carcharhinidae,Sharks
@@ -234,7 +234,7 @@ Prionace glauca,longline,pelagic,at-vessel mortality,0.143,30168,visual,ram,383.
 Sphyrna lewini,longline,pelagic,at-vessel mortality,0.571,21,visual,ram,430,total_length,521.5,placental viviparity,Sphyrnidae,Sharks
 Sphyrna mokarran,longline,pelagic,at-vessel mortality,0,3,visual,ram,610,total_length,150,placental viviparity,Sphyrnidae,Sharks
 Sphyrna zygaena,longline,pelagic,at-vessel mortality,0.71,372,visual,ram,400,total_length,100,placental viviparity,Sphyrnidae,Sharks
-Pteroplatytrygon violacea,longline,pelagic,at-vessel mortality,0.01,396,visual,stationary,80,disk_width,190.5,histotrophy,Dasyatidae,Sharks
+Pteroplatytrygon violacea,longline,pelagic,at-vessel mortality,0.01,396,visual,stationary,80,disk_width,190.5,histotrophy,Dasyatidae,Batoids
 Isurus oxyrinchus,longline,pelagic,at-vessel mortality,0.265,543,visual,ram,445,total_length,375,oophagy,Lamnidae,Sharks
 Lamna nasus,longline,pelagic,at-vessel mortality,0.361,866,visual,ram,365,total_length,904.5,oophagy,Lamnidae,Sharks
 Prionace glauca,longline,pelagic,at-vessel mortality,0.226,21684,visual,ram,383.5,total_length,500,placental viviparity,Carcharhinidae,Sharks
@@ -336,7 +336,7 @@ Isurus paucus,longline,pelagic,at-vessel mortality,0.163,104,visual,ram,427,tota
 Lamna nasus,handline,pelagic,post-release mortality,0,13,satellite tag,ram,365,total_length,904.5,oophagy,Lamnidae,Sharks
 Negaprion acutidens,longline,reef-associated,at-vessel mortality,0,23,visual,ram,310,total_length,45,placental viviparity,Carcharhinidae,Sharks
 Carcharhinus amboinensis,longline,reef-associated,at-vessel mortality,0,23,visual,ram,280,total_length,50,placental viviparity,Carcharhinidae,Sharks
-Rhynchobatus australiae,longline,demersal,at-vessel mortality,0,15,visual,stationary,300,total_length,30,yolk-sac viviparity,Rhinidae,Sharks
+Rhynchobatus australiae,longline,demersal,at-vessel mortality,0,15,visual,stationary,300,total_length,30,yolk-sac viviparity,,Batoids
 Stegostoma tigrinum,longline,reef-associated,at-vessel mortality,0,8,visual,stationary,250,total_length,45,yolk-sac viviparity,Stegostomatidae,Sharks
 Pristis zijsron,longline,demersal,at-vessel mortality,0,2,visual,stationary,730,total_length,50,yolk-sac viviparity,Pristidae,Batoids
 Orectolobus ornatus,longline,reef-associated,at-vessel mortality,0,2,visual,stationary,110,total_length,52.5,yolk-sac viviparity,Orectolobidae,Sharks
@@ -368,11 +368,11 @@ Amblyraja radiata,trawl,demersal,post-release mortality,0.196,407,captivity afte
 Leucoraja ocellata,trawl,demersal,post-release mortality,0.077,572,captivity after fishing,stationary,113,total_length,363.5,oviparous,Rajidae,Batoids
 Raja undulata,longline,demersal,post-release mortality,0,2,satellite tag,stationary,114,total_length,102,oviparous,Rajidae,Batoids
 Raja brachyura,longline,demersal,post-release mortality,0,3,satellite tag,stationary,120,total_length,455,oviparous,Rajidae,Batoids
-Raja clavata,longline,demersal,post-release mortality,0.333,14,satellite tag,stationary,130,total_length,513.5,oviparous,Rajidae,Batoids
-Scyliorhinus canicula,longline,demersal,post-release mortality,0.074,18,satellite tag,stationary,100,total_length,400.5,oviparous,Scyliorhinidae,Sharks
+Raja clavata,longline,demersal,post-release mortality,0.33299999999999996,14,satellite tag,stationary,130,total_length,513.5,oviparous,Rajidae,Batoids
+Scyliorhinus canicula,longline,demersal,post-release mortality,0.07399999999999995,18,satellite tag,stationary,100,total_length,400.5,oviparous,Scyliorhinidae,Sharks
 Leucoraja ocellata,trawl,demersal,post-release mortality,0.96,49,captivity after fishing,stationary,113,total_length,363.5,oviparous,Rajidae,Batoids
-Trygonoptera testacea,trawl,demersal,post-release mortality,0.34,187,captivity after fishing,stationary,52,total_length,67.5,oviparous,Urolophidae,Sharks
-Aptychotrema rostrata,trawl,demersal,post-release mortality,0.61,155,captivity after fishing,stationary,120,total_length,110,oviparous,Trygonorrhinidae,Sharks
+Trygonoptera testacea,trawl,demersal,post-release mortality,0.33999999999999997,187,captivity after fishing,stationary,52,total_length,67.5,oviparous,Urolophidae,Batoids
+Aptychotrema rostrata,trawl,demersal,post-release mortality,0.61,155,captivity after fishing,stationary,120,total_length,110,oviparous,Trygonorrhinidae,Batoids
 Isurus oxyrinchus,longline,pelagic,post-release mortality,0.25,34,satellite tag,ram,445,total_length,375,oophagy,Lamnidae,Sharks
 Carcharhinus falciformis,purse seine,reef-associated,at-vessel mortality,0.585,53,visual,ram,350,total_length,250,placental viviparity,Carcharhinidae,Sharks
 Isurus oxyrinchus,purse seine,pelagic,at-vessel mortality,0,1,visual,ram,445,total_length,375,oophagy,Lamnidae,Sharks
@@ -444,11 +444,11 @@ Negaprion brevirostris,gillnet,reef-associated,at-vessel mortality,0,10,visual,r
 Ginglymostoma cirratum,gillnet,reef-associated,at-vessel mortality,0,6,visual,ram,308,total_length,65,yolk-sac viviparity,Ginglymostomatidae,Sharks
 Carcharhinus brevipinna,gillnet,reef-associated,at-vessel mortality,0.5,2,visual,ram,304,total_length,100,placental viviparity,Carcharhinidae,Sharks
 Sphyrna lewini,gillnet,pelagic,at-vessel mortality,0.556,9,visual,ram,430,total_length,521.5,placental viviparity,Sphyrnidae,Sharks
-Rhinoptera bonasus,gillnet,benthopelagic,at-vessel mortality,0,246,visual,stationary,107,disk_width,30,histotrophy,Rhinopteridae,Sharks
+Rhinoptera bonasus,gillnet,benthopelagic,at-vessel mortality,0,246,visual,stationary,107,disk_width,30,histotrophy,Rhinopteridae,Batoids
 Gymnura micrura,gillnet,demersal,at-vessel mortality,0,2,visual,stationary,120,disk_width,27.5,histotrophy,Gymnuridae,Batoids
 Aetobatus narinari,gillnet,benthopelagic,at-vessel mortality,0,1,visual,stationary,226,disk_width,30,histotrophy,Aetobatidae,Batoids
-Hypanus americanus,gillnet,reef-associated,at-vessel mortality,0,5,visual,stationary,200,disk_width,26.5,histotrophy,Dasyatidae,Sharks
-Hypanus sabinus,gillnet,demersal,at-vessel mortality,0,11,visual,stationary,61,disk_width,13.5,histotrophy,Dasyatidae,Sharks
+Hypanus americanus,gillnet,reef-associated,at-vessel mortality,0,5,visual,stationary,200,disk_width,26.5,histotrophy,Dasyatidae,Batoids
+Hypanus sabinus,gillnet,demersal,at-vessel mortality,0,11,visual,stationary,61,disk_width,13.5,histotrophy,Dasyatidae,Batoids
 Cephaloscyllium laticeps,gillnet,demersal,post-release mortality,0,32,captivity after fishing,stationary,150,total_length,110.5,oviparous,Scyliorhinidae,Sharks
 Rhizoprionodon terraenovae,pole and line,demersal,post-release mortality,0.1,10,satellite tag,ram,178,total_length,100.5,placental viviparity,Carcharhinidae,Sharks
 Negaprion brevirostris,pole and line,reef-associated,post-release mortality,0.125,32,visual,ram,368,total_length,60,placental viviparity,Carcharhinidae,Sharks
