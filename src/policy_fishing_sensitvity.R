@@ -60,17 +60,17 @@ percent_calc = sim_results %>%
   mutate(mean_diff = mean(percent_diff, na.rm=TRUE)) %>% 
   ungroup() 
 
-
-onex = percent_calc %>% 
-  filter(fp == 1)
-
-threex = percent_calc %>% 
-  filter(fp == 3)
-
-percent_under_25= threex %>% 
-  filter(pct_change <= 25)
-
-434/466*100
+# 
+# onex = percent_calc %>% 
+#   filter(fp == 1)
+# 
+# threex = percent_calc %>% 
+#   filter(fp == 3)
+# 
+# percent_under_25= threex %>% 
+#   filter(pct_change <= 25)
+# 
+# 434/466*100
 
 sim_200 = sim_results %>% 
   filter(t == 200) %>% 

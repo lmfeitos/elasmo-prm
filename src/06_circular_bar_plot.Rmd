@@ -41,7 +41,7 @@ sim_results <- read_csv(here::here( "data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>% 
   filter(!is.na(mort_scenario)) %>% 
   filter(mort_scenario == "BAU" | mort_scenario == "Median Mortality") %>% 
-  mutate(f_mort = ((100 * f) - 100 * f * mid_avm * mid_prm) / 100) %>% 
+  mutate(f_mort = ((100 * f) - (100 * f * (1-mid_avm) * (1-mid_prm)))/100) %>%  
   select(scientific_name, f, f_mort) %>% 
   distinct()
 
