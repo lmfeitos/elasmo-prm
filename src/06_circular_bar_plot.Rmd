@@ -135,11 +135,11 @@ redlist_breaks <- redlist_breaks %>%
 
 ```{r}
 # get improvement averages per iucn status
-sim_results_iucn_pct_plot_m_ave <- sim_results_iucn_pct %>% 
+sim_results_iucn_pct_plot_m_ave <- sim_results_iucn_pct_threat %>% 
   group_by(redlist_category) %>% 
   summarise(mean_percent_diff = mean(percent_diff, na.rm = TRUE))
 
-sim_results_iucn_pct_plot_m_ave2 <- sim_results_iucn_pct %>% 
+sim_results_iucn_pct_plot_m_ave2 <- sim_results_iucn_pct_threat %>% 
   filter(redlist_category != "DD") %>% 
   summarise(mean_percent_diff = mean(percent_diff, na.rm = TRUE)) %>% 
   slice_head(n = 1)
