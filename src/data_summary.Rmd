@@ -260,7 +260,8 @@ habitat_subset <-
 mort_proportions_plot_fam <-
   ggplot() +
   geom_point(data = mort_summary %>% 
-           filter(!gear_class %in% c("handline", "purse seine", "pole and line")) %>% 
+           filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
+                  group == "Sharks") %>% 
               mutate(estimate_type = str_to_sentence(estimate_type),
                      gear_class = str_to_title(gear_class)) %>% 
            drop_na(family) %>% 
@@ -272,7 +273,8 @@ mort_proportions_plot_fam <-
             position = position_jitterdodge(jitter.width = .1),
          show.legend = F) +
   geom_boxplot(data = boxplot_subset %>% 
-                 filter(!gear_class %in% c("handline", "purse seine", "pole and line")) %>% 
+                 filter(!gear_class %in% c("handline", "purse seine", "pole and line")  &
+                  group == "Sharks") %>% 
               mutate(estimate_type = str_to_sentence(estimate_type),
                      gear_class = str_to_title(gear_class)) %>% 
            drop_na(family) %>% 
@@ -284,11 +286,8 @@ mort_proportions_plot_fam <-
              show.legend = F,
              alpha = 0.5,
          fatten = 1) +
-  facet_grid(factor(group, levels = c("Sharks", "Batoids")) ~ 
-               factor(gear_class,
-                    levels = c("Longline", "Gillnet", "Trawl")),
-             scales = "free_y",
-             space = "free_y") +
+  facet_wrap(~ factor(gear_class,
+                    levels = c("Longline", "Gillnet", "Trawl"))) +
   labs(x = "",
        y = "Fishing mortality",
        color = "Estimate type",
@@ -314,7 +313,8 @@ habitat_plot <-
   ggplot() +
   geom_point(data = mort_summary %>% 
          filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
-                  !is.na(habitat_associated)) %>% 
+                  !is.na(habitat_associated) &
+                  group == "Sharks") %>% 
          mutate(estimate_type = str_to_sentence(estimate_type),
                 gear_class = str_to_title(gear_class)) %>% 
          mutate(habitat_associated = str_to_title(habitat_associated),
@@ -327,7 +327,8 @@ habitat_plot <-
              position = position_jitterdodge(jitter.width = .1)) +
   geom_boxplot(data = habitat_subset %>% 
          filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
-                  !is.na(habitat_associated)) %>% 
+                  !is.na(habitat_associated) &
+                  group == "Sharks") %>% 
          mutate(estimate_type = str_to_sentence(estimate_type),
                 gear_class = str_to_title(gear_class)) %>% 
          mutate(habitat_associated = str_to_title(habitat_associated),
@@ -339,10 +340,8 @@ habitat_plot <-
              fill = estimate_type),
                alpha = 0.5,
          fatten = 1) +
-  facet_grid(factor(group, levels = c("Sharks", "Batoids")) ~
-             factor(gear_class,
-                    levels = c("Longline", "Gillnet", "Trawl")),
-             scales = "free_y") +
+  facet_wrap(~ factor(gear_class,
+                    levels = c("Longline", "Gillnet", "Trawl"))) +
   labs(x = "",
        y = "Fishing mortality",
        color = "Estimate type",
@@ -360,7 +359,7 @@ habitat_plot <-
         panel.spacing.x = unit(5, "mm"))
 ```
 
-```{r, fig.height=14, fig.width=12}
+```{r, fig.height=10, fig.width=8}
 mort_proportions_plot <-
   mort_proportions_plot_fam +
   habitat_plot +
@@ -374,6 +373,125 @@ ggsave(mort_proportions_plot, file = paste0("mort_proportions_plot.pdf"), path =
 ```
 
 
+## Batoid plot
+
+
+```{r, fig.height=8, fig.width=8, message = TRUE}
+mort_proportions_plot_fam_bat <-
+  ggplot() +
+  geom_point(data = mort_summary %>% 
+           filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
+                  group != "Sharks") %>% 
+              mutate(estimate_type = str_to_sentence(estimate_type),
+                     gear_class = str_to_title(gear_class)) %>% 
+           drop_na(family) %>% 
+             mutate(family = as.factor(family)) %>% 
+             arrange(desc(family)),
+           aes(x = fct_inorder(family),
+                y = mortality_prop,
+                color = estimate_type, group = estimate_type),
+            position = position_jitterdodge(jitter.width = .1),
+         show.legend = F) +
+  geom_boxplot(data = boxplot_subset %>% 
+                 filter(!gear_class %in% c("handline", "purse seine", "pole and line")  &
+                  group != "Sharks") %>% 
+              mutate(estimate_type = str_to_sentence(estimate_type),
+                     gear_class = str_to_title(gear_class)) %>% 
+           drop_na(family) %>% 
+             mutate(family = as.factor(family)) %>% 
+             arrange(desc(family)),
+               aes(x = fct_inorder(family), 
+                 y = mortality_prop, 
+                 fill = estimate_type),
+             show.legend = F,
+             alpha = 0.5,
+         fatten = 1) +
+  facet_wrap( ~ 
+               factor(gear_class,
+                    levels = c("Longline", "Gillnet", "Trawl"))) +
+  labs(x = "",
+       y = "Fishing mortality",
+       color = "Estimate type",
+       fill = "Estimate type") +
+  scale_y_continuous(breaks = c(0, 0.25, 0.5, 0.75, 1)) +
+  scale_color_manual(values = c("#414487FF", "#22A884FF")) +
+  scale_fill_manual(values = c("#414487FF", "#22A884FF")) +
+  coord_flip() +
+  theme_bw() +
+  theme(axis.text = element_text(size = 8, color = "black"),
+        axis.title = element_text(size = 11, color = "black"),
+        legend.position = "bottom",
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        strip.background = element_rect(fill = "transparent"),
+        panel.spacing.x = unit(5, "mm"))
+
+#ggsave(mort_proportions_plot_fam, file = paste0("mort_proportions_plot_fam.png"), path = here::here("figs"), height = 12, width = 8)
+```
+
+```{r, fig.height=8, fig.width=6}
+habitat_plot_bat <- 
+  ggplot() +
+  geom_point(data = mort_summary %>% 
+         filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
+                  !is.na(habitat_associated) &
+                  group != "Sharks") %>% 
+         mutate(estimate_type = str_to_sentence(estimate_type),
+                gear_class = str_to_title(gear_class)) %>% 
+         mutate(habitat_associated = str_to_title(habitat_associated),
+                gear_class = str_to_title(gear_class)) %>% 
+         mutate(habitat_associated = as.factor(habitat_associated)) %>% 
+         arrange(desc(habitat_associated)),
+         aes(x = fct_inorder(habitat_associated),
+             y = mortality_prop, 
+             color = estimate_type, group = estimate_type),
+             position = position_jitterdodge(jitter.width = .1)) +
+  geom_boxplot(data = habitat_subset %>% 
+         filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
+                  !is.na(habitat_associated) &
+                  group != "Sharks") %>% 
+         mutate(estimate_type = str_to_sentence(estimate_type),
+                gear_class = str_to_title(gear_class)) %>% 
+         mutate(habitat_associated = str_to_title(habitat_associated),
+                gear_class = str_to_title(gear_class)) %>% 
+         mutate(habitat_associated = as.factor(habitat_associated)) %>% 
+         arrange(desc(habitat_associated)),
+         aes(x = fct_inorder(habitat_associated), 
+             y = mortality_prop, 
+             fill = estimate_type),
+               alpha = 0.5,
+         fatten = 1) +
+  facet_wrap(~ factor(gear_class,
+                    levels = c("Longline", "Gillnet", "Trawl"))) +
+  labs(x = "",
+       y = "Fishing mortality",
+       color = "Estimate type",
+       fill = "Estimate type") +
+  scale_color_manual(values = c("#414487FF", "#22A884FF")) +
+  scale_fill_manual(values = c("#414487FF", "#22A884FF")) +
+  coord_flip() +
+  theme_bw() +
+  theme(axis.text = element_text(size = 8, color = "black"),
+        axis.title = element_text(size = 11, color = "black"),
+        legend.position = "bottom",
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        strip.background = element_rect(fill = "transparent"),
+        panel.spacing.x = unit(5, "mm"))
+```
+
+```{r, fig.height=10, fig.width=8}
+mort_proportions_plot_bat <-
+  mort_proportions_plot_fam_bat +
+  habitat_plot_bat +
+  plot_annotation(tag_levels = "A") +
+  plot_layout(guides = "collect") &
+  theme(legend.position = "bottom") 
+
+mort_proportions_plot_bat
+
+ggsave(mort_proportions_plot_bat, file = paste0("mort_proportions_plot_bat.pdf"), path = here::here("figs", "supp"), height = 8, width = 10)
+```
 
 
 

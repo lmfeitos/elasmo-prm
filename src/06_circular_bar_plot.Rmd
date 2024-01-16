@@ -37,6 +37,14 @@ iucn_data <- read_csv(here("data", "iucn_data", "assessments.csv")) %>%
     TRUE ~ redlist_category
   ))
 
+sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>% 
+  filter(scenario != "CQ") %>% 
+  filter(!is.na(mort_scenario)) %>% 
+  filter(mort_scenario == "BAU" | mort_scenario == "Median Mortality") %>% 
+  mutate(f_mort = ((100 * f) - (100 * f * (1-mid_avm) * (1-mid_prm)))/100) %>%  
+  select(scientific_name, f, f_mort) %>% 
+  distinct()
+
 sim_results <- read_csv(here::here( "data", "simulation_results.csv")) %>% 
   filter(scenario != "CQ") %>% 
   filter(!is.na(mort_scenario)) %>% 
@@ -62,38 +70,49 @@ sim_results_top = left_join(top_shark_mort, sim_results_iucn) %>%
 sim_results_iucn_pct <- sim_results_iucn %>% 
   mutate(percent_diff = (f - f_mort) / f * 100) %>% 
   mutate(percent_diff = round(percent_diff, 4)) %>% 
-  filter(redlist_category %in% c("VU", "EN", "CR", "DD")) %>% 
+  filter(redlist_category %in% c("VU", "EN", "CR")) %>% 
   rowid_to_column("id") %>% 
   mutate(id = fct_reorder(as.factor(id), percent_diff)) %>% 
   mutate(redlist_category = as.factor(redlist_category)) %>% 
   arrange(id) 
 
+sim_results_iucn_pct_threat <- sim_results_iucn_pct %>% 
+  filter(redlist_category != "DD")
+
 threatended = sim_results_iucn_pct %>% 
   filter(redlist_category %in% c("VU", "EN", "CR")) %>% 
   mutate(mean_percent_diff = mean(percent_diff, na.rm = TRUE))
 
-dd = sim_results_iucn_pct %>% 
-  filter(redlist_category %in% c("DD")) %>% 
+non_threat = sim_results_iucn %>% 
+  mutate(percent_diff = (f - f_mort) / f * 100) %>% 
+  mutate(percent_diff = round(percent_diff, 4)) %>% 
+  filter(redlist_category %in% c("DD", "NT", "LC")) %>% 
+  rowid_to_column("id") %>% 
+  mutate(id = fct_reorder(as.factor(id), percent_diff)) %>% 
+  mutate(redlist_category = as.factor(redlist_category)) %>% 
+  arrange(id)  
+
+non_threat_mean <- non_threat %>% 
   mutate(mean_percent_diff = mean(percent_diff, na.rm = TRUE))
   
 # Set a number of empty bars to add at the end of each group
-empty_bar <- 8
-to_add <- data.frame(matrix(NA, empty_bar*nlevels(sim_results_iucn_pct$redlist_category), ncol(sim_results_iucn_pct)))
-colnames(to_add) <- colnames(sim_results_iucn_pct)
-to_add$redlist_category <- rep(levels(sim_results_iucn_pct$redlist_category), each = empty_bar)
-sim_results_iucn_pct <- rbind(sim_results_iucn_pct, to_add)
-sim_results_iucn_pct <- sim_results_iucn_pct %>% arrange(redlist_category)
-sim_results_iucn_pct$id <- seq(1, nrow(sim_results_iucn_pct))
+empty_bar <- 7
+to_add <- data.frame(matrix(NA, empty_bar*nlevels(sim_results_iucn_pct_threat$redlist_category), ncol(sim_results_iucn_pct_threat)))
+colnames(to_add) <- colnames(sim_results_iucn_pct_threat)
+to_add$redlist_category <- rep(levels(sim_results_iucn_pct_threat$redlist_category), each = empty_bar)
+sim_results_iucn_pct_threat <- rbind(sim_results_iucn_pct_threat, to_add)
+sim_results_iucn_pct_threat <- sim_results_iucn_pct_threat %>% arrange(redlist_category)
+sim_results_iucn_pct_threat$id <- seq(1, nrow(sim_results_iucn_pct_threat))
 
 # get the name and the y position of each label
-label_data_m <- sim_results_iucn_pct 
+label_data_m <- sim_results_iucn_pct_threat 
 number_of_bar <- nrow(label_data_m)
 angle <- 90 - 360 * (label_data_m$id - 0.5) /  number_of_bar
 label_data_m$hjust <- ifelse(angle < -90, 1, 0)
 label_data_m$angle <- ifelse(angle < -90, angle + 180, angle)
 
 # Not sure how to use the code below 
-redlist_breaks <- sim_results_iucn_pct %>% 
+redlist_breaks <- sim_results_iucn_pct_threat %>% 
     group_by(redlist_category) %>% 
     summarize(start = min(id), 
               end = max(id) - 3) %>% 
@@ -103,7 +122,7 @@ redlist_breaks <- sim_results_iucn_pct %>%
     mutate(end = data.table::shift(end + 1, n = 1, type = "shift", fill = max(end) + 1),
            start = start -1)
 
-max_value <- max(sim_results_iucn_pct$percent_diff, na.rm = T)
+max_value <- max(sim_results_iucn_pct_threat$percent_diff, na.rm = T)
   
 y_max <- 20 * ceiling(max_value/20)
 
@@ -122,30 +141,28 @@ sim_results_iucn_pct_plot_m_ave <- sim_results_iucn_pct %>%
 
 sim_results_iucn_pct_plot_m_ave2 <- sim_results_iucn_pct %>% 
   filter(redlist_category != "DD") %>% 
-  summarise(mean_percent_diff = mean(percent_diff, na.rm = TRUE))
+  summarise(mean_percent_diff = mean(percent_diff, na.rm = TRUE)) %>% 
   slice_head(n = 1)
 ```
 
 
 
 ```{r, fig.height = 10, fig.width=10}
-sim_results_iucn_pct_plot_m <- sim_results_iucn_pct 
-
-prop = ggplot(data = sim_results_iucn_pct_plot_m) +
+prop = ggplot(data = sim_results_iucn_pct_threat) +
     geom_segment(data = redlist_breaks %>% 
                    filter(v != 100),
                aes(x = end, y = v, xend = start, yend = v),
                color = "grey", linewidth = 0.3, inherit.aes = FALSE) +
   annotate("text",
-             x = rep(max(sim_results_iucn_pct_plot_m$id, length(v))),
+             x = rep(max(sim_results_iucn_pct_threat$id, length(v))),
              y = v -5, label = paste0(head(v), "%"), color = "grey", size = 4, angle = 0, fontface = "bold", hjust = 0.7) +
     geom_col(aes(x = id, 
                y = percent_diff, 
                fill = redlist_category),
              show.legend = F,
            width = 0.8) +
-  ylim(-40, max(sim_results_iucn_pct_plot_m$percent_diff)) +
-  scale_fill_manual(values = c("#E31A1C", "gray", "#FD8D3C", "#FED976")) +
+  ylim(-40, max(sim_results_iucn_pct_threat$percent_diff)) +
+  scale_fill_manual(values = c("#E31A1C","#FD8D3C", "#FED976")) +
   theme_minimal() +
   theme(axis.title = element_blank(),
         axis.text = element_blank(),
@@ -163,11 +180,106 @@ prop = ggplot(data = sim_results_iucn_pct_plot_m) +
             aes(x = title, y = -18, label = redlist_category, color = redlist_category),
             show.legend = F,
             hjust = 1, alpha = 0.8, size = 4, fontface = "bold", inherit.aes = FALSE) +
-  scale_color_manual(values = c("#E31A1C", "gray", "#FD8D3C", "#FED976")) +
+  scale_color_manual(values = c("#E31A1C", "#FD8D3C", "#FED976")) +
   # geom_text(data = redlist_breaks, 
   #             aes(x = title, y = 48, label = redlist_category),  colour = "black", alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE) +
   labs(fill = "Redlist Category") #y = 80
 prop
 
 ggsave(prop, file = paste0("propeller_plot.pdf"), path = here::here("figs"), height = 20, width = 20)
+```
+
+
+
+```{r}
+non_threat = sim_results_iucn %>% 
+  mutate(percent_diff = (f - f_mort) / f * 100) %>% 
+  mutate(percent_diff = round(percent_diff, 4)) %>% 
+  filter(redlist_category %in% c("DD", "NT", "LC")) %>% 
+  rowid_to_column("id") %>% 
+  mutate(id = fct_reorder(as.factor(id), percent_diff)) %>% 
+  mutate(redlist_category = as.factor(redlist_category)) %>% 
+  arrange(id)  
+
+non_threat_mean <- non_threat %>% 
+  mutate(mean_percent_diff = mean(percent_diff, na.rm = TRUE))
+  
+# Set a number of empty bars to add at the end of each group
+empty_bar <- 7
+to_add <- data.frame(matrix(NA, empty_bar*nlevels(non_threat$redlist_category), ncol(non_threat)))
+colnames(to_add) <- colnames(non_threat)
+to_add$redlist_category <- rep(levels(non_threat$redlist_category), each = empty_bar)
+non_threat <- rbind(non_threat, to_add)
+non_threat <- non_threat %>% arrange(redlist_category)
+non_threat$id <- seq(1, nrow(non_threat))
+
+# get the name and the y position of each label
+label_data_m <- non_threat 
+number_of_bar <- nrow(label_data_m)
+angle <- 90 - 360 * (label_data_m$id - 0.5) /  number_of_bar
+label_data_m$hjust <- ifelse(angle < -90, 1, 0)
+label_data_m$angle <- ifelse(angle < -90, angle + 180, angle)
+
+# Not sure how to use the code below 
+redlist_breaks <- non_threat %>% 
+    group_by(redlist_category) %>% 
+    summarize(start = min(id), 
+              end = max(id) - 3) %>% 
+    rowwise() %>% 
+    mutate(title = mean(c(start, end))) %>% 
+    ungroup() %>% 
+    mutate(end = data.table::shift(end + 1, n = 1, type = "shift", fill = max(end) + 1),
+           start = start -1)
+
+max_value <- max(non_threat$percent_diff, na.rm = T)
+  
+y_max <- 20 * ceiling(max_value/20)
+
+v <- c(20, 40, 60, 80, 100)
+
+redlist_breaks <- redlist_breaks %>% 
+  mutate(v = list(v)) %>% 
+  unnest(cols = c(v))
+```
+
+```{r, fig.height = 10, fig.width=10}
+prop = ggplot(data = non_threat) +
+    geom_segment(data = redlist_breaks %>% 
+                   filter(v != 100),
+               aes(x = end, y = v, xend = start, yend = v),
+               color = "grey", linewidth = 0.3, inherit.aes = FALSE) +
+  annotate("text",
+             x = rep(max(non_threat$id, length(v))),
+             y = v -5, label = paste0(head(v), "%"), color = "grey", size = 4, angle = 0, fontface = "bold", hjust = 0.7) +
+    geom_col(aes(x = id, 
+               y = percent_diff, 
+               fill = redlist_category),
+             show.legend = F,
+           width = 0.8) +
+  ylim(-40, max(non_threat$percent_diff)) +
+  scale_fill_manual(values = c("grey", "#91CF60", "#1A9850")) +
+  theme_minimal() +
+  theme(axis.title = element_blank(),
+        axis.text = element_blank(),
+        panel.grid = element_blank(),
+        plot.margin = unit(rep(0, 4), "cm")) +
+  coord_polar(start = 0) +
+ geom_text(data = label_data_m, 
+            aes(x = id, y = percent_diff + 15, label = scientific_name, angle = angle),
+           nudge_x = -0.25, nudge_y = 0.25,
+              color = "black", size = 3, inherit.aes = FALSE) +
+  geom_segment(data = redlist_breaks,
+               aes(x = start, y = -5, xend = end, yend = -5),
+               colour = "black", alpha = 0.8, inherit.aes = FALSE) +
+  geom_text(data = redlist_breaks,
+            aes(x = title, y = -18, label = redlist_category, color = redlist_category),
+            show.legend = F,
+            hjust = 1, alpha = 0.8, size = 4, fontface = "bold", inherit.aes = FALSE) +
+  scale_color_manual(values = c( "grey", "#91CF60", "#1A9850")) +
+  # geom_text(data = redlist_breaks, 
+  #             aes(x = title, y = 48, label = redlist_category),  colour = "black", alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE) +
+  labs(fill = "Redlist Category") #y = 80
+prop
+
+ggsave(prop, file = paste0("propeller_plot_non_threat.pdf"), path = here::here("figs", "supp"), height = 20, width = 20)
 ```
