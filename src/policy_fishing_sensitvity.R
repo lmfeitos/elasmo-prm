@@ -71,3 +71,11 @@ percent_under_25= threex %>%
   filter(pct_change <= 25)
 
 434/466*100
+
+sim_200 = sim_results %>% 
+  filter(t == 200) %>% 
+  filter(mort_scenario == "Median Mortality") %>% 
+  select(n_div_k, scientific_name, fp) %>% 
+  filter(n_div_k >= 0.5) %>% 
+  group_by(fp) %>% 
+  summarize(per = n() / 431*100)

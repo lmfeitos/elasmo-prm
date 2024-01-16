@@ -138,15 +138,26 @@ percent_calc = sim_results %>%
   mutate(percent_diff = (f - f_mort) / f * 100) %>% 
   mutate(mean_diff = mean(percent_diff, na.rm=TRUE))
 
-percent_over_50 = percent_calc %>% 
-  filter(pct_change >= 50)
+percent_over_30 = percent_calc %>% 
+  filter(percent_diff >= 25)
 
 percent_under_10 = percent_calc %>% 
   filter(pct_change <= 10)
 
-23/431*100
+44/431*100
 
-4/431*100
+sim_200 = sim_results %>% 
+  filter(t == 200)
+  filter(mort_scenario == "Median Mortality") %>% 
+  select(n_div_k, scientific_name)%>% 
+  filter(scientific_name %in% species_sub) 
+
+sim_over = sim_200 %>%
+  filter(n_div_k >= 0.5)
+
+sim_under = sim_200  %>%
+  filter(n_div_k < 0.5)
+
 
 # old ---------------------------------------------------------------------
 

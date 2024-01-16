@@ -71,6 +71,10 @@ sim_results_iucn_pct <- sim_results_iucn %>%
 threatended = sim_results_iucn_pct %>% 
   filter(redlist_category %in% c("VU", "EN", "CR")) %>% 
   mutate(mean_percent_diff = mean(percent_diff, na.rm = TRUE))
+
+dd = sim_results_iucn_pct %>% 
+  filter(redlist_category %in% c("DD")) %>% 
+  mutate(mean_percent_diff = mean(percent_diff, na.rm = TRUE))
   
 # Set a number of empty bars to add at the end of each group
 empty_bar <- 8
