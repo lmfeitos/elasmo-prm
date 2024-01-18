@@ -314,7 +314,7 @@ p1 <- ggplot(trawl_quant_test, aes(x = mortality_prop, y = .pred_50)) + # plot l
   stat_poly_eq(label.y = 0.9) +
   theme_bw() +
   labs(
-    x = "Observed At-Vessel Mortality Rate",
+    x = "",
     y = "Predicted At-Vessel Mortality Rate"
   ) +
   theme(text = element_text(size = 10))
@@ -333,8 +333,8 @@ p2 <- ggplot(gillnet_train_predict, aes(x = mortality_prop, y = .pred)) + # plot
   stat_poly_eq(label.y = 0.9) +
   theme_bw() +
   labs(
-    x = "Observed Post Release Mortality Rate",
-    y = "Predicted Post Release Mortality Rate"
+    x = "Observed At-Vessel Mortality Rate",
+    y = "Predicted At-vessel Mortality Rate"
   ) +
   theme(text = element_text(size = 10))
 p2
@@ -347,13 +347,17 @@ summary(lm(.pred ~ mortality_prop, data = gillnet_train_predict))
 v1 <- trawl_fit %>%
   extract_fit_parsnip() %>%
   vip() +
-  theme_bw()
+  theme_bw() +
+  labs(y = "") +
+  scale_x_discrete(labels = c("Reproductive Mode", "Median Depth (m)","Maximum Size (cm)"))
 v1
 
 v2 <- gillnet_fit %>%
   extract_fit_parsnip() %>%
   vip() +
-  theme_bw()
+  theme_bw() +
+  labs(y = "Variable Importance for At-Vessel Mortality") +
+  scale_x_discrete(labels = c("Ventilation Method",  "Median Depth (m)","Maximum Size (cm)"))
 v2
 ```
 
@@ -362,9 +366,11 @@ v2
 Trawl
 
 ```{r}
-plot1 <- p1 + v1 + plot_annotation(tag_levels = "A")
+plot1 <- p1 + v1 + p2 + v2 + plot_annotation(tag_levels = "A")
 
-ggsave(plot1, file = paste0("trawl_val.pdf"), path = here::here("figs", "supp"), height = 10, width = 15)
+plot1
+
+ggsave(plot1, file = paste0("trawl_gill_val.pdf"), path = here::here("figs", "supp"), height = 10, width = 15)
 ```
 
 

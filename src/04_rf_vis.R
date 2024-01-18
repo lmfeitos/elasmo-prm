@@ -19,12 +19,17 @@ predictions = mean_predictions %>%
     estimate_type == "prm_pred" ~ "PRM"
   ))
 
-mort_subset <- mean_predictions %>%
+mort_subset_avm <- mean_predictions %>%
   group_by(family) %>% 
   summarize(fam_mean = mean(avm_pred)) %>% 
   arrange(fam_mean) %>%
   distinct(family) %>%
   pull(family)
+
+mort_subset_prm <- mean_predictions %>%
+  group_by(family) %>% 
+  summarize(fam_mean = mean(prm_pred)) %>% 
+  arrange(desc(fam_mean))
 
 prm_elasmo <- read_csv(here::here("data", "prm_elasmo_subset.csv")) %>%
   filter(gear_class == "longline") %>% 
