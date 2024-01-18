@@ -84,7 +84,7 @@ avm_split <- initial_split(elasmo_avm, prop = .7)
 avm_train <- training(avm_split)
 avm_test <- testing(avm_split)
 
-avm_folds <- vfold_cv(elasmo_avm, repeats = 5, v = 10)
+avm_folds <- vfold_cv(avm_train, repeats = 5, v = 10)
 
 ## Post-release mortality
 # prm_split <- initial_split(elasmo_prm, prop = .7)
