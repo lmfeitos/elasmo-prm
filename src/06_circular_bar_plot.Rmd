@@ -25,7 +25,7 @@ outdir <- file.path(basedir, "data/outputs")
 # read in the  data
 iucn_data <- read_csv(here("data", "iucn_data", "assessments.csv")) %>% 
   clean_names() %>% 
-  filter(str_detect(systems, "Marine") & str_detect(threats, "longline") | str_detect(scientific_name,"Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus")) %>% # list of genera to keep in the filtering
+  filter(str_detect(systems, "Marine") & str_detect(threats, "longline") | str_detect(scientific_name,"Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus|Mustelus")) %>% # list of genera to keep in the filtering
   select(scientific_name, redlist_category, year_published) %>% 
   mutate(redlist_category = case_when(
     str_detect(redlist_category, "Near") ~ "NT",
