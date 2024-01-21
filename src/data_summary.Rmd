@@ -191,10 +191,10 @@ mort_proportions_plot_sp <-
   scale_color_manual(values = c("#414487FF", "#22A884FF")) +
   scale_shape(guide = 'none') +
   coord_flip() +
-  theme_bw() +
-  theme(axis.text = element_text(size = 8, color = "black"),
+  theme_bw(base_size = 14) +
+  theme(axis.text = element_text( color = "black"),
         axis.text.y = element_text(face = "italic"),
-        axis.title = element_text(size = 11, color = "black"),
+        axis.title = element_text( color = "black"),
         legend.position = "bottom",
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
@@ -296,9 +296,9 @@ mort_proportions_plot_fam <-
   scale_color_manual(values = c("#414487FF", "#22A884FF")) +
   scale_fill_manual(values = c("#414487FF", "#22A884FF")) +
   coord_flip() +
-  theme_bw() +
-  theme(axis.text = element_text(size = 8, color = "black"),
-        axis.title = element_text(size = 11, color = "black"),
+  theme_bw(base_size = 14) +
+  theme(axis.text = element_text( color = "black"),
+        axis.title = element_text(color = "black"),
         legend.position = "bottom",
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
@@ -349,9 +349,9 @@ habitat_plot <-
   scale_color_manual(values = c("#414487FF", "#22A884FF")) +
   scale_fill_manual(values = c("#414487FF", "#22A884FF")) +
   coord_flip() +
-  theme_bw() +
-  theme(axis.text = element_text(size = 8, color = "black"),
-        axis.title = element_text(size = 11, color = "black"),
+  theme_bw(base_size = 14) +
+  theme(axis.text = element_text( color = "black"),
+        axis.title = element_text(color = "black"),
         legend.position = "bottom",
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
@@ -361,7 +361,7 @@ habitat_plot <-
 
 ```{r, fig.height=10, fig.width=8}
 mort_proportions_plot <-
-  mort_proportions_plot_fam +
+  mort_proportions_plot_fam /
   habitat_plot +
   plot_annotation(tag_levels = "A") +
   plot_layout(guides = "collect") &
@@ -369,7 +369,7 @@ mort_proportions_plot <-
 
 mort_proportions_plot
 
-ggsave(mort_proportions_plot, file = paste0("mort_proportions_plot.pdf"), path = here::here("figs"), height = 8, width = 10)
+ggsave(mort_proportions_plot, file = paste0("fig1.pdf"), path = here::here("figs"), height = 10, width = 12)
 ```
 
 
@@ -417,9 +417,9 @@ mort_proportions_plot_fam_bat <-
   scale_color_manual(values = c("#414487FF", "#22A884FF")) +
   scale_fill_manual(values = c("#414487FF", "#22A884FF")) +
   coord_flip() +
-  theme_bw() +
-  theme(axis.text = element_text(size = 8, color = "black"),
-        axis.title = element_text(size = 11, color = "black"),
+  theme_bw(base_size = 14) +
+  theme(axis.text = element_text( color = "black"),
+        axis.title = element_text( color = "black"),
         legend.position = "bottom",
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
@@ -470,9 +470,9 @@ habitat_plot_bat <-
   scale_color_manual(values = c("#414487FF", "#22A884FF")) +
   scale_fill_manual(values = c("#414487FF", "#22A884FF")) +
   coord_flip() +
-  theme_bw() +
-  theme(axis.text = element_text(size = 8, color = "black"),
-        axis.title = element_text(size = 11, color = "black"),
+  theme_bw(base_size = 14) +
+  theme(axis.text = element_text(color = "black"),
+        axis.title = element_text(color = "black"),
         legend.position = "bottom",
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
@@ -482,7 +482,7 @@ habitat_plot_bat <-
 
 ```{r, fig.height=10, fig.width=8}
 mort_proportions_plot_bat <-
-  mort_proportions_plot_fam_bat +
+  mort_proportions_plot_fam_bat /
   habitat_plot_bat +
   plot_annotation(tag_levels = "A") +
   plot_layout(guides = "collect") &
@@ -490,7 +490,7 @@ mort_proportions_plot_bat <-
 
 mort_proportions_plot_bat
 
-ggsave(mort_proportions_plot_bat, file = paste0("mort_proportions_plot_bat.pdf"), path = here::here("figs", "supp"), height = 8, width = 10)
+ggsave(mort_proportions_plot_bat, file = paste0("mort_proportions_plot_bat.pdf"), path = here::here("figs", "supp"), height = 12, width = 15)
 ```
 
 

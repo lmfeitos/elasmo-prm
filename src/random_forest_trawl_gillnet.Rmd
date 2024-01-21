@@ -312,12 +312,11 @@ p1 <- ggplot(trawl_quant_test, aes(x = mortality_prop, y = .pred_50)) + # plot l
   stat_poly_line() +
   stat_poly_eq(use_label("eq")) +
   stat_poly_eq(label.y = 0.9) +
-  theme_bw() +
+  theme_bw(base_size = 14) +
   labs(
     x = "",
     y = "Predicted At-Vessel Mortality Rate"
-  ) +
-  theme(text = element_text(size = 10))
+  ) 
 p1
 
 summary(lm(.pred_50 ~ mortality_prop, data = trawl_quant_test))
@@ -331,12 +330,11 @@ p2 <- ggplot(gillnet_train_predict, aes(x = mortality_prop, y = .pred)) + # plot
   stat_poly_line() +
   stat_poly_eq(use_label("eq")) +
   stat_poly_eq(label.y = 0.9) +
-  theme_bw() +
+  theme_bw(base_size = 14) +
   labs(
     x = "Observed At-Vessel Mortality Rate",
     y = "Predicted At-vessel Mortality Rate"
-  ) +
-  theme(text = element_text(size = 10))
+  ) 
 p2
 
 summary(lm(.pred ~ mortality_prop, data = gillnet_train_predict))
@@ -347,7 +345,7 @@ summary(lm(.pred ~ mortality_prop, data = gillnet_train_predict))
 v1 <- trawl_fit %>%
   extract_fit_parsnip() %>%
   vip() +
-  theme_bw() +
+  theme_bw(base_size = 14) +
   labs(y = "") +
   scale_x_discrete(labels = c("Reproductive Mode", "Median Depth (m)","Maximum Size (cm)"))
 v1
@@ -355,7 +353,7 @@ v1
 v2 <- gillnet_fit %>%
   extract_fit_parsnip() %>%
   vip() +
-  theme_bw() +
+  theme_bw(base_size = 14) +
   labs(y = "Variable Importance for At-Vessel Mortality") +
   scale_x_discrete(labels = c("Ventilation Method",  "Median Depth (m)","Maximum Size (cm)"))
 v2

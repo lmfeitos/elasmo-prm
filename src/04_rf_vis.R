@@ -3,7 +3,26 @@ library(ggridges)
 library(patchwork)
 set.seed(42)
 
-full_predictions <- read_csv(here::here("data", "full_model_predictions.csv"))
+# read in the  data
+iucn_data <- read_csv(here("data", "iucn_data", "assessments.csv")) %>% 
+  janitor::clean_names() %>% 
+  filter(str_detect(systems, "Marine") & str_detect(threats, "longline") | str_detect(scientific_name,"Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus")) %>% # list of genera to keep in the filtering
+  select(scientific_name, redlist_category, year_published) %>% 
+  mutate(redlist_category = case_when(
+    str_detect(redlist_category, "Near") ~ "NT",
+    str_detect(redlist_category, "Vul") ~ "VU",
+    str_detect(redlist_category, "Data") ~ "DD",
+    redlist_category == "Endangered" ~ "EN",
+    redlist_category == "Critically Endangered" ~ "CR",
+    str_detect(redlist_category, "Least") ~ "LC",
+    TRUE ~ redlist_category
+  ))
+
+full_predictions <- read_csv(here::here("data", "full_model_predictions.csv")) %>% 
+  filter(scientific_name %in% iucn_data$scientific_name)
+
+full_predictions_iucn <- full_predictions %>% 
+  left_join(iucn_data, by = "scientific_name")
 
 mean_predictions =  full_predictions %>% 
   group_by(scientific_name) %>% 
@@ -29,7 +48,9 @@ mort_subset_avm <- mean_predictions %>%
 mort_subset_prm <- mean_predictions %>%
   group_by(family) %>% 
   summarize(fam_mean = mean(prm_pred)) %>% 
-  arrange(desc(fam_mean))
+  arrange(desc(fam_mean)) %>%
+  distinct(family) %>%
+  pull(family)
 
 prm_elasmo <- read_csv(here::here("data", "prm_elasmo_subset.csv")) %>%
   filter(gear_class == "longline") %>% 
@@ -42,9 +63,8 @@ prm_elasmo <- read_csv(here::here("data", "prm_elasmo_subset.csv")) %>%
 p6 = ggplot() +
   # geom_density_ridges(data = prm_elasmo, aes(x = estimate, y = fct_rev(factor(family, levels = mort_subset))), alpha = 0.5)+
   # geom_point(data = prm_elasmo, aes(x = estimate, y = fct_rev(factor(family, levels = mort_subset))), alpha = 0.3)+
-  geom_density_ridges(data = predictions, aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset)), fill = fct_rev(factor(family, levels = mort_subset))), alpha = 0.5)+
-  geom_point(data = predictions, aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset)), color = fct_rev(factor(family, levels = mort_subset))), alpha = 0.5) +
-  theme_bw() +
+  geom_density_ridges(data = predictions, aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset_avm)), fill = fct_rev(factor(family, levels = mort_subset_avm))), alpha = 0.5)+
+  geom_point(data = predictions, aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset_avm)), color = fct_rev(factor(family, levels = mort_subset_avm))), alpha = 0.5) +
   scale_fill_viridis_d()+
   scale_color_viridis_d()+
   facet_grid(cols = vars(estimate_type),
@@ -52,10 +72,11 @@ p6 = ggplot() +
              space = "free_x") +
   labs(y = "Family",
        x = "Estimated Mortality") +
-  scale_shape(guide = 'none') +
-  theme(axis.text = element_text(size = 8, color = "black"),
+  scale_shape(guide = 'none') +  
+  theme_bw() +
+  theme(axis.text = element_text(color = "black"),
         #axis.text.y = element_text(face = "italic"),
-        axis.title = element_text(size = 11, color = "black"),
+        axis.title = element_text(color = "black"),
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
         strip.background = element_rect(fill = "transparent"),
@@ -63,7 +84,7 @@ p6 = ggplot() +
         legend.position = "none")
 p6
 
-ggsave(p6, file = paste0("rf_predictions.pdf"), path = here::here("figs"), height = 12, width = 10)
+ggsave(p6, file = paste0("fig3.pdf"), path = here::here("figs"), height = 12, width = 10)
 
 
 # p5 = ggplot(data = predictions) +
@@ -136,14 +157,14 @@ p1 = ggplot(predictions) +
   geom_point(aes(max_size_cm, mortality_prop, color = group),
              alpha = 0.5) +
   # geom_smooth(method = "loess", aes(max_size_cm, mortality_prop, color = reproductive_mode), se = FALSE) +
-  theme_bw() +
+  theme_bw(base_size = 14) +
   labs(y = "Estimated mortality",
        x = "Size (cm)",
        color = "Group") +
   facet_wrap(~ estimate_type, scales = "free_x") +
-  theme(axis.text = element_text(size = 8, color = "black"),
-        axis.text.y = element_text(size = 10, color = "black"),
-        axis.title = element_text(size = 11, color = "black"),
+  theme(axis.text = element_text(color = "black"),
+        axis.text.y = element_text(color = "black"),
+        axis.title = element_text(color = "black"),
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
         strip.background = element_rect(fill = "transparent"),
@@ -155,14 +176,14 @@ p2 = ggplot(predictions) +
   geom_point(aes(median_depth, mortality_prop, color = group),
              alpha = 0.5) +
   # geom_smooth(method = "loess", aes(median_depth, mortality_prop, color = reproductive_mode), se = FALSE) +
-  theme_bw() +
+  theme_bw(base_size = 14) +
   labs(y = "Estimated mortality",
        x = "Median Depth (m)",
        color = "Group") +
   facet_wrap(~ estimate_type, scales = "free_x") +
-  theme(axis.text = element_text(size = 8, color = "black"),
-        axis.text.y = element_text(size = 10, color = "black"),
-        axis.title = element_text(size = 11, color = "black"),
+  theme(axis.text = element_text(color = "black"),
+        axis.text.y = element_text(color = "black"),
+        axis.title = element_text(color = "black"),
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
         strip.background = element_rect(fill = "transparent"),
@@ -177,20 +198,18 @@ p3 = ggplot(predictions %>% filter(estimate_type=="AVM")) +
   geom_boxplot(aes(mortality_prop, ventilation_method),
                outlier.alpha = 0,
                alpha = 0.85) +
-  theme_bw() +
-  labs(x = "Estimated mortality",
-       y = "Ventilation Method",
-       fill = "",
-       color = "") +
+  theme_bw(base_size = 14) +
+  labs(y = "Estimated mortality",
+       x = "Ventilation Method",
+       color = "Group") +
   facet_wrap(~ estimate_type, scales = "free_x") +
-  theme(axis.text = element_text(size = 8, color = "black"),
-        axis.text.y = element_text(size = 10, color = "black"),
-        axis.title = element_text(size = 11, color = "black"),
+  theme(axis.text = element_text(color = "black"),
+        axis.text.y = element_text(color = "black"),
+        axis.title = element_text(color = "black"),
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
         strip.background = element_rect(fill = "transparent"),
         panel.spacing.x = unit(5, "mm")) +
-  scale_fill_viridis_d() +
   scale_color_viridis_d()+
   theme(legend.position = "none")
 
@@ -202,21 +221,20 @@ p4 = ggplot(predictions) +
                outlier.alpha = 0,
                alpha = 0.85,
                show.legend = F) +
-  theme_bw() +
-  labs(x = "Estimated mortality",
-       y = "Habitat",
-       fill = "",
-       color = "") +
+  theme_bw(base_size = 14) +
+  labs(y = "Estimated mortality",
+       x = "Associated Habitat",
+       color = "Group") +
   facet_wrap(~ estimate_type, scales = "free_x") +
-  theme(axis.text = element_text(size = 8, color = "black"),
-        axis.text.y = element_text(size = 10, color = "black"),
-        axis.title = element_text(size = 11, color = "black"),
+  theme(axis.text = element_text(color = "black"),
+        axis.text.y = element_text(color = "black"),
+        axis.title = element_text(color = "black"),
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
         strip.background = element_rect(fill = "transparent"),
         panel.spacing.x = unit(5, "mm")) +
-  scale_fill_viridis_d() +
   scale_color_viridis_d()+
+  scale_fill_viridis_d()+
   theme(legend.position = "none")
 
 p5 = ggplot(predictions) +
@@ -227,21 +245,20 @@ p5 = ggplot(predictions) +
                outlier.alpha = 0,
                alpha = 0.85,
                show.legend = F) +
-  theme_bw() +
-  labs(x = "Estimated mortality",
-       y = "Reproductive mode",
-       fill = "",
-       color = "") +
+  theme_bw(base_size = 14) +
+  labs(y = "Estimated mortality",
+       x = "Reproductive Mode",
+       color = "Group") +
   facet_wrap(~ estimate_type, scales = "free_x") +
-  theme(axis.text = element_text(size = 8, color = "black"),
-        axis.text.y = element_text(size = 10, color = "black"),
-        axis.title = element_text(size = 11, color = "black"),
+  theme(axis.text = element_text(color = "black"),
+        axis.text.y = element_text(color = "black"),
+        axis.title = element_text(color = "black"),
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
         strip.background = element_rect(fill = "transparent"),
         panel.spacing.x = unit(5, "mm")) +
-  scale_fill_viridis_d() +
-  scale_color_viridis_d() +
+  scale_color_viridis_d()+
+  scale_fill_viridis_d()+
   theme(legend.position = "none")
 
 plot = p1  / p2 / (p4) / p5 / p3 + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")

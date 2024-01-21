@@ -1,5 +1,19 @@
 library(tidyverse)
 
+iucn_data <- read_csv(here("data", "iucn_data", "assessments.csv")) %>% 
+  janitor::clean_names() %>% 
+  filter(str_detect(systems, "Marine") & str_detect(threats, "longline") | str_detect(scientific_name,"Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus")) %>% # list of genera to keep in the filtering
+  select(scientific_name, redlist_category, year_published) %>% 
+  mutate(redlist_category = case_when(
+    str_detect(redlist_category, "Near") ~ "NT",
+    str_detect(redlist_category, "Vul") ~ "VU",
+    str_detect(redlist_category, "Data") ~ "DD",
+    redlist_category == "Endangered" ~ "EN",
+    redlist_category == "Critically Endangered" ~ "CR",
+    str_detect(redlist_category, "Least") ~ "LC",
+    TRUE ~ redlist_category
+  ))
+
 sim_results1 <- read_csv(here::here("data", "simulation_results_msy.csv")) %>% 
   filter(scenario != "CQ") %>% 
   mutate(fp = 1)
@@ -14,7 +28,8 @@ sim_results3 <- read_csv(here::here("data", "simulation_results_3msy.csv")) %>%
   mutate(fp = 3)
 
 sim_results = list(sim_results1_5, sim_results1, sim_results2, sim_results3) %>% 
-  reduce(full_join) 
+  reduce(full_join) %>% 
+  filter(scientific_name %in% iucn_data$scientific_name)
 
 rm(sim_results1_5, sim_results1, sim_results2, sim_results3)
 gc()
@@ -32,15 +47,15 @@ p = ggplot(eq) +
              alpha = 0.5,
              linetype = "dashed") +
   facet_wrap(~mort_scenario, nrow = 4, scales = "free_y") +
-  theme_bw()+
+  theme_bw(base_size = 14)+
   labs(x = "Fishing Pressure",
        y = "N/K") +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
         strip.background = element_rect(fill=NA),
-        strip.text.x = element_text(size = 8, color = "black", face = "bold.italic"),
-        axis.title = element_text(size = 10, color = "black"),
-        axis.text = element_text(size = 10, color = "black"),
+        strip.text.x = element_text(color = "black", face = "bold.italic"),
+        axis.title = element_text(color = "black"),
+        axis.text = element_text(color = "black"),
         legend.position = "none") +
   scale_color_viridis_d()
 p
@@ -78,4 +93,4 @@ sim_200 = sim_results %>%
   select(n_div_k, scientific_name, fp) %>% 
   filter(n_div_k >= 0.5) %>% 
   group_by(fp) %>% 
-  summarize(per = n() / 431*100)
+  summarize(per = n() / 272*100)
