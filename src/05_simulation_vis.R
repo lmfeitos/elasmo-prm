@@ -162,6 +162,33 @@ percent_calc = sim_results %>%
   mutate(percent_diff = (f - f_mort) / f * 100) %>% 
   mutate(mean_diff = mean(percent_diff, na.rm=TRUE))
 
+species_of_interest = c("Galeocerdo cuvier", "Carcharhinus dussumieri",
+                        "Carcharhinus longimanus", "Squatina japonica",
+                        "Squatina oculata", "Centrophorus squamosus",
+                        "Carcharhinus plumbeus", "Isurus paucus",
+                        "Cetorhinus maximus", "Carcharhinus leucas",
+                        "Squalus acanthias", "Negaprion brevirostris",
+                        "Odontaspis ferox", "Carcharodon carcharias",
+                        "Lamna nasus", "Carcharhinus brevipinna",
+                        "Carcharhinus limbatus", "Squatina guggenheim",
+                        "Sphyrna lewini", "Carcharhinus hemiodon", 
+                        "Isogomphodon oxyrhynchus", "Prionace glauca",
+                        "Hexanchus nakamurai", "Mitsukurina owstoni",
+                        "Pseudocarcharias kamoharai", "Squalus blainville",
+                        "Echinorhinus cookei", "Prionace glauca", "
+                        Pseudocarcharias kamoharai", "Alopias vulpinus",
+                        "Carcharhinus falciformis", "Isurus  oxyrinchus",
+                        "Squalus acanthias",
+                        "Carcharhinus hemiodon", "Sphyrna corona",
+                        "Squatina squatina", "Sphyrna mokarran",
+                        "Carcharhinus limbatus", "Galeorhinus galeus")
+
+subset_percent = percent_calc %>% 
+  filter(scientific_name %in% species_of_interest) %>% 
+  select(scientific_name, percent_diff)
+
+write_csv(subset_percent, here::here("data", "table1.csv"))
+  
 percent_over_30 = percent_calc %>% 
   filter(percent_diff >= 50)
 
