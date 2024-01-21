@@ -4,7 +4,7 @@ library(patchwork)
 set.seed(42)
 
 # read in the  data
-iucn_data <- read_csv(here("data", "iucn_data", "assessments.csv")) %>% 
+iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>% 
   janitor::clean_names() %>% 
   filter(str_detect(systems, "Marine") & str_detect(threats, "longline") | str_detect(scientific_name,"Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus")) %>% # list of genera to keep in the filtering
   select(scientific_name, redlist_category, year_published) %>% 
