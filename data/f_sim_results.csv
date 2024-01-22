@@ -1,0 +1,432 @@
+scientific_name,f,f_mort,common_name
+Aculeola nigra,0.040266562,0.028638012,Hooktooth dogfish
+Alopias pelagicus,0.061861063,0.045200781,Pelagic thresher
+Alopias superciliosus,0.048599417,0.02909561,Bigeye thresher
+Alopias vulpinus,0.061907625,0.037076553,Thresher
+Apristurus albisoma,0.05447083,0.035269621,Common thresher
+Apristurus ampliceps,0.05447083,0.035269621,Roughskin catshark
+Apristurus aphyodes,0.02417077,0.015650466,White ghost catshark
+Apristurus australis,0.02417077,0.015710427,Pinocchio catshark
+Apristurus brunneus,0.030806108,0.019571858,Brown catshark
+Apristurus bucephalus,0.02417077,0.015650466,Bighead catshark
+Apristurus exsanguis,0.02417077,0.015650466,Flaccid catshark
+Apristurus fedorovi,0.012242397,0.007957268,Fedorov's catshark
+Apristurus garricki,0.02417077,0.015650466,Garrick's catshark
+Apristurus gibbosus,0.05447083,0.035404747,Humpback catshark
+Apristurus herklotsi,0.05447083,0.035078873,Longfin catshark
+Apristurus internatus,0.05447083,0.035018267,Shortnose demon catshark
+Apristurus japonicus,0.05447083,0.035269621,Japanese catshark
+Apristurus laurussonii,0.05447083,0.035269621,Atlantic ghost catshark
+Apristurus longicephalus,0.05447083,0.035404747,Longhead catshark
+Apristurus macrorhynchus,0.05447083,0.035018267,Flathead catshark
+Apristurus macrostomus,0.05447083,0.035018267,Broadmouth catshark
+Apristurus manis,0.05447083,0.035269621,Ghost catshark
+Apristurus melanoasper,0.040760965,0.026392544,Black roughscale catshark
+Apristurus microps,0.069738538,0.045155394,Smalleye catshark
+Apristurus micropterygeus,0.069738538,0.045155394,Smalldorsal cat shark
+Apristurus nasutus,0.069738538,0.044833588,Largenose catshark
+Apristurus pinguis,0.069738538,0.044833588,Bulldog catshark
+Apristurus platyrhynchus,0.069738538,0.045328394,Spatulasnout catshark
+Apristurus profundorum,0.069738538,0.045155394,Deepwater catshark
+Apristurus saldanha,0.069738538,0.044833588,Saldanha catshark
+Apristurus sinensis,0.067105117,0.043450265,South China catshark
+Asymbolus analis,0.069738538,0.056105457,Australian spotted catshark
+Asymbolus occiduus,0.081128532,0.055207464,Western spotted catshark
+Asymbolus pallidus,0.081128532,0.05256138,Pale spotted catshark
+Asymbolus parvus,0.081128532,0.055673985,Dwarf catshark
+Asymbolus rubiginosus,0.081128532,0.051263154,Orange-spotted catshark
+Asymbolus vincenti,0.118906232,0.078725387,Gulf catshark
+Atelomycterus baliensis,0.100179159,0.060404751,Bali catshark
+Atelomycterus erdmanni,0.104130126,0.07966288,Spotted-belly catshark
+Atelomycterus fasciatus,0.104130126,0.079026953,Banded sand catshark
+Atelomycterus macleayi,0.104130126,0.07966288,Australian marbled catshark
+Atelomycterus marmoratus,0.100223065,0.076673854,Coral catshark
+Atelomycterus marnkalha,0.006996347,0.005118795,Eastern banded catshark
+Aulohalaelurus kanakorum,0.036261308,0.027741062,New Caledonia catshark
+Aulohalaelurus labiosus,0.079088487,0.058252197,Australian blackspotted catshark
+Brachaelurus colcloughi,0.079088487,0.064518183,Bluegrey carpetshark
+Brachaelurus waddi,0.093135615,0.071543077,Blind shark
+Bythaelurus canescens,0.093135615,0.061167905,Dusky catshark
+Bythaelurus clevai,0.093135615,0.061204456,Broadhead catshark
+Bythaelurus dawsoni,0.093135615,0.059875126,New Zealand catshark
+Bythaelurus hispidus,0.093135615,0.060337008,Bristly catshark
+Bythaelurus immaculatus,0.093135615,0.060535939,Spotless catshark
+Bythaelurus lutarius,0.081128532,0.052156,Mud catshark
+Carcharhinus acronotus,0.149495718,0.107379214,Blacknose shark
+Carcharhinus albimarginatus,0.061515845,0.035344547,Silvertip shark
+Carcharhinus altimus,0.052838061,0.036375812,Bignose shark
+Carcharhinus amblyrhynchoides,0.081128532,0.051656169,Graceful shark
+Carcharhinus amblyrhynchos,0.055999858,0.039876677,Blacktail reef shark
+Carcharhinus amboinensis,0.081128532,0.064645054,Pigeye shark
+Carcharhinus borneensis,0.081128532,0.061494156,Borneo shark
+Carcharhinus brachyurus,0.067151834,0.047041289,Copper shark
+Carcharhinus brevipinna,0.119149949,0.112127097,Spinner shark
+Carcharhinus cautus,0.125086538,0.091138772,Nervous shark
+Carcharhinus cerdale,0.081128532,0.054328745,Pacific smalltail shark
+Carcharhinus coatesi,0.081128532,0.063517386,Australian blackspot shark
+Carcharhinus dussumieri,0.029896074,0.029896074,Whitecheek shark
+Carcharhinus falciformis,0.07234762,0.043061659,Silky shark
+Carcharhinus fitzroyensis,0.063510577,0.043103243,Creek whaler
+Carcharhinus galapagensis,0.11689088,0.066643096,Galapagos shark
+Carcharhinus hemiodon,0.063510577,0.045717699,Pondicherry shark
+Carcharhinus humani,0.063510577,0.047520344,Human's whaler shark
+Carcharhinus isodon,0.128574743,0.086595175,Finetooth shark
+Carcharhinus leiodon,0.079088487,0.054231511,Smoothtooth blacktip shark
+Carcharhinus leucas,0.101590134,0.031047054,Bull shark
+Carcharhinus limbatus,0.07862153,0.070417031,Blacktip shark
+Carcharhinus longimanus,0.117695736,0.04959259,Oceanic whitetip shark
+Carcharhinus macloti,0.079088487,0.061069136,Hardnose shark
+Carcharhinus melanopterus,0.079088487,0.059518678,Blacktip reef shark
+Carcharhinus obscurus,0.053146628,0.038247664,Dusky shark
+Carcharhinus plumbeus,0.079275861,0.029995162,Sandbar shark
+Carcharhinus porosus,0.092628725,0.061808786,Smalltail shark
+Carcharhinus sealei,0.05447083,0.042683991,Blackspot shark
+Carcharhinus signatus,0.110355573,0.085712552,Night shark
+Carcharhinus sorrah,0.170578879,0.155034626,Spottail shark
+Carcharhinus tilstoni,0.179854705,0.121619233,Australian blacktip shark
+Carcharhinus tjutjot,0.05447083,0.042683991,Indonesian whaler shark
+Carcharias taurus,0.026106498,0.01645235,Sand tiger shark
+Carcharodon carcharias,0.093158142,0.045363813,Great white shark
+Centrophorus atromarginatus,0.053351546,0.039871102,Dwarf gulper shark
+Centrophorus granulosus,0.029627918,0.016001301,Gulper shark
+Centrophorus harrissoni,0.060853296,0.044391955,Dumb gulper shark
+Centrophorus isodon,0.040572748,0.029144871,Blackfin gulper shark
+Centrophorus moluccensis,0.053351546,0.040835385,Smallfin gulper shark
+Centrophorus squamosus,0.034710101,0.011733402,Leafscale gulper shark
+Centrophorus tessellatus,0.053351546,0.040037638,Mosaic gulper shark
+Centrophorus uyato,0.053351546,0.038603921,Little gulper shark
+Centrophorus westraliensis,0.04755386,0.035733616,Western gulper shark
+Centroscyllium excelsum,0.053351546,0.039878005,Highfin dogfish
+Centroscyllium fabricii,0.054271086,0.036112213,Black dogfish
+Centroscyllium granulatum,0.054271086,0.040259076,Granular dogfish
+Centroscyllium kamoharai,0.070625412,0.052789483,Bareskin dogfish
+Centroscyllium nigrum,0.113001902,0.085712908,Combtooth dogfish
+Centroscyllium ornatum,0.049930122,0.037320636,Ornate dogfish
+Centroscyllium ritteri,0.080505638,0.058200608,Whitefin dogfish
+Centroscymnus coelolepis,0.029896074,0.014551098,Portuguese dogfish
+Centroscymnus macracanthus,0.053176061,0.032283527,Largespine velvet dogfish
+Centroscymnus owstonii,0.053176061,0.031366696,Roughskin dogfish
+Centroselachus crepidater,0.075546657,0.056467903,Longnose velvet dogfish
+Cephaloscyllium albipinnum,0.053176061,0.037434821,Whitefin swellshark
+Cephaloscyllium fasciatum,0.053176061,0.037980304,Reticulated swellshark
+Cephaloscyllium hiscosellum,0.053176061,0.039446771,Australian reticulate swellshark
+Cephaloscyllium isabellum,0.053176061,0.030498876,Draughtsboard shark
+Cephaloscyllium laticeps,0.053176061,0.037838532,Australian swellshark
+Cephaloscyllium sarawakensis,0.053176061,0.040409724,Sarawak pygmy swellshark
+Cephaloscyllium signourum,0.053176061,0.040148716,Flagtail swellshark
+Cephaloscyllium silasi,0.053176061,0.039769999,Indian swellshark
+Cephaloscyllium speccum,0.039850088,0.029884051,Speckled swellshark
+Cephaloscyllium sufflans,0.053176061,0.035873644,Balloon shark
+Cephaloscyllium umbratile,0.053176061,0.0348319,Blotchy swellshark
+Cephaloscyllium variegatum,0.053176061,0.039446771,Saddled swellshark
+Cephaloscyllium ventriosum,0.074605688,0.052131998,Swell shark
+Cephalurus cephalus,0.053176061,0.04034099,Lollipop catshark
+Cetorhinus maximus,0.110171837,0.053648715,Basking shark
+Chiloscyllium arabicum,0.053176061,0.03916654,Arabian carpetshark
+Chiloscyllium burmensis,0.059682352,0.043958714,Burmese bamboo shark
+Chiloscyllium griseum,0.053176061,0.04068139,Grey bamboo shark
+Chiloscyllium indicum,0.053176061,0.03916654,Slender bamboo shark
+Chiloscyllium plagiosum,0.053176061,0.04068139,Whitespotted bamboo shark
+Chiloscyllium punctatum,0.044589624,0.031023532,Brownbanded bamboo shark
+Chlamydoselachus africana,0.066591758,0.043043102,Southern African frilled shark
+Chlamydoselachus anguineus,0.047725125,0.020675389,Frilled shark
+Cirrhigaleus asper,0.035839053,0.024206068,Roughskin spurdog
+Cirrhigaleus australis,0.053176061,0.030210278,Southern Mandarin dogfish
+Cirrhigaleus barbifer,0.052842526,0.033611853,Mandarin dogfish
+Cirrhoscyllium expolitum,0.052842526,0.035741991,Barbelthroat carpetshark
+Cirrhoscyllium formosanum,0.080505638,0.054496038,Taiwan saddled carpetshark
+Cirrhoscyllium japonicum,0.079088487,0.053326783,Saddle carpetshark
+Dalatias licha,0.131433808,0.077423254,Kitefin shark
+Deania calcea,0.057439381,0.028872137,Birdbeak dogfish
+Deania profundorum,0.02532582,0.01892997,Arrowhead dogfish
+Deania quadrispinosa,0.080505638,0.054490006,Longsnout dogfish
+Echinorhinus brucus,0.080505638,0.042970425,Bramble shark
+Echinorhinus cookei,0.034772896,0.016536811,Prickly shark
+Eridacnis barbouri,0.031744728,0.018025441,Cuban ribbontail catshark
+Eridacnis radcliffei,0.065306341,0.049705299,Pygmy ribbontail catshark
+Eridacnis sinuans,0.05447083,0.040100307,African ribbontail catshark
+Etmopterus bigelowi,0.05447083,0.038510066,Blurred lanternshark
+Etmopterus brachyurus,0.040760965,0.028987794,Short-tail lanternshark
+Etmopterus bullisi,0.040760965,0.028817396,Lined lanternshark
+Etmopterus burgessi,0.040760965,0.029061571,Broadsnout lanternshark
+Etmopterus compagnoi,0.081128532,0.056947144,Brown lanternshark
+Etmopterus decacuspidatus,0.081128532,0.057356665,Combtooth lanternshark
+Etmopterus dianthus,0.081128532,0.058030842,Pink lanternshark
+Etmopterus dislineatus,0.081128532,0.057356665,Lined lanternshark
+Etmopterus evansi,0.081128532,0.057356665,Blackmouth lanternshark
+Etmopterus fusus,0.092088981,0.065115162,Pygmy lanternshark
+Etmopterus gracilispinis,0.092088981,0.06510554,Broadbanded lanternshark
+Etmopterus granulosus,0.093135615,0.065375363,Southern lanternshark
+Etmopterus hillianus,0.093135615,0.066403416,Caribbean lanternshark
+Etmopterus joungi,0.093135615,0.064352617,Shortfin smooth lanternshark
+Etmopterus litvinovi,0.093135615,0.069614899,Smalleye lantern shark
+Etmopterus lucifer,0.093135615,0.066139938,Blackbelly lanternshark
+Etmopterus molleri,0.093135615,0.066876684,Slendertail lanternshark
+Etmopterus perryi,0.093135615,0.064935295,Dwarf lanternshark
+Etmopterus polli,0.093135615,0.069985325,African lanternshark
+Etmopterus princeps,0.093135615,0.069614899,Great lanternshark
+Etmopterus pusillus,0.040760965,0.0306292,Smooth lanternshark
+Etmopterus pycnolepis,0.040760965,0.031068418,Dense-scale lantern shark
+Etmopterus robinsi,0.040760965,0.0306292,West Indian lanternshark
+Etmopterus schultzi,0.040760965,0.0306292,Fringefin lanternshark
+Etmopterus sculptus,0.040760965,0.0306292,Sculpted lanternshark
+Etmopterus sentosus,0.040760965,0.030237073,Thorny lanternshark
+Etmopterus spinax,0.102225161,0.076408947,Velvet belly
+Etmopterus splendidus,0.063510577,0.048139609,Splendid lanternshark
+Etmopterus unicolor,0.063510577,0.048019374,Brown lanternshark
+Etmopterus viator,0.063510577,0.047471447,Blue-eye lanternshark
+Etmopterus virens,0.063510577,0.047724046,Green lanternshark
+Eucrossorhinus dasypogon,0.063510577,0.032201327,Tasselled wobbegong
+Euprotomicrus bispinatus,0.063510577,0.047222487,Pygmy shark
+Eusphyra blochii,0.063510577,0.04438776,Winghead shark
+Figaro boardmani,0.063510577,0.041711315,Australian sawtail catshark
+Figaro striatus,0.079088487,0.050777219,Northern sawtail catshark
+Furgaleus macki,0.222640604,0.1602217,Whiskery shark
+Galeocerdo cuvier,0.157181936,0.047045675,Tiger shark
+Galeorhinus galeus,0.095329301,0.095329301,Tope shark
+Galeus atlanticus,0.081128532,0.052156,Atlantic sawtail catshark
+Galeus eastmani,0.081128532,0.052998474,Gecko catshark
+Galeus gracilis,0.081128532,0.052512522,Slender sawtail catshark
+Galeus longirostris,0.081128532,0.053098854,Longnose sawtail catshark
+Galeus melastomus,0.141269441,0.083362061,Blackmouth catshark
+Galeus mincaronei,0.081128532,0.052481348,Southern sawtail catshark
+Galeus murinus,0.081128532,0.053518252,Mouse catshark
+Galeus nipponensis,0.081128532,0.05211368,Broadfin sawtail catshark
+Galeus piperatus,0.081128532,0.052731621,Peppered catshark
+Galeus polli,0.081128532,0.053282991,African sawtail catshark
+Galeus sauteri,0.051205292,0.038860975,Blacktip sawtail catshark
+Galeus schultzi,0.040760965,0.026383579,Dwarf sawtail catshark
+Ginglymostoma cirratum,0.054137563,0.032646122,Nurse shark
+Gogolia filewoodi,0.081128532,0.065553001,Sailback houndshark
+Gollum attenuatus,0.081128532,0.05843444,Slender smooth-hound
+Halaelurus boesemani,0.081128532,0.05514641,Speckled catshark
+Halaelurus buergeri,0.081128532,0.061833175,Blackspotted catshark
+Halaelurus lineatus,0.081128532,0.05514641,Lined catshark
+Halaelurus natalensis,0.081128532,0.061742406,Tiger catshark
+Halaelurus quagga,0.081128532,0.056386238,Quagga catshark
+Halaelurus sellus,0.081128532,0.062568766,Rusty catshark
+Haploblepharus edwardsii,0.081128532,0.060815489,Puffadder shyshark
+Haploblepharus fuscus,0.081128532,0.062065925,Brown shyshark
+Haploblepharus kistnasamyi,0.081128532,0.059297841,Natal shyshark
+Haploblepharus pictus,0.081128532,0.059754782,Dark shyshark
+Hemigaleus australiensis,0.032411574,0.025303622,Australian weasel shark
+Hemigaleus microstoma,0.045016467,0.033473128,Sicklefin weasel shark
+Hemipristis elongata,0.081128532,0.053939228,Snaggletooth shark
+Hemiscyllium freycineti,0.081128532,0.062065925,Indonesian speckled carpetshark
+Hemiscyllium galei,0.041789228,0.031970097,Cenderawasih epaulette shark
+Hemiscyllium hallstromi,0.05447083,0.041671929,Papuan epaulette shark
+Hemiscyllium halmahera,0.058371868,0.042707092,Halmahera epaulette shark
+Hemiscyllium henryi,0.039384841,0.030130664,Triton Epaulette shark
+Hemiscyllium michaeli,0.039384841,0.028815457,Leopard epaulette shark
+Hemiscyllium ocellatum,0.039384841,0.028894434,Epaulette shark
+Hemiscyllium strahani,0.039384841,0.030130664,Hooded carpetshark
+Hemiscyllium trispeculare,0.039384841,0.030130664,Speckled carpetshark
+Hemitriakis abdita,0.039384841,0.029185183,Deepwater sicklefin houndshark
+Hemitriakis complicofasciata,0.039384841,0.032222158,Ocellate topeshark
+Hemitriakis falcata,0.039384841,0.029277526,Sicklefin houndshark
+Hemitriakis indroyonoi,0.039384841,0.028151659,Indonesian houndshark
+Hemitriakis japanica,0.039384841,0.028179216,Japanese topeshark
+Hemitriakis leucoperiptera,0.039384841,0.031043983,Whitefin topeshark
+Heptranchias perlo,0.039825728,0.022101714,Sharpnose sevengill shark
+Heterodontus francisci,0.039384841,0.026502628,Horn shark
+Heterodontus galeatus,0.039384841,0.027402338,Crested bullhead shark
+Heterodontus japonicus,0.039384841,0.026020596,Japanese bullhead shark
+Heterodontus mexicanus,0.039384841,0.025384666,Mexican hornshark
+Heterodontus omanensis,0.039384841,0.02989014,Oman bullhead shark
+Heterodontus portusjacksoni,0.039384841,0.022005494,Port Jackson shark
+Heterodontus quoyi,0.039384841,0.028894434,Galapagos bullhead shark
+Heterodontus ramalheira,0.039384841,0.026641149,Whitespotted bullhead shark
+Heterodontus zebra,0.039384841,0.029221125,Zebra bullhead shark
+Hexanchus griseus,0.123144038,0.062518251,Bluntnose sixgill shark
+Hexanchus nakamurai,0.046298535,0.020327885,Bigeyed sixgill shark
+Holohalaelurus favus,0.039384841,0.025128339,Honeycomb Izak
+Holohalaelurus grennian,0.039384841,0.024995561,Grinning Izak
+Holohalaelurus melanostigma,0.039384841,0.02531977,Crying Izak
+Holohalaelurus punctatus,0.039384841,0.025366483,White-spotted Izak
+Holohalaelurus regani,0.039384841,0.02553924,Izak catshark
+Hypogaleus hyugaensis,0.039384841,0.024998803,Blacktip tope
+Iago garricki,0.039384841,0.026184956,Longnose houndshark
+Iago omanensis,0.039384841,0.025732938,Bigeye houndshark
+Isistius brasiliensis,0.039384841,0.029284101,Cookiecutter shark
+Isistius plutodus,0.079088487,0.058916912,Largetooth cookiecutter shark
+Isogomphodon oxyrhynchus,0.080199865,0.054570249,Daggernose shark
+Isurus oxyrinchus,0.081619729,0.045570794,Shortfin mako
+Isurus paucus,0.042183452,0.019252724,Longfin mako
+Lamiopsis temminckii,0.05447083,0.037568493,Broadfin shark
+Lamiopsis tephrodes,0.035981581,0.024106981,Borneo broadfin shark
+Lamna ditropis,0.164051319,0.094744428,Salmon shark
+Lamna nasus,0.057722264,0.02641934,Porbeagle
+Leptocharias smithii,0.063510577,0.048140022,Barbeled houndshark
+Loxodon macrorhinus,0.046703326,0.038837638,Sliteye shark
+Megachasma pelagios,0.063510577,0.040011356,Megamouth shark
+Mitsukurina owstoni,0.042514043,0.015846253,Goblin shark
+Mustelus albipinnis,0.042514043,0.030680848,White-margin fin smooth-hound
+Mustelus antarcticus,0.176858196,0.082409664,Gummy shark
+Mustelus asterias,0.099700094,0.071934467,Starry smooth-hound
+Mustelus californicus,0.298958176,0.226706834,Grey smooth-hound
+Mustelus canis,0.33876367,0.163331307,Dusky smooth-hound
+Mustelus canis insularis,0.049755382,0.038187256,Dusky smooth-hound subspecies
+Mustelus dorsalis,0.063510577,0.051810159,Sharptooth smooth-hound
+Mustelus fasciatus,0.063510577,0.037942014,Striped smooth-hound
+Mustelus griseus,0.063510577,0.047211884,Spotless smooth-hound
+Mustelus henlei,0.244126667,0.183105261,Brown smooth-hound
+Mustelus higmani,0.063510577,0.046150911,Smalleye smooth-hound
+Mustelus lenticulatus,0.151673631,0.107960282,Spotted estuary smooth-hound
+Mustelus lunulatus,0.081128532,0.058949045,Sicklefin smooth-hound
+Mustelus manazo,0.224813844,0.12101542,Starspotted smooth-hound
+Mustelus mento,0.081128532,0.057111338,Speckled smooth-hound
+Mustelus minicanis,0.081128532,0.061832015,Dwarf smooth-hound
+Mustelus mosis,0.081128532,0.048467201,Arabian smooth-hound
+Mustelus mustelus,0.120635956,0.060761276,Smooth-hound
+Mustelus norrisi,0.081128532,0.06131656,Narrowfin smooth-hound
+Mustelus palumbes,0.081128532,0.052140165,Whitespotted smooth-hound
+Mustelus punctulatus,0.081128532,0.045334083,Blackspotted smooth-hound
+Mustelus ravidus,0.081128532,0.061305295,Australian grey smooth-hound
+Mustelus schmitti,0.110622406,0.087238054,Narrownose smooth-hound
+Mustelus sinusmexicanus,0.081128532,0.06138719,Gulf smooth-hound
+Mustelus stevensi,0.081128532,0.050560795,Western spotted gummy shark
+Mustelus walkeri,0.081128532,0.052813537,Eastern spotted gummy shark
+Mustelus whitneyi,0.05447083,0.044435785,Humpback smooth-hound
+Mustelus widodoi,0.05447083,0.042786482,White-fin smooth-hound
+Nasolamia velox,0.052893643,0.039384839,Whitenose shark
+Nebrius ferrugineus,0.052893643,0.033288063,Tawny nurse shark
+Negaprion acutidens,0.052893643,0.036390505,Sicklefin lemon shark
+Negaprion brevirostris,0.078683394,0.025133643,Lemon shark
+Notorynchus cepedianus,0.177329956,0.101025,Broadnose sevengill shark
+Odontaspis ferox,0.052893643,0.022325375,Smalltooth sand tiger
+Odontaspis noronhai,0.052893643,0.022699636,Bigeye sand tiger
+Orectolobus floridus,0.052893643,0.042359522,Floral banded wobbegong
+Orectolobus halei,0.040530859,0.029210833,Gulf wobbegong
+Orectolobus hutchinsi,0.040530859,0.027452822,Western wobbegong
+Orectolobus japonicus,0.040530859,0.030624077,Japanese wobbegong
+Orectolobus leptolineatus,0.040530859,0.029582048,Indonesian wobbegong
+Orectolobus maculatus,0.040530859,0.026317076,Spotted wobbegong
+Orectolobus ornatus,0.040530859,0.030627151,Ornate wobbegong
+Orectolobus parvimaculatus,0.040530859,0.032749507,Dwarf spotted wobbegong
+Orectolobus reticulatus,0.040530859,0.032249129,Network wobbegong
+Orectolobus wardi,0.020114487,0.016001919,Northern wobbegong
+Oxynotus bruniensis,0.038282023,0.028766437,Prickly dogfish
+Oxynotus caribbaeus,0.066735763,0.051291346,Caribbean roughshark
+Oxynotus centrina,0.097129464,0.056888788,Angular roughshark
+Oxynotus japonicus,0.066735763,0.050416604,Japanese roughshark
+Oxynotus paradoxus,0.113851343,0.07654222,Sailfin roughshark
+Paragaleus leucolomatus,0.066735763,0.050584662,Whitetip weasel shark
+Paragaleus pectoralis,0.066735763,0.044690446,Atlantic weasel shark
+Paragaleus randalli,0.048157539,0.03650266,Slender weasel shark
+Paragaleus tengi,0.066735763,0.050584662,Straight-tooth weasel shark
+Parascyllium collare,0.081567381,0.060084943,Collared carpetshark
+Parascyllium ferrugineum,0.066735763,0.050603688,Rusty carpetshark
+Parascyllium sparsimaculatum,0.066735763,0.045091772,Ginger carpetshark
+Parascyllium variolatum,0.066735763,0.050863537,Necklace carpetshark
+Parmaturus lanatus,0.066735763,0.04321111,Velvet catshark
+Parmaturus macmillani,0.066735763,0.04321111,McMillan's catshark
+Parmaturus melanobranchus,0.066735763,0.043376662,Blackgill catshark
+Parmaturus pilosus,0.066735763,0.043376662,Salamander shark
+Parmaturus xaniurus,0.066735763,0.042903161,Filetail catshark
+Pentanchus profundicolus,0.066735763,0.04321111,Onefin catshark
+Planonasus parini,0.066735763,0.043323283,Dwarf false catshark
+Pliotrema warreni,0.066735763,0.034556017,Sixgill sawshark
+Poroderma africanum,0.082774261,0.060966935,Pyjama shark
+Poroderma pantherinum,0.081128532,0.059757817,Leopard catshark
+Prionace glauca,0.372870073,0.127041255,Blue shark
+Pristiophorus cirratus,0.081128532,0.040317259,Common sawshark
+Pristiophorus delicatus,0.081128532,0.056075771,Tropical sawshark
+Pristiophorus japonicus,0.081128532,0.042533698,Japanese sawshark
+Pristiophorus lanae,0.081128532,0.060843537,Lana's sawshark
+Pristiophorus nancyae,0.081128532,0.058571518,Dwarf sawshark
+Pristiophorus nudipinnis,0.063510577,0.046169484,Shortnose sawshark
+Proscyllium habereri,0.063510577,0.042957721,Graceful catshark
+Proscyllium magnificum,0.081128532,0.055467558,Magnificent catshark
+Pseudocarcharias kamoharai,0.041335969,0.016793278,Crocodile shark
+Pseudotriakis microdon,0.081128532,0.044260887,False catshark
+Rhincodon typus,0.140639411,0.074660895,Whale shark
+Rhizoprionodon acutus,0.055512303,0.044746003,Milk shark
+Rhizoprionodon lalandii,0.081128532,0.061494156,Brazilian sharpnose shark
+Rhizoprionodon longurio,0.081128532,0.052378534,Pacific sharpnose shark
+Rhizoprionodon oligolinx,0.081128532,0.063573284,Grey sharpnose shark
+Rhizoprionodon porosus,0.081128532,0.056037289,Caribbean sharpnose shark
+Rhizoprionodon taylori,0.374667547,0.288605537,Australian sharpnose shark
+Rhizoprionodon terraenovae,0.232168994,0.156316696,Atlantic sharpnose shark
+Schroederichthys bivius,0.081128532,0.054874274,Narrowmouthed catshark
+Schroederichthys chilensis,0.081128532,0.059754782,Redspotted catshark
+Schroederichthys saurisqualus,0.081128532,0.052560919,Lizard catshark
+Schroederichthys tenuis,0.081128532,0.054702319,Slender catshark
+Scyliorhinus boa,0.081128532,0.052998474,Boa catshark
+Scyliorhinus canicula,0.339690225,0.199467232,Small-spotted catshark
+Scyliorhinus capensis,0.081128532,0.042144282,Yellowspotted catshark
+Scyliorhinus cervigoni,0.081128532,0.054363174,West African catshark
+Scyliorhinus comoroensis,0.081128532,0.052558336,Comoro catshark
+Scyliorhinus haeckelii,0.081128532,0.051317015,Freckled catshark
+Scyliorhinus retifer,0.081128532,0.052532229,Chain catshark
+Scyliorhinus stellaris,0.123959894,0.074749905,Nursehound
+Scyliorhinus torazame,0.081128532,0.051492868,Cloudy catshark
+Scylliogaleus quecketti,0.081128532,0.058793516,Flapnose houndshark
+Scymnodalatias albicauda,0.081128532,0.057142348,Whitetail dogfish
+Scymnodalatias garricki,0.081128532,0.062330513,Azores dogfish
+Scymnodalatias sherwoodi,0.081128532,0.062556179,Sherwood dogfish
+Scymnodon ringens,0.081128532,0.057882977,Knifetooth dogfish
+Somniosus antarcticus,0.081128532,0.040184206,Southern sleeper shark
+Somniosus longus,0.081128532,0.04845983,Frog shark
+Somniosus microcephalus,0.081128532,0.041543307,Greenland shark
+Somniosus pacificus,0.081128532,0.042116159,Pacific sleeper shark
+Somniosus rostratus,0.081128532,0.049224977,Little sleeper shark
+Sphyrna corona,0.081128532,0.061494156,Scalloped bonnethead
+Sphyrna lewini,0.218322912,0.159400966,Scalloped hammerhead
+Sphyrna media,0.081128532,0.054135001,Scoophead
+Sphyrna mokarran,0.1515,0.130071043,Great hammerhead
+Sphyrna tiburo,0.345179678,0.251499901,Bonnethead
+Sphyrna tudes,0.081128532,0.053418497,Smalleye hammerhead
+Sphyrna zygaena,0.085903428,0.068158014,Smooth hammerhead
+Squaliolus aliae,0.081128532,0.060640117,Smalleye pygmy shark
+Squaliolus laticaudus,0.081128532,0.060640117,Spined pygmy shark
+Squalus acanthias,0.027629211,0.016606593,Picked dogfish
+Squalus albifrons,0.02398235,0.01657075,Eastern highfin spurdog
+Squalus altipinnis,0.041997973,0.029018754,Eastern highfin spurdog
+Squalus blainville,0.052893643,0.025892013,Longnose spurdog
+Squalus brevirostris,0.081128532,0.059824829,Japanese shortnose spurdog
+Squalus bucephalus,0.05447083,0.038510066,Bighead spurdog
+Squalus chloroculus,0.033256483,0.025144717,Greeneye spurdog
+Squalus crassispinus,0.0866463,0.06281851,Fatspine spurdog
+Squalus cubensis,0.041712204,0.029612504,Cuban dogfish
+Squalus edmundsi,0.100223065,0.062776499,Edmund's spurdog
+Squalus formosus,0.087149931,0.061622811,Taiwan spurdog
+Squalus grahami,0.080505638,0.055519021,Eastern longnose spurdog
+Squalus griffini,0.092088981,0.066906077,Northern spiny dogfish
+Squalus hemipinnis,0.008741055,0.006954982,Indonesian shortsnout spurdog
+Squalus japonicus,0.041997973,0.031728043,Japanese spurdog
+Squalus megalops,0.061123351,0.044714039,Shortnose spurdog
+Squalus melanurus,0.01412523,0.010487724,Blacktailed spurdog
+Squalus mitsukurii,0.032411574,0.022143525,Shortspine spurdog
+Squalus montalbani,0.066735763,0.050457887,Philippiines spurdog
+Squalus nasutus,0.034772896,0.02458392,Western longnose spurdog
+Squalus notocaudatus,0.05915435,0.040790549,Bartail spurdog
+Squalus rancureli,0.028614375,0.021226557,Cyrano spurdog
+Squalus raoulensis,0.066735763,0.04605218,Kermadec spiny dogfish
+Squalus suckleyi,0.01786943,0.011427385,Pacific spiny dogfish
+Squatina aculeata,0.022832368,0.012348322,Sawback angelshark
+Squatina africana,0.023659216,0.017371686,African angelshark
+Squatina albipunctata,0.092088981,0.069706058,Eastern angelshark
+Squatina argentina,0.075439949,0.05037242,Argentine angelshark
+Squatina armata,0.052842526,0.035738484,Chilean angelshark
+Squatina australis,0.089325556,0.060763219,Australian angelshark
+Squatina californica,0.076975879,0.054773787,Pacific angelshark
+Squatina dumeril,0.125708623,0.071495507,Sand devil
+Squatina formosa,0.082774261,0.049636001,Taiwan angelshark
+Squatina guggenheim,0.138213829,0.111599424,Angular angel shark
+Squatina japonica,0.02398235,0.013175266,Japanese angelshark
+Squatina nebulosa,0.092088981,0.061988394,Clouded angelshark
+Squatina occulta,0.072748961,0.046903836,Hidden angel shark
+Squatina oculata,0.044589624,0.024845016,Smoothback angelshark
+Squatina pseudocellata,0.092088981,0.062463863,Western angelshark
+Squatina squatina,0.035839053,0.024945453,Angelshark
+Squatina tergocellata,0.037472065,0.022588247,Ornate angelshark
+Squatina tergocellatoides,0.042464716,0.031314897,Ocellated angelshark
+Sutorectus tentaculatus,0.035839053,0.028511472,Cobbler wobbegong
+Triaenodon obesus,0.048157539,0.030467039,Whitetip reef shark
+Triakis acutipinna,0.031744728,0.020448198,Sharpfin houndshark
+Triakis maculata,0.055409597,0.040107626,Spotted houndshark
+Triakis megalopterus,0.044289272,0.029670719,Sharptooth houndshark
+Triakis scyllium,0.038036038,0.02676025,Banded houndshark
+Triakis semifasciata,0.117383538,0.082611522,Leopard shark
+Trigonognathus kabeyai,0.02417077,0.017473975,Viper dogfish
+Zameus squamulosus,0.066735763,0.048434423,Velvet dogfish
