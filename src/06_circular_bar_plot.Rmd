@@ -61,10 +61,19 @@ top_shark_mort <- read_csv(here("data", "saup_eez_high_seas_shark_mortality.csv"
   group_by(scientific_name) %>% 
   summarise(mort_sum = sum(mortality)) %>% 
   arrange(desc(mort_sum))
+
+new_dat <- read_csv(here::here("data", "iucn_fishbase_list.csv")) %>% 
+  select(-11, -12, -13, -14, -15) %>% 
+  select(scientific_name, common_name)
+
+sim_results = left_join(sim_results, new_dat)
+
+# write_csv(sim_results, here::here("data", "f_sim_results.csv"))
 ```
 
-
 ```{r}
+sim_results = read_csv(here::here("data", "f_sim_results.csv"))
+
 # data wrangling for the plot
 sim_results_iucn <- sim_results %>% 
   left_join(iucn_data, by = "scientific_name")
@@ -79,7 +88,9 @@ sim_results_iucn_pct <- sim_results_iucn %>%
   rowid_to_column("id") %>% 
   mutate(id = fct_reorder(as.factor(id), percent_diff)) %>% 
   mutate(redlist_category = as.factor(redlist_category)) %>% 
-  arrange(id) 
+  arrange(id) %>% 
+  select(-scientific_name) %>% 
+  rename(scientific_name = common_name)
 
 sim_results_iucn_pct_threat <- sim_results_iucn_pct %>% 
   filter(redlist_category != "DD")
