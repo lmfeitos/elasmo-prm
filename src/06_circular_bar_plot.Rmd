@@ -106,7 +106,9 @@ non_threat = sim_results_iucn %>%
   rowid_to_column("id") %>% 
   mutate(id = fct_reorder(as.factor(id), percent_diff)) %>% 
   mutate(redlist_category = as.factor(redlist_category)) %>% 
-  arrange(id)  
+  arrange(id)   %>% 
+  select(-scientific_name) %>% 
+  rename(scientific_name = common_name) 
 
 non_threat_mean <- non_threat %>% 
   mutate(mean_percent_diff = mean(percent_diff, na.rm = TRUE))
@@ -217,11 +219,14 @@ non_threat = sim_results_iucn %>%
   rowid_to_column("id") %>% 
   mutate(id = fct_reorder(as.factor(id), percent_diff)) %>% 
   mutate(redlist_category = as.factor(redlist_category)) %>% 
-  arrange(id)  
+  arrange(id)   %>% 
+  select(-scientific_name) %>% 
+  rename(scientific_name = common_name)
 
 non_threat_mean <- non_threat %>% 
   mutate(mean_percent_diff = mean(percent_diff, na.rm = TRUE))
   
+
 # Set a number of empty bars to add at the end of each group
 empty_bar <- 7
 to_add <- data.frame(matrix(NA, empty_bar*nlevels(non_threat$redlist_category), ncol(non_threat)))
