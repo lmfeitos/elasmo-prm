@@ -125,6 +125,10 @@ prm_sharks <- prm_elasmo_subset %>%
   filter(group == "Sharks") %>% 
   distinct(scientific_name)
 
+prm_batoids <- prm_elasmo_subset %>% 
+  filter(group == "Batoids") %>% 
+  distinct(scientific_name)
+
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species
 mort_summary <- prm_elasmo_subset %>% 
   filter(estimate > 0) %>% 
