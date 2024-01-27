@@ -41,7 +41,7 @@ iucn_data_non_longline <- read_csv(here("data", "iucn_data", "assessments.csv"))
   clean_names() %>% 
   filter(str_detect(systems, "Marine") & !str_detect(threats, "longline")) 
 
-sim_results <- read_csv(here::here( "data", "simulation_results.csv")) %>% 
+sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>% 
   filter(scenario != "CQ") %>% 
   filter(!is.na(mort_scenario)) %>% 
   filter(mort_scenario == "BAU" | mort_scenario == "Median Mortality") %>% 
@@ -84,7 +84,7 @@ sim_results_top = left_join(top_shark_mort, sim_results_iucn) %>%
 sim_results_iucn_pct <- sim_results_iucn %>% 
   mutate(percent_diff = (f - f_mort) / f * 100) %>% 
   mutate(percent_diff = round(percent_diff, 4)) %>% 
-  filter(redlist_category %in% c("VU", "EN", "CR")) %>% 
+#  filter(redlist_category %in% c("VU", "EN", "CR")) %>% 
   rowid_to_column("id") %>% 
   mutate(id = fct_reorder(as.factor(id), percent_diff)) %>% 
   mutate(redlist_category = as.factor(redlist_category)) %>% 
@@ -153,9 +153,9 @@ redlist_breaks <- redlist_breaks %>%
 
 ```{r}
 # get improvement averages per iucn status
-sim_results_iucn_pct_plot_m_ave <- sim_results_iucn_pct_threat %>% 
-  group_by(redlist_category) %>% 
-  summarise(mean_percent_diff = mean(percent_diff, na.rm = TRUE))
+sim_results_iucn_pct_plot_m_ave <- sim_results_iucn_pct %>%
+  summarise(mean_percent_diff = mean(percent_diff, na.rm = TRUE),
+            sd_percent_diff = sd(percent_diff, na.rm = TRUE))
 
 sim_results_iucn_pct_plot_m_ave2 <- sim_results_iucn_pct_threat %>% 
   filter(redlist_category != "DD") %>% 
