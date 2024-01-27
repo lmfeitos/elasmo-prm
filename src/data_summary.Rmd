@@ -119,7 +119,7 @@ prm_elasmo_subset <- prm_elasmo %>%
     TRUE ~ estimate_type
   ))
 
-write_csv(prm_elasmo_subset, file = here("data", "prm_elasmo_subset.csv"), col_names = TRUE, na = "")
+#write_csv(prm_elasmo_subset, file = here("data", "prm_elasmo_subset.csv"), col_names = TRUE, na = "")
 
 prm_sharks <- prm_elasmo_subset %>% 
   filter(group == "Sharks") %>% 
@@ -498,6 +498,37 @@ ggsave(mort_proportions_plot_bat, file = paste0("mort_proportions_plot_bat.pdf")
 ```
 
 
+```{r, fig.height=10, fig.width=7}
+# create species count plot
+obs_count_plot <-
+  prm_elasmo_subset %>% 
+  filter(group == "Sharks") %>% 
+  group_by(scientific_name) %>% 
+  count() %>% 
+  ungroup() %>% 
+  arrange(desc(n)) %>% 
+  mutate(scientific_name = as.factor(scientific_name)) %>% 
+  slice_head(n = 20) %>% 
+  ggplot() +
+  geom_col(aes(x = fct_reorder(scientific_name, n), y = n),
+           fill = "blue4",
+           alpha=.7,
+           width = .8,
+           color = "black") +
+  coord_flip() +
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0, 25)) +
+  labs(x = "",
+       y = "Number of observations per species") +
+  theme_bw() +
+  theme(axis.text.y = element_text(color = "black", size = 10, face = "italic"),
+        axis.text.x = element_text(color = "black", size = 10),
+        axis.title = element_text(color = "black", size = 12),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank())
+
+ggsave(obs_count_plot, file = paste0("obs_count_plot.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
+```
 
 
 
