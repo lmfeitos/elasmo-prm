@@ -54,6 +54,8 @@ sim_results = read_csv(here::here("data", "simulation_results.csv"))%>%
 #   )) %>% 
 #   select(scientific_name, redlist_category)
 
+## THIS IS WHERE IT'S FILTERED 
+
 no_cq = sim_results %>% 
   filter(scientific_name %in% iucn_data$scientific_name) %>% 
   mutate(mort_scenario = fct_relevel(as.factor(mort_scenario), "Low Mortality", after = Inf)) %>% 
@@ -62,6 +64,7 @@ no_cq = sim_results %>%
   mutate(redlist_category = fct_relevel(as.factor(redlist_category), c("CR", "EN", "VU", "NT", "LC", "DD"))) 
   #arrange(redlist_category, scientific_name)
 
+length(unique(no_cq$scientific_name)) #272
 
 no_cq_sci <- no_cq %>% 
   distinct(scientific_name) %>% 
