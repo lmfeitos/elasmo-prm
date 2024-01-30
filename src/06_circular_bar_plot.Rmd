@@ -37,6 +37,15 @@ iucn_data <- read_csv(here("data", "iucn_data", "assessments.csv")) %>%
     TRUE ~ redlist_category
   ))
 
+iucn_taxonomy <- read_csv(here("data", "iucn_data", "taxonomy.csv")) %>% 
+  clean_names() %>% 
+  mutate(family = str_to_sentence(family_name)) %>% 
+  select(family, genus_name, species_name) %>% 
+  unite(col = "scientific_name", c(genus_name,species_name), sep = " ")
+
+iucn_data <- iucn_data %>% 
+  left_join(iucn_taxonomy, by = "scientific_name")
+
 iucn_data_non_longline <- read_csv(here("data", "iucn_data", "assessments.csv")) %>% 
   clean_names() %>% 
   filter(str_detect(systems, "Marine") & !str_detect(threats, "longline")) 
@@ -49,7 +58,7 @@ sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %
   select(scientific_name, f, f_mort) %>% 
   distinct()
 
-sim_results <- read_csv(here::here( "data", "simulation_results.csv")) %>% 
+sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>% 
   filter(scenario != "CQ") %>% 
   filter(!is.na(mort_scenario)) %>% 
   filter(mort_scenario == "BAU" | mort_scenario == "Median Mortality") %>% 
@@ -88,12 +97,12 @@ sim_results_iucn_pct <- sim_results_iucn %>%
   rowid_to_column("id") %>% 
   mutate(id = fct_reorder(as.factor(id), percent_diff)) %>% 
   mutate(redlist_category = as.factor(redlist_category)) %>% 
-  arrange(id) %>% 
+  arrange(id)  
   select(-scientific_name) %>% 
   rename(scientific_name = common_name)
 
 sim_results_iucn_pct_threat <- sim_results_iucn_pct %>% 
-  filter(redlist_category != "DD")
+  filter(redlist_category %in% c("VU", "EN", "CR"))
 
 threatended = sim_results_iucn_pct %>% 
   filter(redlist_category %in% c("VU", "EN", "CR")) %>% 
@@ -161,6 +170,12 @@ sim_results_iucn_pct_plot_m_ave2 <- sim_results_iucn_pct_threat %>%
   filter(redlist_category != "DD") %>% 
   summarise(mean_percent_diff = mean(percent_diff, na.rm = TRUE)) %>% 
   slice_head(n = 1)
+
+# get improvement averages per main fished family
+diff_fam <- sim_results_iucn_pct %>% 
+  group_by(family) %>% 
+  summarise(mean_diff = mean(percent_diff))  
+  filter(family %in% c("Lamnidae", "Sphyrnidae", "Carcharhinidae", "Alopiidae"))
 ```
 
 
