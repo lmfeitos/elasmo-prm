@@ -97,7 +97,7 @@ sim_results_iucn_pct <- sim_results_iucn %>%
   rowid_to_column("id") %>% 
   mutate(id = fct_reorder(as.factor(id), percent_diff)) %>% 
   mutate(redlist_category = as.factor(redlist_category)) %>% 
-  arrange(id)  
+  arrange(id)  %>% 
   select(-scientific_name) %>% 
   rename(scientific_name = common_name)
 
@@ -124,12 +124,24 @@ non_threat_mean <- non_threat %>%
   
 # Set a number of empty bars to add at the end of each group
 empty_bar <- 7
+to_add <- data.frame(matrix(NA, empty_bar*nlevels(non_threat$redlist_category), ncol(non_threat)))
+colnames(to_add) <- colnames(non_threat)
+to_add$redlist_category <- rep(levels(non_threat$redlist_category), each = empty_bar)
+non_threat <- rbind(non_threat, to_add)
+non_threat <- non_threat %>% arrange(redlist_category)
+non_threat$id <- seq(1, nrow(non_threat))
+
+
+empty_bar <- 7
 to_add <- data.frame(matrix(NA, empty_bar*nlevels(sim_results_iucn_pct_threat$redlist_category), ncol(sim_results_iucn_pct_threat)))
 colnames(to_add) <- colnames(sim_results_iucn_pct_threat)
 to_add$redlist_category <- rep(levels(sim_results_iucn_pct_threat$redlist_category), each = empty_bar)
 sim_results_iucn_pct_threat <- rbind(sim_results_iucn_pct_threat, to_add)
 sim_results_iucn_pct_threat <- sim_results_iucn_pct_threat %>% arrange(redlist_category)
 sim_results_iucn_pct_threat$id <- seq(1, nrow(sim_results_iucn_pct_threat))
+
+sim_results_iucn_pct_threat <- sim_results_iucn_pct_threat %>% 
+  filter(redlist_category %in% c("VU", "CR", "EN"))
 
 # get the name and the y position of each label
 label_data_m <- sim_results_iucn_pct_threat 
@@ -181,7 +193,8 @@ diff_fam <- sim_results_iucn_pct %>%
 
 
 ```{r, fig.height = 10, fig.width=10}
-prop = ggplot(data = sim_results_iucn_pct_threat) +
+#prop = 
+  ggplot(data = sim_results_iucn_pct_threat) +
     geom_segment(data = redlist_breaks %>% 
                    filter(v != 100),
                aes(x = end, y = v, xend = start, yend = v),
@@ -201,9 +214,9 @@ prop = ggplot(data = sim_results_iucn_pct_threat) +
         panel.grid = element_blank(),
         plot.margin = unit(rep(0, 4), "cm")) +
   coord_polar(start = 0) +
- geom_text(data = label_data_m, 
-            aes(x = id, y = percent_diff + 15, label = scientific_name, angle = angle),
-           nudge_x = -0.25, nudge_y = 0.25,
+  geom_text(data = label_data_m, 
+            aes(x = id, y = percent_diff + 20, label = scientific_name, angle = angle),
+            nudge_x = -0.25, nudge_y = 0.25,
               color = "black", size = 4, inherit.aes = FALSE) +
   geom_segment(data = redlist_breaks,
                aes(x = start, y = -5, xend = end, yend = -5),
@@ -216,12 +229,12 @@ prop = ggplot(data = sim_results_iucn_pct_threat) +
   # geom_text(data = redlist_breaks, 
   #             aes(x = title, y = 48, label = redlist_category),  colour = "black", alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE) +
   labs(fill = "Redlist Category") + #y = 80
-  theme_minimal(base_size = 14) +
+  theme_void(base_size = 14) +
   labs(x = "",
        y = "")
 prop
 
-ggsave(prop, file = paste0("fig4.pdf"), path = here::here("figs"), height = 20, width = 20)
+ggsave(prop, file = paste0("fig4_test.pdf"), path = here::here("figs"), height = 20, width = 20)
 ```
 
 
@@ -302,7 +315,7 @@ prop = ggplot(data = non_threat) +
         plot.margin = unit(rep(0, 4), "cm")) +
   coord_polar(start = 0) +
  geom_text(data = label_data_m, 
-            aes(x = id, y = percent_diff + 15, label = scientific_name, angle = angle),
+            aes(x = id, y = percent_diff + 20, label = scientific_name, angle = angle),
            nudge_x = -0.25, nudge_y = 0.25,
               color = "black", size = 4, inherit.aes = FALSE) +
   geom_segment(data = redlist_breaks,
@@ -316,7 +329,7 @@ prop = ggplot(data = non_threat) +
   # geom_text(data = redlist_breaks, 
   #             aes(x = title, y = 48, label = redlist_category),  colour = "black", alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE) +
   labs(fill = "Redlist Category") + #y = 80
-  theme_minimal(base_size = 14) +
+  theme_void(base_size = 14) +
   labs(x = "",
        y = "")
 prop

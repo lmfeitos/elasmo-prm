@@ -192,15 +192,15 @@ p2 = ggplot(predictions) +
   theme(legend.position = "none")
 
 
-p3 = ggplot(predictions %>% filter(estimate_type=="AVM")) +
+p3 = ggplot(predictions %>% filter(estimate_type=="AVM") %>% mutate(ventilation_method = str_to_sentence(ventilation_method))) +
   geom_point(aes(mortality_prop, ventilation_method),
              alpha = 0.5) +
   geom_boxplot(aes(mortality_prop, ventilation_method),
                outlier.alpha = 0,
                alpha = 0.85) +
   theme_bw(base_size = 14) +
-  labs(y = "Estimated mortality",
-       x = "Ventilation Method",
+  labs(y = "Ventilation Method",
+       x = "Estimated mortality",
        color = "Group") +
   facet_wrap(~ estimate_type, scales = "free_x") +
   theme(axis.text = element_text(color = "black"),
@@ -213,7 +213,7 @@ p3 = ggplot(predictions %>% filter(estimate_type=="AVM")) +
   scale_color_viridis_d()+
   theme(legend.position = "none")
 
-p4 = ggplot(predictions) +
+p4 = ggplot(predictions %>% mutate(habitat_associated = str_to_sentence(habitat_associated))) +
   geom_point(aes(mortality_prop, habitat_associated),
              alpha = 0.1,
              show.legend = F) +
@@ -222,8 +222,8 @@ p4 = ggplot(predictions) +
                alpha = 0.85,
                show.legend = F) +
   theme_bw(base_size = 14) +
-  labs(y = "Estimated mortality",
-       x = "Associated Habitat",
+  labs(y = "Associated Habitat",
+       x = "Estimated mortality",
        color = "Group") +
   facet_wrap(~ estimate_type, scales = "free_x") +
   theme(axis.text = element_text(color = "black"),
@@ -237,7 +237,7 @@ p4 = ggplot(predictions) +
   scale_fill_viridis_d()+
   theme(legend.position = "none")
 
-p5 = ggplot(predictions) +
+p5 = ggplot(predictions %>% mutate(reproductive_mode = str_to_sentence(reproductive_mode))) +
   geom_point(aes(mortality_prop, reproductive_mode),
              alpha = 0.1,
              show.legend = F) +
@@ -246,8 +246,8 @@ p5 = ggplot(predictions) +
                alpha = 0.85,
                show.legend = F) +
   theme_bw(base_size = 14) +
-  labs(y = "Estimated mortality",
-       x = "Reproductive Mode",
+  labs(y = "Reproductive Mode",
+       x = "Estimated mortality",
        color = "Group") +
   facet_wrap(~ estimate_type, scales = "free_x") +
   theme(axis.text = element_text(color = "black"),
