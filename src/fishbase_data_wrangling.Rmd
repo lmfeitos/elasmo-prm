@@ -145,11 +145,19 @@ int_growth <- read_csv(here("data", "intrinsic_pop_growth_rates.csv"))
 #write_csv(int_growth, file = here("data", "intrinsic_pop_growth_rates.csv"), col_names = TRUE, na = "")
 
 #iucn data
-iucn_data <- read_csv(here("data", "iucn_data", "taxonomy.csv")) %>% 
+iucn_taxonomy <- read_csv(here("data", "iucn_data", "taxonomy.csv")) %>% 
   clean_names() %>% 
   select(scientific_name, family_name) %>% 
   rename(family = family_name) %>% 
   mutate(family = str_to_sentence(family))
+
+iucn_assessment <- read_csv(here("data", "iucn_data", "assessments.csv")) %>% 
+  clean_names() %>% 
+  filter(str_detect(systems, "Marine") & str_detect(threats, "longline") | str_detect(scientific_name,"Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus|Mustelus")) %>% 
+  select(scientific_name, threats, systems, redlist_category)
+
+iucn_data <- iucn_assessment %>% 
+  left_join(iucn_taxonomy, by = "scientific_name")
 
 # r_data_merge <- shark_spp %>% 
 #    left_join(r_data, by = "scientific_name")
@@ -178,7 +186,6 @@ iucn_saup_join <- iucn_data %>%
   left_join(test_fishbase, by = c("scientific_name", "family")) %>% 
   left_join(saup_spp2, by = c("scientific_name", "family", "order")) %>% 
   left_join(shark_spp, by = c("scientific_name")) %>% 
-
   mutate(median_depth_2 = rowMeans(select(., depth_range_shallow, depth_range_deep))) %>% 
   select(-c(genus, species, depth_range_shallow, depth_range_deep)) %>% 
   mutate(measure_fb = case_when(
