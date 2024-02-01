@@ -2,7 +2,8 @@ library(tidyverse)
 
 iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>% 
   janitor::clean_names() %>% 
-  filter(str_detect(systems, "Marine") & str_detect(threats, "longline") | str_detect(scientific_name,"Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus")) %>% # list of genera to keep in the filtering
+  filter(str_detect(systems, "Marine") & str_detect(threats, "longline") | 
+           str_detect(scientific_name,"Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus|Mustelus")) %>% # list of genera to keep in the filtering
   select(scientific_name, redlist_category, year_published) %>% 
   mutate(redlist_category = case_when(
     str_detect(redlist_category, "Near") ~ "NT",
@@ -93,4 +94,4 @@ sim_200 = sim_results %>%
   select(n_div_k, scientific_name, fp) %>% 
   filter(n_div_k >= 0.5) %>% 
   group_by(fp) %>% 
-  summarize(per = n() / 272*100)
+  summarize(per = n() / 282*100)

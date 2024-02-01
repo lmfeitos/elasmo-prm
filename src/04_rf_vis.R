@@ -6,7 +6,8 @@ set.seed(42)
 # read in the  data
 iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>% 
   janitor::clean_names() %>% 
-  filter(str_detect(systems, "Marine") & str_detect(threats, "longline") | str_detect(scientific_name,"Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus")) %>% # list of genera to keep in the filtering
+  filter(str_detect(systems, "Marine") & str_detect(threats, "longline") | 
+           str_detect(scientific_name,"Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus|Mustelus")) %>% # list of genera to keep in the filtering
   select(scientific_name, redlist_category, year_published) %>% 
   mutate(redlist_category = case_when(
     str_detect(redlist_category, "Near") ~ "NT",
@@ -85,73 +86,6 @@ p6 = ggplot() +
 p6
 
 ggsave(p6, file = paste0("fig3.pdf"), path = here::here("figs"), height = 12, width = 10)
-
-
-# p5 = ggplot(data = predictions) +
-#     geom_boxplot(aes(x = fct_rev(factor(family, levels = mort_subset)),
-#                      y = mortality_prop,
-#                      group = family),
-#                  show.legend = F,
-#                  color = "gray30",
-#                  linewidth = 0.6,
-#                  alpha = 0.5) +
-#     coord_flip() +
-#     theme_bw() +
-#     scale_y_continuous(breaks = seq(0, 0.8, 0.2),
-#                        limits = c(0.05, 0.8),
-#                        expand = c(0.01, 0.01)) +
-#     labs(x = "Family",
-#          y = "Mean estimated mortality proportion") +
-#     scale_shape(guide = 'none') +
-#     theme(axis.text = element_text(size = 8, color = "black"),
-#           axis.text.y = element_text(face = "italic"),
-#           axis.title = element_text(size = 11, color = "black"),
-#           panel.grid.minor = element_blank(),
-#           panel.grid.major.x = element_blank(),
-#           strip.background = element_rect(fill = "transparent"),
-#           panel.spacing.x = unit(5, "mm")) +
-#     facet_grid(cols = vars(estimate_type),
-#                scales = "free_y",
-#                space = "free_y")
-#   
-# p5
-#   
-# ggsave(p5, file = paste0("family_pred.pdf"), path = here::here("figs"), height = 12, width = 10)
-#   
-# predictions_fig = ggplot(data = predictions) +
-#   geom_line(aes(x = fct_rev(factor(scientific_name, levels = mort_subset)),
-#                 y = mortality_prop,
-#                 group = scientific_name),
-#             show.legend = F,
-#             color = "gray30",
-#             linewidth = 0.6,
-#             alpha = 0.5) +
-#   coord_flip() +
-#   theme_bw() +
-#   geom_point(aes(x = fct_rev(factor(scientific_name, levels = mort_subset)),
-#                  y = mortality_prop,
-#                  color = estimate_type),
-#              size = 1.5,
-#              alpha = 0.9,
-#              show.legend = F) +
-#   scale_y_continuous(breaks = seq(0, 0.8, 0.2),
-#                      limits = c(0.05, 0.8),
-#                      expand = c(0.01, 0.01)) +
-#   scale_color_manual(values = c("#414487FF", "#22A884FF")) +
-#   labs(x = "",
-#        y = "Mean estimated mortality proportion",
-#        color = "Estimate type") +
-#   scale_shape(guide = 'none') +
-#   theme(axis.text = element_text(size = 8, color = "black"),
-#         axis.text.y = element_text(face = "italic"),
-#         axis.title = element_text(size = 11, color = "black"),
-#         panel.grid.minor = element_blank(),
-#         panel.grid.major.x = element_blank(),
-#         strip.background = element_rect(fill = "transparent"),
-#         panel.spacing.x = unit(5, "mm")) 
-# predictions_fig
-# 
-# ggsave(predictions_fig, file = paste0("predictions_fig.pdf"), path = here::here("figs"), height = 20, width = 15)
 
 p1 = ggplot(predictions) +
   geom_point(aes(max_size_cm, mortality_prop, color = group),
