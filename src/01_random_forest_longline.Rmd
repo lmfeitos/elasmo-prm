@@ -86,6 +86,8 @@ elasmo_avm <- prm_elasmo_subset %>%
   mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
+  select(-sample_size, -estimate, -est_count) %>% 
+  distinct() %>% 
   drop_na()
 
 # Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
@@ -94,6 +96,8 @@ elasmo_prm <- prm_elasmo_subset %>%
   mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
+  select(-sample_size, -estimate, -est_count) %>% 
+  distinct() %>% 
   drop_na()
 ```
 
@@ -126,7 +130,7 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 avm_recipe <- recipe(mortality_prop ~ reproductive_mode + median_depth + max_size_cm + habitat_associated + ventilation_method, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
-prm_recipe <- recipe(mortality_prop ~ reproductive_mode + median_depth + max_size_cm + habitat_associated, data = elasmo_prm) %>%
+prm_recipe <- recipe(mortality_prop ~ reproductive_mode + max_size_cm + habitat_associated + ventilation_method, data = elasmo_prm) %>%
   step_normalize(all_numeric_predictors())
 ```
 
@@ -353,8 +357,8 @@ p1 <- ggplot(avm_quant_test, aes(x = mortality_prop, y = .pred_50)) + # plot ln 
   stat_poly_eq(label.y = 0.9) +
   theme_bw(base_size = 14) +
   labs(
-    x = "Observed At-Vessel Mortality Rate",
-    y = "Predicted At-Vessel Mortality Rate"
+    x = "Observed AVM Rate",
+    y = "Predicted AVM Rate"
   ) 
 p1
 
@@ -371,8 +375,8 @@ p2 <- ggplot(prm_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln 
   stat_poly_eq(label.y = 0.9) +
   theme_bw(base_size = 14) +
   labs(
-    x = "Observed Post Release Mortality Rate",
-    y = "Predicted Post Release Mortality Rate"
+    x = "Observed PRM Rate",
+    y = "Predicted PRM Rate"
   )
 p2
 
@@ -385,9 +389,9 @@ summary(lm(.pred ~ mortality_prop, data = prm_train_predict))
 v1 <- avm_fit %>%
   extract_fit_parsnip() %>%
   vip() +
-  theme_bw(base_size = 14) +
+  theme_bw(base_size =14) +
   labs(y = "Variable Importance for At-Vessel Mortality") +
-  scale_x_discrete(labels = c("Ventilation Method",  "Associated Habitat", "Reproductive Mode", "Median Depth (m)","Maximum Size (cm)"))
+  scale_x_discrete(labels = c("Ventilation Method",  "Associated Habitat", "Reproductive Mode", "Maximum Size (cm)", "Median Depth (m)"))
 v1
 
 v2 <- prm_fit %>%
@@ -395,17 +399,13 @@ v2 <- prm_fit %>%
   vip() +
   theme_bw(base_size = 14) +
   labs(y = "Variable Importance for Post-Release Mortality")+
-  scale_x_discrete(labels = c("Reproductive Mode", "Associated Habitat", "Median Depth (m)", "Maximum Size (cm)"))
+  scale_x_discrete(labels = c("Ventilation Method", "Reproductive Mode", "Maximum Size (cm)"), "Associated Habitat")
 v2
 ```
 
 
 ```{r}
-new_dat <- read_csv(here::here("data", "iucn_fishbase_list.csv")) %>% 
-  select(-11, -12, -13, -14, -15) %>% 
-  rename(median_depth = median_depth_2) %>% 
-  rename(habitat_associated = demers_pelag) %>% 
-  rename(max_size_cm = length) %>% 
+new_dat <- read_csv(here::here("data", "predict_data.csv")) %>% 
   filter(order != "Rajiformes") %>%
   filter(order != "Myliobatiformes") %>%
   filter(order != "Torpediniformes") %>% 
@@ -420,26 +420,18 @@ new_dat <- read_csv(here::here("data", "iucn_fishbase_list.csv")) %>%
   filter(!is.na(reproductive_mode)) %>%
   filter(!is.na(habitat_associated)) %>%
   filter(!is.na(max_size_cm)) %>%
-  select(-measure_fb) %>%
   mutate(ventilation_method = as.factor(ventilation_method)) %>%
   mutate(habitat_associated = as.factor(habitat_associated)) %>%
   mutate(reproductive_mode = as.factor(reproductive_mode)) %>% 
-  mutate(group = case_when(
-    str_detect(family, "Mobulidae|Dasyatidae|Gymnyridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae|Plesiobatidae|Potamo|Urolophidae|Zanobatidae|Narcinidae|Platyrhinidae|Trygon|Hypnidae|Narkidae") ~ "Batoids",
-    str_detect(scientific_name, 
-               "Himantura|Dasyatis|Gymnura|trygon|Bathytoshia|rays|raja|Rhinoptera|Sympterygia|Pastinachus|Urobatis|Glaucostegus|Hypanus") ~ "Batoids",
-    TRUE ~ "Sharks"
-  )) %>% 
-  filter(group != "Batoids") %>% 
-  filter(reproductive_mode != 'histotrophy')
+  filter(reproductive_mode != 'histotrophy') 
 
 predict_data <- list(avm_train, avm_test, new_dat) %>%
   reduce(full_join) %>%
   rename(avm_mort = mortality_prop) %>%
-  select(-estimate_type, -sample_size, -method, -estimate, -est_count) %>%
+  select(-estimate_type,  -method) %>%
   full_join(elasmo_prm) %>%
   rename(prm_mort = mortality_prop) %>%
-  select(-estimate_type, -sample_size, -method, -estimate, -est_count) %>%
+  select(-estimate_type,  -method) %>%
   distinct() %>% 
   mutate(habitat_associated = case_when(
     habitat_associated == "pelagic-neritic" ~ "benthopelagic",
@@ -484,6 +476,6 @@ write_csv(full_predictions, here::here("data", "full_model_predictions.csv"))
 ```{r}
 plot1 <- (p1 + v1) / (p2 + v2) + plot_annotation(tag_levels = "A")
 
-ggsave(plot1, file = paste0("fig2.pdf"), path = here::here("figs"), height = 10, width = 15)
+ggsave(plot1, file = paste0("fig2.pdf"), path = here::here("figs"), height = 12, width = 15)
 ```
 

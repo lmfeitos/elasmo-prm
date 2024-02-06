@@ -1,0 +1,497 @@
+scientific_name,gear_class,habitat_associated,ventilation_method,max_size_cm,measure,median_depth,reproductive_mode,family,order
+Negaprion brevirostris,longline,reef-associated,ram,368,total_length,60,placental viviparity,Carcharhinidae,Carcharhiniformes
+Sphyrna lewini,longline,pelagic,ram,430,total_length,521.5,placental viviparity,Sphyrnidae,NA
+Carcharhinus altimus,longline,reef-associated,ram,300,total_length,405,placental viviparity,Carcharhinidae,NA
+Sphyrna zygaena,longline,pelagic,ram,400,total_length,100,placental viviparity,Sphyrnidae,NA
+Sphyrna mokarran,longline,pelagic,ram,610,total_length,150,placental viviparity,Sphyrnidae,NA
+Carcharhinus leucas,longline,reef-associated,ram,366,total_length,82.5,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus plumbeus,longline,benthopelagic,ram,243,total_length,140,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus signatus,longline,benthopelagic,ram,280,total_length,300,placental viviparity,Carcharhinidae,Carcharhiniformes
+Isurus oxyrinchus,longline,pelagic,ram,445,total_length,375,oophagy,Lamnidae,NA
+Carcharhinus longimanus,longline,pelagic,ram,350,total_length,541,placental viviparity,Carcharhinidae,NA
+Mustelus antarcticus,longline,demersal,ram,185.2,total_length,178,yolk-sac viviparity,Triakidae,NA
+Carcharhinus falciformis,longline,reef-associated,ram,350,total_length,250,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus brachyurus,longline,reef-associated,ram,322,total_length,73,placental viviparity,Carcharhinidae,Carcharhiniformes
+Mustelus antarcticus,longline,demersal,ram,185.2,total_length,175.5,yolk-sac viviparity,Triakidae,NA
+Hexanchus nakamurai,longline,bathydemersal,ram,177.8,total_length,351,placental viviparity,Hexanchidae,NA
+Mustelus canis,longline,demersal,ram,155,total_length,404,yolk-sac viviparity,Triakidae,NA
+Carcharhinus limbatus/tilstoni,longline,reef-associated,ram,286,total_length,70,placental viviparity,Carcharhinidae,NA
+Prionace glauca,longline,pelagic,ram,383.5,total_length,500,placental viviparity,Carcharhinidae,Carcharhiniformes
+Hexanchus nakamurai,longline,bathydemersal,ram,177.8,total_length,351,yolk-sac viviparity,Hexanchidae,NA
+Alopias superciliosus,longline,pelagic,ram,484,total_length,361.5,oophagy,Alopiidae,NA
+Squalus cubensis,longline,demersal,stationary,110,total_length,370.5,yolk-sac viviparity,Squalidae,NA
+Carcharhinus acronotus,longline,reef-associated,ram,164,total_length,51.5,placental viviparity,Carcharhinidae,NA
+Carcharhinus sorrah,longline,reef-associated,ram,166,total_length,70,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus brevipinna,longline,reef-associated,ram,304,total_length,100,placental viviparity,Carcharhinidae,Carcharhiniformes
+Rhizoprionodon terraenovae,longline,demersal,ram,113,total_length,140,placental viviparity,Carcharhinidae,Carcharhiniformes
+Pseudocarcharias kamoharai,longline,pelagic,ram,122,total_length,295,oophagy,Pseudocarchariidae,Lamniformes
+Mustelus canis insularis,longline,demersal,ram,155,total_length,404,yolk-sac viviparity,Triakidae,NA
+Heptranchias perlo,longline,bathydemersal,ram,140,total_length,500,yolk-sac viviparity,Hexanchidae,Hexanchiformes
+Carcharhinus obscurus,longline,reef-associated,ram,420,total_length,250,placental viviparity,Carcharhinidae,Carcharhiniformes
+Lamna nasus,longline,pelagic,ram,365,total_length,904.5,oophagy,Lamnidae,NA
+Ginglymostoma cirratum,longline,reef-associated,stationary,308,total_length,65,yolk-sac viviparity,Ginglymostomatidae,NA
+Carcharhinus dussumieri,longline,reef-associated,ram,100.7,total_length,50,placental viviparity,Carcharhinidae,Carcharhiniformes
+Deania calcea,longline,bathydemersal,stationary,162,total_length,782,yolk-sac viviparity,Centrophoridae,Squaliformes
+Carcharhinus limbatus,longline,reef-associated,ram,286,total_length,70,placental viviparity,Carcharhinidae,Carcharhiniformes
+Isurus paucus,longline,pelagic,ram,427,total_length,876,oophagy,Lamnidae,NA
+Carcharhinus albimarginatus,longline,reef-associated,ram,300,total_length,400,placental viviparity,Carcharhinidae,NA
+Centroscymnus owstoni,longline,bathydemersal,stationary,120,total_length,804.5,yolk-sac viviparity,Somniosidae,NA
+Galeocerdo cuvier,longline,benthopelagic,ram,740,total_length,556,placental viviparity,Carcharhinidae,NA
+Alopias vulpinus,longline,pelagic,ram,573.3,total_length,325,oophagy,Alopiidae,NA
+Pseudocarcharias kamoharai,longline,pelagic,ram,122,total_length,295,oophagy,Triakidae,NA
+Alopias pelagicus,longline,pelagic,ram,428,total_length,150,oophagy,Alopiidae,NA
+Galeorhinus galeus,longline,benthopelagic,ram,199,total_length,400,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Heptranchias perlo,longline,bathydemersal,ram,140,total_length,500,oophagy,Lamnidae,NA
+Loxodon macrorhinus,longline,demersal,ram,99,total_length,63.5,yolk-sac viviparity,Carcharhinidae,NA
+Carcharhinus galapagensis,longline,reef-associated,ram,300,total_length,143,placental viviparity,Carcharhinidae,Carcharhiniformes
+Rhizoprionodon acutus,longline,demersal,ram,178,total_length,100.5,placental viviparity,Carcharhinidae,NA
+Ginglymostoma cirratum,longline,reef-associated,ram,308,total_length,65,yolk-sac viviparity,Ginglymostomatidae,NA
+Carcharhinus amblyrhynchos,longline,reef-associated,ram,265,total_length,137.5,placental viviparity,Carcharhinidae,Carcharhiniformes
+Centrophorus squamosus,longline,bathydemersal,stationary,166,total_length,1683,yolk-sac viviparity,Centrophoridae,Squaliformes
+Centroscymnus coelolepis,longline,bathydemersal,stationary,130,total_length,1901.5,yolk-sac viviparity,Somniosidae,Squaliformes
+Galeus melastomus,longline,demersal,stationary,90,total_length,1027.5,oviparous,Scyliorhinidae,NA
+Aculeola nigra,NA,demersal,stationary,60,NA,335,yolk-sac viviparity,Etmopteridae,Squaliformes
+Alopias pelagicus,NA,pelagic,ram,428,NA,150,oophagy,Alopiidae,Lamniformes
+Alopias superciliosus,NA,pelagic,ram,484,NA,361.5,oophagy,Alopiidae,Lamniformes
+Alopias vulpinus,NA,pelagic,ram,573.3,NA,325,oophagy,Alopiidae,Lamniformes
+Apristurus albisoma,NA,bathydemersal,stationary,59.6,NA,1249.5,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus ampliceps,NA,bathydemersal,stationary,85.5,NA,1151.5,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus aphyodes,NA,bathypelagic,stationary,55,NA,1407,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus australis,NA,bathypelagic,stationary,61.59999847,NA,760.5,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus brunneus,NA,demersal,stationary,69.3,NA,682.5,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus bucephalus,NA,bathydemersal,stationary,67.5,NA,1085,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus exsanguis,NA,bathydemersal,stationary,90.80000305,NA,880,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus fedorovi,NA,bathypelagic,stationary,68.30000305,NA,800,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus garricki,NA,bathydemersal,stationary,67.5,NA,858.5,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus gibbosus,NA,bathydemersal,stationary,54.8,NA,756.5,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus herklotsi,NA,bathydemersal,stationary,48.5,NA,698.5,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus internatus,NA,bathypelagic,stationary,41.9,NA,600,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus japonicus,NA,bathydemersal,stationary,71.1,NA,867.5,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus laurussonii,NA,bathydemersal,stationary,76,NA,1055,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus longicephalus,NA,bathydemersal,stationary,60,NA,815,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus macrorhynchus,NA,bathydemersal,stationary,67.4,NA,680,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus macrostomus,NA,bathydemersal,stationary,57.3,NA,644.5,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus manis,NA,bathydemersal,stationary,85,NA,1250,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus melanoasper,NA,bathypelagic,stationary,76.09999847,NA,1016,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus microps,NA,bathydemersal,stationary,61,NA,1600,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus micropterygeus,NA,bathydemersal,stationary,38.1,NA,913,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus nasutus,NA,bathydemersal,stationary,70,NA,662.5,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus pinguis,NA,bathypelagic,stationary,83.5,NA,600,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus platyrhynchus,NA,bathypelagic,stationary,80,NA,740,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus profundorum,NA,bathydemersal,stationary,76,NA,1425,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus saldanha,NA,bathydemersal,stationary,88.5,NA,676.5,oviparous,Pentanchidae,Carcharhiniformes
+Apristurus sinensis,NA,bathydemersal,stationary,75,NA,913.5,oviparous,Pentanchidae,Carcharhiniformes
+Asymbolus analis,NA,reef-associated,stationary,90,NA,95,oviparous,Pentanchidae,Carcharhiniformes
+Asymbolus occiduus,NA,pelagic,stationary,60.09999847,NA,249,oviparous,Pentanchidae,Carcharhiniformes
+Asymbolus pallidus,NA,bathypelagic,stationary,43.90000153,NA,313.5,oviparous,Pentanchidae,Carcharhiniformes
+Asymbolus parvus,NA,pelagic,stationary,34.90000153,NA,210,oviparous,Pentanchidae,Carcharhiniformes
+Asymbolus rubiginosus,NA,pelagic,stationary,39.29999924,NA,282.5,oviparous,Pentanchidae,Carcharhiniformes
+Asymbolus vincenti,NA,reef-associated,stationary,61,NA,338.5,oviparous,Pentanchidae,Carcharhiniformes
+Atelomycterus baliensis,NA,demersal,stationary,520,NA,32.5,oviparous,Scyliorhinidae,Carcharhiniformes
+Atelomycterus erdmanni,NA,reef-associated,stationary,50.09999847,NA,32.5,oviparous,Scyliorhinidae,Carcharhiniformes
+Atelomycterus fasciatus,NA,demersal,stationary,45,NA,74.5,oviparous,Scyliorhinidae,Carcharhiniformes
+Atelomycterus macleayi,NA,reef-associated,stationary,60,NA,2,oviparous,Scyliorhinidae,Carcharhiniformes
+Atelomycterus marmoratus,NA,reef-associated,stationary,70,NA,52.5,oviparous,Scyliorhinidae,Carcharhiniformes
+Atelomycterus marnkalha,NA,benthopelagic,stationary,47,NA,42.5,oviparous,Scyliorhinidae,Carcharhiniformes
+Aulohalaelurus kanakorum,NA,reef-associated,stationary,78.5,NA,49,oviparous,Scyliorhinidae,Carcharhiniformes
+Aulohalaelurus labiosus,NA,demersal,stationary,67,NA,2,oviparous,Scyliorhinidae,Carcharhiniformes
+Brachaelurus colcloughi,NA,demersal,stationary,76,NA,110.5,yolk-sac viviparity,Brachaeluridae,Orectolobiformes
+Brachaelurus waddi,NA,reef-associated,stationary,122,NA,70,yolk-sac viviparity,Brachaeluridae,Orectolobiformes
+Bythaelurus bachi,NA,pelagic,stationary,42.20000076,NA,1137.5,oviparous,Pentanchidae,Carcharhiniformes
+Bythaelurus canescens,NA,bathydemersal,stationary,70,NA,475,oviparous,Pentanchidae,Carcharhiniformes
+Bythaelurus clevai,NA,bathydemersal,stationary,40,NA,450,oviparous,Pentanchidae,Carcharhiniformes
+Bythaelurus dawsoni,NA,bathydemersal,stationary,45,NA,625,oviparous,Pentanchidae,Carcharhiniformes
+Bythaelurus hispidus,NA,bathydemersal,stationary,26,NA,301.5,oviparous,Pentanchidae,Carcharhiniformes
+Bythaelurus immaculatus,NA,bathydemersal,stationary,71,NA,777,oviparous,Pentanchidae,Carcharhiniformes
+Bythaelurus lutarius,NA,bathydemersal,stationary,34,NA,552,oviparous,Pentanchidae,Carcharhiniformes
+Bythaelurus naylori,NA,demersal,stationary,51.09999847,NA,766,oviparous,Pentanchidae,Carcharhiniformes
+Bythaelurus tenuicephalus,NA,pelagic,stationary,300,NA,506.5,oviparous,Pentanchidae,Carcharhiniformes
+Carcharhinus acronotus,NA,reef-associated,ram,200,NA,36.5,oviparous,Carcharhinidae,Carcharhiniformes
+Carcharhinus albimarginatus,NA,reef-associated,ram,300,NA,400.5,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus altimus,NA,reef-associated,ram,300,NA,411,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus amblyrhynchoides,NA,benthopelagic,ram,182,NA,37.5,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus amboinensis,NA,reef-associated,ram,280,NA,50,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus borneensis,NA,demersal,ram,70,NA,25,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus cautus,NA,reef-associated,ram,150,NA,10,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus cerdale,NA,demersal,ram,140,NA,20,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus coatesi,NA,reef-associated,ram,87,NA,61.5,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus fitzroyensis,NA,demersal,ram,135,NA,20,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus hemiodon,NA,demersal,ram,200,NA,80,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus humani,NA,benthopelagic,ram,84.40000153,NA,39.5,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus isodon,NA,demersal,ram,200,NA,10,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus leiodon,NA,demersal,ram,165,NA,35,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus longimanus,NA,pelagic,ram,350,NA,541,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus macloti,NA,demersal,ram,110,NA,100.5,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus melanopterus,NA,reef-associated,ram,180,NA,50,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus obsoletus,NA,demersal,ram,100,NA,25,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus porosus,NA,demersal,ram,150,NA,42,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus sealei,NA,reef-associated,ram,100,NA,20,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus tilstoni,NA,benthopelagic,ram,200,NA,75,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus tjutjot,NA,reef-associated,ram,93.69999695,NA,50,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharias taurus,NA,reef-associated,ram,330,NA,96,oophagy,Odontaspididae,Lamniformes
+Carcharodon carcharias,NA,pelagic,ram,594.4,NA,600,oophagy,Lamnidae,Lamniformes
+Centrophorus atromarginatus,NA,bathydemersal,stationary,87,NA,316.5,yolk-sac viviparity,Centrophoridae,Squaliformes
+Centrophorus granulosus,NA,bathydemersal,stationary,176,NA,775,yolk-sac viviparity,Centrophoridae,Squaliformes
+Centrophorus harrissoni,NA,bathydemersal,stationary,111.4000015,NA,520,yolk-sac viviparity,Centrophoridae,Squaliformes
+Centrophorus isodon,NA,bathydemersal,stationary,108.2,NA,602.5,yolk-sac viviparity,Centrophoridae,Squaliformes
+Centrophorus lesliei,NA,bathydemersal,stationary,76.5,NA,490,yolk-sac viviparity,Centrophoridae,Squaliformes
+Centrophorus longipinnis,NA,bathydemersal,stationary,77.5,NA,395,yolk-sac viviparity,Centrophoridae,Squaliformes
+Centrophorus moluccensis,NA,bathydemersal,stationary,100,NA,474,yolk-sac viviparity,Centrophoridae,Squaliformes
+Centrophorus tessellatus,NA,benthopelagic,stationary,89,NA,376,yolk-sac viviparity,Centrophoridae,Squaliformes
+Centrophorus uyato,NA,bathydemersal,stationary,110,NA,725,yolk-sac viviparity,Centrophoridae,Squaliformes
+Centrophorus westraliensis,NA,bathydemersal,stationary,90.9,NA,683,yolk-sac viviparity,Centrophoridae,Squaliformes
+Centroscyllium excelsum,NA,bathydemersal,stationary,63.59999847,NA,900,yolk-sac viviparity,Etmopteridae,Squaliformes
+Centroscyllium fabricii,NA,bathydemersal,stationary,120,NA,1190,yolk-sac viviparity,Etmopteridae,Squaliformes
+Centroscyllium granulatum,NA,bathypelagic,stationary,61.5,NA,355,yolk-sac viviparity,Etmopteridae,Squaliformes
+Centroscyllium kamoharai,NA,bathydemersal,stationary,60,NA,965,yolk-sac viviparity,Etmopteridae,Squaliformes
+Centroscyllium nigrum,NA,benthopelagic,stationary,51,NA,719.5,yolk-sac viviparity,Etmopteridae,Squaliformes
+Centroscyllium ornatum,NA,bathydemersal,stationary,30,NA,891.5,yolk-sac viviparity,Etmopteridae,Squaliformes
+Centroscyllium ritteri,NA,demersal,stationary,43,NA,605,yolk-sac viviparity,Etmopteridae,Squaliformes
+Centroscymnus macracanthus,NA,bathydemersal,stationary,170,NA,884.5,yolk-sac viviparity,Somniosidae,Squaliformes
+Centroscymnus owstonii,NA,bathydemersal,stationary,148,NA,800,yolk-sac viviparity,Somniosidae,Squaliformes
+Centroselachus crepidater,NA,bathydemersal,stationary,105,NA,1140,yolk-sac viviparity,Somniosidae,Squaliformes
+Cephaloscyllium albipinnum,NA,bathypelagic,stationary,110,NA,340,yolk-sac viviparity,Scyliorhinidae,Carcharhiniformes
+Cephaloscyllium fasciatum,NA,reef-associated,stationary,42,NA,325,yolk-sac viviparity,Scyliorhinidae,Carcharhiniformes
+Cephaloscyllium formosanum,NA,reef-associated,stationary,65.5,NA,366,yolk-sac viviparity,Scyliorhinidae,Carcharhiniformes
+Cephaloscyllium hiscosellum,NA,bathypelagic,stationary,52,NA,357,yolk-sac viviparity,Scyliorhinidae,Carcharhiniformes
+Cephaloscyllium isabellum,NA,reef-associated,stationary,150,NA,399.5,yolk-sac viviparity,Scyliorhinidae,Carcharhiniformes
+Cephaloscyllium laticeps,NA,demersal,stationary,150,NA,110.5,yolk-sac viviparity,Scyliorhinidae,Carcharhiniformes
+Cephaloscyllium sarawakensis,NA,benthopelagic,stationary,44.1,NA,141,yolk-sac viviparity,Scyliorhinidae,Carcharhiniformes
+Cephaloscyllium signourum,NA,benthopelagic,stationary,74.1,NA,590,yolk-sac viviparity,Scyliorhinidae,Carcharhiniformes
+Cephaloscyllium silasi,NA,bathydemersal,stationary,36,NA,375,yolk-sac viviparity,Scyliorhinidae,Carcharhiniformes
+Cephaloscyllium speccum,NA,benthopelagic,stationary,68,NA,302.5,yolk-sac viviparity,Scyliorhinidae,Carcharhiniformes
+Cephaloscyllium sufflans,NA,demersal,stationary,110,NA,320,yolk-sac viviparity,Scyliorhinidae,Carcharhiniformes
+Cephaloscyllium umbratile,NA,reef-associated,stationary,120,NA,260,yolk-sac viviparity,Scyliorhinidae,Carcharhiniformes
+Cephaloscyllium variegatum,NA,bathypelagic,stationary,72,NA,360,yolk-sac viviparity,Scyliorhinidae,Carcharhiniformes
+Cephaloscyllium ventriosum,NA,demersal,stationary,110,NA,231,yolk-sac viviparity,Scyliorhinidae,Carcharhiniformes
+Cephalurus cephalus,NA,bathydemersal,stationary,28,NA,541,yolk-sac viviparity,Pentanchidae,Carcharhiniformes
+Cetorhinus maximus,NA,pelagic,ram,1097.3,NA,632,oophagy,Cetorhinidae,Lamniformes
+Chiloscyllium arabicum,NA,demersal,stationary,80,NA,51,oviparous,Hemiscylliidae,Orectolobiformes
+Chiloscyllium burmensis,NA,demersal,stationary,57.5,NA,31,oviparous,Hemiscylliidae,Orectolobiformes
+Chiloscyllium griseum,NA,reef-associated,stationary,77,NA,52.5,oviparous,Hemiscylliidae,Orectolobiformes
+Chiloscyllium hasselti,NA,reef-associated,stationary,61,NA,6,oviparous,Hemiscylliidae,Orectolobiformes
+Chiloscyllium indicum,NA,demersal,stationary,65,NA,45,oviparous,Hemiscylliidae,Orectolobiformes
+Chiloscyllium plagiosum,NA,reef-associated,stationary,83,NA,25,oviparous,Hemiscylliidae,Orectolobiformes
+Chiloscyllium punctatum,NA,reef-associated,stationary,132,NA,42.5,oviparous,Hemiscylliidae,Orectolobiformes
+Chlamydoselachus africana,NA,benthopelagic,ram,99,NA,850,oophagy,Chlamydoselachidae,Hexanchiformes
+Chlamydoselachus anguineus,NA,bathydemersal,ram,200,NA,785,oophagy,Chlamydoselachidae,Hexanchiformes
+Cirrhigaleus asper,NA,bathydemersal,stationary,120,NA,425,yolk-sac viviparity,Squalidae,Squaliformes
+Cirrhigaleus australis,NA,pelagic,stationary,123,NA,500,yolk-sac viviparity,Squalidae,Squaliformes
+Cirrhigaleus barbifer,NA,bathydemersal,stationary,126,NA,395,yolk-sac viviparity,Squalidae,Squaliformes
+Cirrhoscyllium expolitum,NA,demersal,stationary,34,NA,185,oviparous,Parascylliidae,Orectolobiformes
+Cirrhoscyllium formosanum,NA,demersal,stationary,39,NA,215,oviparous,Parascylliidae,Orectolobiformes
+Cirrhoscyllium japonicum,NA,bathydemersal,stationary,48.5,NA,270,oviparous,Parascylliidae,Orectolobiformes
+Dalatias licha,NA,bathydemersal,stationary,182,NA,915.5,yolk-sac viviparity,Dalatiidae,Squaliformes
+Deania profundorum,NA,bathydemersal,stationary,97,NA,1002.5,yolk-sac viviparity,Centrophoridae,Squaliformes
+Deania quadrispinosa,NA,bathydemersal,stationary,118,NA,755,yolk-sac viviparity,Centrophoridae,Squaliformes
+Echinorhinus brucus,NA,bathydemersal,stationary,310,NA,455,yolk-sac viviparity,Echinorhinidae,Echinorhiniformes
+Echinorhinus cookei,NA,benthopelagic,stationary,400,NA,555.5,yolk-sac viviparity,Echinorhinidae,Echinorhiniformes
+Eridacnis barbouri,NA,bathydemersal,ram,200,NA,525,yolk-sac viviparity,Proscylliidae,Carcharhiniformes
+Eridacnis radcliffei,NA,bathydemersal,ram,23,NA,418.5,yolk-sac viviparity,Proscylliidae,Carcharhiniformes
+Eridacnis sinuans,NA,bathydemersal,ram,37,NA,330,yolk-sac viviparity,Proscylliidae,Carcharhiniformes
+Etmopterus alphus,NA,pelagic,stationary,33.59999847,NA,632,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus bigelowi,NA,pelagic,stationary,67,NA,581.5,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus brachyurus,NA,pelagic,stationary,50,NA,398,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus brosei,NA,pelagic,stationary,45.09999847,NA,840,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus bullisi,NA,pelagic,stationary,30.3,NA,550,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus burgessi,NA,pelagic,stationary,35.5,NA,450,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus compagnoi,NA,pelagic,stationary,78,NA,841.5,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus decacuspidatus,NA,pelagic,stationary,29,NA,602,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus dianthus,NA,pelagic,stationary,40.90000153,NA,540,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus dislineatus,NA,pelagic,stationary,44.79999924,NA,695,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus evansi,NA,pelagic,stationary,32,NA,559.5,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus fusus,NA,pelagic,stationary,25.79999924,NA,490,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus gracilispinis,NA,pelagic,stationary,35,NA,612.5,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus granulosus,NA,pelagic,stationary,86,NA,920,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus hillianus,NA,pelagic,stationary,29.5,NA,448.5,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus joungi,NA,pelagic,stationary,40.59999847,NA,300,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus lailae,NA,pelagic,stationary,36.79999924,NA,349,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus litvinovi,NA,bathydemersal,stationary,61,NA,865,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus lucifer,NA,pelagic,stationary,55,NA,753.5,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus marshae,NA,pelagic,stationary,23.39999962,NA,329.5,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus molleri,NA,pelagic,stationary,46,NA,530,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus perryi,NA,pelagic,stationary,17,NA,380,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus polli,NA,bathydemersal,stationary,30,NA,650,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus princeps,NA,bathydemersal,stationary,94,NA,1281.5,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus pusillus,NA,bathydemersal,stationary,50.2,NA,560,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus pycnolepis,NA,benthopelagic,stationary,45.5,NA,546.5,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus robinsi,NA,bathydemersal,stationary,31,NA,600,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus schultzi,NA,bathydemersal,stationary,27,NA,600,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus sculptus,NA,bathydemersal,stationary,59,NA,631.5,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus sentosus,NA,bathydemersal,stationary,27,NA,350,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus sheikoi,NA,bathypelagic,stationary,43.20000076,NA,355,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus spinax,NA,bathydemersal,stationary,55,NA,1280,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus splendidus,NA,benthopelagic,stationary,30.7,NA,245,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus unicolor,NA,bathydemersal,stationary,79,NA,810,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus viator,NA,bathydemersal,stationary,39.09999847,NA,1115,yolk-sac viviparity,Etmopteridae,Squaliformes
+Etmopterus virens,NA,bathydemersal,stationary,23,NA,550,yolk-sac viviparity,Etmopteridae,Squaliformes
+Eucrossorhinus dasypogon,NA,reef-associated,stationary,366,NA,26,yolk-sac viviparity,Orectolobidae,Orectolobiformes
+Euprotomicrus bispinatus,NA,bathypelagic,ram,26.5,NA,900,yolk-sac viviparity,Dalatiidae,Squaliformes
+Eusphyra blochii,NA,benthopelagic,ram,186,NA,68.5,placental viviparity,Sphyrnidae,Carcharhiniformes
+Figaro boardmani,NA,bathydemersal,stationary,61,NA,475.5,oviparous,Pentanchidae,Carcharhiniformes
+Figaro striatus,NA,bathydemersal,stationary,42.09999847,NA,359.5,oviparous,Pentanchidae,Carcharhiniformes
+Furgaleus macki,NA,demersal,ram,160,NA,113.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Galeocerdo cuvier,NA,benthopelagic,ram,750,NA,400,placental viviparity,Carcharhinidae,Carcharhiniformes
+Galeus atlanticus,NA,bathydemersal,stationary,46,NA,559.5,oviparous,Pentanchidae,Carcharhiniformes
+Galeus eastmani,NA,bathydemersal,stationary,68,NA,500,oviparous,Pentanchidae,Carcharhiniformes
+Galeus gracilis,NA,bathydemersal,stationary,34,NA,380,oviparous,Pentanchidae,Carcharhiniformes
+Galeus longirostris,NA,bathydemersal,stationary,80.30000305,NA,480,oviparous,Pentanchidae,Carcharhiniformes
+Galeus melastomus,NA,demersal,stationary,90,NA,1027.5,oviparous,Pentanchidae,Carcharhiniformes
+Galeus mincaronei,NA,bathydemersal,stationary,48.8,NA,365,oviparous,Pentanchidae,Carcharhiniformes
+Galeus murinus,NA,bathydemersal,stationary,63,NA,837.5,oviparous,Pentanchidae,Carcharhiniformes
+Galeus nipponensis,NA,bathydemersal,stationary,75.6,NA,345,oviparous,Pentanchidae,Carcharhiniformes
+Galeus piperatus,NA,bathydemersal,stationary,29,NA,800.5,oviparous,Pentanchidae,Carcharhiniformes
+Galeus polli,NA,bathydemersal,stationary,45,NA,460,oviparous,Pentanchidae,Carcharhiniformes
+Galeus sauteri,NA,demersal,stationary,38,NA,75,oviparous,Pentanchidae,Carcharhiniformes
+Galeus schultzi,NA,bathydemersal,stationary,29.7,NA,380,oviparous,Pentanchidae,Carcharhiniformes
+Ginglymostoma cirratum,NA,reef-associated,stationary,308,NA,65,oviparous,Ginglymostomatidae,Orectolobiformes
+Gogolia filewoodi,NA,demersal,ram,73.9,NA,73,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Gollum attenuatus,NA,bathydemersal,ram,107,NA,390,yolk-sac viviparity,Pseudotriakidae,Carcharhiniformes
+Halaelurus boesemani,NA,demersal,stationary,48,NA,143.5,oviparous,Pentanchidae,Carcharhiniformes
+Halaelurus buergeri,NA,demersal,stationary,49,NA,90,oviparous,Pentanchidae,Carcharhiniformes
+Halaelurus lineatus,NA,demersal,stationary,56,NA,145,oviparous,Pentanchidae,Carcharhiniformes
+Halaelurus natalensis,NA,demersal,stationary,45,NA,86,oviparous,Pentanchidae,Carcharhiniformes
+Halaelurus quagga,NA,demersal,stationary,31.5,NA,120.5,oviparous,Pentanchidae,Carcharhiniformes
+Halaelurus sellus,NA,demersal,stationary,42.3,NA,113,oviparous,Pentanchidae,Carcharhiniformes
+Haploblepharus edwardsii,NA,demersal,stationary,64,NA,65,oviparous,Pentanchidae,Carcharhiniformes
+Haploblepharus fuscus,NA,reef-associated,stationary,69,NA,17.5,oviparous,Pentanchidae,Carcharhiniformes
+Haploblepharus kistnasamyi,NA,bathypelagic,stationary,50.4,NA,25,oviparous,Pentanchidae,Carcharhiniformes
+Haploblepharus pictus,NA,demersal,stationary,60,NA,17.5,oviparous,Pentanchidae,Carcharhiniformes
+Hemigaleus australiensis,NA,demersal,ram,110,NA,85.5,yolk-sac viviparity,Hemigaleidae,Carcharhiniformes
+Hemigaleus microstoma,NA,demersal,ram,114,NA,85,yolk-sac viviparity,Hemigaleidae,Carcharhiniformes
+Hemipristis elongata,NA,demersal,ram,240,NA,65.5,yolk-sac viviparity,Hemigaleidae,Carcharhiniformes
+Hemiscyllium freycineti,NA,reef-associated,stationary,72,NA,6,oviparous,Hemiscylliidae,Orectolobiformes
+Hemiscyllium galei,NA,reef-associated,stationary,56.75,NA,13.5,oviparous,Hemiscylliidae,Orectolobiformes
+Hemiscyllium hallstromi,NA,reef-associated,stationary,77,NA,7.5,oviparous,Hemiscylliidae,Orectolobiformes
+Hemiscyllium halmahera,NA,benthopelagic,stationary,68.09999847,NA,7.5,oviparous,Hemiscylliidae,Orectolobiformes
+Hemiscyllium henryi,NA,reef-associated,stationary,81.5,NA,16.5,oviparous,Hemiscylliidae,Orectolobiformes
+Hemiscyllium michaeli,NA,benthopelagic,stationary,69.5,NA,11,oviparous,Hemiscylliidae,Orectolobiformes
+Hemiscyllium ocellatum,NA,reef-associated,stationary,107,NA,25,oviparous,Hemiscylliidae,Orectolobiformes
+Hemiscyllium strahani,NA,reef-associated,stationary,80,NA,10.5,oviparous,Hemiscylliidae,Orectolobiformes
+Hemiscyllium trispeculare,NA,reef-associated,stationary,79,NA,25,oviparous,Hemiscylliidae,Orectolobiformes
+Hemitriakis abdita,NA,bathydemersal,ram,80,NA,313,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Hemitriakis complicofasciata,NA,benthopelagic,ram,95.5,NA,95,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Hemitriakis falcata,NA,demersal,ram,77.3,NA,155,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Hemitriakis indroyonoi,NA,demersal,ram,120,NA,60,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Hemitriakis japanica,NA,demersal,ram,120,NA,50.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Hemitriakis leucoperiptera,NA,demersal,ram,96,NA,24.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Heterodontus francisci,NA,demersal,stationary,122,NA,76,oviparous,Heterodontidae,Heterodontiformes
+Heterodontus galeatus,NA,reef-associated,stationary,152,NA,46.5,oviparous,Heterodontidae,Heterodontiformes
+Heterodontus japonicus,NA,demersal,stationary,120,NA,53,oviparous,Heterodontidae,Heterodontiformes
+Heterodontus mexicanus,NA,demersal,stationary,170,NA,25,oviparous,Heterodontidae,Heterodontiformes
+Heterodontus omanensis,NA,demersal,stationary,56,NA,76,oviparous,Heterodontidae,Heterodontiformes
+Heterodontus portusjacksoni,NA,demersal,stationary,165,NA,137.5,oviparous,Heterodontidae,Heterodontiformes
+Heterodontus quoyi,NA,reef-associated,stationary,107,NA,21.5,oviparous,Heterodontidae,Heterodontiformes
+Heterodontus ramalheira,NA,demersal,stationary,64,NA,172.5,oviparous,Heterodontidae,Heterodontiformes
+Heterodontus zebra,NA,reef-associated,stationary,125,NA,100,oviparous,Heterodontidae,Heterodontiformes
+Hexanchus griseus,NA,bathydemersal,ram,550,NA,1245,yolk-sac viviparity,Hexanchidae,Hexanchiformes
+Hexanchus nakamurai,NA,bathydemersal,ram,180,NA,300,yolk-sac viviparity,Hexanchidae,Hexanchiformes
+Hexanchus vitulus,NA,bathydemersal,ram,180,NA,395.5,yolk-sac viviparity,Hexanchidae,Hexanchiformes
+Holohalaelurus favus,NA,pelagic,stationary,51.5,NA,600,oviparous,Pentanchidae,Carcharhiniformes
+Holohalaelurus grennian,NA,pelagic,stationary,27,NA,295.5,oviparous,Pentanchidae,Carcharhiniformes
+Holohalaelurus melanostigma,NA,bathydemersal,stationary,38.40000153,NA,632.5,oviparous,Pentanchidae,Carcharhiniformes
+Holohalaelurus punctatus,NA,bathydemersal,stationary,35,NA,330,oviparous,Pentanchidae,Carcharhiniformes
+Holohalaelurus regani,NA,bathydemersal,stationary,69,NA,545,oviparous,Pentanchidae,Carcharhiniformes
+Hypogaleus hyugaensis,NA,demersal,ram,127,NA,135,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Iago garricki,NA,bathydemersal,ram,75,NA,362.5,placental viviparity,Triakidae,Carcharhiniformes
+Iago omanensis,NA,bathydemersal,ram,37,NA,1152.5,placental viviparity,Triakidae,Carcharhiniformes
+Isistius brasiliensis,NA,bathypelagic,ram,42,NA,1850,yolk-sac viviparity,Dalatiidae,Squaliformes
+Isistius plutodus,NA,benthopelagic,ram,42.3,NA,1045,yolk-sac viviparity,Dalatiidae,Squaliformes
+Isogomphodon oxyrhynchus,NA,demersal,ram,160,NA,22,placental viviparity,Carcharhinidae,Carcharhiniformes
+Isurus oxyrinchus,NA,pelagic,ram,445,NA,375,oophagy,Lamnidae,Lamniformes
+Isurus paucus,NA,pelagic,ram,427,NA,876,oophagy,Lamnidae,Lamniformes
+Lamiopsis temminckii,NA,demersal,ram,168,NA,42.5,placental viviparity,Carcharhinidae,Carcharhiniformes
+Lamiopsis tephrodes,NA,demersal,ram,145,NA,42.5,placental viviparity,Carcharhinidae,Carcharhiniformes
+Lamna ditropis,NA,pelagic,ram,305,NA,325,oophagy,Lamnidae,Lamniformes
+Lamna nasus,NA,pelagic,ram,365,NA,904.5,oophagy,Lamnidae,Lamniformes
+Leptocharias smithii,NA,demersal,stationary,82,NA,42.5,placental viviparity,Leptochariidae,Carcharhiniformes
+Loxodon macrorhinus,NA,demersal,ram,98,NA,53.5,yolk-sac viviparity,Carcharhinidae,Carcharhiniformes
+Megachasma pelagios,NA,pelagic,ram,549,NA,302.5,oophagy,Megachasmidae,Lamniformes
+Mitsukurina owstoni,NA,bathydemersal,ram,617,NA,665,oophagy,Mitsukurinidae,Lamniformes
+Mustelus albipinnis,NA,benthopelagic,ram,109,NA,155.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus andamanensis,NA,benthopelagic,ram,104,NA,75,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus antarcticus,NA,demersal,ram,157,NA,201.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus asterias,NA,demersal,ram,140,NA,99.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus californicus,NA,demersal,ram,116,NA,100,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus canis,NA,demersal,ram,150,NA,400,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus dorsalis,NA,demersal,ram,66,NA,110,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus fasciatus,NA,demersal,ram,150,NA,125.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus griseus,NA,demersal,ram,87,NA,152.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus henlei,NA,demersal,ram,100,NA,140.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus higmani,NA,demersal,ram,77.40000153,NA,450.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus lenticulatus,NA,demersal,ram,151,NA,110.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus lunulatus,NA,demersal,ram,175,NA,104.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus manazo,NA,demersal,ram,220,NA,180,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus mento,NA,demersal,ram,130,NA,33,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus minicanis,NA,benthopelagic,ram,47.79999924,NA,127,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus mosis,NA,demersal,ram,150,NA,135,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus mustelus,NA,demersal,ram,174.5,NA,400,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus norrisi,NA,demersal,ram,110,NA,50.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus palumbes,NA,demersal,ram,120,NA,221.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus punctulatus,NA,demersal,ram,190,NA,150,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus ravidus,NA,benthopelagic,ram,68.30000305,NA,203,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus schmitti,NA,demersal,ram,108.5,NA,98.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus sinusmexicanus,NA,pelagic,ram,83,NA,135,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus stevensi,NA,benthopelagic,ram,128.3000031,NA,402,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus walkeri,NA,demersal,ram,111.6,NA,227.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus whitneyi,NA,demersal,ram,87,NA,113.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus widodoi,NA,benthopelagic,ram,109.5,NA,90,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Nasolamia velox,NA,demersal,ram,165,NA,96,placental viviparity,Carcharhinidae,Carcharhiniformes
+Nebrius ferrugineus,NA,reef-associated,ram,320,NA,35,yolk-sac viviparity,Ginglymostomatidae,Orectolobiformes
+Negaprion acutidens,NA,reef-associated,ram,310,NA,45,placental viviparity,Carcharhinidae,Carcharhiniformes
+Notorynchus cepedianus,NA,demersal,ram,296,NA,285,yolk-sac viviparity,Hexanchidae,Hexanchiformes
+Odontaspis ferox,NA,benthopelagic,ram,450,NA,512.5,oophagy,Odontaspididae,Lamniformes
+Odontaspis noronhai,NA,pelagic,ram,367,NA,530,oophagy,Odontaspididae,Lamniformes
+Orectolobus floridus,NA,benthopelagic,stationary,75,NA,63.5,yolk-sac viviparity,Orectolobidae,Orectolobiformes
+Orectolobus halei,NA,demersal,stationary,256,NA,97.5,yolk-sac viviparity,Orectolobidae,Orectolobiformes
+Orectolobus hutchinsi,NA,demersal,stationary,149,NA,55,yolk-sac viviparity,Orectolobidae,Orectolobiformes
+Orectolobus japonicus,NA,demersal,stationary,118,NA,100,yolk-sac viviparity,Orectolobidae,Orectolobiformes
+Orectolobus leptolineatus,NA,benthopelagic,stationary,112,NA,65,yolk-sac viviparity,Orectolobidae,Orectolobiformes
+Orectolobus maculatus,NA,reef-associated,stationary,320,NA,124,yolk-sac viviparity,Orectolobidae,Orectolobiformes
+Orectolobus ornatus,NA,reef-associated,stationary,290,NA,52.5,yolk-sac viviparity,Orectolobidae,Orectolobiformes
+Orectolobus parvimaculatus,NA,demersal,stationary,88.5,NA,72,yolk-sac viviparity,Orectolobidae,Orectolobiformes
+Orectolobus reticulatus,NA,benthopelagic,stationary,52.3,NA,10,yolk-sac viviparity,Orectolobidae,Orectolobiformes
+Orectolobus wardi,NA,reef-associated,stationary,63,NA,2,yolk-sac viviparity,Orectolobidae,Orectolobiformes
+Oxynotus bruniensis,NA,bathydemersal,stationary,65,NA,557.5,yolk-sac viviparity,Oxynotidae,Squaliformes
+Oxynotus caribbaeus,NA,bathydemersal,stationary,49,NA,429.5,yolk-sac viviparity,Oxynotidae,Squaliformes
+Oxynotus centrina,NA,bathydemersal,stationary,150,NA,420,yolk-sac viviparity,Oxynotidae,Squaliformes
+Oxynotus japonicus,NA,bathydemersal,stationary,54,NA,225,yolk-sac viviparity,Oxynotidae,Squaliformes
+Oxynotus paradoxus,NA,bathydemersal,stationary,118,NA,492.5,yolk-sac viviparity,Oxynotidae,Squaliformes
+Paragaleus leucolomatus,NA,demersal,ram,95.7,NA,10.5,placental viviparity,Hemigaleidae,Carcharhiniformes
+Paragaleus pectoralis,NA,demersal,ram,138,NA,50,placental viviparity,Hemigaleidae,Carcharhiniformes
+Paragaleus randalli,NA,demersal,ram,83.6,NA,9.5,placental viviparity,Hemigaleidae,Carcharhiniformes
+Paragaleus tengi,NA,demersal,ram,88,NA,10.5,placental viviparity,Hemigaleidae,Carcharhiniformes
+Parascyllium collare,NA,reef-associated,stationary,85,NA,125,oviparous,Parascylliidae,Orectolobiformes
+Parascyllium ferrugineum,NA,demersal,stationary,80,NA,77.5,oviparous,Parascylliidae,Orectolobiformes
+Parascyllium sparsimaculatum,NA,bathydemersal,stationary,78.1,NA,224.5,oviparous,Parascylliidae,Orectolobiformes
+Parascyllium variolatum,NA,demersal,stationary,91,NA,90,oviparous,Parascylliidae,Orectolobiformes
+Parmaturus angelae,NA,demersal,stationary,42.5,NA,550,oviparous,Pentanchidae,Carcharhiniformes
+Parmaturus lanatus,NA,bathydemersal,stationary,36,NA,847.5,oviparous,Pentanchidae,Carcharhiniformes
+Parmaturus macmillani,NA,bathydemersal,stationary,45,NA,1085,oviparous,Pentanchidae,Carcharhiniformes
+Parmaturus melanobranchus,NA,bathydemersal,stationary,85,NA,779,oviparous,Pentanchidae,Carcharhiniformes
+Parmaturus pilosus,NA,bathydemersal,stationary,64,NA,767.5,oviparous,Pentanchidae,Carcharhiniformes
+Parmaturus xaniurus,NA,bathydemersal,stationary,45,NA,669,oviparous,Pentanchidae,Carcharhiniformes
+Pentanchus profundicolus,NA,bathydemersal,stationary,51,NA,871,oviparous,Pentanchidae,Carcharhiniformes
+Planonasus indicus,NA,demersal,stationary,64,NA,640,oophagy,Pseudotriakidae,Carcharhiniformes
+Planonasus parini,NA,demersal,stationary,53.4,NA,840,oophagy,Pseudotriakidae,Carcharhiniformes
+Pliotrema annae,NA,demersal,stationary,98,NA,27.5,yolk-sac viviparity,Pristiophoridae,Pristiophoriformes
+Pliotrema kajae,NA,demersal,stationary,102,NA,267,yolk-sac viviparity,Pristiophoridae,Pristiophoriformes
+Pliotrema warreni,NA,demersal,stationary,170,NA,462.5,yolk-sac viviparity,Pristiophoridae,Pristiophoriformes
+Poroderma africanum,NA,demersal,stationary,101,NA,50,oviparous,Scyliorhinidae,Carcharhiniformes
+Poroderma pantherinum,NA,reef-associated,stationary,84,NA,128,oviparous,Scyliorhinidae,Carcharhiniformes
+Pristiophorus cirratus,NA,demersal,stationary,149,NA,335,yolk-sac viviparity,Pristiophoridae,Pristiophoriformes
+Pristiophorus delicatus,NA,pelagic,stationary,84.5,NA,325.5,yolk-sac viviparity,Pristiophoridae,Pristiophoriformes
+Pristiophorus japonicus,NA,demersal,stationary,153,NA,645,yolk-sac viviparity,Pristiophoridae,Pristiophoriformes
+Pristiophorus lanae,NA,benthopelagic,stationary,89.5,NA,311,yolk-sac viviparity,Pristiophoridae,Pristiophoriformes
+Pristiophorus nancyae,NA,pelagic,stationary,62.1,NA,428,yolk-sac viviparity,Pristiophoridae,Pristiophoriformes
+Pristiophorus nudipinnis,NA,demersal,stationary,124,NA,82.5,yolk-sac viviparity,Pristiophoridae,Pristiophoriformes
+Proscyllium habereri,NA,demersal,stationary,65,NA,185,oviparous,Proscylliidae,Carcharhiniformes
+Proscyllium magnificum,NA,pelagic,stationary,49,NA,220.5,oviparous,Proscylliidae,Carcharhiniformes
+Pseudotriakis microdon,NA,bathydemersal,ram,269,NA,1031.5,yolk-sac viviparity,Pseudotriakidae,Carcharhiniformes
+Rhincodon typus,NA,pelagic,ram,1700,NA,964,yolk-sac viviparity,Rhincodontidae,Orectolobiformes
+Rhizoprionodon acutus,NA,benthopelagic,ram,178,NA,100.5,placental viviparity,Carcharhinidae,Carcharhiniformes
+Rhizoprionodon lalandii,NA,demersal,ram,102.1,NA,35,placental viviparity,Carcharhinidae,Carcharhiniformes
+Rhizoprionodon longurio,NA,benthopelagic,ram,154,NA,13.5,placental viviparity,Carcharhinidae,Carcharhiniformes
+Rhizoprionodon oligolinx,NA,reef-associated,ram,85,NA,18,placental viviparity,Carcharhinidae,Carcharhiniformes
+Rhizoprionodon porosus,NA,reef-associated,ram,110,NA,250,placental viviparity,Carcharhinidae,Carcharhiniformes
+Rhizoprionodon taylori,NA,pelagic,ram,78.4,NA,55,placental viviparity,Carcharhinidae,Carcharhiniformes
+Schroederichthys bivius,NA,demersal,stationary,86,NA,185.5,oviparous,Scyliorhinidae,Carcharhiniformes
+Schroederichthys chilensis,NA,demersal,stationary,70,NA,25.5,oviparous,Scyliorhinidae,Carcharhiniformes
+Schroederichthys saurisqualus,NA,bathydemersal,stationary,69.2,NA,311,oviparous,Scyliorhinidae,Carcharhiniformes
+Schroederichthys tenuis,NA,bathydemersal,stationary,47.3,NA,261,oviparous,Scyliorhinidae,Carcharhiniformes
+Scyliorhinus boa,NA,bathydemersal,stationary,54,NA,502.5,oviparous,Scyliorhinidae,Carcharhiniformes
+Scyliorhinus canicula,NA,demersal,stationary,100,NA,400.5,oviparous,Scyliorhinidae,Carcharhiniformes
+Scyliorhinus capensis,NA,demersal,stationary,122,NA,260.5,oviparous,Scyliorhinidae,Carcharhiniformes
+Scyliorhinus cervigoni,NA,demersal,stationary,76,NA,272.5,oviparous,Scyliorhinidae,Carcharhiniformes
+Scyliorhinus comoroensis,NA,bathydemersal,stationary,46.4,NA,300,oviparous,Scyliorhinidae,Carcharhiniformes
+Scyliorhinus haeckelii,NA,demersal,stationary,64.7,NA,310,oviparous,Scyliorhinidae,Carcharhiniformes
+Scyliorhinus retifer,NA,demersal,stationary,59,NA,413.5,oviparous,Scyliorhinidae,Carcharhiniformes
+Scyliorhinus stellaris,NA,reef-associated,stationary,162,NA,190.5,oviparous,Scyliorhinidae,Carcharhiniformes
+Scyliorhinus torazame,NA,demersal,stationary,500,NA,160,oviparous,Scyliorhinidae,Carcharhiniformes
+Scylliogaleus quecketti,NA,demersal,stationary,111,NA,36.5,placental viviparity,Triakidae,Carcharhiniformes
+Scymnodalatias albicauda,NA,bathypelagic,stationary,111,NA,330,yolk-sac viviparity,Somniosidae,Squaliformes
+Scymnodalatias garricki,NA,bathypelagic,stationary,40.6,NA,440,yolk-sac viviparity,Somniosidae,Squaliformes
+Scymnodalatias sherwoodi,NA,benthopelagic,stationary,85,NA,450,yolk-sac viviparity,Somniosidae,Squaliformes
+Scymnodon ichiharai,NA,bathypelagic,stationary,151.1,NA,640,yolk-sac viviparity,Somniosidae,Squaliformes
+Scymnodon plunketi,NA,bathypelagic,stationary,170,NA,865,yolk-sac viviparity,Somniosidae,Squaliformes
+Scymnodon ringens,NA,bathypelagic,stationary,110,NA,900,yolk-sac viviparity,Somniosidae,Squaliformes
+Somniosus antarcticus,NA,benthopelagic,stationary,438,NA,817.5,yolk-sac viviparity,Somniosidae,Squaliformes
+Somniosus longus,NA,bathydemersal,stationary,143.3,NA,683,yolk-sac viviparity,Somniosidae,Squaliformes
+Somniosus microcephalus,NA,benthopelagic,stationary,730,NA,1323.5,yolk-sac viviparity,Somniosidae,Squaliformes
+Somniosus pacificus,NA,benthopelagic,stationary,440,NA,1102.5,yolk-sac viviparity,Somniosidae,Squaliformes
+Somniosus rostratus,NA,bathydemersal,stationary,143,NA,765,yolk-sac viviparity,Somniosidae,Squaliformes
+Sphyrna corona,NA,demersal,ram,92,NA,50,placental viviparity,Sphyrnidae,Carcharhiniformes
+Sphyrna lewini,NA,pelagic,ram,430,NA,521.5,placental viviparity,Sphyrnidae,Carcharhiniformes
+Sphyrna media,NA,demersal,ram,150,NA,50,placental viviparity,Sphyrnidae,Carcharhiniformes
+Sphyrna mokarran,NA,pelagic,ram,610,NA,150,placental viviparity,Sphyrnidae,Carcharhiniformes
+Sphyrna tiburo,NA,reef-associated,ram,150,NA,45,placental viviparity,Sphyrnidae,Carcharhiniformes
+Sphyrna tudes,NA,benthopelagic,ram,134,NA,42.5,placental viviparity,Sphyrnidae,Carcharhiniformes
+Sphyrna zygaena,NA,pelagic,ram,400,NA,100,placental viviparity,Sphyrnidae,Carcharhiniformes
+Squaliolus aliae,NA,bathypelagic,stationary,24.1,NA,1000,yolk-sac viviparity,Dalatiidae,Squaliformes
+Squaliolus laticaudus,NA,bathypelagic,stationary,27.5,NA,905,yolk-sac viviparity,Dalatiidae,Squaliformes
+Squalus acanthias,NA,benthopelagic,stationary,200,NA,989,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus acutipinnis,NA,benthopelagic,stationary,85,NA,750,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus albicaudus,NA,benthopelagic,stationary,52.5,NA,308,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus albifrons,NA,pelagic,stationary,74,NA,290.5,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus altipinnis,NA,pelagic,stationary,58.90000153,NA,301.5,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus bahiensis,NA,pelagic,stationary,69,NA,599,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus bassi,NA,benthopelagic,stationary,110,NA,375,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus blainville,NA,demersal,stationary,920,NA,757.5,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus boretzi,NA,demersal,stationary,95.2,NA,312.5,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus brevirostris,NA,demersal,stationary,57.8,NA,191,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus bucephalus,NA,pelagic,stationary,90,NA,664,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus chloroculus,NA,bathydemersal,stationary,99,NA,786.5,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus clarkae,NA,benthopelagic,stationary,82,NA,427.5,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus crassispinus,NA,pelagic,stationary,67,NA,224.5,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus cubensis,NA,demersal,stationary,60,NA,230,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus edmundsi,NA,pelagic,stationary,115,NA,527,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus formosus,NA,pelagic,stationary,85,NA,485,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus grahami,NA,pelagic,stationary,73,NA,326,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus griffini,NA,bathydemersal,stationary,110,NA,493.5,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus hawaiiensis,NA,benthopelagic,stationary,101,NA,332.5,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus hemipinnis,NA,benthopelagic,stationary,78,NA,50.5,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus japonicus,NA,bathydemersal,stationary,105,NA,225,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus lobularis,NA,benthopelagic,stationary,64,NA,300,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus mahia,NA,pelagic,stationary,59,NA,277.5,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus margaretsmithae,NA,benthopelagic,stationary,54.29999924,NA,270,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus megalops,NA,demersal,stationary,64,NA,390,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus melanurus,NA,bathydemersal,stationary,75,NA,330,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus mitsukurii,NA,benthopelagic,stationary,112,NA,479,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus montalbani,NA,bathydemersal,stationary,101,NA,762,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus nasutus,NA,pelagic,stationary,64,NA,575,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus notocaudatus,NA,pelagic,stationary,62,NA,339.5,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus quasimodo,NA,pelagic,stationary,85,NA,417.5,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus rancureli,NA,bathydemersal,stationary,77,NA,360,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus raoulensis,NA,pelagic,stationary,93,NA,355,yolk-sac viviparity,Squalidae,Squaliformes
+Squalus suckleyi,NA,benthopelagic,stationary,130,NA,618,yolk-sac viviparity,Squalidae,Squaliformes
+Squatina aculeata,NA,demersal,stationary,188,NA,265,yolk-sac viviparity,Squatinidae,Squatiniformes
+Squatina africana,NA,demersal,stationary,80,NA,265,yolk-sac viviparity,Squatinidae,Squatiniformes
+Squatina albipunctata,NA,benthopelagic,stationary,98.5,NA,226,yolk-sac viviparity,Squatinidae,Squatiniformes
+Squatina argentina,NA,demersal,stationary,1380,NA,228.5,yolk-sac viviparity,Squatinidae,Squatiniformes
+Squatina armata,NA,demersal,stationary,150,NA,52.5,yolk-sac viviparity,Squatinidae,Squatiniformes
+Squatina australis,NA,demersal,stationary,152,NA,65,yolk-sac viviparity,Squatinidae,Squatiniformes
+Squatina californica,NA,demersal,stationary,152,NA,103,yolk-sac viviparity,Squatinidae,Squatiniformes
+Squatina david,NA,demersal,stationary,79,NA,213,yolk-sac viviparity,Squatinidae,Squatiniformes
+Squatina dumeril,NA,bathydemersal,stationary,152,NA,688,yolk-sac viviparity,Squatinidae,Squatiniformes
+Squatina formosa,NA,bathydemersal,stationary,150,NA,201.5,yolk-sac viviparity,Squatinidae,Squatiniformes
+Squatina guggenheim,NA,demersal,stationary,96,NA,78.5,yolk-sac viviparity,Squatinidae,Squatiniformes
+Squatina japonica,NA,demersal,stationary,200,NA,181,yolk-sac viviparity,Squatinidae,Squatiniformes
+Squatina nebulosa,NA,demersal,stationary,800,NA,165,yolk-sac viviparity,Squatinidae,Squatiniformes
+Squatina occulta,NA,demersal,stationary,120,NA,177.5,yolk-sac viviparity,Squatinidae,Squatiniformes
+Squatina oculata,NA,demersal,stationary,160,NA,255,yolk-sac viviparity,Squatinidae,Squatiniformes
+Squatina pseudocellata,NA,benthopelagic,stationary,114,NA,231,yolk-sac viviparity,Squatinidae,Squatiniformes
+Squatina squatina,NA,demersal,stationary,244,NA,76,yolk-sac viviparity,Squatinidae,Squatiniformes
+Squatina tergocellata,NA,bathydemersal,stationary,140,NA,264,yolk-sac viviparity,Squatinidae,Squatiniformes
+Squatina tergocellatoides,NA,demersal,stationary,100,NA,200,yolk-sac viviparity,Squatinidae,Squatiniformes
+Stegostoma tigrinum,NA,reef-associated,stationary,354,NA,31,oviparous,Stegostomidae,Orectolobiformes
+Sutorectus tentaculatus,NA,reef-associated,stationary,92,NA,17.5,yolk-sac viviparity,Orectolobidae,Orectolobiformes
+Triaenodon obesus,NA,reef-associated,stationary,168,NA,165.5,yolk-sac viviparity,Carcharhinidae,Carcharhiniformes
+Triakis acutipinna,NA,demersal,ram,112,NA,260,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Triakis maculata,NA,demersal,ram,180,NA,105,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Triakis megalopterus,NA,demersal,ram,207.5,NA,25,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Triakis scyllium,NA,demersal,ram,150,NA,90,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Triakis semifasciata,NA,demersal,ram,213.4,NA,78,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Trigonognathus kabeyai,NA,demersal,stationary,53.9,NA,575,yolk-sac viviparity,Etmopteridae,Squaliformes
+Zameus squamulosus,NA,demersal,stationary,84,NA,755.5,yolk-sac viviparity,Somniosidae,Squaliformes
+Alopias vulpinus,longline,pelagic,ram,573.3,total_length,325,oophagy,Lamnidae,NA
+Scyliorhinus canicula,longline,demersal,stationary,100,total_length,400.5,oviparous,Scyliorhinidae,NA
