@@ -65,6 +65,8 @@ elasmo_avm <- prm_elasmo_subset %>%
   mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
+  select(-sample_size, -estimate, -est_count) %>% 
+  distinct() %>% 
   drop_na()
 
 # Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
@@ -73,6 +75,8 @@ elasmo_prm <- prm_elasmo_subset %>%
   mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
+  select(-sample_size, -estimate, -est_count) %>% 
+  distinct() %>% 
   drop_na()
 ```
 
@@ -120,10 +124,10 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat_associated, data = avm_train) %>%
+avm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + reproductive_mode, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
-prm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat_associated, data = elasmo_prm) %>%
+prm_recipe <- recipe(mortality_prop ~ reproductive_mode + max_size_cm + habitat_associated, data = elasmo_prm) %>%
   step_normalize(all_numeric_predictors())
 ```
 
