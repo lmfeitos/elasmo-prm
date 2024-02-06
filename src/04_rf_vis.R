@@ -88,7 +88,7 @@ p6
 ggsave(p6, file = paste0("fig3.pdf"), path = here::here("figs"), height = 12, width = 10)
 
 p1 = ggplot(predictions) +
-  geom_point(aes(max_size_cm, mortality_prop, color = group),
+  geom_point(aes(max_size_cm, mortality_prop),
              alpha = 0.5) +
   # geom_smooth(method = "loess", aes(max_size_cm, mortality_prop, color = reproductive_mode), se = FALSE) +
   theme_bw(base_size = 14) +
@@ -106,8 +106,8 @@ p1 = ggplot(predictions) +
   scale_color_viridis_d()+
   theme(legend.position = "none")
 
-p2 = ggplot(predictions) +
-  geom_point(aes(median_depth, mortality_prop, color = group),
+p2 = ggplot(predictions %>% filter(estimate_type=="AVM")) +
+  geom_point(aes(median_depth, mortality_prop),
              alpha = 0.5) +
   # geom_smooth(method = "loess", aes(median_depth, mortality_prop, color = reproductive_mode), se = FALSE) +
   theme_bw(base_size = 14) +
@@ -126,7 +126,7 @@ p2 = ggplot(predictions) +
   theme(legend.position = "none")
 
 
-p3 = ggplot(predictions %>% filter(estimate_type=="AVM") %>% mutate(ventilation_method = str_to_sentence(ventilation_method))) +
+p3 = ggplot(predictions %>% mutate(ventilation_method = str_to_sentence(ventilation_method))) +
   geom_point(aes(mortality_prop, ventilation_method),
              alpha = 0.5) +
   geom_boxplot(aes(mortality_prop, ventilation_method),
