@@ -72,7 +72,9 @@ elasmo_trawl <- prm_elasmo_subset %>%
   filter(gear_class == "trawl") %>%
   mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
-  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
+  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>% 
+  select(-sample_size, -estimate, -est_count) %>% 
+  distinct() %>%
   drop_na()
 
 # Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
@@ -81,7 +83,9 @@ elasmo_gillnet <- prm_elasmo_subset %>%
   filter(gear_class == "gillnet") %>%
   mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
-  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
+  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>% 
+  select(-sample_size, -estimate, -est_count) %>% 
+  distinct() %>% 
   drop_na()
 ```
 
@@ -101,10 +105,10 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-trawl_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + reproductive_mode, data = elasmo_trawl) %>%
+trawl_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + reproductive_mode + habitat_associated + ventilation_method, data = elasmo_trawl) %>%
   step_normalize(all_numeric_predictors())
 
-gillnet_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + ventilation_method, data = elasmo_gillnet) %>%
+gillnet_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat_associated + ventilation_method, data = elasmo_gillnet) %>%
   step_normalize(all_numeric_predictors())
 ```
 
@@ -347,7 +351,7 @@ v1 <- trawl_fit %>%
   vip() +
   theme_bw(base_size = 14) +
   labs(y = "") +
-  scale_x_discrete(labels = c("Reproductive Mode", "Median Depth (m)","Maximum Size (cm)"))
+  scale_x_discrete(labels = c("Ventilation Method", "Associated Habitat", "Reproductive Mode", "Median Depth (m)","Maximum Size (cm)"))
 v1
 
 v2 <- gillnet_fit %>%
@@ -355,7 +359,7 @@ v2 <- gillnet_fit %>%
   vip() +
   theme_bw(base_size = 14) +
   labs(y = "Variable Importance for At-Vessel Mortality") +
-  scale_x_discrete(labels = c("Ventilation Method",  "Median Depth (m)","Maximum Size (cm)"))
+  scale_x_discrete(labels = c("Associated Habitat",  "Ventilation Method","Median Depth (m)","Maximum Size (cm)"))
 v2
 ```
 

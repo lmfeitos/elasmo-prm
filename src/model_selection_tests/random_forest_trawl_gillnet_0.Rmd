@@ -60,6 +60,8 @@ elasmo_trawl <- prm_elasmo_subset %>%
   mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
+  select(-sample_size, -estimate, -est_count) %>% 
+  distinct() %>% 
   drop_na()
 
 # Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
@@ -69,6 +71,8 @@ elasmo_gillnet <- prm_elasmo_subset %>%
   mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
+  select(-sample_size, -estimate, -est_count) %>% 
+  distinct() %>% 
   drop_na()
 ```
 
