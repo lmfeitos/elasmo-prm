@@ -24,7 +24,7 @@ basedir <- "G:/Meu Drive/PRM review/"
 datadir <- file.path(basedir, "data/fish_base_data")
 outdir <- file.path(basedir, "data/outputs") 
 
-sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>% 
+sim_results <- read_csv(here::here( "data", "simulation_results.csv")) %>% 
   filter(scenario != "CQ") %>% 
   filter(!is.na(mort_scenario))
 
@@ -166,7 +166,8 @@ percent_calc = sim_results %>%
   select(scientific_name, f, f_mort, mid_avm, mid_prm) %>% 
   distinct() %>% 
   mutate(percent_diff = (f - f_mort) / f * 100) %>% 
-  mutate(mean_diff = mean(percent_diff, na.rm=TRUE))
+  mutate(mean_diff = mean(percent_diff, na.rm=TRUE),
+         sd_diff = sd(percent_diff, na.rm=TRUE))
 
 species_of_interest = c("Galeocerdo cuvier", "Carcharhinus dussumieri",
                         "Carcharhinus longimanus", "Squatina japonica",
@@ -193,12 +194,12 @@ subset_percent = percent_calc %>%
   filter(scientific_name %in% species_of_interest) %>% 
   select(scientific_name, percent_diff)
 
-write_csv(subset_percent, here::here("data", "table1.csv"))
+write_csv(subset_percent, here::here("data", "table1.1.csv"))
   
 percent_over_30 = percent_calc %>% 
   filter(percent_diff >= 50)
 
-23/282*100
+41/282*100
 
 sim_200 = sim_results %>% 
   filter(scientific_name %in% iucn_data$scientific_name) %>% 

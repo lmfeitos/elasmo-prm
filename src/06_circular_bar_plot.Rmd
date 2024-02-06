@@ -227,7 +227,7 @@ prop =
   theme_void(base_size = 14) +
   labs(x = "",
        y = "")
-prop
+#prop
 
 ggsave(prop, file = paste0("fig4.pdf"), path = here::here("figs"), height = 20, width = 20)
 ```
@@ -312,7 +312,7 @@ prop = ggplot(data = non_threat) +
   theme_void(base_size = 14) +
   labs(x = "",
        y = "")
-prop
+#prop
 
 ggsave(prop, file = paste0("propeller_plot_non_threat.pdf"), path = here::here("figs", "supp"), height = 20, width = 20)
 ```
