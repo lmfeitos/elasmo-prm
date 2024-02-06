@@ -162,7 +162,40 @@ elasmo_prm <- prm_elasmo_subset %>%
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>% 
   drop_na() %>% 
   filter(!gear_class %in% c("handline", "purse seine", "pole and line"))
+
+# get weighted average mortality for each mortality type
+#sharks
+mort_summary_subset <- mort_summary %>% 
+  filter(group == "Sharks" & gear_class %in% c("longline", "gillnet", "trawl")) %>% 
+  group_by(estimate_type, gear_class) %>% 
+  summarise(mean = mean(mortality_prop))
+
+# batoids
+mort_summary_subset_bat <- mort_summary %>% 
+  filter(group == "Batoids" & gear_class %in% c("longline", "gillnet", "trawl")) %>% 
+  group_by(estimate_type, gear_class) %>% 
+  summarise(mean = mean(mortality_prop))
 ```
+
+```{r}
+# get summary stats
+## number of studies per major gear
+prm_elasmo_subset_gear <- prm_elasmo %>%
+  filter(gear_class %in% c("longline", "gillnet", "trawl")) %>% 
+  select(gear_class, reference) %>% 
+  distinct() %>% 
+  group_by(gear_class) %>% 
+  mutate(count = n()) %>% 
+  select(gear_class, count) %>% 
+  distinct()
+
+# number of species per type of mortality
+prm_elasmo_subset_sp <- prm_elasmo_subset %>% 
+  distinct(group, estimate_type, scientific_name) %>% 
+  group_by(group, estimate_type) %>% 
+  summarise(count = n())
+```
+
 
 
 ```{r, fig.height=12, fig.width=8}
@@ -290,6 +323,14 @@ mort_proportions_plot_fam <-
              show.legend = F,
              alpha = 0.5,
          fatten = 1) +
+  geom_hline(data = mort_summary_subset %>% 
+               mutate(estimate_type = str_to_sentence(estimate_type),
+                     gear_class = str_to_title(gear_class)),
+             aes(yintercept = mean, color = estimate_type),
+             show.legend = F,
+             linetype = "dashed",
+             alpha = 0.7,
+             linewidth = .9) +
   facet_wrap(~ factor(gear_class,
                     levels = c("Longline", "Gillnet", "Trawl"))) +
   labs(x = "",
@@ -344,6 +385,14 @@ habitat_plot <-
              fill = estimate_type),
                alpha = 0.5,
          fatten = 1) +
+  geom_hline(data = mort_summary_subset %>% 
+               mutate(estimate_type = str_to_sentence(estimate_type),
+                     gear_class = str_to_title(gear_class)),
+             aes(yintercept = mean, color = estimate_type),
+             show.legend = F,
+             linetype = "dashed",
+             alpha = 0.7,
+             linewidth = .9) +
   facet_wrap(~ factor(gear_class,
                     levels = c("Longline", "Gillnet", "Trawl"))) +
   labs(x = "",
@@ -410,6 +459,14 @@ mort_proportions_plot_fam_bat <-
              show.legend = F,
              alpha = 0.5,
          fatten = 1) +
+  geom_hline(data = mort_summary_subset_bat %>% 
+               mutate(estimate_type = str_to_sentence(estimate_type),
+                     gear_class = str_to_title(gear_class)),
+             aes(yintercept = mean, color = estimate_type),
+             show.legend = F,
+             linetype = "dashed",
+             alpha = 0.7,
+             linewidth = .9) +
   facet_wrap( ~ 
                factor(gear_class,
                     levels = c("Longline", "Gillnet", "Trawl"))) +
@@ -465,6 +522,14 @@ habitat_plot_bat <-
              fill = estimate_type),
                alpha = 0.5,
          fatten = 1) +
+  geom_hline(data = mort_summary_subset_bat %>% 
+               mutate(estimate_type = str_to_sentence(estimate_type),
+                     gear_class = str_to_title(gear_class)),
+             aes(yintercept = mean, color = estimate_type),
+             show.legend = F,
+             linetype = "dashed",
+             alpha = 0.7,
+             linewidth = .9) +
   facet_wrap(~ factor(gear_class,
                     levels = c("Longline", "Gillnet", "Trawl"))) +
   labs(x = "",
