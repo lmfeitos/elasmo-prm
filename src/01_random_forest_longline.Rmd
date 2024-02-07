@@ -398,8 +398,8 @@ v2 <- prm_fit %>%
   extract_fit_parsnip() %>%
   vip() +
   theme_bw(base_size = 14) +
-  labs(y = "Variable Importance for Post-Release Mortality")+
-  scale_x_discrete(labels = c("Ventilation Method", "Reproductive Mode", "Maximum Size (cm)", "Associated Habitat"))
+  labs(y = "Variable Importance for Post-Release Mortality") +
+  scale_x_discrete(labels = c("Ventilation Method", "Reproductive Mode", "Associated Habitat", "Maximum Size (cm)"))
 v2
 ```
 
