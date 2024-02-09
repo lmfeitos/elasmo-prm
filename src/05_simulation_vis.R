@@ -1,4 +1,5 @@
 library(tidyverse)
+library(janitor)
 library(patchwork)
 set.seed(42)
 
@@ -17,16 +18,21 @@ iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>%
     TRUE ~ redlist_category
   ))
 
-
+new_dat <- read_csv(here::here("data", "iucn_fishbase_list.csv")) %>% 
+  select(scientific_name, common_name)
 
 # data directory from gdrive
 basedir <- "G:/Meu Drive/PRM review/"
 datadir <- file.path(basedir, "data/fish_base_data")
 outdir <- file.path(basedir, "data/outputs") 
 
-sim_results <- read_csv(here::here( "data", "simulation_results.csv")) %>% 
+sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>% 
   filter(scenario != "CQ") %>% 
   filter(!is.na(mort_scenario))
+
+### ADDED THIS CODE TO MAKE FIGURES 5 AND SX DISPLAY COMMON NAMES ON THE FACET STRIPS INSTEAD OF THE SCIENTIFIC NAMES  
+sim_results_new <- sim_results %>% 
+  left_join(new_dat, by = "scientific_name")
 
 sim_results_count <- sim_results %>% 
   filter(t == 200 & mort_scenario == "Low Mortality" & n_div_k <= 0.5) %>% 
@@ -128,16 +134,16 @@ p <- ggplot() +
   geom_rect(data = no_cq_sub,
             aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.23, fill = as.factor(redlist_category))) +
   geom_line(data = no_cq_sub, aes(t, n_div_k, color = mort_scenario, group = total_mort), linewidth = 2) +
-  # geom_text(data = tag_text %>% 
-  #             filter(scientific_name %in% c("Prionace glauca", "Isurus oxyrinchus", "Squatina squatina")),
-  #           aes(x = t, y = n_div_k, label = label),
-  #           color = "black",
-  #           fontface = "bold",
-  #           size = 5) +
+  geom_text(data = tag_text %>% 
+             filter(scientific_name %in% c("Prionace glauca", "Isurus oxyrinchus", "Squatina squatina")),
+           aes(x = t, y = n_div_k, label = label),
+           color = "black",
+           fontface = "bold",
+           size = 5) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
   facet_wrap( ~ factor(scientific_name,
-                      levels = c("Prionace glauca", "Pseudocarcharias kamoharai", "Alopias vulpinus", "Carcharhinus falciformis",
-                                 "Isurus oxyrinchus", "Squalus acanthias", "Carcharhinus hemiodon", "Sphyrna corona",
+                      levels = c("Prionace glauca", "Pseudocarcharias kamoharai", "Squalus acanthias", "Carcharhinus falciformis",
+                                 "Isurus oxyrinchus", "Alopias vulpinus", "Carcharhinus hemiodon", "Sphyrna corona",
                                   "Squatina squatina", "Sphyrna mokarran", "Carcharhinus limbatus", "Galeorhinus galeus"))) +
   theme_bw(base_size = 20) +
   scale_color_viridis_d() +
@@ -157,7 +163,7 @@ p <- ggplot() +
   coord_cartesian(clip="off", ylim = c(0, 1))
 p
 
-ggsave(p, file = paste0("fig5.pdf"), path = here::here("figs"), height = 10, width = 20)
+ggsave(p, file = paste0("fig5_test.pdf"), path = here::here("figs"), height = 10, width = 20)
 
 
 percent_calc = sim_results %>% 
