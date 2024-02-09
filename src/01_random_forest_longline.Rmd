@@ -316,9 +316,14 @@ quant_in_50 <- avm_quant_test %>%
 percent_50 <- quant_in_50$count[2] / (quant_in_50$count[1] + quant_in_50$count[2]) * 100
 percent_50
 
-ggplot(avm_quant_test) +
+q1 = ggplot(avm_quant_test) +
   geom_boxplot(aes(range_50)) +
-  theme_bw()
+  theme_bw(base_size = 14) +
+  labs(x = "Distribution of IQR for AVM") +
+  theme(axis.title.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+q1
 
 write_csv(avm_quant_test, here::here("data", "avm_model_predictions.csv"))
 ```
@@ -339,9 +344,14 @@ quant_in_50 <- prm_quant_test %>%
 percent_50 <- quant_in_50$count[2] / (quant_in_50$count[1] + quant_in_50$count[2]) * 100
 percent_50
 
-ggplot(prm_quant_test) +
+q2 = ggplot(prm_quant_test) +
   geom_boxplot(aes(range_50)) +
-  theme_bw()
+  theme_bw(base_size = 14) +
+  labs(x = "Distribution of IQR for PRM") +
+  theme(axis.title.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+q2
 
 write_csv(prm_quant_test, here::here("data", "prm_model_predictions.csv"))
 ```
@@ -474,8 +484,8 @@ write_csv(full_predictions, here::here("data", "full_model_predictions.csv"))
 
 
 ```{r}
-plot1 <- (p1 + v1) / (p2 + v2) + plot_annotation(tag_levels = "A")
+plot1 <- (p1 + v1 + q1) / (p2 + v2 + q2) + plot_annotation(tag_levels = "A")
 
-ggsave(plot1, file = paste0("fig2.pdf"), path = here::here("figs"), height = 12, width = 15)
+ggsave(plot1, file = paste0("fig2.pdf"), path = here::here("figs"), height = 12, width = 18)
 ```
 
