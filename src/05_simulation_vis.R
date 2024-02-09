@@ -18,7 +18,7 @@ iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>%
     TRUE ~ redlist_category
   ))
 
-new_dat <- read_csv(here::here("data", "iucn_fishbase_list.csv")) %>% 
+sim_results_common = read_csv(here::here("data", "f_sim_results.csv")) %>% 
   select(scientific_name, common_name)
 
 # data directory from gdrive
@@ -32,46 +32,26 @@ sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %
 
 ### ADDED THIS CODE TO MAKE FIGURES 5 AND SX DISPLAY COMMON NAMES ON THE FACET STRIPS INSTEAD OF THE SCIENTIFIC NAMES  
 sim_results_new <- sim_results %>% 
-  left_join(new_dat, by = "scientific_name")
+  left_join(sim_results_common) 
 
-sim_results_count <- sim_results %>% 
+sim_results_count <- sim_results_new %>% 
   filter(t == 200 & mort_scenario == "Low Mortality" & n_div_k <= 0.5) %>% 
   select(scientific_name)  %>% 
   distinct()
 
-sim_results_total_count <- sim_results %>% 
+sim_results_total_count <- sim_results_new %>% 
   select(scientific_name)  %>% 
   distinct()
 
-sim_results = read_csv(here::here("data", "simulation_results.csv"))%>% 
-  filter(scenario != "CQ") %>% 
-  filter(!is.na(mort_scenario))
 
-# iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>% 
-#   janitor::clean_names() %>% 
-#   filter(str_detect(systems, "Marine")) %>% 
-#   select(scientific_name, redlist_category, year_published) %>% 
-#   mutate(redlist_category = case_when(
-#     str_detect(redlist_category, "Near") ~ "NT",
-#     str_detect(redlist_category, "Vul") ~ "VU",
-#     str_detect(redlist_category, "Data") ~ "DD",
-#     redlist_category == "Endangered" ~ "EN",
-#     redlist_category == "Critically Endangered" ~ "CR",
-#     str_detect(redlist_category, "Least") ~ "LC",
-#     is.na(redlist_category) ~ "NE",
-#     TRUE ~ redlist_category
-#   )) %>% 
-#   select(scientific_name, redlist_category)
-
-## THIS IS WHERE IT'S FILTERED 
-
-no_cq = sim_results %>% 
+no_cq = sim_results_new %>% 
   filter(scientific_name %in% iucn_data$scientific_name) %>% 
   mutate(mort_scenario = fct_relevel(as.factor(mort_scenario), "Low Mortality", after = Inf)) %>% 
   distinct() %>% 
   left_join(iucn_data) %>% 
-  mutate(redlist_category = fct_relevel(as.factor(redlist_category), c("CR", "EN", "VU", "NT", "LC", "DD"))) 
-  #arrange(redlist_category, scientific_name)
+  mutate(redlist_category = fct_relevel(as.factor(redlist_category), c("CR", "EN", "VU", "NT", "LC", "DD")))  %>% 
+  rename(sci= scientific_name, 
+         scientific_name = common_name)
 
 length(unique(no_cq$scientific_name)) #282
 
@@ -118,14 +98,14 @@ species_sub = c("Prionace glauca", "Carcharhinus limbatus", "Isurus oxyrinchus",
                 "Carcharhinus hemiodon", "Squatina squatina", "Sphyrna corona", "Galeorhinus galeus")
 
 no_cq_sub = no_cq %>% 
-  filter(scientific_name %in% species_sub) 
+  filter(sci %in% species_sub) 
 
 tag_text <- data.frame(t = c(180, 180, 180),
                        n_div_k = c(0.98, 0.98, 0.98),
                        label = c("A", "B", "C"),
-                       scientific_name = factor(c("Prionace glauca", "Pseudocarcharias kamoharai", "Alopias vulpinus", "Carcharhinus falciformis",
-                                  "Isurus oxyrinchus", "Squalus acanthias", "Carcharhinus hemiodon", "Sphyrna corona",
-                                  "Squatina squatina", "Sphyrna mokarran", "Carcharhinus limbatus", "Galeorhinus galeus")))
+                       scientific_name = factor(c("Blue shark", "Crocodile shark", "Thresher", "Silky shark",
+                                  "Shortfin mako", "Picked dogfish", "Pondicherry shark", "Scalloped bonnethead",
+                                  "Angelshark", "Great hammerhead", "Blacktip shark", "Tope shark")))
 
 p <- ggplot() +
   geom_hline(yintercept = 0.5,
@@ -142,9 +122,9 @@ p <- ggplot() +
            size = 5) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
   facet_wrap( ~ factor(scientific_name,
-                      levels = c("Prionace glauca", "Pseudocarcharias kamoharai", "Squalus acanthias", "Carcharhinus falciformis",
-                                 "Isurus oxyrinchus", "Alopias vulpinus", "Carcharhinus hemiodon", "Sphyrna corona",
-                                  "Squatina squatina", "Sphyrna mokarran", "Carcharhinus limbatus", "Galeorhinus galeus"))) +
+                      levels =c("Blue shark", "Crocodile shark", "Thresher", "Silky shark",
+                                "Shortfin mako", "Picked dogfish", "Pondicherry shark", "Scalloped bonnethead",
+                                "Angelshark", "Great hammerhead", "Blacktip shark", "Tope shark"))) +
   theme_bw(base_size = 20) +
   scale_color_viridis_d() +
   scale_fill_manual(values = c("#E31A1C", "#FD8D3C", "#FED976", "#91CF60", "#1A9850")) +
@@ -163,7 +143,7 @@ p <- ggplot() +
   coord_cartesian(clip="off", ylim = c(0, 1))
 p
 
-ggsave(p, file = paste0("fig5_test.pdf"), path = here::here("figs"), height = 10, width = 20)
+ggsave(p, file = paste0("fig5.pdf"), path = here::here("figs"), height = 10, width = 20)
 
 
 percent_calc = sim_results %>% 

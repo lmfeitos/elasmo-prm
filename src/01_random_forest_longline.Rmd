@@ -325,6 +325,8 @@ q1 = ggplot(avm_quant_test) +
         axis.ticks.y = element_blank())
 q1
 
+median(avm_quant_test$range_50)
+
 write_csv(avm_quant_test, here::here("data", "avm_model_predictions.csv"))
 ```
 
@@ -352,6 +354,8 @@ q2 = ggplot(prm_quant_test) +
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank())
 q2
+
+median(prm_quant_test$range_50)
 
 write_csv(prm_quant_test, here::here("data", "prm_model_predictions.csv"))
 ```
