@@ -61,7 +61,7 @@ no_cq_sci <- no_cq %>%
 
 p <- 
   ggplot() +
-  geom_rect(data = no_cq, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.45, fill = as.factor(redlist_category))) +
+  geom_rect(data = no_cq, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.7, fill = as.factor(redlist_category))) +
   geom_line(data = no_cq, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_hline(yintercept = 0.5,
              color = "gray",
