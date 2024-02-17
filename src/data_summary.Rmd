@@ -178,6 +178,67 @@ mort_summary_subset_bat <- mort_summary %>%
 ```
 
 ```{r}
+# get summary stats for AVM per family
+mort_summary_fam <- mort_summary %>% 
+  filter(estimate_type == "at-vessel mortality" & gear_class %in% c("longline", "gillnet", "trawl")) %>% 
+  group_by(family, gear_class) %>% 
+  summarise(mean_avm = mean(mortality_prop))
+```
+
+```{r}
+# get summary stats for which locations studies were conducted
+elasmo_prm_location <- prm_elasmo %>%
+  mutate(location_clean = case_when(
+    str_detect(location, "Texas") ~ "USA",
+    str_detect(location, "California") ~ "USA",
+    str_detect(location, "Alabama") ~ "USA",
+    str_detect(location, "Rhode Island") ~ "USA",
+    str_detect(location, "Massachussets") ~ "USA",
+    str_detect(location, "New York") ~ "USA",
+    str_detect(location, "Carolina") ~ "USA",
+    str_detect(location, "Virginia") ~ "USA",
+    str_detect(location, "Hawaii") ~ "USA",
+    str_detect(location, "Maine") ~ "USA",
+    str_detect(location, "Biscay") ~ "France",
+    str_detect(location, "Galicia") ~ "Spain",
+    str_detect(location, "Grand banks") ~ "Canada",
+    str_detect(location, "Australia") ~ "Australia",
+    str_detect(location, "Mexico") ~ "Mexico",
+    str_detect(location, "Leone") ~ "Sierra Leone",
+    str_detect(location, "South Wales") ~ "Australia",
+    str_detect(location, "Tasmania") ~ "Australia",
+    str_detect(location, "Antalya") ~ "Turkey",
+    str_detect(location, "English") ~ "England",
+    str_detect(location, "USA") ~ "USA",
+    TRUE ~ location
+  )) %>% 
+  select(reference, location_clean, estimate_type) %>% 
+  distinct() %>% 
+  group_by(estimate_type, location_clean) %>% 
+  summarise(count = n()) %>%
+    drop_na() %>% 
+  ungroup() %>% 
+  mutate(sum = sum(count)) 
+
+
+elasmo_prm_location_subset <- elasmo_prm_location %>% 
+  filter(location_clean %in% c("USA", "Florida", "Australia", "Spain", "France", "Canada", "England", "New Zealand")) %>% 
+  mutate(location_clean = case_when(
+    location_clean == "Florida" ~ "USA",
+    TRUE ~ location_clean
+  )) %>% 
+  select(-estimate_type) %>%
+  group_by(location_clean) %>% 
+  mutate(sum = sum(count)) %>% 
+  ungroup() %>% 
+  mutate(total = sum(count)) %>% 
+  mutate(percentages = 100 * sum/ total) %>% 
+  distinct() %>% 
+  arrange(desc(percentages))
+```
+
+
+```{r}
 # get summary stats
 ## number of studies per major gear
 prm_elasmo_subset_gear <- prm_elasmo %>%
