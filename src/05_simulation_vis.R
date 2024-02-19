@@ -32,7 +32,12 @@ sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %
 
 ### ADDED THIS CODE TO MAKE FIGURES 5 AND SX DISPLAY COMMON NAMES ON THE FACET STRIPS INSTEAD OF THE SCIENTIFIC NAMES  
 sim_results_new <- sim_results %>% 
-  left_join(sim_results_common) 
+  left_join(sim_results_common) %>% 
+  mutate(common_name = case_when(
+    scientific_name == "Alopias vulpinus" ~ "Common thresher",
+    scientific_name == "Squalus acanthias" ~ "Spiny dogfish",
+    TRUE ~ common_name
+  ))
 
 sim_results_count <- sim_results_new %>% 
   filter(t == 200 & mort_scenario == "Low Mortality" & n_div_k <= 0.5) %>% 
@@ -95,7 +100,7 @@ p1 = ggplot() +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
         strip.background = element_rect(fill=NA),
-        strip.text.x = element_text(color = "black", face = "bold.italic"),
+        strip.text.x = element_text(color = "black", face = "bold"),
         axis.title = element_text(color = "black"),
         axis.text = element_text( color = "black")) +
   coord_cartesian(clip="off", ylim = c(0, 1))
@@ -296,8 +301,8 @@ no_cq_sub = no_cq %>%
 tag_text <- data.frame(t = c(180, 180, 180),
                        n_div_k = c(0.98, 0.98, 0.98),
                        label = c("A", "B", "C"),
-                       scientific_name = factor(c("Blue shark", "Crocodile shark", "Thresher", "Silky shark",
-                                  "Shortfin mako", "Picked dogfish", "Pondicherry shark", "Scalloped bonnethead",
+                       scientific_name = factor(c("Blue shark", "Crocodile shark", "Common thresher", "Silky shark",
+                                  "Shortfin mako", "Spiny dogfish", "Pondicherry shark", "Scalloped bonnethead",
                                   "Angelshark", "Great hammerhead", "Blacktip shark", "Tope shark")))
 
 p <- ggplot() +
@@ -315,8 +320,8 @@ p <- ggplot() +
            size = 5) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
   facet_wrap( ~ factor(scientific_name,
-                      levels =c("Blue shark", "Crocodile shark", "Thresher", "Silky shark",
-                                "Shortfin mako", "Picked dogfish", "Pondicherry shark", "Scalloped bonnethead",
+                      levels =c("Blue shark", "Crocodile shark", "Common thresher", "Silky shark",
+                                "Shortfin mako", "Spiny dogfish", "Pondicherry shark", "Scalloped bonnethead",
                                 "Angelshark", "Great hammerhead", "Blacktip shark", "Tope shark"))) +
   theme_bw(base_size = 20) +
   scale_color_viridis_d() +
@@ -330,7 +335,7 @@ p <- ggplot() +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
         strip.background = element_rect(fill = NA),
-        strip.text.x = element_text(color = "black", face = "bold.italic"),
+        strip.text.x = element_text(color = "black", face = "bold"),
         axis.title = element_text( color = "black"),
         axis.text = element_text( color = "black")) +
   coord_cartesian(clip="off", ylim = c(0, 1))
