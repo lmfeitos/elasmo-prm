@@ -42,7 +42,7 @@ eq = sim_results %>%
   mutate(scientific_name = fct_reorder(scientific_name, n_div_k))
 
 p = ggplot(eq) +
-  geom_line(aes(fp, n_div_k, color = scientific_name)) +
+  geom_line(aes(fp, n_div_k, group = scientific_name), color = "grey") +
   geom_hline(yintercept = 0.5,
              color = "red",
              alpha = 0.5,
@@ -57,8 +57,7 @@ p = ggplot(eq) +
         strip.text.x = element_text(color = "black", face = "bold.italic"),
         axis.title = element_text(color = "black"),
         axis.text = element_text(color = "black"),
-        legend.position = "none") +
-  scale_color_viridis_d()
+        legend.position = "none") 
 p
 
 ggsave(p, file = paste0("fishing_sensitivity.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
@@ -95,3 +94,24 @@ sim_200 = sim_results %>%
   filter(n_div_k >= 0.5) %>% 
   group_by(fp) %>% 
   summarize(per = n() / 282*100)
+
+output = eq  %>% 
+  left_join(percent_calc)%>% 
+  select(-pop.array, -t, -mean_diff, -total_mort, -scenario, -quota) %>% 
+  rename(simulation_avm = avm,
+         simulation_prm = prm,
+         pred_avm_75 = avm_75,
+         pred_prm_75 = prm_75,
+         pred_avm_25 = avm_25,
+         pred_prm_25 = prm_25,
+         pred_avm_mean = mid_avm,
+         pred_prm_mean = mid_prm,
+         percent_mort_diff = percent_diff,
+         fishing_mort_bau = f,
+         fishing_mort_rb = f_mort,
+         msy_multiple_fishing = fp) %>% 
+  select(scientific_name, msy_multiple_fishing, fishing_mort_bau, fishing_mort_rb, percent_mort_diff, 
+         mort_scenario, simulation_avm, simulation_prm, n_div_k, 
+         pred_avm_25, pred_avm_mean, pred_avm_75, pred_prm_25, pred_prm_mean, pred_prm_75)
+
+write_csv(output, here::here("figs", "table_s5.csv"))

@@ -65,7 +65,7 @@ p6 = ggplot() +
   # geom_density_ridges(data = prm_elasmo, aes(x = estimate, y = fct_rev(factor(family, levels = mort_subset))), alpha = 0.5)+
   # geom_point(data = prm_elasmo, aes(x = estimate, y = fct_rev(factor(family, levels = mort_subset))), alpha = 0.3)+
   geom_density_ridges(data = predictions, aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset_avm)), fill = fct_rev(factor(family, levels = mort_subset_avm))), alpha = 0.5)+
-  geom_point(data = predictions, aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset_avm)), color = fct_rev(factor(family, levels = mort_subset_avm))), alpha = 0.5) +
+  geom_point(data = predictions, aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset_avm)), color = fct_rev(factor(family, levels = mort_subset_avm))), alpha = 0.5, size = 6) +
   scale_fill_viridis_d()+
   scale_color_viridis_d()+
   facet_grid(cols = vars(estimate_type),
@@ -74,7 +74,7 @@ p6 = ggplot() +
   labs(y = "Family",
        x = "Estimated Mortality") +
   scale_shape(guide = 'none') +  
-  theme_bw() +
+  theme_bw(base_size = 42) +
   theme(axis.text = element_text(color = "black"),
         #axis.text.y = element_text(face = "italic"),
         axis.title = element_text(color = "black"),
@@ -85,13 +85,13 @@ p6 = ggplot() +
         legend.position = "none")
 p6
 
-ggsave(p6, file = paste0("fig3.pdf"), path = here::here("figs"), height = 12, width = 10)
+ggsave(p6, file = paste0("fig3.pdf"), path = here::here("figs", "poster"), height = 22, width = 20)
 
 p1 = ggplot(predictions) +
   geom_point(aes(max_size_cm, mortality_prop),
-             alpha = 0.5) +
+             alpha = 0.5, size = 4) +
   # geom_smooth(method = "loess", aes(max_size_cm, mortality_prop, color = reproductive_mode), se = FALSE) +
-  theme_bw(base_size = 14) +
+  theme_bw(base_size = 42) +
   labs(y = "Estimated mortality",
        x = "Size (cm)",
        color = "Group") +
@@ -108,9 +108,9 @@ p1 = ggplot(predictions) +
 
 p2 = ggplot(predictions %>% filter(estimate_type=="AVM")) +
   geom_point(aes(median_depth, mortality_prop),
-             alpha = 0.5) +
+             alpha = 0.5, size = 4) +
   # geom_smooth(method = "loess", aes(median_depth, mortality_prop, color = reproductive_mode), se = FALSE) +
-  theme_bw(base_size = 14) +
+  theme_bw(base_size = 42) +
   labs(y = "Estimated mortality",
        x = "Median Depth (m)",
        color = "Group") +
@@ -128,11 +128,11 @@ p2 = ggplot(predictions %>% filter(estimate_type=="AVM")) +
 
 p3 = ggplot(predictions %>% mutate(ventilation_method = str_to_sentence(ventilation_method))) +
   geom_point(aes(mortality_prop, ventilation_method),
-             alpha = 0.5) +
+             alpha = 0.5, size = 4) +
   geom_boxplot(aes(mortality_prop, ventilation_method),
                outlier.alpha = 0,
                alpha = 0.85) +
-  theme_bw(base_size = 14) +
+  theme_bw(base_size = 42) +
   labs(y = "Ventilation Method",
        x = "Estimated mortality",
        color = "Group") +
@@ -150,12 +150,12 @@ p3 = ggplot(predictions %>% mutate(ventilation_method = str_to_sentence(ventilat
 p4 = ggplot(predictions %>% mutate(habitat_associated = str_to_sentence(habitat_associated))) +
   geom_point(aes(mortality_prop, habitat_associated),
              alpha = 0.1,
-             show.legend = F) +
+             show.legend = F, size = 4) +
   geom_boxplot(aes(mortality_prop, habitat_associated), 
                outlier.alpha = 0,
                alpha = 0.85,
                show.legend = F) +
-  theme_bw(base_size = 14) +
+  theme_bw(base_size = 42) +
   labs(y = "Associated Habitat",
        x = "Estimated mortality",
        color = "Group") +
@@ -174,12 +174,12 @@ p4 = ggplot(predictions %>% mutate(habitat_associated = str_to_sentence(habitat_
 p5 = ggplot(predictions %>% mutate(reproductive_mode = str_to_sentence(reproductive_mode))) +
   geom_point(aes(mortality_prop, reproductive_mode),
              alpha = 0.1,
-             show.legend = F) +
+             show.legend = F, size = 4) +
   geom_boxplot(aes(mortality_prop, reproductive_mode), 
                outlier.alpha = 0,
                alpha = 0.85,
                show.legend = F) +
-  theme_bw(base_size = 14) +
+  theme_bw(base_size = 42) +
   labs(y = "Reproductive Mode",
        x = "Estimated mortality",
        color = "Group") +
@@ -198,4 +198,4 @@ p5 = ggplot(predictions %>% mutate(reproductive_mode = str_to_sentence(reproduct
 plot = p1  / p2 / (p4) / p5 / p3 + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
 plot
 
-ggsave(plot, file = paste0("preds_predictors.pdf"), path = here::here("figs", "supp"), height = 12, width = 10)
+ggsave(plot, file = paste0("preds_predictors.pdf"), path = here::here("figs", "poster"), height = 30, width = 20)
