@@ -463,14 +463,16 @@ habitat_plot <-
   scale_color_manual(values = c("#414487FF", "#22A884FF")) +
   scale_fill_manual(values = c("#414487FF", "#22A884FF")) +
   coord_flip() +
-  theme_bw(base_size = 14) +
+  theme_bw(base_size = 42) +
   theme(axis.text = element_text( color = "black"),
         axis.title = element_text(color = "black"),
         legend.position = "bottom",
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
         strip.background = element_rect(fill = "transparent"),
-        panel.spacing.x = unit(5, "mm"))
+        panel.spacing.x = unit(5, "mm")) 
+
+#ggsave(habitat_plot, file = paste0("habitat_plot.pdf"), path = here::here("figs", "poster"), height = 15, width = 30)
 ```
 
 ```{r, fig.height=10, fig.width=8}
