@@ -296,14 +296,28 @@ species_sub = c("Prionace glauca", "Carcharhinus limbatus", "Isurus oxyrinchus",
                 "Carcharhinus hemiodon", "Squatina squatina", "Sphyrna corona", "Galeorhinus galeus")
 
 no_cq_sub = no_cq %>% 
-  filter(sci %in% species_sub) 
+  filter(sci %in% species_sub) %>% 
+  mutate(scientific_name = case_when(
+    scientific_name == "Blue shark" ~ "Blue shark (NT)",
+    scientific_name == "Crocodile shark" ~ "Crocodile shark (LC)",
+    scientific_name == "Common thresher" ~ "Common thresher (VU)",
+    scientific_name == "Silky shark" ~ "Silky shark (VU)",
+    scientific_name == "Shortfin mako" ~ "Shortfin mako (EN)",
+    scientific_name == "Spiny dogfish" ~ "Spiny dogfish (VU)",
+    scientific_name == "Pondicherry shark" ~ "Pondicherry shark (CR)",
+    scientific_name == "Scalloped bonnethead" ~ "Scalloped bonnethead (CR)",
+    scientific_name == "Angelshark" ~ "Angelshark (CR)",
+    scientific_name == "Great hammerhead" ~ "Great hammerhead (CR)",
+    scientific_name == "Blacktip shark" ~ "Blacktip shark (VU)",
+    scientific_name == "Tope shark" ~ "Tope shark (CR)"
+  ))
 
 tag_text <- data.frame(t = c(180, 180, 180),
                        n_div_k = c(0.98, 0.98, 0.98),
                        label = c("A", "B", "C"),
-                       scientific_name = factor(c("Blue shark", "Crocodile shark", "Common thresher", "Silky shark",
-                                  "Shortfin mako", "Spiny dogfish", "Pondicherry shark", "Scalloped bonnethead",
-                                  "Angelshark", "Great hammerhead", "Blacktip shark", "Tope shark")))
+                       scientific_name = factor(c("Blue shark (NT)", "Crocodile shark (LC)", "Common thresher (VU)", "Silky shark (VU)",
+                                  "Shortfin mako (EN)", "Spiny dogfish (VU)", "Pondicherry shark (CR)", "Scalloped bonnethead (CR)",
+                                  "Angelshark (CR)", "Great hammerhead (CR)", "Blacktip shark (VU)", "Tope shark (CR)")))
 
 p <- ggplot() +
   geom_hline(yintercept = 0.5,
@@ -320,9 +334,9 @@ p <- ggplot() +
            size = 5) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
   facet_wrap( ~ factor(scientific_name,
-                      levels =c("Blue shark", "Crocodile shark", "Common thresher", "Silky shark",
-                                "Shortfin mako", "Spiny dogfish", "Pondicherry shark", "Scalloped bonnethead",
-                                "Angelshark", "Great hammerhead", "Blacktip shark", "Tope shark"))) +
+                      levels =c("Blue shark (NT)", "Crocodile shark (LC)", "Common thresher (VU)", "Silky shark (VU)",
+                                "Shortfin mako (EN)", "Spiny dogfish (VU)", "Pondicherry shark (CR)", "Scalloped bonnethead (CR)",
+                                "Angelshark (CR)", "Great hammerhead (CR)", "Blacktip shark (VU)", "Tope shark (CR)"))) +
   theme_bw(base_size = 20) +
   scale_color_viridis_d() +
   scale_fill_manual(values = c("#E31A1C", "#FD8D3C", "#FED976", "#91CF60", "#1A9850")) +
