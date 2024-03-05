@@ -6,9 +6,8 @@ set.seed(42)
 
 ## Focus on Longline
 
-# 1 BAU "BAU"
+# 1 Full Retention "FR"
 # 2 Retention Ban ("RB")
-# 3 Catch Quota ("CQ") usually in weight needs editing - also possibly not added at the beginning inform based on real world. Could we simulate an optimal quota? Average
 
 sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>%
   select(prm_75, prm_25, avm_25, avm_75, scientific_name, r_value, mid_avm, mid_prm) %>% 
@@ -29,8 +28,8 @@ sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>%
 
 sim <- function(t, N_0, K, r, avs, prs, q, f, quota, scenario) {
   
-  # set possible survival when thrown back to 0 as none are thrown back in BAU
-  if (scenario == "BAU") {
+  # set possible survival when thrown back to 0 as none are thrown back in FR
+  if (scenario == "FR") {
     avs <- 0
     prs <- 0
   }
@@ -94,7 +93,7 @@ for (i in 1:nrow(sim_data)) {
   f <- sim_data$f[i]
 
   ## single business as usual scenario
-  bau <- sim(t, N_0, K, r, 1 - morts$avm[1], 1 - morts$prm[1], q, f, quota, "BAU") %>%
+  bau <- sim(t, N_0, K, r, 1 - morts$avm[1], 1 - morts$prm[1], q, f, quota, "FR") %>%
     mutate(
       avm = 1,
       prm = 1,
@@ -142,15 +141,15 @@ sim_results <- sim_results %>%
   mutate(n_div_k = pop.array/K)
 
 species_max_mort = sim_results %>% 
-  filter(scenario != "BAU") %>% 
+  filter(scenario != "FR") %>% 
   group_by(scientific_name) %>% 
   summarize(max_mort = max(total_mort))
 species_min_mort = sim_results %>% 
-  filter(scenario != "BAU") %>% 
+  filter(scenario != "FR") %>% 
   group_by(scientific_name) %>% 
   summarize(min_mort = min(total_mort))
 species_median_mort = sim_results %>% 
-  filter(scenario != "BAU") %>% 
+  filter(scenario != "FR") %>% 
   select(scientific_name, avm, mid_avm, prm, mid_prm, total_mort) %>% 
   distinct() %>%
   filter(avm == mid_avm & prm == mid_prm) %>% 
@@ -160,7 +159,7 @@ species_median_mort = sim_results %>%
 summarized = list(species_max_mort, species_median_mort, species_min_mort, sim_results) %>% 
   reduce(full_join) %>% 
   mutate(mort_scenario = case_when(
-    scenario == "BAU" ~ "BAU",
+    scenario == "FR" ~ "Full Retention",
     total_mort == med_mort ~ "Median Mortality",
     total_mort == min_mort ~ "Low Mortality",
     total_mort == max_mort ~ "High Mortality"
