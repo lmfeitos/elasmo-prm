@@ -56,7 +56,11 @@ no_cq = sim_results_new %>%
   left_join(iucn_data) %>% 
   mutate(redlist_category = fct_relevel(as.factor(redlist_category), c("CR", "EN", "VU", "NT", "LC", "DD")))  %>% 
   rename(sci= scientific_name, 
-         scientific_name = common_name)
+         scientific_name = common_name) %>% 
+  mutate(mort_scenario = case_when(
+    mort_scenario == "BAU" ~ "Full retention",
+    TRUE ~ mort_scenario
+  ))
 
 length(unique(no_cq$scientific_name)) #282
 
