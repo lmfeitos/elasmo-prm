@@ -15,35 +15,17 @@ knitr::opts_chunk$set(
 library(tidyverse)
 library(tidymodels)
 library(here)
-library(randomForest)
 library(ranger)
-library(googlesheets4)
 library(naniar)
 library(vip)
 library(patchwork)
 library(ggpmisc)
-
-# Set data paths
-basedir <- "G:/Meu Drive/PRM review/"
-datadir <- file.path(basedir, "data/fish_base_data")
-outdir <- file.path(basedir, "data/outputs") # calls present data from raster files
 
 set.seed(42)
 ```
 
 ```{r}
 prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv"))
-
-# sp counts per estimate type
-avm_sp_count <- prm_elasmo %>%
-  filter(estimate_type == "at-vessel mortality") %>%
-  distinct(scientific_name) %>%
-  count()
-
-prm_sp_count <- prm_elasmo %>%
-  filter(estimate_type == "post-release mortality") %>%
-  distinct(scientific_name) %>%
-  count()
 ```
 
 ```{r}
@@ -63,7 +45,7 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name == "rays" ~ "yolk-sac viviparity",
     TRUE ~ reproductive_mode
   )) %>%
-  mutate_if(is.character, as.factor) %>% 
+  mutate_if(is.character, as.factor) %>%
   filter(!grepl("sp", scientific_name))
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
@@ -72,8 +54,8 @@ elasmo_trawl <- prm_elasmo_subset %>%
   filter(gear_class == "trawl") %>%
   mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
-  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>% 
-  select(-sample_size, -estimate, -est_count) %>% 
+  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
+  select(-sample_size, -estimate, -est_count) %>%
   distinct() %>%
   drop_na()
 
@@ -83,15 +65,15 @@ elasmo_gillnet <- prm_elasmo_subset %>%
   filter(gear_class == "gillnet") %>%
   mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
-  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>% 
-  select(-sample_size, -estimate, -est_count) %>% 
-  distinct() %>% 
+  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
+  select(-sample_size, -estimate, -est_count) %>%
+  distinct() %>%
   drop_na()
 ```
 
 
 ```{r}
-# split the data into training and test set
+# create folds for cross validation
 
 trawl_folds <- vfold_cv(elasmo_trawl, repeats = 5, v = 10)
 
@@ -156,7 +138,7 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 #   ) # use grid of parameters to test
 ```
 
-Below displays the results of cross validation tuning
+Below displays the results of cross validation tuning for trawl AVM
 
 ```{r}
 # autoplot(trawl_tune) + # plot results of tuning
@@ -169,7 +151,7 @@ Below displays the results of cross validation tuning
 
 ```{r, include=FALSE}
 # trawl_final <- finalize_workflow(trawl_wflw, select_best(trawl_tune, metric = "rsq")) # finalize the workflow with the best model
-# 
+#
 # saveRDS(trawl_final, here::here("data", "trawl_final.rds"))
 
 trawl_final <- readRDS(here::here("data", "trawl_final.rds"))
@@ -190,7 +172,7 @@ trawl_train_metrics <- trawl_train_predict %>%
 trawl_train_metrics
 ```
 
-Below displays the results of cross validation tuning
+Below displays the results of cross validation tuning for gillnets AVM
 
 ```{r}
 # autoplot(gillnet_tune) + # plot results of tuning
@@ -203,7 +185,7 @@ Below displays the results of cross validation tuning
 
 ```{r, include=FALSE}
 # gillnet_final <- finalize_workflow(gillnet_wflw, select_best(gillnet_tune, metric = "rsq")) # finalize the workflow with the best model
-# 
+#
 # saveRDS(gillnet_final, here::here("data", "gillnet_final.rds"))
 
 gillnet_final <- readRDS(here::here("data", "gillnet_final.rds"))
@@ -269,15 +251,6 @@ trawl_quant_test <- preds_bind(trawl_train_predict, trawl_fit) %>%
     range_95 = .pred_95 - .pred_05
   )
 
-quant_in_50 <- trawl_quant_test %>%
-  filter(!is.na(mortality_prop)) %>%
-  mutate(in_interval = mortality_prop <= .pred_75 & mortality_prop >= .pred_25) %>%
-  group_by(in_interval) %>%
-  summarize(count = n())
-
-percent_50 <- quant_in_50$count[2] / (quant_in_50$count[1] + quant_in_50$count[2]) * 100
-percent_50
-
 ggplot(trawl_quant_test) +
   geom_boxplot(aes(range_50)) +
   theme_bw()
@@ -291,15 +264,6 @@ gillnet_quant_test <- preds_bind(gillnet_train_predict, gillnet_fit) %>%
     range_50 = .pred_75 - .pred_25,
     range_95 = .pred_95 - .pred_05
   )
-
-quant_in_50 <- gillnet_quant_test %>%
-  filter(!is.na(mortality_prop)) %>%
-  mutate(in_interval = mortality_prop <= .pred_75 & mortality_prop >= .pred_25) %>%
-  group_by(in_interval) %>%
-  summarize(count = n())
-
-percent_50 <- quant_in_50$count[2] / (quant_in_50$count[1] + quant_in_50$count[2]) * 100
-percent_50
 
 ggplot(gillnet_quant_test) +
   geom_boxplot(aes(range_50)) +
@@ -320,7 +284,7 @@ p1 <- ggplot(trawl_quant_test, aes(x = mortality_prop, y = .pred_50)) + # plot l
   labs(
     x = "",
     y = "Predicted At-Vessel Mortality Rate"
-  ) 
+  )
 p1
 
 summary(lm(.pred_50 ~ mortality_prop, data = trawl_quant_test))
@@ -338,7 +302,7 @@ p2 <- ggplot(gillnet_train_predict, aes(x = mortality_prop, y = .pred)) + # plot
   labs(
     x = "Observed At-Vessel Mortality Rate",
     y = "Predicted At-vessel Mortality Rate"
-  ) 
+  )
 p2
 
 summary(lm(.pred ~ mortality_prop, data = gillnet_train_predict))
@@ -351,7 +315,7 @@ v1 <- trawl_fit %>%
   vip() +
   theme_bw(base_size = 14) +
   labs(y = "") +
-  scale_x_discrete(labels = c("Ventilation Method", "Associated Habitat", "Reproductive Mode", "Median Depth (m)","Maximum Size (cm)"))
+  scale_x_discrete(labels = c("Ventilation Method", "Associated Habitat", "Reproductive Mode", "Median Depth (m)", "Maximum Size (cm)"))
 v1
 
 v2 <- gillnet_fit %>%
@@ -359,7 +323,7 @@ v2 <- gillnet_fit %>%
   vip() +
   theme_bw(base_size = 14) +
   labs(y = "Variable Importance for At-Vessel Mortality") +
-  scale_x_discrete(labels = c("Associated Habitat",  "Ventilation Method","Median Depth (m)","Maximum Size (cm)"))
+  scale_x_discrete(labels = c("Associated Habitat", "Ventilation Method", "Median Depth (m)", "Maximum Size (cm)"))
 v2
 ```
 
@@ -374,7 +338,6 @@ plot1
 
 ggsave(plot1, file = paste0("trawl_gill_val.pdf"), path = here::here("figs", "supp"), height = 10, width = 15)
 ```
-
 
 Gillnet
 
