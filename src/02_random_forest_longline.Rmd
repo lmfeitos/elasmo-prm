@@ -15,23 +15,17 @@ knitr::opts_chunk$set(
 library(tidyverse)
 library(tidymodels)
 library(here)
-library(randomForest)
 library(ranger)
-library(googlesheets4)
 library(naniar)
 library(vip)
 library(patchwork)
 library(ggpmisc)
 
-# Set data paths
-basedir <- "G:/Meu Drive/PRM review/"
-datadir <- file.path(basedir, "data/fish_base_data")
-outdir <- file.path(basedir, "data/outputs") # calls present data from raster files
-
 set.seed(42)
 ```
 
 ```{r}
+# read in the data
 prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
   filter(gear_class == "longline") %>% 
   filter(!grepl("Rajidae", family)) %>% 
@@ -42,23 +36,26 @@ prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
 ```
 
 ```{r}
+# get only PRM data
 prm = prm_elasmo %>% 
   filter(estimate_type == "post-release mortality") %>% 
   rename(prm = estimate) %>% 
   select(scientific_name,  prm)
   
-
+# get only AVM data
 avm = prm_elasmo %>% 
   filter(estimate_type == "at-vessel mortality") %>% 
   rename(avm = estimate)%>% 
   select(scientific_name, avm)
+```
 
+```{r}
+#correlation between avm and prm
 cor_check = full_join(avm, prm) %>% 
   filter(!is.na(avm) & !is.na(prm))
 
 cor(cor_check$prm,cor_check$avm)
 ```
-
 
 ```{r}
 # create data subset with variables that will be used in the random forest model
@@ -102,24 +99,17 @@ elasmo_prm <- prm_elasmo_subset %>%
 ```
 
 ```{r}
-# split the data into training and test set
-## At-vessel mortality
+# split the data into training and test set for At-vessel mortality
 avm_split <- initial_split(elasmo_avm, prop = .8)
 
 avm_train <- training(avm_split)
 avm_test <- testing(avm_split)
 
+#cross validation sets
 avm_folds <- vfold_cv(avm_train, repeats = 5, v = 10)
-
-## Post-release mortality
-# prm_split <- initial_split(elasmo_prm, prop = .7)
-#
-# prm_train <- training(prm_split)
-# prm_test <- testing(prm_split)
 
 prm_folds <- vfold_cv(elasmo_prm, repeats = 5, v = 10)
 ```
-
 
 ## Overview
 
@@ -162,6 +152,8 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 * Number of predictors in each sample
 * Minimum data points in each node required for node split
 
+*tuned data provided
+
 ```{r,include=FALSE}
 # avm_tune <- avm_wflw %>% # use cross validation to tune parameters
 #   tune_grid(
@@ -178,7 +170,7 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 #   ) # use grid of parameters to test
 ```
 
-Below displays the results of cross validation tuning
+Below displays the results of cross validation tuning for AVM
 
 ```{r}
 # autoplot(avm_tune) + # plot results of tuning
@@ -219,7 +211,7 @@ avm_test_metrics <- avm_test_predict %>%
 avm_test_metrics
 ```
 
-Below displays the results of cross validation tuning
+Below displays the results of cross validation tuning for PRM
 
 ```{r}
 # autoplot(prm_tune) + # plot results of tuning
@@ -245,19 +237,12 @@ prm_fit <- fit(prm_final, elasmo_prm) # fit the data to the training data
 ```{r, include=FALSE}
 prm_train_predict <- predict(object = prm_fit, new_data = elasmo_prm) %>% # predict the training set
   bind_cols(elasmo_prm) # bind training set column to prediction
-
-# prm_test_predict <- predict(object = prm_fit, new_data = prm_test) %>% # predict the training set
-#   bind_cols(prm_test)# bind prediction to testing data column
 ```
 
 ```{r}
 prm_train_metrics <- prm_train_predict %>%
   metrics(mortality_prop, .pred) # get testing data metrics
 prm_train_metrics
-
-# prm_test_metrics <- prm_test_predict %>%
-#   metrics(mortality_prop, .pred) # get testing data metrics
-# prm_test_metrics
 ```
 
 ```{r}
@@ -285,6 +270,8 @@ collect_metrics(prm_cv2)
 
 ## Quantile regression
 
+For AVM
+
 ```{r}
 preds_bind <- function(data_fit, rf_fit) {
   predict(
@@ -301,20 +288,12 @@ preds_bind <- function(data_fit, rf_fit) {
 
 avm_data <- full_join(avm_test_predict, avm_train_predict)
 
+#predict quantiles
 avm_quant_test <- preds_bind(avm_data, avm_fit) %>%
   mutate(
     range_50 = .pred_75 - .pred_25,
     range_95 = .pred_95 - .pred_05
   )
-
-quant_in_50 <- avm_quant_test %>%
-  filter(!is.na(mortality_prop)) %>%
-  mutate(in_interval = mortality_prop <= .pred_75 & mortality_prop >= .pred_25) %>%
-  group_by(in_interval) %>%
-  summarize(count = n())
-
-percent_50 <- quant_in_50$count[2] / (quant_in_50$count[1] + quant_in_50$count[2]) * 100
-percent_50
 
 q1 = ggplot(avm_quant_test) +
   geom_boxplot(aes(range_50)) +
@@ -325,26 +304,18 @@ q1 = ggplot(avm_quant_test) +
         axis.ticks.y = element_blank())
 q1
 
-median(avm_quant_test$range_50)
-
 write_csv(avm_quant_test, here::here("data", "avm_model_predictions.csv"))
 ```
 
+For PRM
+
 ```{r}
+#predict quantiles
 prm_quant_test <- preds_bind(prm_train_predict, prm_fit) %>%
   mutate(
     range_50 = .pred_75 - .pred_25,
     range_95 = .pred_95 - .pred_05
   )
-
-quant_in_50 <- prm_quant_test %>%
-  filter(!is.na(mortality_prop)) %>%
-  mutate(in_interval = mortality_prop <= .pred_75 & mortality_prop >= .pred_25) %>%
-  group_by(in_interval) %>%
-  summarize(count = n())
-
-percent_50 <- quant_in_50$count[2] / (quant_in_50$count[1] + quant_in_50$count[2]) * 100
-percent_50
 
 q2 = ggplot(prm_quant_test) +
   geom_boxplot(aes(range_50)) +
@@ -355,11 +326,8 @@ q2 = ggplot(prm_quant_test) +
         axis.ticks.y = element_blank())
 q2
 
-median(prm_quant_test$range_50)
-
 write_csv(prm_quant_test, here::here("data", "prm_model_predictions.csv"))
 ```
-
 
 ## AVM model - real values vs predicted values 
 
@@ -417,8 +385,10 @@ v2 <- prm_fit %>%
 v2
 ```
 
+### Predict additional shark species
 
 ```{r}
+#filter out rays and missing values
 new_dat <- read_csv(here::here("data", "predict_data.csv")) %>% 
   filter(order != "Rajiformes") %>%
   filter(order != "Myliobatiformes") %>%
@@ -439,6 +409,7 @@ new_dat <- read_csv(here::here("data", "predict_data.csv")) %>%
   mutate(reproductive_mode = as.factor(reproductive_mode)) %>% 
   filter(reproductive_mode != 'histotrophy') 
 
+#predict AVM
 predict_data <- list(avm_train, avm_test, new_dat) %>%
   reduce(full_join) %>%
   rename(avm_mort = mortality_prop) %>%
@@ -458,10 +429,12 @@ predict_avm <- predict(object = avm_fit, new_data = predict_data) %>% # predict 
   bind_cols(predict_data) %>% # bind training set column to prediction
   rename(avm_pred = .pred)
 
+#predict PRM
 predict_avm_prm <- predict(object = prm_fit, new_data = predict_avm) %>% # predict the training set
   bind_cols(predict_avm) %>% # bind training set column to prediction
   rename(prm_pred = .pred)
 
+#combine predictions
 full_prediction_avm <- preds_bind(predict_avm_prm, avm_fit) %>%
   rename(
     avm_75 = .pred_75,
@@ -483,9 +456,8 @@ full_predictions <- preds_bind(full_prediction_avm, prm_fit) %>%
 
 write_csv(full_predictions, here::here("data", "full_model_predictions.csv"))
 ```
-
-## Figures 
-
+ 
+## Figures for paper
 
 ```{r}
 plot1 <- (p1 + v1 + q1) / (p2 + v2 + q2) + plot_annotation(tag_levels = "A")
