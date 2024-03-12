@@ -7,66 +7,91 @@ library(here)
 
 set.seed(42)
 
-# Figures 1 and S1 and S12 --------------------------------------------------------
+# data load ---------------------------------------------------------------
 
-# read in the data
+# read in the raw literature review data
 prm_elasmo <- read_csv(here("data", "prm_dataset_updated.csv"))
 
-# calculating mean values for those taxa at higher levels than species
-## Dasyatis sp
-dasyatis_sp <- prm_elasmo %>%
-  filter(str_detect(family, "Dasyatidae")) %>%
-  mutate(
-    mean_size = mean(max_size_cm, na.rm = TRUE),
-    mean_depth = mean(median_depth, na.rm = TRUE)
-  )
+# read in the IUCN data
+iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>%
+  janitor::clean_names() %>%
+  filter(str_detect(systems, "Marine") & str_detect(threats, "longline") |
+    str_detect(scientific_name, "Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus|Mustelus")) %>% # list of genera to keep in the filtering
+  select(scientific_name, redlist_category, year_published) %>%
+  mutate(redlist_category = case_when(
+    str_detect(redlist_category, "Near") ~ "NT",
+    str_detect(redlist_category, "Vul") ~ "VU",
+    str_detect(redlist_category, "Data") ~ "DD",
+    redlist_category == "Endangered" ~ "EN",
+    redlist_category == "Critically Endangered" ~ "CR",
+    str_detect(redlist_category, "Least") ~ "LC",
+    TRUE ~ redlist_category
+  ))
 
-## Squalus sp
-squalus_sp <- prm_elasmo %>%
-  filter(str_detect(scientific_name, "Squalus")) %>%
-  mutate(
-    mean_size = mean(max_size_cm, na.rm = TRUE),
-    mean_depth = mean(median_depth, na.rm = TRUE)
-  )
+#read in taxonomic assigmnets of IUCN data
+iucn_taxonomy <- read_csv(here("data", "iucn_data", "taxonomy.csv")) %>%
+  clean_names() %>%
+  mutate(family = str_to_sentence(family_name)) %>%
+  select(family, genus_name, species_name) %>%
+  unite(col = "scientific_name", c(genus_name, species_name), sep = " ")
 
-## Mustelus sp
-mustelus_sp <- prm_elasmo %>%
-  filter(str_detect(scientific_name, "Mustelus")) %>%
-  mutate(
-    mean_size = mean(max_size_cm, na.rm = TRUE),
-    mean_depth = mean(median_depth, na.rm = TRUE)
-  )
+# read in the AVM PRM model predictions
+full_predictions <- read_csv(here::here("data", "full_model_predictions.csv")) %>%
+  filter(scientific_name %in% iucn_data$scientific_name)
 
-## Centrophorus sp
-centrophorus_sp <- prm_elasmo %>%
-  filter(str_detect(scientific_name, "Centrophorus")) %>%
-  mutate(
-    mean_size = mean(max_size_cm, na.rm = TRUE),
-    mean_depth = mean(median_depth, na.rm = TRUE)
-  )
+# join IUCN and prediction data
+full_predictions_iucn <- full_predictions %>%
+  left_join(iucn_data, by = "scientific_name")
 
-## sharks
-sharks <- prm_elasmo %>%
-  filter(str_detect(common_name, "shark")) %>%
-  mutate(
-    mean_size = mean(max_size_cm, na.rm = TRUE),
-    mean_depth = mean(median_depth, na.rm = TRUE)
-  )
+#read in ICUN assessments and filter to only longline
+iucn_data_non_longline <- read_csv(here("data", "iucn_data", "assessments.csv")) %>%
+  clean_names() %>%
+  filter(str_detect(systems, "Marine") & !str_detect(threats, "longline"))
 
-## rays
-rays <- prm_elasmo %>%
-  filter(str_detect(measure, "disk_width")) %>%
-  mutate(
-    mean_size = mean(max_size_cm, na.rm = TRUE),
-    mean_depth = mean(median_depth, na.rm = TRUE)
-  )
+# read in simulation results
+sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
+  filter(scenario != "CQ") %>%
+  filter(!is.na(mort_scenario)) %>%
+  filter(mort_scenario == "BAU" | mort_scenario == "Median Mortality") %>%
+  mutate(f_mort = ((100 * f) - (100 * f * (1 - mid_avm) * (1 - mid_prm))) / 100) %>%
+  select(scientific_name, f, f_mort) %>%
+  distinct()
 
-prm_elasmo_count <- prm_elasmo %>%
-  select(estimate_type, reference) %>%
-  group_by(estimate_type) %>%
-  count()
+sim_results2 <- read_csv(here::here("data", "simulation_results.csv")) %>%
+  filter(scenario != "CQ") %>%
+  filter(!is.na(mort_scenario))
 
-# data wrangling
+top_shark_mort <- read_csv(here("data", "saup_eez_high_seas_shark_mortality.csv")) %>%
+  group_by(scientific_name) %>%
+  summarise(mort_sum = sum(mortality)) %>%
+  arrange(desc(mort_sum))
+
+#read in fishbase IUCN list
+new_dat <- read_csv(here::here("data", "iucn_fishbase_list.csv")) %>%
+  select(scientific_name, common_name)
+
+#read in sim results with common name
+sim_results_cn <- read_csv(here::here("data", "f_sim_results.csv"))
+sim_results_common <- read_csv(here::here("data", "f_sim_results.csv")) %>%
+  select(scientific_name, common_name)
+
+# fishing pressure sensitivity results
+sim_results1 <- read_csv(here::here("data", "simulation_results_msy.csv")) %>%
+  filter(scenario != "CQ") %>%
+  mutate(fp = 1)
+sim_results1_5 <- read_csv(here::here("data", "simulation_results.csv")) %>%
+  filter(scenario != "CQ") %>%
+  mutate(fp = 1.5)
+sim_results2 <- read_csv(here::here("data", "simulation_results_2msy.csv")) %>%
+  filter(scenario != "CQ") %>%
+  mutate(fp = 2)
+sim_results3 <- read_csv(here::here("data", "simulation_results_3msy.csv")) %>%
+  filter(scenario != "CQ") %>%
+  mutate(fp = 3)
+
+# Figures 1 and S1 and S12 --------------------------------------------------------
+
+# data wrangling for plotting raw data
 prm_elasmo_subset <- prm_elasmo %>%
   select(
     scientific_name, gear_class, habitat_associated, estimate_type, estimate, sample_size,
@@ -115,16 +140,6 @@ prm_elasmo_subset <- prm_elasmo %>%
     TRUE ~ estimate_type
   ))
 
-# write_csv(prm_elasmo_subset, file = here("data", "prm_elasmo_subset.csv"), col_names = TRUE, na = "")
-
-prm_sharks <- prm_elasmo_subset %>%
-  filter(group == "Sharks") %>%
-  distinct(scientific_name)
-
-prm_batoids <- prm_elasmo_subset %>%
-  filter(group == "Batoids") %>%
-  distinct(scientific_name)
-
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species
 mort_summary <- prm_elasmo_subset %>%
   filter(estimate > 0) %>%
@@ -136,30 +151,6 @@ mort_summary <- prm_elasmo_subset %>%
     prm = ifelse(estimate_type == "post-release mortality", mortality_prop, NA),
     avm = ifelse(estimate_type == "at-vessel mortality", mortality_prop, NA)
   )
-
-# create mortality subset
-mort_subset <- mort_summary %>%
-  arrange(avm) %>%
-  select(scientific_name, avm) %>%
-  distinct(scientific_name) %>%
-  pull(scientific_name)
-
-elasmo_avm <- prm_elasmo_subset %>%
-  filter(estimate_type == "at-vessel mortality" & estimate > 0) %>%
-  mutate(est_count = sample_size * estimate) %>%
-  group_by(scientific_name) %>%
-  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
-  drop_na() %>%
-  filter(!gear_class %in% c("handline", "purse seine"))
-
-# Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species
-elasmo_prm <- prm_elasmo_subset %>%
-  filter(estimate_type == "post-release mortality" & estimate > 0) %>%
-  mutate(est_count = sample_size * estimate) %>%
-  group_by(scientific_name) %>%
-  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
-  drop_na() %>%
-  filter(!gear_class %in% c("handline", "purse seine", "pole and line"))
 
 # get weighted average mortality for each mortality type
 # sharks
@@ -173,171 +164,6 @@ mort_summary_subset_bat <- mort_summary %>%
   filter(group == "Batoids" & gear_class %in% c("longline", "gillnet", "trawl")) %>%
   group_by(estimate_type, gear_class) %>%
   summarise(mean = mean(mortality_prop))
-
-# get summary stats for AVM per family
-mort_summary_fam <- mort_summary %>%
-  filter(estimate_type == "at-vessel mortality" & gear_class %in% c("longline", "gillnet", "trawl")) %>%
-  group_by(family, gear_class) %>%
-  summarise(mean_avm = mean(mortality_prop))
-
-# get summary stats for which locations studies were conducted
-elasmo_prm_location <- prm_elasmo %>%
-  mutate(location_clean = case_when(
-    str_detect(location, "Texas") ~ "USA",
-    str_detect(location, "California") ~ "USA",
-    str_detect(location, "Alabama") ~ "USA",
-    str_detect(location, "Rhode Island") ~ "USA",
-    str_detect(location, "Massachussets") ~ "USA",
-    str_detect(location, "New York") ~ "USA",
-    str_detect(location, "Carolina") ~ "USA",
-    str_detect(location, "Virginia") ~ "USA",
-    str_detect(location, "Hawaii") ~ "USA",
-    str_detect(location, "Maine") ~ "USA",
-    str_detect(location, "Biscay") ~ "France",
-    str_detect(location, "Galicia") ~ "Spain",
-    str_detect(location, "Grand banks") ~ "Canada",
-    str_detect(location, "Australia") ~ "Australia",
-    str_detect(location, "Mexico") ~ "Mexico",
-    str_detect(location, "Leone") ~ "Sierra Leone",
-    str_detect(location, "South Wales") ~ "Australia",
-    str_detect(location, "Tasmania") ~ "Australia",
-    str_detect(location, "Antalya") ~ "Turkey",
-    str_detect(location, "English") ~ "England",
-    str_detect(location, "USA") ~ "USA",
-    TRUE ~ location
-  )) %>%
-  select(reference, location_clean, estimate_type) %>%
-  distinct() %>%
-  group_by(estimate_type, location_clean) %>%
-  summarise(count = n()) %>%
-  drop_na() %>%
-  ungroup() %>%
-  mutate(sum = sum(count))
-
-
-elasmo_prm_location_subset <- elasmo_prm_location %>%
-  filter(location_clean %in% c("USA", "Florida", "Australia", "Spain", "France", "Canada", "England", "New Zealand")) %>%
-  mutate(location_clean = case_when(
-    location_clean == "Florida" ~ "USA",
-    TRUE ~ location_clean
-  )) %>%
-  select(-estimate_type) %>%
-  group_by(location_clean) %>%
-  mutate(sum = sum(count)) %>%
-  ungroup() %>%
-  mutate(total = sum(count)) %>%
-  mutate(percentages = 100 * sum / total) %>%
-  distinct() %>%
-  arrange(desc(percentages))
-
-# get summary stats
-## number of studies per major gear
-prm_elasmo_subset_gear <- prm_elasmo %>%
-  filter(gear_class %in% c("longline", "gillnet", "trawl")) %>%
-  select(gear_class, reference) %>%
-  distinct() %>%
-  group_by(gear_class) %>%
-  mutate(count = n()) %>%
-  select(gear_class, count) %>%
-  distinct()
-
-# number of species per type of mortality
-prm_elasmo_subset_sp <- prm_elasmo_subset %>%
-  distinct(group, estimate_type, scientific_name) %>%
-  group_by(group, estimate_type) %>%
-  summarise(count = n())
-
-mort_proportions_plot_sp <-
-  ggplot(data = mort_summary %>%
-           filter(!gear_class %in% c("handline", "purse seine", "pole and line")) %>%
-           mutate(
-             estimate_type = str_to_sentence(estimate_type),
-             gear_class = str_to_title(gear_class)
-           )) +
-  geom_line(
-    aes(
-      x = fct_rev(factor(scientific_name, levels = mort_subset)),
-      y = mortality_prop,
-      group = scientific_name
-    ),
-    show.legend = F,
-    color = "gray30",
-    linewidth = 0.6,
-    alpha = 0.5
-  ) +
-  geom_point(
-    aes(
-      x = fct_rev(factor(scientific_name, levels = mort_subset)),
-      y = mortality_prop,
-      color = estimate_type
-    ),
-    size = 1.5,
-    alpha = 0.9,
-    show.legend = F
-  ) +
-  facet_grid(
-    factor(group, levels = c("Sharks", "Batoids")) ~ factor(gear_class,
-                                                            levels = c("Longline", "Gillnet", "Trawl")
-    ),
-    scales = "free_y",
-    space = "free_y"
-  ) +
-  labs(
-    x = "",
-    y = "Fishing mortality",
-    color = "Estimate type"
-  ) +
-  scale_y_continuous(expand = c(0.01, 0.01)) +
-  scale_color_manual(values = c("#414487FF", "#22A884FF")) +
-  scale_shape(guide = "none") +
-  coord_flip() +
-  theme_bw(base_size = 14) +
-  theme(
-    axis.text = element_text(color = "black"),
-    axis.text.y = element_text(face = "italic"),
-    axis.title = element_text(color = "black"),
-    legend.position = "bottom",
-    panel.grid.minor = element_blank(),
-    panel.grid.major.x = element_blank(),
-    strip.background = element_rect(fill = "transparent"),
-    panel.spacing.x = unit(5, "mm")
-  )
-
-# ggsave(mort_proportions_plot_sp, file = paste0("mort_proportions_plot_sp.png"), path = here::here("figs"), height = 12, width = 8)
-# Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per family
-mort_summary_fam <- prm_elasmo_subset %>%
-  filter(estimate > 0) %>%
-  mutate(est_count = sample_size * estimate) %>%
-  group_by(family, estimate_type) %>%
-  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
-  ungroup() %>%
-  drop_na() %>%
-  mutate(
-    prm = ifelse(estimate_type == "post-release mortality", mortality_prop, NA),
-    avm = ifelse(estimate_type == "at-vessel mortality", mortality_prop, NA)
-  )
-
-mort_subset_fam <- mort_summary_fam %>%
-  arrange(avm) %>%
-  select(family, avm) %>%
-  distinct(family) %>%
-  pull(family)
-
-mort_summary_fam_seg <- mort_summary_fam %>%
-  pivot_wider(
-    names_from = estimate_type,
-    values_from = mortality_prop
-  )
-
-# Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species
-elasmo_avm_fam <- elasmo_avm %>%
-  group_by(family) %>%
-  summarise(mean_prop = mean(mortality_prop))
-
-# Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species
-elasmo_prm_fam <- elasmo_prm %>%
-  group_by(family) %>%
-  summarise(mean_prop = mean(mortality_prop))
 
 # family boxplot subset
 boxplot_subset <-
@@ -359,7 +185,7 @@ mort_proportions_plot_fam <-
   geom_point(
     data = mort_summary %>%
       filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
-               group == "Sharks") %>%
+        group == "Sharks") %>%
       mutate(
         estimate_type = str_to_sentence(estimate_type),
         gear_class = str_to_title(gear_class)
@@ -378,7 +204,7 @@ mort_proportions_plot_fam <-
   geom_boxplot(
     data = boxplot_subset %>%
       filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
-               group == "Sharks") %>%
+        group == "Sharks") %>%
       mutate(
         estimate_type = str_to_sentence(estimate_type),
         gear_class = str_to_title(gear_class)
@@ -408,7 +234,7 @@ mort_proportions_plot_fam <-
     linewidth = .9
   ) +
   facet_wrap(~ factor(gear_class,
-                      levels = c("Longline", "Gillnet", "Trawl")
+    levels = c("Longline", "Gillnet", "Trawl")
   )) +
   labs(
     x = "",
@@ -431,14 +257,13 @@ mort_proportions_plot_fam <-
     panel.spacing.x = unit(5, "mm")
   )
 
-# ggsave(mort_proportions_plot_fam, file = paste0("mort_proportions_plot_fam.png"), path = here::here("figs"), height = 12, width = 8)
 habitat_plot <-
   ggplot() +
   geom_point(
     data = mort_summary %>%
       filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
-               !is.na(habitat_associated) &
-               group == "Sharks") %>%
+        !is.na(habitat_associated) &
+        group == "Sharks") %>%
       mutate(
         estimate_type = str_to_sentence(estimate_type),
         gear_class = str_to_title(gear_class)
@@ -459,8 +284,8 @@ habitat_plot <-
   geom_boxplot(
     data = habitat_subset %>%
       filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
-               !is.na(habitat_associated) &
-               group == "Sharks") %>%
+        !is.na(habitat_associated) &
+        group == "Sharks") %>%
       mutate(
         estimate_type = str_to_sentence(estimate_type),
         gear_class = str_to_title(gear_class)
@@ -492,7 +317,7 @@ habitat_plot <-
     linewidth = .9
   ) +
   facet_wrap(~ factor(gear_class,
-                      levels = c("Longline", "Gillnet", "Trawl")
+    levels = c("Longline", "Gillnet", "Trawl")
   )) +
   labs(
     x = "",
@@ -503,7 +328,7 @@ habitat_plot <-
   scale_color_manual(values = c("#414487FF", "#22A884FF")) +
   scale_fill_manual(values = c("#414487FF", "#22A884FF")) +
   coord_flip() +
-  theme_bw(base_size = 42) +
+  theme_bw(base_size = 14) +
   theme(
     axis.text = element_text(color = "black"),
     axis.title = element_text(color = "black"),
@@ -516,10 +341,10 @@ habitat_plot <-
 
 mort_proportions_plot <-
   mort_proportions_plot_fam /
-  habitat_plot +
-  plot_annotation(tag_levels = "A") +
-  plot_layout(guides = "collect") &
-  theme(legend.position = "bottom")
+    habitat_plot +
+    plot_annotation(tag_levels = "A") +
+    plot_layout(guides = "collect") &
+    theme(legend.position = "bottom")
 
 mort_proportions_plot
 
@@ -532,7 +357,7 @@ mort_proportions_plot_fam_bat <-
   geom_point(
     data = mort_summary %>%
       filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
-               group != "Sharks") %>%
+        group != "Sharks") %>%
       mutate(
         estimate_type = str_to_sentence(estimate_type),
         gear_class = str_to_title(gear_class)
@@ -551,7 +376,7 @@ mort_proportions_plot_fam_bat <-
   geom_boxplot(
     data = boxplot_subset %>%
       filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
-               group != "Sharks") %>%
+        group != "Sharks") %>%
       mutate(
         estimate_type = str_to_sentence(estimate_type),
         gear_class = str_to_title(gear_class)
@@ -581,9 +406,9 @@ mort_proportions_plot_fam_bat <-
     linewidth = .9
   ) +
   facet_wrap(~
-               factor(gear_class,
-                      levels = c("Longline", "Gillnet", "Trawl")
-               )) +
+    factor(gear_class,
+      levels = c("Longline", "Gillnet", "Trawl")
+    )) +
   labs(
     x = "",
     y = "Fishing mortality",
@@ -605,15 +430,13 @@ mort_proportions_plot_fam_bat <-
     panel.spacing.x = unit(5, "mm")
   )
 
-# ggsave(mort_proportions_plot_fam, file = paste0("mort_proportions_plot_fam.png"), path = here::here("figs"), height = 12, width = 8)
-
 habitat_plot_bat <-
   ggplot() +
   geom_point(
     data = mort_summary %>%
       filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
-               !is.na(habitat_associated) &
-               group != "Sharks") %>%
+        !is.na(habitat_associated) &
+        group != "Sharks") %>%
       mutate(
         estimate_type = str_to_sentence(estimate_type),
         gear_class = str_to_title(gear_class)
@@ -634,8 +457,8 @@ habitat_plot_bat <-
   geom_boxplot(
     data = habitat_subset %>%
       filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
-               !is.na(habitat_associated) &
-               group != "Sharks") %>%
+        !is.na(habitat_associated) &
+        group != "Sharks") %>%
       mutate(
         estimate_type = str_to_sentence(estimate_type),
         gear_class = str_to_title(gear_class)
@@ -667,7 +490,7 @@ habitat_plot_bat <-
     linewidth = .9
   ) +
   facet_wrap(~ factor(gear_class,
-                      levels = c("Longline", "Gillnet", "Trawl")
+    levels = c("Longline", "Gillnet", "Trawl")
   )) +
   labs(
     x = "",
@@ -691,14 +514,12 @@ habitat_plot_bat <-
 
 mort_proportions_plot_bat <-
   mort_proportions_plot_fam_bat /
-  habitat_plot_bat +
-  plot_annotation(tag_levels = "A") +
-  plot_layout(guides = "collect") &
-  theme(legend.position = "bottom")
+    habitat_plot_bat +
+    plot_annotation(tag_levels = "A") +
+    plot_layout(guides = "collect") &
+    theme(legend.position = "bottom")
 
-mort_proportions_plot_bat
-
-ggsave(mort_proportions_plot_bat, file = paste0("mort_proportions_plot_bat.pdf"), path = here::here("figs", "supp"), height = 12, width = 15)
+ggsave(mort_proportions_plot_bat, file = paste0("figS1.pdf"), path = here::here("figs", "supp"), height = 12, width = 15)
 
 # create species count plot
 obs_count_plot <-
@@ -712,10 +533,10 @@ obs_count_plot <-
   slice_head(n = 20) %>%
   ggplot() +
   geom_col(aes(x = fct_reorder(scientific_name, n), y = n),
-           fill = "blue4",
-           alpha = .7,
-           width = .8,
-           color = "black"
+    fill = "blue4",
+    alpha = .7,
+    width = .8,
+    color = "black"
   ) +
   coord_flip() +
   scale_y_continuous(
@@ -735,33 +556,11 @@ obs_count_plot <-
     panel.grid.major.y = element_blank()
   )
 
-ggsave(obs_count_plot, file = paste0("obs_count_plot.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
-
+ggsave(obs_count_plot, file = paste0("figS12.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
 
 # Figures 3 and S3 --------------------------------------------------------
 
-# read in the  data
-iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>%
-  janitor::clean_names() %>%
-  filter(str_detect(systems, "Marine") & str_detect(threats, "longline") |
-    str_detect(scientific_name, "Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus|Mustelus")) %>% # list of genera to keep in the filtering
-  select(scientific_name, redlist_category, year_published) %>%
-  mutate(redlist_category = case_when(
-    str_detect(redlist_category, "Near") ~ "NT",
-    str_detect(redlist_category, "Vul") ~ "VU",
-    str_detect(redlist_category, "Data") ~ "DD",
-    redlist_category == "Endangered" ~ "EN",
-    redlist_category == "Critically Endangered" ~ "CR",
-    str_detect(redlist_category, "Least") ~ "LC",
-    TRUE ~ redlist_category
-  ))
-
-full_predictions <- read_csv(here::here("data", "full_model_predictions.csv")) %>%
-  filter(scientific_name %in% iucn_data$scientific_name)
-
-full_predictions_iucn <- full_predictions %>%
-  left_join(iucn_data, by = "scientific_name")
-
+# get the mean of predictions for each species
 mean_predictions <- full_predictions %>%
   group_by(scientific_name) %>%
   mutate(
@@ -769,8 +568,7 @@ mean_predictions <- full_predictions %>%
     prm_pred = mean(prm_pred)
   )
 
-# write_csv(mean_predictions, here::here("data", "full_pred_table.csv"))
-
+#pivot estimates to a single column
 predictions <- mean_predictions %>%
   pivot_longer(cols = c("avm_pred", "prm_pred"), names_to = "estimate_type", values_to = "mortality_prop") %>%
   mutate(estimate_type = case_when(
@@ -778,6 +576,7 @@ predictions <- mean_predictions %>%
     estimate_type == "prm_pred" ~ "PRM"
   ))
 
+#get family level estimates for AVM
 mort_subset_avm <- mean_predictions %>%
   group_by(family) %>%
   summarize(fam_mean = mean(avm_pred)) %>%
@@ -785,6 +584,7 @@ mort_subset_avm <- mean_predictions %>%
   distinct(family) %>%
   pull(family)
 
+#get family level estimates for PRM
 mort_subset_prm <- mean_predictions %>%
   group_by(family) %>%
   summarize(fam_mean = mean(prm_pred)) %>%
@@ -792,17 +592,7 @@ mort_subset_prm <- mean_predictions %>%
   distinct(family) %>%
   pull(family)
 
-prm_elasmo <- read_csv(here::here("data", "prm_elasmo_subset.csv")) %>%
-  filter(gear_class == "longline") %>%
-  filter(!grepl("Rajidae", family)) %>%
-  mutate(estimate_type = case_when(
-    estimate_type == "at-vessel mortality" ~ "AVM",
-    estimate_type == "post-release mortality" ~ "PRM"
-  ))
-
 p6 <- ggplot() +
-  # geom_density_ridges(data = prm_elasmo, aes(x = estimate, y = fct_rev(factor(family, levels = mort_subset))), alpha = 0.5)+
-  # geom_point(data = prm_elasmo, aes(x = estimate, y = fct_rev(factor(family, levels = mort_subset))), alpha = 0.3)+
   geom_density_ridges(data = predictions, aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset_avm)), fill = fct_rev(factor(family, levels = mort_subset_avm))), alpha = 0.5) +
   geom_point(data = predictions, aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset_avm)), color = fct_rev(factor(family, levels = mort_subset_avm))), alpha = 0.5, size = 6) +
   scale_fill_viridis_d() +
@@ -828,7 +618,6 @@ p6 <- ggplot() +
     panel.spacing.x = unit(5, "mm"),
     legend.position = "none"
   )
-p6
 
 ggsave(p6, file = paste0("fig3.pdf"), path = here::here("figs"), height = 22, width = 20)
 
@@ -836,8 +625,7 @@ p1 <- ggplot(predictions) +
   geom_point(aes(max_size_cm, mortality_prop),
     alpha = 0.5, size = 4
   ) +
-  # geom_smooth(method = "loess", aes(max_size_cm, mortality_prop, color = reproductive_mode), se = FALSE) +
-  theme_bw(base_size = 42) +
+  theme_bw(base_size = 14) +
   labs(
     y = "Estimated mortality",
     x = "Size (cm)",
@@ -860,8 +648,7 @@ p2 <- ggplot(predictions %>% filter(estimate_type == "AVM")) +
   geom_point(aes(median_depth, mortality_prop),
     alpha = 0.5, size = 4
   ) +
-  # geom_smooth(method = "loess", aes(median_depth, mortality_prop, color = reproductive_mode), se = FALSE) +
-  theme_bw(base_size = 42) +
+  theme_bw(base_size = 14) +
   labs(
     y = "Estimated mortality",
     x = "Median Depth (m)",
@@ -889,7 +676,7 @@ p3 <- ggplot(predictions %>% mutate(ventilation_method = str_to_sentence(ventila
     outlier.alpha = 0,
     alpha = 0.85
   ) +
-  theme_bw(base_size = 42) +
+  theme_bw(base_size = 14) +
   labs(
     y = "Ventilation Method",
     x = "Estimated mortality",
@@ -918,7 +705,7 @@ p4 <- ggplot(predictions %>% mutate(habitat_associated = str_to_sentence(habitat
     alpha = 0.85,
     show.legend = F
   ) +
-  theme_bw(base_size = 42) +
+  theme_bw(base_size = 14) +
   labs(
     y = "Associated Habitat",
     x = "Estimated mortality",
@@ -969,76 +756,16 @@ p5 <- ggplot(predictions %>% mutate(reproductive_mode = str_to_sentence(reproduc
   theme(legend.position = "none")
 
 plot <- p1 / p2 / (p4) / p5 / p3 + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
-plot
 
-ggsave(plot, file = paste0("preds_predictors.pdf"), path = here::here("figs"), height = 12, width = 15)
-
+ggsave(plot, file = paste0("figS3.pdf"), path = here::here("figs", "supp"), height = 12, width = 15)
 
 # Figures 4 and S4 --------------------------------------------------------
-
-
-# read in the  data
-iucn_data <- read_csv(here("data", "iucn_data", "assessments.csv")) %>%
-  clean_names() %>%
-  filter(str_detect(systems, "Marine") & str_detect(threats, "longline") | str_detect(scientific_name, "Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus|Mustelus")) %>% # list of genera to keep in the filtering
-  select(scientific_name, redlist_category, year_published) %>%
-  mutate(redlist_category = case_when(
-    str_detect(redlist_category, "Near") ~ "NT",
-    str_detect(redlist_category, "Vul") ~ "VU",
-    str_detect(redlist_category, "Data") ~ "DD",
-    redlist_category == "Endangered" ~ "EN",
-    redlist_category == "Critically Endangered" ~ "CR",
-    str_detect(redlist_category, "Least") ~ "LC",
-    TRUE ~ redlist_category
-  ))
-
-iucn_taxonomy <- read_csv(here("data", "iucn_data", "taxonomy.csv")) %>%
-  clean_names() %>%
-  mutate(family = str_to_sentence(family_name)) %>%
-  select(family, genus_name, species_name) %>%
-  unite(col = "scientific_name", c(genus_name, species_name), sep = " ")
 
 iucn_data <- iucn_data %>%
   left_join(iucn_taxonomy, by = "scientific_name")
 
-iucn_data_non_longline <- read_csv(here("data", "iucn_data", "assessments.csv")) %>%
-  clean_names() %>%
-  filter(str_detect(systems, "Marine") & !str_detect(threats, "longline"))
-
-sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
-  filter(scenario != "CQ") %>%
-  filter(!is.na(mort_scenario)) %>%
-  filter(mort_scenario == "BAU" | mort_scenario == "Median Mortality") %>%
-  mutate(f_mort = ((100 * f) - (100 * f * (1 - mid_avm) * (1 - mid_prm))) / 100) %>%
-  select(scientific_name, f, f_mort) %>%
-  distinct()
-
-sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
-  filter(scenario != "CQ") %>%
-  filter(!is.na(mort_scenario)) %>%
-  filter(mort_scenario == "BAU" | mort_scenario == "Median Mortality") %>%
-  mutate(f_mort = ((100 * f) - (100 * f * (1 - mid_avm) * (1 - mid_prm))) / 100) %>%
-  select(scientific_name, f, f_mort) %>%
-  distinct()
-
-top_shark_mort <- read_csv(here("data", "saup_eez_high_seas_shark_mortality.csv")) %>%
-  group_by(scientific_name) %>%
-  summarise(mort_sum = sum(mortality)) %>%
-  arrange(desc(mort_sum))
-
-new_dat <- read_csv(here::here("data", "iucn_fishbase_list.csv")) %>%
-  select(scientific_name, common_name)
-
-sim_results <- left_join(sim_results, new_dat)
-
-# write_csv(sim_results, here::here("data", "f_sim_results.csv"))
-
-
-
-sim_results <- read_csv(here::here("data", "f_sim_results.csv"))
-
 # data wrangling for the plot
-sim_results_iucn <- sim_results %>%
+sim_results_iucn <- sim_results_cn %>%
   filter(scientific_name %in% iucn_data$scientific_name) %>%
   left_join(iucn_data, by = "scientific_name")
 
@@ -1071,8 +798,6 @@ non_threat <- sim_results_iucn %>%
   select(-scientific_name) %>%
   rename(scientific_name = common_name)
 
-
-
 # calculate average mortality reductions per threat status
 threatended <- sim_results_iucn_pct %>%
   filter(redlist_category %in% c("VU", "EN", "CR")) %>%
@@ -1096,21 +821,10 @@ sim_results_iucn_pct_plot_m_ave <- sim_results_iucn_pct %>%
     sd_percent_diff = sd(percent_diff, na.rm = TRUE)
   )
 
-sim_results_iucn_pct_plot_m_ave2 <- sim_results_iucn_pct_threat %>%
-  filter(redlist_category != "DD") %>%
-  summarise(mean_percent_diff = mean(percent_diff, na.rm = TRUE)) %>%
-  slice_head(n = 1)
-
 # get average mortality reductions per main fished family
 diff_fam <- sim_results_iucn_pct %>%
   group_by(family) %>%
   summarise(mean_diff = mean(percent_diff))
-
-# 50% check
-sim_results_iucn_pct_50 <- sim_results_iucn_pct %>%
-  filter(percent_diff >= 50)
-
-
 
 # Set a number of empty bars to add at the end of each group
 empty_bar <- 7
@@ -1162,8 +876,8 @@ prop <-
     color = "grey", linewidth = 0.3, inherit.aes = FALSE
   ) +
   annotate("text",
-           x = rep(max(sim_results_iucn_pct_threat$id, length(v))),
-           y = v - 5, label = paste0(head(v), "%"), color = "grey", size = 5, angle = 0, fontface = "bold", hjust = 0.7
+    x = rep(max(sim_results_iucn_pct_threat$id, length(v))),
+    y = v - 5, label = paste0(head(v), "%"), color = "grey", size = 5, angle = 0, fontface = "bold", hjust = 0.7
   ) +
   geom_col(
     aes(
@@ -1209,13 +923,8 @@ prop <-
     x = "",
     y = ""
   )
-# prop
 
 ggsave(prop, file = paste0("fig4.pdf"), path = here::here("figs"), height = 20, width = 20)
-
-
-
-
 
 # Set a number of empty bars to add at the end of each group
 empty_bar <- 7
@@ -1266,8 +975,8 @@ prop <- ggplot(data = non_threat) +
     color = "grey", linewidth = 0.3, inherit.aes = FALSE
   ) +
   annotate("text",
-           x = rep(max(non_threat$id, length(v))),
-           y = v - 5, label = paste0(head(v), "%"), color = "grey", size = 5, angle = 0, fontface = "bold", hjust = 0.7
+    x = rep(max(non_threat$id, length(v))),
+    y = v - 5, label = paste0(head(v), "%"), color = "grey", size = 5, angle = 0, fontface = "bold", hjust = 0.7
   ) +
   geom_col(
     aes(
@@ -1313,59 +1022,19 @@ prop <- ggplot(data = non_threat) +
     x = "",
     y = ""
   )
-# prop
 
-ggsave(prop, file = paste0("propeller_plot_non_threat.pdf"), path = here::here("figs", "supp"), height = 20, width = 20)
-
-
+ggsave(prop, file = paste0("figS4.pdf"), path = here::here("figs", "supp"), height = 20, width = 20)
 
 # Figure 5 and S5-10 ----------------------------------------------------------------
 
-iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>%
-  janitor::clean_names() %>%
-  filter(str_detect(systems, "Marine") & str_detect(threats, "longline") |
-           str_detect(scientific_name, "Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus|Mustelus")) %>% # list of genera to keep in the filtering
-  select(scientific_name, redlist_category, year_published) %>%
-  mutate(redlist_category = case_when(
-    str_detect(redlist_category, "Near") ~ "NT",
-    str_detect(redlist_category, "Vul") ~ "VU",
-    str_detect(redlist_category, "Data") ~ "DD",
-    redlist_category == "Endangered" ~ "EN",
-    redlist_category == "Critically Endangered" ~ "CR",
-    str_detect(redlist_category, "Least") ~ "LC",
-    TRUE ~ redlist_category
-  ))
-
-sim_results_common <- read_csv(here::here("data", "f_sim_results.csv")) %>%
-  select(scientific_name, common_name)
-
-# data directory from gdrive
-basedir <- "G:/Meu Drive/PRM review/"
-datadir <- file.path(basedir, "data/fish_base_data")
-outdir <- file.path(basedir, "data/outputs")
-
-sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
-  filter(scenario != "CQ") %>%
-  filter(!is.na(mort_scenario))
-
 ### ADDED THIS CODE TO MAKE FIGURES 5 AND SX DISPLAY COMMON NAMES ON THE FACET STRIPS INSTEAD OF THE SCIENTIFIC NAMES
-sim_results_new <- sim_results %>%
+sim_results_new <- sim_results2 %>%
   left_join(sim_results_common) %>%
   mutate(common_name = case_when(
     scientific_name == "Alopias vulpinus" ~ "Common thresher",
     scientific_name == "Squalus acanthias" ~ "Spiny dogfish",
     TRUE ~ common_name
   ))
-
-sim_results_count <- sim_results_new %>%
-  filter(t == 200 & mort_scenario == "Low Mortality" & n_div_k <= 0.5) %>%
-  select(scientific_name) %>%
-  distinct()
-
-sim_results_total_count <- sim_results_new %>%
-  select(scientific_name) %>%
-  distinct()
-
 
 no_cq <- sim_results_new %>%
   filter(scientific_name %in% iucn_data$scientific_name) %>%
@@ -1381,8 +1050,6 @@ no_cq <- sim_results_new %>%
     mort_scenario == "BAU" ~ "Full retention",
     TRUE ~ mort_scenario
   ))
-
-length(unique(no_cq$scientific_name)) # 282
 
 no_cq_sci <- no_cq %>%
   distinct(scientific_name) %>%
@@ -1413,7 +1080,7 @@ p1 <- ggplot() +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
   facet_wrap(
     ~ factor(scientific_name,
-             levels = no_cq_sci
+      levels = no_cq_sci
     ),
     labeller = label_wrap_gen(15)
   ) +
@@ -1436,7 +1103,7 @@ p1 <- ggplot() +
   ) +
   coord_cartesian(clip = "off", ylim = c(0, 1))
 
-ggsave(p1, file = paste0("initial_sim_cr.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
+ggsave(p1, file = paste0("figS5.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
 
 p2 <- ggplot() +
   geom_rect(data = no_cq_en, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.85, fill = as.factor(redlist_category))) +
@@ -1450,7 +1117,7 @@ p2 <- ggplot() +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
   facet_wrap(
     ~ factor(scientific_name,
-             levels = no_cq_sci
+      levels = no_cq_sci
     ),
     labeller = label_wrap_gen(15)
   ) +
@@ -1473,7 +1140,7 @@ p2 <- ggplot() +
   ) +
   coord_cartesian(clip = "off", ylim = c(0, 1))
 
-ggsave(p2, file = paste0("initial_sim_en.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
+ggsave(p2, file = paste0("figS6.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
 
 p3 <- ggplot() +
   geom_rect(data = no_cq_vu, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.85, fill = as.factor(redlist_category))) +
@@ -1487,7 +1154,7 @@ p3 <- ggplot() +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
   facet_wrap(
     ~ factor(scientific_name,
-             levels = no_cq_sci
+      levels = no_cq_sci
     ),
     labeller = label_wrap_gen(15)
   ) +
@@ -1510,7 +1177,7 @@ p3 <- ggplot() +
   ) +
   coord_cartesian(clip = "off", ylim = c(0, 1))
 
-ggsave(p3, file = paste0("initial_sim_vu.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
+ggsave(p3, file = paste0("figS7.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
 
 p4 <- ggplot() +
   geom_rect(data = no_cq_nt, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.65, fill = as.factor(redlist_category))) +
@@ -1524,7 +1191,7 @@ p4 <- ggplot() +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
   facet_wrap(
     ~ factor(scientific_name,
-             levels = no_cq_sci
+      levels = no_cq_sci
     ),
     labeller = label_wrap_gen(15)
   ) +
@@ -1547,7 +1214,7 @@ p4 <- ggplot() +
   ) +
   coord_cartesian(clip = "off", ylim = c(0, 1))
 
-ggsave(p4, file = paste0("initial_sim_nt.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
+ggsave(p4, file = paste0("figS8.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
 
 p5 <- ggplot() +
   geom_rect(data = no_cq_lc, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 2, fill = as.factor(redlist_category))) +
@@ -1561,7 +1228,7 @@ p5 <- ggplot() +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
   facet_wrap(
     ~ factor(scientific_name,
-             levels = no_cq_sci
+      levels = no_cq_sci
     ),
     labeller = label_wrap_gen(15)
   ) +
@@ -1584,7 +1251,7 @@ p5 <- ggplot() +
   ) +
   coord_cartesian(clip = "off", ylim = c(0, 1))
 
-ggsave(p5, file = paste0("initial_sim_lc.pdf"), path = here::here("figs", "supp"), height = 15, width = 18)
+ggsave(p5, file = paste0("figS9.pdf"), path = here::here("figs", "supp"), height = 15, width = 18)
 
 p6 <- ggplot() +
   geom_rect(data = no_cq_dd, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.38, fill = as.factor(redlist_category))) +
@@ -1598,7 +1265,7 @@ p6 <- ggplot() +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
   facet_wrap(
     ~ factor(scientific_name,
-             levels = no_cq_sci
+      levels = no_cq_sci
     ),
     labeller = label_wrap_gen(15)
   ) +
@@ -1621,9 +1288,7 @@ p6 <- ggplot() +
   ) +
   coord_cartesian(clip = "off", ylim = c(0, 1))
 
-ggsave(p6, file = paste0("initial_sim_dd.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
-
-# Species Sub Plots -------------------------------------------------------
+ggsave(p6, file = paste0("figS10.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
 
 species_sub <- c(
   "Prionace glauca", "Carcharhinus limbatus", "Isurus oxyrinchus", "Squalus acanthias", "Alopias vulpinus",
@@ -1680,11 +1345,11 @@ p <- ggplot() +
   ) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
   facet_wrap(~ factor(scientific_name,
-                      levels = c(
-                        "Blue shark (NT)", "Crocodile shark (LC)", "Common thresher (VU)", "Silky shark (VU)",
-                        "Shortfin mako (EN)", "Spiny dogfish (VU)", "Pondicherry shark (CR)", "Scalloped bonnethead (CR)",
-                        "Angelshark (CR)", "Great hammerhead (CR)", "Blacktip shark (VU)", "Tope shark (CR)"
-                      )
+    levels = c(
+      "Blue shark (NT)", "Crocodile shark (LC)", "Common thresher (VU)", "Silky shark (VU)",
+      "Shortfin mako (EN)", "Spiny dogfish (VU)", "Pondicherry shark (CR)", "Scalloped bonnethead (CR)",
+      "Angelshark (CR)", "Great hammerhead (CR)", "Blacktip shark (VU)", "Tope shark (CR)"
+    )
   )) +
   theme_bw(base_size = 20) +
   scale_color_viridis_d() +
@@ -1704,99 +1369,10 @@ p <- ggplot() +
     axis.text = element_text(color = "black")
   ) +
   coord_cartesian(clip = "off", ylim = c(0, 1))
-p
 
 ggsave(p, file = paste0("fig5.pdf"), path = here::here("figs"), height = 10, width = 20)
 
-
-percent_calc <- sim_results %>%
-  filter(scientific_name %in% iucn_data$scientific_name) %>%
-  mutate(f_mort = ((100 * f) - (100 * f * (1 - mid_avm) * (1 - mid_prm))) / 100) %>%
-  select(scientific_name, f, f_mort, mid_avm, mid_prm) %>%
-  distinct() %>%
-  mutate(percent_diff = (f - f_mort) / f * 100) %>%
-  mutate(
-    mean_diff = mean(percent_diff, na.rm = TRUE),
-    sd_diff = sd(percent_diff, na.rm = TRUE)
-  )
-
-species_of_interest <- c(
-  "Galeocerdo cuvier", "Carcharhinus dussumieri",
-  "Carcharhinus longimanus", "Squatina japonica",
-  "Squatina oculata", "Centrophorus squamosus",
-  "Carcharhinus plumbeus", "Isurus paucus",
-  "Cetorhinus maximus", "Carcharhinus leucas",
-  "Squalus acanthias", "Negaprion brevirostris",
-  "Odontaspis ferox", "Carcharodon carcharias",
-  "Lamna nasus", "Carcharhinus brevipinna",
-  "Carcharhinus limbatus", "Squatina guggenheim",
-  "Sphyrna lewini", "Carcharhinus hemiodon",
-  "Isogomphodon oxyrhynchus", "Prionace glauca",
-  "Hexanchus nakamurai", "Mitsukurina owstoni",
-  "Pseudocarcharias kamoharai", "Squalus blainville",
-  "Echinorhinus cookei", "Prionace glauca", "
-                        Pseudocarcharias kamoharai", "Alopias vulpinus",
-  "Carcharhinus falciformis", "Isurus  oxyrinchus",
-  "Squalus acanthias",
-  "Carcharhinus hemiodon", "Sphyrna corona",
-  "Squatina squatina", "Sphyrna mokarran",
-  "Carcharhinus limbatus", "Galeorhinus galeus"
-)
-
-subset_percent <- percent_calc %>%
-  filter(scientific_name %in% species_of_interest) %>%
-  select(scientific_name, percent_diff)
-
-write_csv(subset_percent, here::here("data", "table1.1.csv"))
-
-percent_over_30 <- percent_calc %>%
-  filter(percent_diff >= 50)
-
-41 / 282 * 100
-
-sim_200 <- sim_results %>%
-  filter(scientific_name %in% iucn_data$scientific_name) %>%
-  filter(t == 200) %>%
-  filter(mort_scenario == "Median Mortality") %>%
-  select(n_div_k, scientific_name) %>%
-  filter(scientific_name %in% species_sub)
-
-sim_over <- sim_200 %>%
-  filter(n_div_k >= 0.5)
-
-sim_under <- sim_200 %>%
-  filter(n_div_k < 0.5)
-
-
 # Figure S11 and Dryad data--------------------------------------------------------------
-
-iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>%
-  janitor::clean_names() %>%
-  filter(str_detect(systems, "Marine") & str_detect(threats, "longline") |
-           str_detect(scientific_name, "Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus|Mustelus")) %>% # list of genera to keep in the filtering
-  select(scientific_name, redlist_category, year_published) %>%
-  mutate(redlist_category = case_when(
-    str_detect(redlist_category, "Near") ~ "NT",
-    str_detect(redlist_category, "Vul") ~ "VU",
-    str_detect(redlist_category, "Data") ~ "DD",
-    redlist_category == "Endangered" ~ "EN",
-    redlist_category == "Critically Endangered" ~ "CR",
-    str_detect(redlist_category, "Least") ~ "LC",
-    TRUE ~ redlist_category
-  ))
-
-sim_results1 <- read_csv(here::here("data", "simulation_results_msy.csv")) %>%
-  filter(scenario != "CQ") %>%
-  mutate(fp = 1)
-sim_results1_5 <- read_csv(here::here("data", "simulation_results.csv")) %>%
-  filter(scenario != "CQ") %>%
-  mutate(fp = 1.5)
-sim_results2 <- read_csv(here::here("data", "simulation_results_2msy.csv")) %>%
-  filter(scenario != "CQ") %>%
-  mutate(fp = 2)
-sim_results3 <- read_csv(here::here("data", "simulation_results_3msy.csv")) %>%
-  filter(scenario != "CQ") %>%
-  mutate(fp = 3)
 
 sim_results <- list(sim_results1_5, sim_results1, sim_results2, sim_results3) %>%
   reduce(full_join) %>%
@@ -1836,10 +1412,9 @@ p <- ggplot(eq) +
   )
 p
 
-ggsave(p, file = paste0("fishing_sensitivity.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
+ggsave(p, file = paste0("figS11.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
 
-
-# results sum -------------------------------------------------------------
+# Summarize sensititivity stats within paper
 
 percent_calc <- sim_results %>%
   mutate(f_mort = ((100 * f) - 100 * f * mid_avm * mid_prm) / 100) %>%
@@ -1850,18 +1425,6 @@ percent_calc <- sim_results %>%
   group_by(fp) %>%
   mutate(mean_diff = mean(percent_diff, na.rm = TRUE)) %>%
   ungroup()
-
-#
-# onex = percent_calc %>%
-#   filter(fp == 1)
-#
-# threex = percent_calc %>%
-#   filter(fp == 3)
-#
-# percent_under_25= threex %>%
-#   filter(pct_change <= 25)
-#
-# 434/466*100
 
 sim_200 <- sim_results %>%
   filter(t == 200) %>%
@@ -1894,4 +1457,6 @@ output <- eq %>%
     pred_avm_25, pred_avm_mean, pred_avm_75, pred_prm_25, pred_prm_mean, pred_prm_75
   )
 
-write_csv(output, here::here("figs", "table_s5.csv"))
+# create dryad data 
+
+write_csv(output, here::here("data", "table_s5.csv"))
