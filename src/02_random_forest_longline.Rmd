@@ -466,9 +466,5 @@ write_csv(full_predictions, here::here("data", "full_model_predictions.csv"))
 ```{r}
 plot1 <- (p1 + v1 + q1) / (p2 + v2 + q2) + plot_annotation(tag_levels = "A")
 
-ggsave(plot1, file = paste0("fig2.pdf"), path = here::here("figs", "poster"), height = 12, width = 18)
-
-plot <- p2 + v2 / q2
-
-ggsave(plot, file = paste0("fig2b.pdf"), path = here::here("figs", "poster"), height = 12, width = 22)
+ggsave(plot1, file = paste0("fig2.pdf"), path = here::here("figs"), height = 12, width = 18)
 ```
