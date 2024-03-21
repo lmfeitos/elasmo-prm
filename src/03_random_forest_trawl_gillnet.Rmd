@@ -315,7 +315,7 @@ v1 <- trawl_fit %>%
   vip() +
   theme_bw(base_size = 14) +
   labs(y = "") +
-  scale_x_discrete(labels = c("Ventilation Method", "Associated Habitat", "Reproductive Mode", "Median Depth (m)", "Maximum Size (cm)"))
+  scale_x_discrete(labels = c("Associated Habitat", "Reproductive Mode", "Median Depth (m)", "Maximum Size (cm)"))
 v1
 
 v2 <- gillnet_fit %>%
