@@ -1,5 +1,6 @@
 library(tidyverse)
 library(FishLife)
+library(rfishbase)
 
 # read in random forest predictions
 predictions_full <- read_csv(here::here("data", "full_model_predictions.csv"))
@@ -50,7 +51,7 @@ predictions <- predictions_full %>%
     "Rhinobatos ranongensis"
   )) # exclude species not within fishlife
 
-# assign r value for matching species to our preditcions
+# assign r value for matching species to our predictions
 for (i in 1:nrow(predictions)) {
   species <- Match_species(genus_species = predictions$scientific_name[i])
 

@@ -71,7 +71,6 @@ new_dat <- read_csv(here::here("data", "iucn_fishbase_list.csv")) %>%
   select(scientific_name, common_name)
 
 #read in sim results with common name
-sim_results_cn <- read_csv(here::here("data", "f_sim_results.csv"))
 sim_results_common <- read_csv(here::here("data", "f_sim_results.csv")) %>%
   select(scientific_name, common_name)
 
@@ -644,9 +643,9 @@ p1 <- ggplot(predictions) +
   scale_color_viridis_d() +
   theme(legend.position = "none")
 
-p2 <- ggplot(predictions %>% filter(estimate_type == "AVM")) +
+p2 <- ggplot(predictions) +
   geom_point(aes(median_depth, mortality_prop),
-    alpha = 0.5, size = 4
+             alpha = 0.5, size = 4
   ) +
   theme_bw(base_size = 14) +
   labs(
@@ -668,18 +667,37 @@ p2 <- ggplot(predictions %>% filter(estimate_type == "AVM")) +
   theme(legend.position = "none")
 
 
-p3 <- ggplot(predictions %>% mutate(ventilation_method = str_to_sentence(ventilation_method))) +
-  geom_point(aes(mortality_prop, ventilation_method),
-    alpha = 0.5, size = 4
-  ) +
-  geom_boxplot(aes(mortality_prop, ventilation_method),
-    outlier.alpha = 0,
-    alpha = 0.85
+p3 <- ggplot(predictions %>% filter(estimate_type == "AVM")) +
+  geom_point(aes(eo, mortality_prop),
+             alpha = 0.5, size = 4
   ) +
   theme_bw(base_size = 14) +
   labs(
-    y = "Ventilation Method",
-    x = "Estimated mortality",
+    y = "",
+    x = "Thermal Sensitvity",
+    color = "Group"
+  ) +
+  facet_wrap(~estimate_type, scales = "free_x") +
+  theme(
+    axis.text = element_text(color = "black"),
+    axis.text.y = element_text(color = "black"),
+    axis.title.x = element_text(color = "black"),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    strip.background = element_rect(fill = "transparent"),
+    panel.spacing.x = unit(5, "mm")
+  ) +
+  scale_color_viridis_d() +
+  theme(legend.position = "none")
+
+p6 <- ggplot(predictions %>% filter(estimate_type == "AVM") %>% filter(ac < 30)) +
+  geom_point(aes(ac, mortality_prop),
+             alpha = 0.5, size = 4
+  ) +
+  theme_bw(base_size = 14) +
+  labs(
+    y = "Estimated mortality",
+    x = "Active Hypoxia Tolerance",
     color = "Group"
   ) +
   facet_wrap(~estimate_type, scales = "free_x") +
@@ -690,7 +708,7 @@ p3 <- ggplot(predictions %>% mutate(ventilation_method = str_to_sentence(ventila
     panel.grid.minor = element_blank(),
     panel.grid.major.x = element_blank(),
     strip.background = element_rect(fill = "transparent"),
-    panel.spacing.x = unit(5, "mm")
+    panel.spacing.x = unit(5, "mm"),
   ) +
   scale_color_viridis_d() +
   theme(legend.position = "none")
@@ -755,7 +773,7 @@ p5 <- ggplot(predictions %>% mutate(reproductive_mode = str_to_sentence(reproduc
   scale_fill_viridis_d() +
   theme(legend.position = "none")
 
-plot <- p1 / p2 / (p4) / p5 / p3 + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
+plot <- p1 / p2 / (p6 + p3) / (p4) / p5 + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
 
 ggsave(plot, file = paste0("figS3.pdf"), path = here::here("figs", "supp"), height = 12, width = 15)
 

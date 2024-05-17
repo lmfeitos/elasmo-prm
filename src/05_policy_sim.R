@@ -11,15 +11,15 @@ set.seed(42)
 
 # read in data from sim_prep.R
 sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>%
-  select(prm_75, prm_25, avm_25, avm_75, scientific_name, r_value, mid_avm, mid_prm) %>%
+  select(prm_75, prm_25, avm_25, avm_75, scientific_name, r_value, avm_50, prm_50) %>%
   group_by(scientific_name) %>%
   mutate(
     prm_75 = max(prm_75),
     prm_25 = min(prm_25),
-    mid_prm = mean(mid_prm),
+    mid_prm = mean(avm_50),
     avm_75 = max(avm_75),
     avm_25 = min(avm_25),
-    mid_avm = mean(mid_avm),
+    mid_avm = mean(prm_50),
     r_value = mean(r_value)
   ) %>%
   distinct() %>%
