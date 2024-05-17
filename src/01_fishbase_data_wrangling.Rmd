@@ -281,3 +281,13 @@ dat_new = left_join(new_dat, tol) %>%
 write_csv(dat_new, here::here("data", "hypoxia_missing.csv"))
 ```
 
+```{r}
+# populate NAs in eo and ac with family averages
+dat_new_mean <- dat_new %>% 
+  group_by(family) %>% 
+  mutate(eo_new = ifelse(is.na(eo), mean(eo, na.rm = TRUE), eo),
+         ac_new = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac))
+
+write_csv(dat_new_mean, here::here("data", "predict_data_hyp.csv"), col_names = TRUE, na = "")
+```
+
