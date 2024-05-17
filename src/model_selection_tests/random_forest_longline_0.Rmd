@@ -30,21 +30,23 @@ set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
-  filter(gear_class == "longline") %>% 
-  filter(!grepl("Rajidae", family)) %>% 
-  filter(family != "Dasyatidae") %>% 
-  filter(family != "Pristidae") %>% 
-  filter(family != "Rhinidae") %>% 
-  filter(family != "Rhinobatidae")
+prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
+  mutate(habitat = case_when(
+    habitat_associated == "pelagic" ~ "pelagic",
+    habitat_associated == "reef-associated" ~ "pelagic",
+    habitat_associated == "bathypelagic" ~ "pelagic",
+    habitat_associated == "benthopelagic" ~ "pelagic",
+    habitat_associated == "demersal" ~ "demersal",
+    habitat_associated == "bathydemersal" ~ "demersal",
+  ))
 ```
 
 ```{r}
 # create data subset with variables that will be used in the random forest model
 prm_elasmo_subset <- prm_elasmo %>%
   select(
-    scientific_name, gear_class, habitat_associated, estimate_type, estimate, sample_size,
-    method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family
+    scientific_name, gear_class, habitat, estimate_type, estimate, sample_size,
+    method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family, ac, eo
   ) %>%
   mutate(measure = case_when(
     scientific_name == "sharks" ~ "total_length",
@@ -106,10 +108,10 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + habitat_associated + reproductive_mode, data = avm_train) %>%
+avm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + habitat + reproductive_mode, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
-prm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + habitat_associated + reproductive_mode, data = elasmo_prm) %>%
+prm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + habitat + reproductive_mode, data = elasmo_prm) %>%
   step_normalize(all_numeric_predictors())
 ```
 

@@ -26,13 +26,15 @@ set.seed(42)
 
 ```{r}
 # read in the data
-prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
-  filter(gear_class == "longline") %>%
-  filter(!grepl("Rajidae", family)) %>%
-  filter(family != "Dasyatidae") %>%
-  filter(family != "Pristidae") %>%
-  filter(family != "Rhinidae") %>%
-  filter(family != "Rhinobatidae")
+prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
+  mutate(habitat = case_when(
+    habitat_associated == "pelagic" ~ "pelagic",
+    habitat_associated == "reef-associated" ~ "pelagic",
+    habitat_associated == "bathypelagic" ~ "pelagic",
+    habitat_associated == "benthopelagic" ~ "pelagic",
+    habitat_associated == "demersal" ~ "demersal",
+    habitat_associated == "bathydemersal" ~ "demersal",
+  ))
 ```
 
 ```{r}
@@ -61,8 +63,8 @@ cor(cor_check$prm, cor_check$avm)
 # create data subset with variables that will be used in the random forest model
 prm_elasmo_subset <- prm_elasmo %>%
   select(
-    scientific_name, gear_class, habitat_associated, estimate_type, estimate, sample_size,
-    method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family
+    scientific_name, gear_class, habitat, estimate_type, estimate, sample_size,
+    method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family, ac, eo
   ) %>%
   mutate(measure = case_when(
     scientific_name == "sharks" ~ "total_length",
@@ -117,10 +119,10 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ reproductive_mode + median_depth + max_size_cm + habitat_associated + ventilation_method, data = avm_train) %>%
+avm_recipe <- recipe(mortality_prop ~ reproductive_mode + median_depth + max_size_cm + habitat_associated + ventilation_method + ac + eo, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
-prm_recipe <- recipe(mortality_prop ~ reproductive_mode + max_size_cm + habitat_associated + ventilation_method, data = elasmo_prm) %>%
+prm_recipe <- recipe(mortality_prop ~ reproductive_mode + max_size_cm + habitat_associated + ventilation_method + ac + eo, data = elasmo_prm) %>%
   step_normalize(all_numeric_predictors())
 ```
 
@@ -392,7 +394,7 @@ v2
 ### Predict additional shark species
 
 ```{r}
-# filter out rays and missing values
+# filter out rays and missing values 
 new_dat <- read_csv(here::here("data", "predict_data.csv")) %>%
   filter(order != "Rajiformes") %>%
   filter(order != "Myliobatiformes") %>%
@@ -411,7 +413,15 @@ new_dat <- read_csv(here::here("data", "predict_data.csv")) %>%
   mutate(ventilation_method = as.factor(ventilation_method)) %>%
   mutate(habitat_associated = as.factor(habitat_associated)) %>%
   mutate(reproductive_mode = as.factor(reproductive_mode)) %>%
-  filter(reproductive_mode != "histotrophy")
+  filter(reproductive_mode != "histotrophy") %>% 
+  mutate(habitat = case_when(
+    habitat_associated == "pelagic" ~ "pelagic",
+    habitat_associated == "reef-associated" ~ "pelagic",
+    habitat_associated == "bathypelagic" ~ "pelagic",
+    habitat_associated == "benthopelagic" ~ "pelagic",
+    habitat_associated == "demersal" ~ "demersal",
+    habitat_associated == "bathydemersal" ~ "demersal",
+  ))
 
 # predict AVM
 predict_data <- list(avm_train, avm_test, new_dat) %>%
