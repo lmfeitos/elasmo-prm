@@ -393,7 +393,7 @@ v2
 
 ```{r}
 # filter out rays and missing values
-new_dat <- read_csv(here::here("data", "predict_data.csv")) %>%
+new_dat <- read_csv(here::here("data", "predict_data_hyp.csv")) %>%
   filter(order != "Rajiformes") %>%
   filter(order != "Myliobatiformes") %>%
   filter(order != "Torpediniformes") %>%
