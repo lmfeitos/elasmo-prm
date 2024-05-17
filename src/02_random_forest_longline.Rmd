@@ -378,16 +378,16 @@ v1 <- avm_fit %>%
   extract_fit_parsnip() %>%
   vip() +
   theme_bw(base_size = 14) +
-  labs(y = "Variable Importance for At-Vessel Mortality") +
-  scale_x_discrete(labels = c("Ventilation Method", "Associated Habitat", "Reproductive Mode", "Maximum Size (cm)", "Median Depth (m)"))
+  labs(y = "Variable Importance for At-Vessel Mortality")+
+  scale_x_discrete(labels = c("Reproductive Mode", "Hypoxia Vulnerability", "Thermal Sensitivity","Median Depth (m)", "Maximum Size (cm)"))
 v1
 
 v2 <- prm_fit %>%
   extract_fit_parsnip() %>%
   vip() +
   theme_bw(base_size = 14) +
-  labs(y = "Variable Importance for Post-Release Mortality") +
-  scale_x_discrete(labels = c("Ventilation Method", "Reproductive Mode", "Associated Habitat", "Maximum Size (cm)"))
+  labs(y = "Variable Importance for Post-Release Mortality")+
+  scale_x_discrete(labels = c("Reproductive Mode", "Median Depth", "Maximum Size (cm)"))
 v2
 ```
 
