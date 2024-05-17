@@ -119,10 +119,10 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ reproductive_mode + median_depth + max_size_cm + habitat + ventilation_method + ac + eo, data = avm_train) %>%
+avm_recipe <- recipe(mortality_prop ~ reproductive_mode + median_depth + max_size_cm + ac + eo, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
-prm_recipe <- recipe(mortality_prop ~ reproductive_mode + max_size_cm + habitat + ventilation_method, data = elasmo_prm) %>%
+prm_recipe <- recipe(mortality_prop ~ reproductive_mode + max_size_cm + median_depth, data = elasmo_prm) %>%
   step_normalize(all_numeric_predictors())
 ```
 
@@ -185,7 +185,7 @@ Below displays the results of cross validation tuning for AVM
 
 ```{r, include=FALSE}
 # avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rsq")) # finalize the workflow with the best model
-#
+# 
 # saveRDS(avm_final, here::here("data", "avm_final.rds"))
 
 avm_final <- readRDS(here::here("data", "avm_final.rds"))
@@ -226,7 +226,7 @@ Below displays the results of cross validation tuning for PRM
 
 ```{r, include=FALSE}
 # prm_final <- finalize_workflow(prm_wflw, select_best(prm_tune, metric = "rsq")) # finalize the workflow with the best model
-#
+# 
 # saveRDS(prm_final, here::here("data", "prm_final.rds"))
 
 prm_final <- readRDS(here::here("data", "prm_final.rds"))
@@ -396,6 +396,7 @@ v2
 ```{r}
 # filter out rays and missing values
 new_dat <- read_csv(here::here("data", "predict_data_hyp.csv")) %>%
+  select(-ac, -eo) %>% 
   filter(order != "Rajiformes") %>%
   filter(order != "Myliobatiformes") %>%
   filter(order != "Torpediniformes") %>%
@@ -422,7 +423,9 @@ new_dat <- read_csv(here::here("data", "predict_data_hyp.csv")) %>%
     habitat_associated == "benthopelagic" ~ "pelagic",
     habitat_associated == "demersal" ~ "demersal",
     habitat_associated == "bathydemersal" ~ "demersal",
-  ))
+  )) %>% 
+  rename(eo = eo_new,
+         ac = ac_new)
 
 # predict AVM
 predict_data <- list(avm_train, avm_test, new_dat) %>%
