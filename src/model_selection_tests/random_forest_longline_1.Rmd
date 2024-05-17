@@ -45,8 +45,8 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
 # create data subset with variables that will be used in the random forest model
 prm_elasmo_subset <- prm_elasmo %>%
   select(
-    scientific_name, gear_class, habitat_associated, estimate_type, estimate, sample_size,
-    method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family
+    scientific_name, gear_class, habitat, estimate_type, estimate, sample_size,
+    method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family, ac, eo
   ) %>%
   mutate(measure = case_when(
     scientific_name == "sharks" ~ "total_length",
@@ -82,24 +82,6 @@ elasmo_prm <- prm_elasmo_subset %>%
   drop_na()
 ```
 
-```{r, include = FALSE}
-# Check for NAs
-gg_miss_var(elasmo_avm)
-
-gg_miss_var(elasmo_prm)
-```
-
-```{r}
-trawl_avm <- elasmo_avm %>%
-  filter(gear_class == "trawl")
-
-longline_avm <- elasmo_avm %>%
-  filter(gear_class == "longline")
-
-gillnet_avm <- elasmo_avm %>%
-  filter(gear_class == "gillnet")
-```
-
 ```{r}
 # split the data into training and test set
 ## At-vessel mortality
@@ -126,10 +108,10 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat_associated + reproductive_mode, data = avm_train) %>%
+avm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat + reproductive_mode + eo + ac, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
-prm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat_associated + reproductive_mode, data = elasmo_prm) %>%
+prm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat + reproductive_mode, data = elasmo_prm) %>%
   step_normalize(all_numeric_predictors())
 ```
 
