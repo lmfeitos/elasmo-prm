@@ -119,10 +119,10 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ reproductive_mode + median_depth + max_size_cm + habitat_associated + ventilation_method + ac + eo, data = avm_train) %>%
+avm_recipe <- recipe(mortality_prop ~ reproductive_mode + median_depth + max_size_cm + habitat + ventilation_method + ac + eo, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
-prm_recipe <- recipe(mortality_prop ~ reproductive_mode + max_size_cm + habitat_associated + ventilation_method + ac + eo, data = elasmo_prm) %>%
+prm_recipe <- recipe(mortality_prop ~ reproductive_mode + max_size_cm + habitat + ventilation_method, data = elasmo_prm) %>%
   step_normalize(all_numeric_predictors())
 ```
 
@@ -406,6 +406,7 @@ new_dat <- read_csv(here::here("data", "predict_data_hyp.csv")) %>%
   # filter(family != "Pristidae") %>% # I'd remove this filter
   filter(family != "Trygonorrhinidae") %>%
   filter(!is.na(median_depth)) %>%
+  filter(!is.na(eo_new)) %>% 
   filter(!is.na(ventilation_method)) %>%
   filter(!is.na(reproductive_mode)) %>%
   filter(!is.na(habitat_associated)) %>%
@@ -432,11 +433,6 @@ predict_data <- list(avm_train, avm_test, new_dat) %>%
   rename(prm_mort = mortality_prop) %>%
   select(-estimate_type, -method) %>%
   distinct() %>%
-  mutate(habitat_associated = case_when(
-    habitat_associated == "pelagic-neritic" ~ "benthopelagic",
-    habitat_associated == "pelagic-oceanic" ~ "pelagic",
-    TRUE ~ habitat_associated
-  )) %>%
   mutate(habitat_associated = as.factor(habitat_associated))
 
 predict_avm <- predict(object = avm_fit, new_data = predict_data) %>% # predict the training set
