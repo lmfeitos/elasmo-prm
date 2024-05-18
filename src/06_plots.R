@@ -668,7 +668,7 @@ p2 <- ggplot(predictions) +
 
 
 p3 <- ggplot(predictions %>% filter(estimate_type == "AVM")) +
-  geom_point(aes(eo, mortality_prop),
+  geom_point(aes(eo_new, mortality_prop),
              alpha = 0.5, size = 4
   ) +
   theme_bw(base_size = 14) +
@@ -690,8 +690,8 @@ p3 <- ggplot(predictions %>% filter(estimate_type == "AVM")) +
   scale_color_viridis_d() +
   theme(legend.position = "none")
 
-p6 <- ggplot(predictions %>% filter(estimate_type == "AVM") %>% filter(ac < 30)) +
-  geom_point(aes(ac, mortality_prop),
+p6 <- ggplot(predictions %>% filter(estimate_type == "AVM") %>% filter(ac_new < 30)) +
+  geom_point(aes(ac_new, mortality_prop),
              alpha = 0.5, size = 4
   ) +
   theme_bw(base_size = 14) +
@@ -783,12 +783,13 @@ iucn_data <- iucn_data %>%
   left_join(iucn_taxonomy, by = "scientific_name")
 
 # data wrangling for the plot
-sim_results_iucn <- sim_results_cn %>%
+sim_results_iucn <- sim_results %>%
   filter(scientific_name %in% iucn_data$scientific_name) %>%
-  left_join(iucn_data, by = "scientific_name")
+  left_join(iucn_data, by = "scientific_name") %>% 
+  left_join(sim_results_common)
 
 sim_results_top <- left_join(top_shark_mort, sim_results_iucn) %>%
-  filter(!is.na(f))
+  filter(!is.na(f)) 
 
 sim_results_iucn_pct <- sim_results_iucn %>%
   mutate(percent_diff = (f - f_mort) / f * 100) %>%
