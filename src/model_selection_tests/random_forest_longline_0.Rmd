@@ -266,6 +266,7 @@ collect_metrics(prm_cv2)
 
 
 ### Variable importance for the at-vessel mortality and post-release mortality RF models
+
 ```{r}
 avm_fit %>%
   extract_fit_parsnip() %>%

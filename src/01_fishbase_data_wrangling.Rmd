@@ -231,8 +231,7 @@ sheet_write(prm_join, sheet = "prm_dataset_temp_hab")
 write_csv(prm_join, file = file.path(basedir, "data", "prm_dataset_temp_hab.csv"), col_names = TRUE)
 ```
 
-
-### Check Mat data
+### Check hypoxia data
 
 ```{r}
 prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
@@ -262,58 +261,45 @@ new_dat <- read_csv(here::here("data", "predict_data.csv")) %>%
   mutate(habitat_associated = as.factor(habitat_associated)) %>%
   mutate(reproductive_mode = as.factor(reproductive_mode)) %>%
   filter(reproductive_mode != "histotrophy")
-```
 
-```{r}
 tol = read_csv(here("data", "tolerance.csv")) %>% 
   rename(scientific_name = species)
 # eo is thermal sensitivity
 # ac is active hypoxia vulnerability
+```
 
-dat = left_join(prm_elasmo, tol) %>% 
-  mutate(sci_name = scientific_name) %>% 
-  separate_wider_delim(sci_name, delim = " ", names = c("genus", "species"), too_many = "debug") %>% 
-  group_by(genus) %>% 
-  mutate(eo_new = ifelse(is.na(eo), mean(eo, na.rm = TRUE), eo),
-         ac_new = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac),
-         eo_new = ifelse(family == "Squalidae", 0.1386535, eo_new), # values retrieved from the wrangling below and calculated by order
-         ac_new = ifelse(family == "Squalidae", 7.436714, ac_new), # values retrieved from the wrangling below and calculated by order
-         eo_new = ifelse(genus == "Stegostoma", -0.08806076, eo_new), # values retrieved from the wrangling below and calculated by order
-         ac_new = ifelse(genus == "Stegostoma", 9.012971, ac_new)) %>% # values retrieved from the wrangling below and calculated by order 
-  ungroup() %>% 
-  group_by(family) %>% 
-  mutate(eo_new_fam = ifelse(is.na(eo), mean(eo, na.rm = TRUE), eo),
-         ac_new_fam = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac)) %>% 
-  ungroup() 
-
-write_csv(dat, here::here("data", "prm_hypoxia.csv"), col_names = TRUE, na = "")
-
-dat_new = left_join(new_dat, tol)
-
-write_csv(dat_new, here::here("data", "hypoxia_missing.csv"))
+```{r}
+dat = full_join(prm_elasmo, new_dat) %>%
+  left_join(tol) %>% 
+  mutate(species = scientific_name) %>% 
+  separate_wider_delim(species, names = c("genus", "species"), delim = " ", too_many = "debug") %>% 
+  select(-species)
 ```
 
 ```{r}
 # populate NAs in eo and ac with family averages
-dat_new_mean <- dat_new %>% 
-  mutate(sci_name = scientific_name) %>% 
-  separate_wider_delim(sci_name, delim = " ", names = c("genus", "species")) %>% 
+dat_new_mean <- dat %>%
   group_by(genus) %>% 
-  mutate(eo_new = ifelse(is.na(eo), mean(eo, na.rm = TRUE), eo),
-         ac_new = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac)) %>% 
-  ungroup() %>% 
+  mutate(eo_new1 = ifelse(is.na(eo), mean(eo, na.rm = TRUE), eo),
+         ac_new1 = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac)) %>% 
   group_by(family) %>% 
-  mutate(eo_new_fam = ifelse(is.na(eo), mean(eo, na.rm = TRUE), eo),
-         ac_new_fam = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac)) %>% 
-  ungroup() %>% 
-  group_by(order) %>%
-  mutate(eo_new_ord = ifelse(is.na(eo), mean(eo, na.rm = TRUE), eo),
-         ac_new_ord = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac)) %>% 
-  mutate(eo_new = ifelse(is.nan(eo_new), eo_new_fam, eo_new),
-         ac_new = ifelse(is.nan(ac_new), ac_new_fam, ac_new),
-         eo_new = ifelse(is.nan(eo_new_fam), eo_new_ord, eo_new),
-         ac_new = ifelse(is.nan(ac_new_fam), ac_new_ord, ac_new))
+  mutate(eo_new2 = ifelse(is.na(eo_new1), mean(eo_new1, na.rm = TRUE), eo),
+         ac_new2 = ifelse(is.na(ac_new1), mean(ac_new1, na.rm = TRUE), ac)) %>% 
+  group_by(order) %>% 
+  mutate(eo_new = ifelse(is.na(eo_new2), mean(eo_new2, na.rm = TRUE), eo),
+         ac_new = ifelse(is.na(ac_new2), mean(ac_new2, na.rm = TRUE), ac)) %>% 
+  select(-eo_new2,-ac_new2, -eo_new1,-ac_new1)
+
+dat_predict = dat_new_mean %>% 
+  filter(scientific_name %in% prm_elasmo$scientific_name)%>% 
+  distinct() %>% 
+  filter(!is.na(estimate))
+
+write_csv(dat_predict, here::here("data", "prm_hypoxia.csv"))
+
+dat_new_mean = dat_new_mean %>% 
+  filter(scientific_name %in% new_dat$scientific_name) %>% 
+  filter(is.na(estimate))
 
 write_csv(dat_new_mean, here::here("data", "predict_data_hyp.csv"), col_names = TRUE, na = "")
 ```
-
