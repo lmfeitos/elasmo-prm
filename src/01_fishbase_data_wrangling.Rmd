@@ -270,13 +270,25 @@ tol = read_csv(here("data", "tolerance.csv")) %>%
 # eo is thermal sensitivity
 # ac is active hypoxia vulnerability
 
-dat = left_join(prm_elasmo, tol)
+dat = left_join(prm_elasmo, tol) %>% 
+  mutate(sci_name = scientific_name) %>% 
+  separate_wider_delim(sci_name, delim = " ", names = c("genus", "species"), too_many = "debug") %>% 
+  group_by(genus) %>% 
+  mutate(eo_new = ifelse(is.na(eo), mean(eo, na.rm = TRUE), eo),
+         ac_new = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac),
+         eo_new = ifelse(family == "Squalidae", 0.1386535, eo_new), # values retrieved from the wrangling below and calculated by order
+         ac_new = ifelse(family == "Squalidae", 7.436714, ac_new), # values retrieved from the wrangling below and calculated by order
+         eo_new = ifelse(genus == "Stegostoma", -0.08806076, eo_new), # values retrieved from the wrangling below and calculated by order
+         ac_new = ifelse(genus == "Stegostoma", 9.012971, ac_new)) %>% # values retrieved from the wrangling below and calculated by order 
+  ungroup() %>% 
+  group_by(family) %>% 
+  mutate(eo_new_fam = ifelse(is.na(eo), mean(eo, na.rm = TRUE), eo),
+         ac_new_fam = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac)) %>% 
+  ungroup() 
 
-write_csv(dat, here::here("data", "prm_hypoxia.csv"))
+write_csv(dat, here::here("data", "prm_hypoxia.csv"), col_names = TRUE, na = "")
 
-dat_new = left_join(new_dat, tol) %>% 
-  filter(is.na(eo)) %>% 
-  select(scientific_name, eo, ac)
+dat_new = left_join(new_dat, tol)
 
 write_csv(dat_new, here::here("data", "hypoxia_missing.csv"))
 ```
@@ -284,9 +296,23 @@ write_csv(dat_new, here::here("data", "hypoxia_missing.csv"))
 ```{r}
 # populate NAs in eo and ac with family averages
 dat_new_mean <- dat_new %>% 
-  group_by(family) %>% 
+  mutate(sci_name = scientific_name) %>% 
+  separate_wider_delim(sci_name, delim = " ", names = c("genus", "species")) %>% 
+  group_by(genus) %>% 
   mutate(eo_new = ifelse(is.na(eo), mean(eo, na.rm = TRUE), eo),
-         ac_new = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac))
+         ac_new = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac)) %>% 
+  ungroup() %>% 
+  group_by(family) %>% 
+  mutate(eo_new_fam = ifelse(is.na(eo), mean(eo, na.rm = TRUE), eo),
+         ac_new_fam = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac)) %>% 
+  ungroup() %>% 
+  group_by(order) %>%
+  mutate(eo_new_ord = ifelse(is.na(eo), mean(eo, na.rm = TRUE), eo),
+         ac_new_ord = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac)) %>% 
+  mutate(eo_new = ifelse(is.nan(eo_new), eo_new_fam, eo_new),
+         ac_new = ifelse(is.nan(ac_new), ac_new_fam, ac_new),
+         eo_new = ifelse(is.nan(eo_new_fam), eo_new_ord, eo_new),
+         ac_new = ifelse(is.nan(ac_new_fam), ac_new_ord, ac_new))
 
 write_csv(dat_new_mean, here::here("data", "predict_data_hyp.csv"), col_names = TRUE, na = "")
 ```
