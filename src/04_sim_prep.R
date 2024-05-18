@@ -82,3 +82,8 @@ pred_r <- left_join(predictions_full, r_growth) %>%
   mutate(dif_r = mean_r - fish_r)
 
 write_csv(pred_r, here::here("data", "simulation_data.csv"))
+
+sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>% 
+  select(r_value, scientific_name)
+
+pred_r = left_join(predictions_full, sim_data)
