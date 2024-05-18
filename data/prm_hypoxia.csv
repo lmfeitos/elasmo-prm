@@ -24,12 +24,12 @@ Carcharhinus plumbeus,longline,benthopelagic,at-vessel mortality,0.05,119,visual
 Lamna nasus,longline,pelagic,post-release mortality,0.17,53,satellite tag,ram,365,total_length,904.5,oophagy,Lamnidae,Sharks,NA,6.2338,0.72793,Lamna,TRUE,2,,0.72793,6.2338
 Isurus oxyrinchus,longline,pelagic,post-release mortality,0.36,59,satellite tag,ram,445,total_length,375,oophagy,Lamnidae,Sharks,NA,13.922,-0.044464,Isurus,TRUE,2,,-0.044464,13.922
 Carcharhinus obscurus,longline,reef-associated,post-release mortality,0.05,43,satellite tag,ram,420,total_length,250,placental viviparity,Carcharhinidae,Sharks,Carcharhiniformes,7.0963,0.16792,Carcharhinus,TRUE,2,,0.16792,7.0963
-Squalus cubensis,longline,demersal,post-release mortality,0.5,72,satellite tag,stationary,110,total_length,370.5,yolk-sac viviparity,Squalidae,Sharks,NA,NA,NA,Squalus,TRUE,2,,0.08427961428571429,10.559440714285715
-Centrophorus sp,longline,bathydemersal,post-release mortality,0.83,13,satellite tag,stationary,165.75,total_length,1136.25,yolk-sac viviparity,Centrophoridae,Sharks,NA,NA,NA,Centrophorus,TRUE,2,,0.08427961428571429,10.559440714285715
-Mustelus canis insularis,longline,demersal,post-release mortality,0.75,14,satellite tag,ram,155,total_length,404,yolk-sac viviparity,Triakidae,Sharks,NA,NA,NA,Mustelus,FALSE,3, insularis,0.08427961428571429,10.559440714285715
-Squalus cubensis,longline,demersal,at-vessel mortality,0.83,72,visual,stationary,110,total_length,370.5,yolk-sac viviparity,Squalidae,Sharks,NA,NA,NA,Squalus,TRUE,2,,0.08427961428571429,10.559440714285715
-Centrophorus sp,longline,bathydemersal,at-vessel mortality,0.31,13,visual,stationary,165.75,total_length,1136.25,yolk-sac viviparity,Centrophoridae,Sharks,NA,NA,NA,Centrophorus,TRUE,2,,0.08427961428571429,10.559440714285715
-Mustelus canis insularis,longline,demersal,at-vessel mortality,0.07,14,visual,ram,155,total_length,404,yolk-sac viviparity,Triakidae,Sharks,NA,NA,NA,Mustelus,FALSE,3, insularis,0.08427961428571429,10.559440714285715
+Squalus cubensis,longline,demersal,post-release mortality,0.5,72,satellite tag,stationary,110,total_length,370.5,yolk-sac viviparity,Squalidae,Sharks,NA,NA,NA,Squalus,TRUE,2,,NA,NA
+Centrophorus sp,longline,bathydemersal,post-release mortality,0.83,13,satellite tag,stationary,165.75,total_length,1136.25,yolk-sac viviparity,Centrophoridae,Sharks,NA,NA,NA,Centrophorus,TRUE,2,,NA,NA
+Mustelus canis insularis,longline,demersal,post-release mortality,0.75,14,satellite tag,ram,155,total_length,404,yolk-sac viviparity,Triakidae,Sharks,NA,NA,NA,Mustelus,FALSE,3, insularis,NA,NA
+Squalus cubensis,longline,demersal,at-vessel mortality,0.83,72,visual,stationary,110,total_length,370.5,yolk-sac viviparity,Squalidae,Sharks,NA,NA,NA,Squalus,TRUE,2,,NA,NA
+Centrophorus sp,longline,bathydemersal,at-vessel mortality,0.31,13,visual,stationary,165.75,total_length,1136.25,yolk-sac viviparity,Centrophoridae,Sharks,NA,NA,NA,Centrophorus,TRUE,2,,NA,NA
+Mustelus canis insularis,longline,demersal,at-vessel mortality,0.07,14,visual,ram,155,total_length,404,yolk-sac viviparity,Triakidae,Sharks,NA,NA,NA,Mustelus,FALSE,3, insularis,NA,NA
 Hexanchus nakamurai,longline,bathydemersal,at-vessel mortality,0.167,16,visual,ram,177.8,total_length,351,yolk-sac viviparity,Hexanchidae,Sharks,NA,10.609,0.40048,Hexanchus,TRUE,2,,0.40048,10.609
 Heptranchias perlo,longline,bathydemersal,at-vessel mortality,1,2,visual,ram,140,total_length,500,yolk-sac viviparity,Hexanchidae,Sharks,Hexanchiformes,11.532,0.39696,Heptranchias,TRUE,2,,0.39696,11.532
 Hexanchus griseus,longline,bathydemersal,at-vessel mortality,0,1,visual,ram,550,total_length,1245,yolk-sac viviparity,Hexanchidae,Sharks,NA,7.4946,0.19271,Hexanchus,TRUE,2,,0.19271,7.4946
@@ -77,12 +77,12 @@ Carcharhinus limbatus,longline,reef-associated,at-vessel mortality,0.85,165,visu
 Carcharhinus plumbeus,longline,benthopelagic,at-vessel mortality,0.21,353,visual,ram,243,total_length,140,placental viviparity,Carcharhinidae,Sharks,Carcharhiniformes,15.327,0.029171,Carcharhinus,TRUE,2,,0.029171,15.327
 Rhizoprionodon terraenovae,longline,demersal,at-vessel mortality,0.91,118,visual,ram,113,total_length,140,placental viviparity,Carcharhinidae,Sharks,Carcharhiniformes,6.7403,-0.27953,Rhizoprionodon,TRUE,2,,-0.27953,6.7403
 Heptranchias perlo,longline,bathydemersal,at-vessel mortality,0.242,33,visual,ram,140,total_length,500,oophagy,Lamnidae,Sharks,NA,11.532,0.39696,Heptranchias,TRUE,2,,0.39696,11.532
-Squalus cubensis,longline,demersal,at-vessel mortality,0.102,49,visual,stationary,110,total_length,370.5,yolk-sac viviparity,Squalidae,Sharks,NA,NA,NA,Squalus,TRUE,2,,0.08427961428571429,10.559440714285715
-Squalus sp,longline,NA,at-vessel mortality,0,2,visual,stationary,166.36,total_length,767.786,yolk-sac viviparity,Squalidae,Sharks,NA,NA,NA,Squalus,TRUE,2,,0.08427961428571429,10.559440714285715
+Squalus cubensis,longline,demersal,at-vessel mortality,0.102,49,visual,stationary,110,total_length,370.5,yolk-sac viviparity,Squalidae,Sharks,NA,NA,NA,Squalus,TRUE,2,,NA,NA
+Squalus sp,longline,NA,at-vessel mortality,0,2,visual,stationary,166.36,total_length,767.786,yolk-sac viviparity,Squalidae,Sharks,NA,NA,NA,Squalus,TRUE,2,,NA,NA
 Centrophorus granulosus,longline,bathydemersal,at-vessel mortality,0,35,visual,stationary,176,total_length,775,yolk-sac viviparity,Centrophoridae,Sharks,NA,9.3579,0.29277,Centrophorus,TRUE,2,,0.29277,9.3579
 Ginglymostoma cirratum,longline,reef-associated,at-vessel mortality,0.613,163,visual,stationary,308,total_length,65,yolk-sac viviparity,Ginglymostomatidae,Sharks,NA,3.1785,-1.4469,Ginglymostoma,TRUE,2,,-1.4469,3.1785
 Mustelus canis,longline,demersal,at-vessel mortality,0.008,1279,visual,ram,155,total_length,404,yolk-sac viviparity,Triakidae,Sharks,NA,8.0434,0.24128,Mustelus,TRUE,2,,0.24128,8.0434
-Mustelus sp,longline,NA,at-vessel mortality,0,72,visual,ram,167.24,total_length,246.1,yolk-sac viviparity,Triakidae,Sharks,NA,NA,NA,Mustelus,TRUE,2,,0.08427961428571429,10.559440714285715
+Mustelus sp,longline,NA,at-vessel mortality,0,72,visual,ram,167.24,total_length,246.1,yolk-sac viviparity,Triakidae,Sharks,NA,NA,NA,Mustelus,TRUE,2,,NA,NA
 Carcharhinus acronotus,longline,reef-associated,at-vessel mortality,0.08,801,visual,ram,164,total_length,51.5,placental viviparity,Carcharhinidae,Sharks,NA,8.3419,0.2041,Carcharhinus,TRUE,2,,0.2041,8.3419
 Carcharhinus brevipinna,longline,reef-associated,at-vessel mortality,0.038,26,visual,ram,304,total_length,100,placental viviparity,Carcharhinidae,Sharks,Carcharhiniformes,10.685,0.29993,Carcharhinus,TRUE,2,,0.29993,10.685
 Carcharhinus falciformis,longline,reef-associated,at-vessel mortality,0.266,94,visual,ram,350,total_length,250,placental viviparity,Carcharhinidae,Sharks,Carcharhiniformes,10.089,0.30172,Carcharhinus,TRUE,2,,0.30172,10.089
@@ -166,10 +166,10 @@ Prionace glauca,longline,pelagic,at-vessel mortality,0.151,17780,visual,ram,383.
 Sphyrna lewini,longline,pelagic,at-vessel mortality,0.541,727,visual,ram,430,total_length,521.5,placental viviparity,Sphyrnidae,Sharks,NA,14.608,0.1165,Sphyrna,TRUE,2,,0.1165,14.608
 Hexanchus griseus,longline,bathydemersal,at-vessel mortality,0,8,visual,ram,550,total_length,1245,placental viviparity,Hexanchidae,Sharks,NA,7.4946,0.19271,Hexanchus,TRUE,2,,0.19271,7.4946
 Hexanchus nakamurai,longline,bathydemersal,at-vessel mortality,0.071,14,visual,ram,177.8,total_length,351,placental viviparity,Hexanchidae,Sharks,NA,10.609,0.40048,Hexanchus,TRUE,2,,0.40048,10.609
-Centrophorus sp,longline,bathydemersal,at-vessel mortality,0.294,51,visual,stationary,165.75,total_length,1136.25,yolk-sac viviparity,Centrophoridae,Sharks,NA,NA,NA,Centrophorus,TRUE,2,,0.08427961428571429,10.559440714285715
-Centroscymnus owstoni,longline,bathydemersal,at-vessel mortality,0.8,5,visual,stationary,120,total_length,804.5,yolk-sac viviparity,Somniosidae,Sharks,NA,NA,NA,Centroscymnus,TRUE,2,,0.08427961428571429,10.559440714285715
-Squalus cubensis,longline,demersal,at-vessel mortality,0.091,55,visual,stationary,110,total_length,370.5,yolk-sac viviparity,Squalidae,Sharks,NA,NA,NA,Squalus,TRUE,2,,0.08427961428571429,10.559440714285715
-Galeus springeri,longline,bathypelagic,at-vessel mortality,0.667,3,visual,stationary,53,total_length,640.5,oviparous,Scyliorhinidae,Sharks,NA,NA,NA,Galeus,TRUE,2,,0.08427961428571429,10.559440714285715
+Centrophorus sp,longline,bathydemersal,at-vessel mortality,0.294,51,visual,stationary,165.75,total_length,1136.25,yolk-sac viviparity,Centrophoridae,Sharks,NA,NA,NA,Centrophorus,TRUE,2,,NA,NA
+Centroscymnus owstoni,longline,bathydemersal,at-vessel mortality,0.8,5,visual,stationary,120,total_length,804.5,yolk-sac viviparity,Somniosidae,Sharks,NA,NA,NA,Centroscymnus,TRUE,2,,NA,NA
+Squalus cubensis,longline,demersal,at-vessel mortality,0.091,55,visual,stationary,110,total_length,370.5,yolk-sac viviparity,Squalidae,Sharks,NA,NA,NA,Squalus,TRUE,2,,NA,NA
+Galeus springeri,longline,bathypelagic,at-vessel mortality,0.667,3,visual,stationary,53,total_length,640.5,oviparous,Scyliorhinidae,Sharks,NA,NA,NA,Galeus,TRUE,2,,NA,NA
 Pseudotriakis microdon,longline,pelagic,at-vessel mortality,0,1,visual,ram,296,total_length,1265,yolk-sac viviparity,Triakidae,Sharks,NA,5.5776,0.086061,Pseudotriakis,TRUE,2,,0.086061,5.5776
 Mustelus canis,longline,demersal,at-vessel mortality,0,7,visual,ram,155,total_length,404,yolk-sac viviparity,Triakidae,Sharks,NA,8.0434,0.24128,Mustelus,TRUE,2,,0.24128,8.0434
 Orectolobus halei,longline,demersal,at-vessel mortality,0,3,visual,stationary,256,total_length,97.5,oviparous,Orectolobidae,Sharks,NA,5.5714,-0.31721,Orectolobus,TRUE,2,,-0.31721,5.5714
@@ -228,12 +228,12 @@ Sphyrna zygaena,longline,pelagic,at-vessel mortality,0.69,84,visual,ram,400,tota
 Isurus oxyrinchus,longline,pelagic,at-vessel mortality,0.22,100,visual,ram,445,total_length,375,oophagy,Lamnidae,Sharks,NA,13.922,-0.044464,Isurus,TRUE,2,,-0.044464,13.922
 Isurus paucus,longline,pelagic,at-vessel mortality,0.163,104,visual,ram,427,total_length,876,oophagy,Lamnidae,Sharks,NA,10.319,0.18707,Isurus,TRUE,2,,0.18707,10.319
 Negaprion acutidens,longline,reef-associated,at-vessel mortality,0,23,visual,ram,310,total_length,45,placental viviparity,Carcharhinidae,Sharks,NA,4.7028,-0.057209,Negaprion,TRUE,2,,-0.057209,4.7028
-Carcharhinus amboinensis,longline,reef-associated,at-vessel mortality,0,23,visual,ram,280,total_length,50,placental viviparity,Carcharhinidae,Sharks,NA,NA,NA,Carcharhinus,TRUE,2,,0.08427961428571429,10.559440714285715
-Stegostoma tigrinum,longline,reef-associated,at-vessel mortality,0,8,visual,stationary,250,total_length,45,yolk-sac viviparity,Stegostomatidae,Sharks,NA,NA,NA,Stegostoma,TRUE,2,,0.08427961428571429,10.559440714285715
+Carcharhinus amboinensis,longline,reef-associated,at-vessel mortality,0,23,visual,ram,280,total_length,50,placental viviparity,Carcharhinidae,Sharks,NA,NA,NA,Carcharhinus,TRUE,2,,NA,NA
+Stegostoma tigrinum,longline,reef-associated,at-vessel mortality,0,8,visual,stationary,250,total_length,45,yolk-sac viviparity,Stegostomatidae,Sharks,NA,NA,NA,Stegostoma,TRUE,2,,NA,NA
 Orectolobus ornatus,longline,reef-associated,at-vessel mortality,0,2,visual,stationary,110,total_length,52.5,yolk-sac viviparity,Orectolobidae,Sharks,NA,5.6825,0.055542,Orectolobus,TRUE,2,,0.055542,5.6825
-Squalus sp,longline,NA,at-vessel mortality,0,1,visual,stationary,166.36,total_length,767.786,yolk-sac viviparity,Squalidae,Sharks,NA,NA,NA,Squalus,TRUE,2,,0.08427961428571429,10.559440714285715
+Squalus sp,longline,NA,at-vessel mortality,0,1,visual,stationary,166.36,total_length,767.786,yolk-sac viviparity,Squalidae,Sharks,NA,NA,NA,Squalus,TRUE,2,,NA,NA
 Nebrius ferrugineus,longline,reef-associated,at-vessel mortality,0,1,visual,stationary,320,total_length,35,yolk-sac viviparity,Ginglymostomatidae,Sharks,NA,47.669,1.0675,Nebrius,TRUE,2,,1.0675,47.669
-Orectolobus sp,longline,NA,at-vessel mortality,0,1,visual,stationary,NA,total_length,NA,yolk-sac viviparity,Orectolobidae,Sharks,NA,NA,NA,Orectolobus,TRUE,2,,0.08427961428571429,10.559440714285715
+Orectolobus sp,longline,NA,at-vessel mortality,0,1,visual,stationary,NA,total_length,NA,yolk-sac viviparity,Orectolobidae,Sharks,NA,NA,NA,Orectolobus,TRUE,2,,NA,NA
 Galeocerdo cuvier,longline,benthopelagic,at-vessel mortality,0.009,115,visual,ram,740,total_length,556,placental viviparity,Carcharhinidae,Sharks,NA,12.342,-0.012706,Galeocerdo,TRUE,2,,-0.012706,12.342
 Carcharhinus obscurus,longline,reef-associated,at-vessel mortality,0.013,76,visual,ram,420,total_length,250,placental viviparity,Carcharhinidae,Sharks,Carcharhiniformes,7.0963,0.16792,Carcharhinus,TRUE,2,,0.16792,7.0963
 Carcharhinus plumbeus,longline,benthopelagic,at-vessel mortality,0.05,863,visual,ram,243,total_length,140,placental viviparity,Carcharhinidae,Sharks,Carcharhiniformes,15.327,0.029171,Carcharhinus,TRUE,2,,0.029171,15.327
@@ -241,7 +241,7 @@ Sphyrna mokarran,longline,pelagic,at-vessel mortality,0.308,13,visual,ram,610,to
 Mustelus antarcticus,longline,demersal,at-vessel mortality,0.375,16,visual,ram,185.2,total_length,178,yolk-sac viviparity,Triakidae,Sharks,NA,16.442,-0.23684,Mustelus,TRUE,2,,-0.23684,16.442
 Carcharhinus albimarginatus,longline,reef-associated,at-vessel mortality,0.385,13,visual,ram,300,total_length,400,placental viviparity,Carcharhinidae,Sharks,NA,3.5185,-1.2561,Carcharhinus,TRUE,2,,-1.2561,3.5185
 Carcharhinus amblyrhynchos,longline,reef-associated,at-vessel mortality,0.5,2,visual,ram,265,total_length,137.5,placental viviparity,Carcharhinidae,Sharks,Carcharhiniformes,6.8746,0.12136,Carcharhinus,TRUE,2,,0.12136,6.8746
-Carcharhinus limbatus/tilstoni,longline,reef-associated,at-vessel mortality,0.526,19,visual,ram,286,total_length,70,placental viviparity,Carcharhinidae,Sharks,NA,NA,NA,Carcharhinus,TRUE,2,,0.08427961428571429,10.559440714285715
+Carcharhinus limbatus/tilstoni,longline,reef-associated,at-vessel mortality,0.526,19,visual,ram,286,total_length,70,placental viviparity,Carcharhinidae,Sharks,NA,NA,NA,Carcharhinus,TRUE,2,,NA,NA
 Sphyrna lewini,longline,pelagic,at-vessel mortality,0.714,28,visual,ram,430,total_length,521.5,placental viviparity,Sphyrnidae,Sharks,NA,14.608,0.1165,Sphyrna,TRUE,2,,0.1165,14.608
 Loxodon macrorhinus,longline,demersal,at-vessel mortality,0.8,15,visual,ram,99,total_length,63.5,yolk-sac viviparity,Carcharhinidae,Sharks,NA,11.559,0.37585,Loxodon,TRUE,2,,0.37585,11.559
 Carcharhinus sorrah,longline,reef-associated,at-vessel mortality,0.851,114,visual,ram,166,total_length,70,placental viviparity,Carcharhinidae,Sharks,Carcharhiniformes,5.01,-1.6106,Carcharhinus,TRUE,2,,-1.6106,5.01

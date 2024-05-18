@@ -283,12 +283,9 @@ dat_new_mean <- dat %>%
   mutate(eo_new1 = ifelse(is.na(eo), mean(eo, na.rm = TRUE), eo),
          ac_new1 = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac)) %>% 
   group_by(family) %>% 
-  mutate(eo_new2 = ifelse(is.na(eo_new1), mean(eo_new1, na.rm = TRUE), eo),
-         ac_new2 = ifelse(is.na(ac_new1), mean(ac_new1, na.rm = TRUE), ac)) %>% 
-  group_by(order) %>% 
-  mutate(eo_new = ifelse(is.na(eo_new2), mean(eo_new2, na.rm = TRUE), eo),
-         ac_new = ifelse(is.na(ac_new2), mean(ac_new2, na.rm = TRUE), ac)) %>% 
-  select(-eo_new2,-ac_new2, -eo_new1,-ac_new1)
+  mutate(eo_new = ifelse(is.na(eo_new1), mean(eo_new1, na.rm = TRUE), eo),
+         ac_new = ifelse(is.na(ac_new1), mean(ac_new1, na.rm = TRUE), ac))  %>% 
+  select(-eo_new1,-ac_new1)
 
 dat_predict = dat_new_mean %>% 
   filter(scientific_name %in% prm_elasmo$scientific_name)%>% 
