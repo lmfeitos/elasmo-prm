@@ -423,9 +423,7 @@ new_dat <- read_csv(here::here("data", "predict_data_hyp.csv")) %>%
     habitat_associated == "benthopelagic" ~ "pelagic",
     habitat_associated == "demersal" ~ "demersal",
     habitat_associated == "bathydemersal" ~ "demersal",
-  )) %>% 
-  rename(eo = eo_new,
-         ac = ac_new)
+  ))
 
 # predict AVM
 predict_data <- list(avm_train, avm_test, new_dat) %>%
