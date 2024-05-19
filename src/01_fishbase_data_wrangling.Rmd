@@ -240,7 +240,8 @@ prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
   filter(family != "Dasyatidae") %>%
   filter(family != "Pristidae") %>%
   filter(family != "Rhinidae") %>%
-  filter(family != "Rhinobatidae")
+  filter(family != "Rhinobatidae") %>% 
+  mutate(scientific_name = ifelse(scientific_name == "Mustelus canis insularis", "Mustelus canis", scientific_name))
 
 new_dat <- read_csv(here::here("data", "predict_data.csv")) %>%
   filter(order != "Rajiformes") %>%
@@ -263,7 +264,8 @@ new_dat <- read_csv(here::here("data", "predict_data.csv")) %>%
   filter(reproductive_mode != "histotrophy")
 
 tol = read_csv(here("data", "tolerance.csv")) %>% 
-  rename(scientific_name = species)
+  rename(scientific_name = species) %>% 
+  mutate(scientific_name = ifelse(scientific_name == "Stegostoma fasciatum", "Stegostoma tigrinum", scientific_name))
 # eo is thermal sensitivity
 # ac is active hypoxia vulnerability
 ```
@@ -272,23 +274,26 @@ tol = read_csv(here("data", "tolerance.csv")) %>%
 dat = full_join(prm_elasmo, new_dat) %>%
   left_join(tol) %>% 
   mutate(species = scientific_name) %>% 
-  separate_wider_delim(species, names = c("genus", "species"), delim = " ", too_many = "debug") %>% 
-  select(-species)
+  separate_wider_delim(species, names = c("genus", "species"), delim = " ") 
 ```
 
 ```{r}
 # populate NAs in eo and ac with family averages
 dat_new_mean <- dat %>%
   group_by(genus) %>% 
-  mutate(eo_new1 = ifelse(is.na(eo), mean(eo, na.rm = TRUE), eo),
-         ac_new1 = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac)) %>% 
+  mutate(eo_new_gen = ifelse(is.na(eo), mean(eo, na.rm = TRUE), eo),
+         ac_new_gen = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac)) %>% 
   group_by(family) %>% 
-  mutate(eo_new = ifelse(is.na(eo_new1), mean(eo_new1, na.rm = TRUE), eo),
-         ac_new = ifelse(is.na(ac_new1), mean(ac_new1, na.rm = TRUE), ac))  %>% 
-  select(-eo_new1,-ac_new1)
+  mutate(eo_new_fam = ifelse(is.na(eo), mean(eo, na.rm = TRUE), eo),
+         ac_new_fam = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac)) %>% 
+  ungroup() %>% 
+  mutate(eo = ifelse(is.na(eo), eo_new_gen, eo),
+         eo = ifelse(is.nan(eo_new_gen), eo_new_fam, eo),
+         ac = ifelse(is.na(ac), ac_new_gen, ac),
+         ac = ifelse(is.nan(ac_new_gen), ac_new_fam, ac))
 
 dat_predict = dat_new_mean %>% 
-  filter(scientific_name %in% prm_elasmo$scientific_name)%>% 
+  filter(scientific_name %in% prm_elasmo$scientific_name) %>% 
   distinct() %>% 
   filter(!is.na(estimate))
 
