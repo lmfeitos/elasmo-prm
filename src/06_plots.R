@@ -666,9 +666,8 @@ p2 <- ggplot(predictions) +
   scale_color_viridis_d() +
   theme(legend.position = "none")
 
-
 p3 <- ggplot(predictions %>% filter(estimate_type == "AVM")) +
-  geom_point(aes(eo_new, mortality_prop),
+  geom_point(aes(eo, mortality_prop),
              alpha = 0.5, size = 4
   ) +
   theme_bw(base_size = 14) +
@@ -690,8 +689,8 @@ p3 <- ggplot(predictions %>% filter(estimate_type == "AVM")) +
   scale_color_viridis_d() +
   theme(legend.position = "none")
 
-p6 <- ggplot(predictions %>% filter(estimate_type == "AVM") %>% filter(ac_new < 30)) +
-  geom_point(aes(ac_new, mortality_prop),
+p6 <- ggplot(predictions %>% filter(estimate_type == "AVM") %>% filter(ac < 30)) +
+  geom_point(aes(ac, mortality_prop),
              alpha = 0.5, size = 4
   ) +
   theme_bw(base_size = 14) +
@@ -713,12 +712,12 @@ p6 <- ggplot(predictions %>% filter(estimate_type == "AVM") %>% filter(ac_new < 
   scale_color_viridis_d() +
   theme(legend.position = "none")
 
-p4 <- ggplot(predictions %>% mutate(habitat_associated = str_to_sentence(habitat_associated))) +
-  geom_point(aes(mortality_prop, habitat_associated),
+p4 <- ggplot(predictions %>% mutate(habitat = str_to_sentence(habitat)) %>% filter(estimate_type == "AVM")) +
+  geom_point(aes(mortality_prop, habitat),
     alpha = 0.1,
     show.legend = F, size = 4
   ) +
-  geom_boxplot(aes(mortality_prop, habitat_associated),
+  geom_boxplot(aes(mortality_prop, habitat),
     outlier.alpha = 0,
     alpha = 0.85,
     show.legend = F
@@ -773,7 +772,37 @@ p5 <- ggplot(predictions %>% mutate(reproductive_mode = str_to_sentence(reproduc
   scale_fill_viridis_d() +
   theme(legend.position = "none")
 
-plot <- p1 / p2 / (p6 + p3) / (p4) / p5 + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
+p7 <- ggplot(predictions %>% mutate(ventilation_method = str_to_sentence(ventilation_method)) %>% filter(estimate_type == "AVM")) +
+  geom_point(aes(mortality_prop, ventilation_method),
+             alpha = 0.1,
+             show.legend = F, size = 4
+  ) +
+  geom_boxplot(aes(mortality_prop, ventilation_method),
+               outlier.alpha = 0,
+               alpha = 0.85,
+               show.legend = F
+  ) +
+  theme_bw(base_size = 14) +
+  labs(
+    y = "",
+    x = "Ventilation Method",
+    color = "Group"
+  ) +
+  facet_wrap(~estimate_type, scales = "free_x") +
+  theme(
+    axis.text = element_text(color = "black"),
+    axis.text.y = element_text(color = "black"),
+    axis.title = element_text(color = "black"),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    strip.background = element_rect(fill = "transparent"),
+    panel.spacing.x = unit(5, "mm")
+  ) +
+  scale_color_viridis_d() +
+  scale_fill_viridis_d() +
+  theme(legend.position = "none")
+
+plot <- p1 / p2 / p5 / (p6 + p3) / (p4 + p7)  + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
 
 ggsave(plot, file = paste0("figS3.pdf"), path = here::here("figs", "supp"), height = 12, width = 15)
 
@@ -1400,7 +1429,7 @@ sim_results <- list(sim_results1_5, sim_results1, sim_results2, sim_results3) %>
 rm(sim_results1_5, sim_results1, sim_results2, sim_results3)
 gc()
 
-eq <- sim_results %>%
+eq <- sim_results_f %>%
   filter(t == 200) %>%
   filter(!is.na(mort_scenario)) %>%
   mutate(mort_scenario = fct_relevel(mort_scenario, "Low Mortality", after = Inf)) %>%
@@ -1433,25 +1462,24 @@ p
 
 ggsave(p, file = paste0("figS11.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
 
-# Summarize sensititivity stats within paper
+# Summarize sensitivity stats within paper
 
-percent_calc <- sim_results %>%
+percent_calc <- sim_results_f %>%
+  group_by(fp) %>% 
   mutate(f_mort = ((100 * f) - 100 * f * mid_avm * mid_prm) / 100) %>%
   select(scientific_name, f, f_mort, fp) %>%
   distinct() %>%
   mutate(percent_diff = (f - f_mort) / f * 100) %>%
-  ungroup() %>%
-  group_by(fp) %>%
   mutate(mean_diff = mean(percent_diff, na.rm = TRUE)) %>%
   ungroup()
 
-sim_200 <- sim_results %>%
+sim_200 <- sim_results_f %>%
   filter(t == 200) %>%
   filter(mort_scenario == "Median Mortality") %>%
   select(n_div_k, scientific_name, fp) %>%
   filter(n_div_k >= 0.5) %>%
   group_by(fp) %>%
-  summarize(per = n() / 260 * 100)
+  summarize(per = n() / 279 * 100)
 
 output <- eq %>%
   left_join(percent_calc) %>%
