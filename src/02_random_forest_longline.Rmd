@@ -85,8 +85,8 @@ elasmo_avm <- prm_elasmo_subset %>%
   mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
-  select(-sample_size, -estimate, -est_count) 
-  distinct() 
+  select(-sample_size, -estimate, -est_count) %>% 
+  distinct() %>% 
   drop_na()
 
 # Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
@@ -119,7 +119,7 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ reproductive_mode + median_depth + max_size_cm + ac + eo, data = avm_train) %>%
+avm_recipe <- recipe(mortality_prop ~ reproductive_mode + median_depth + max_size_cm + ac + eo + ventilation_method + habitat, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
 prm_recipe <- recipe(mortality_prop ~ reproductive_mode + max_size_cm + median_depth, data = elasmo_prm) %>%
@@ -379,7 +379,7 @@ v1 <- avm_fit %>%
   vip() +
   theme_bw(base_size = 14) +
   labs(y = "Variable Importance for At-Vessel Mortality")+
-  scale_x_discrete(labels = c("Reproductive Mode", "Hypoxia Vulnerability", "Thermal Sensitivity","Median Depth (m)", "Maximum Size (cm)"))
+  scale_x_discrete(labels = c("Ventilation Method", "Habitat", "Reproductive Mode", "Hypoxia Vulnerability", "Thermal Sensitivity", "Maximum Size (cm)", "Median Depth (m)"))
 v1
 
 v2 <- prm_fit %>%
@@ -396,7 +396,6 @@ v2
 ```{r}
 # filter out rays and missing values
 new_dat <- read_csv(here::here("data", "predict_data_hyp.csv")) %>%
-  select(-ac, -eo) %>% 
   filter(order != "Rajiformes") %>%
   filter(order != "Myliobatiformes") %>%
   filter(order != "Torpediniformes") %>%
@@ -407,7 +406,7 @@ new_dat <- read_csv(here::here("data", "predict_data_hyp.csv")) %>%
   # filter(family != "Pristidae") %>% # I'd remove this filter
   filter(family != "Trygonorrhinidae") %>%
   filter(!is.na(median_depth)) %>%
-  filter(!is.na(eo_new)) %>% 
+  filter(!is.na(eo)) %>% 
   filter(!is.na(ventilation_method)) %>%
   filter(!is.na(reproductive_mode)) %>%
   filter(!is.na(habitat_associated)) %>%
