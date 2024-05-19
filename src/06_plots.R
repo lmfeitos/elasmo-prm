@@ -1451,7 +1451,7 @@ sim_200 <- sim_results %>%
   select(n_div_k, scientific_name, fp) %>%
   filter(n_div_k >= 0.5) %>%
   group_by(fp) %>%
-  summarize(per = n() / 282 * 100)
+  summarize(per = n() / 260 * 100)
 
 output <- eq %>%
   left_join(percent_calc) %>%
