@@ -864,6 +864,7 @@ sim_results_iucn_pct_sum_stats <- sim_results_iucn_pct %>%
 
 # get average mortality reductions per iucn status
 sim_results_iucn_pct_plot_m_ave <- sim_results_iucn_pct %>%
+  group_by(redlist_category) %>% 
   summarise(
     mean_percent_diff = mean(percent_diff, na.rm = TRUE),
     sd_percent_diff = sd(percent_diff, na.rm = TRUE)
@@ -1482,6 +1483,14 @@ sim_200 <- sim_results %>%
   distinct() %>%
   group_by(fp) %>%
   summarize(per = n() / 279 * 100)
+
+mort_25 = percent_calc %>% 
+  filter(percent_diff > 25) %>% 
+  filter(fp == 1.5) %>% 
+  select(scientific_name) %>% 
+  distinct()
+
+nrow(mort_25) / 279 * 100
 
 output <- eq %>%
   left_join(percent_calc) %>%
