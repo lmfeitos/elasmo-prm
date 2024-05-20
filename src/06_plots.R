@@ -16,7 +16,7 @@ prm_elasmo <- read_csv(here("data", "prm_dataset_updated.csv"))
 iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>%
   janitor::clean_names() %>%
   filter(str_detect(systems, "Marine") & str_detect(threats, "longline") |
-    str_detect(scientific_name, "Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus|Mustelus")) %>% # list of genera to keep in the filtering
+    str_detect(scientific_name, "Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus|Mustelus|Stegostoma")) %>% # list of genera to keep in the filtering
   select(scientific_name, redlist_category, year_published) %>%
   mutate(redlist_category = case_when(
     str_detect(redlist_category, "Near") ~ "NT",
@@ -53,7 +53,7 @@ sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(mort_scenario == "BAU" | mort_scenario == "Median Mortality") %>%
-  mutate(f_mort = ((100 * f) - (100 * f * (1 - mid_avm) * (1 - mid_prm))) / 100) %>%
+  mutate(f_mort = ((100 * f) - 100 * f * mid_avm * mid_prm) / 100) %>%
   select(scientific_name, f, f_mort) %>%
   distinct()
 
@@ -936,7 +936,7 @@ prop <-
     show.legend = F,
     width = 0.8
   ) +
-  ylim(-40, max(sim_results_iucn_pct_threat$percent_diff)) +
+  ylim(-40, 75) +
   scale_fill_manual(values = c("#E31A1C", "#FD8D3C", "#FED976")) +
   theme(
     axis.title = element_blank(),
@@ -1429,7 +1429,7 @@ sim_results <- list(sim_results1_5, sim_results1, sim_results2, sim_results3) %>
 rm(sim_results1_5, sim_results1, sim_results2, sim_results3)
 gc()
 
-eq <- sim_results_f %>%
+eq <- sim_results %>%
   filter(t == 200) %>%
   filter(!is.na(mort_scenario)) %>%
   mutate(mort_scenario = fct_relevel(mort_scenario, "Low Mortality", after = Inf)) %>%
@@ -1464,20 +1464,22 @@ ggsave(p, file = paste0("figS11.pdf"), path = here::here("figs", "supp"), height
 
 # Summarize sensitivity stats within paper
 
-percent_calc <- sim_results_f %>%
-  group_by(fp) %>% 
+percent_calc <- sim_results %>%
   mutate(f_mort = ((100 * f) - 100 * f * mid_avm * mid_prm) / 100) %>%
-  select(scientific_name, f, f_mort, fp) %>%
+  select(scientific_name, f, f_mort, fp)%>%
   distinct() %>%
-  mutate(percent_diff = (f - f_mort) / f * 100) %>%
+  mutate(percent_diff = (f - f_mort) / f * 100) %>% 
+  group_by(fp) %>% 
   mutate(mean_diff = mean(percent_diff, na.rm = TRUE)) %>%
   ungroup()
 
-sim_200 <- sim_results_f %>%
+sim_200 <- sim_results %>%
   filter(t == 200) %>%
   filter(mort_scenario == "Median Mortality") %>%
-  select(n_div_k, scientific_name, fp) %>%
-  filter(n_div_k >= 0.5) %>%
+  select(n_div_k, scientific_name, fp)%>%
+  filter(n_div_k >= 0.5) %>% 
+  select(scientific_name, fp) %>% 
+  distinct() %>%
   group_by(fp) %>%
   summarize(per = n() / 279 * 100)
 
