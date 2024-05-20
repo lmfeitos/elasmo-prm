@@ -1035,7 +1035,7 @@ prop <- ggplot(data = non_threat) +
     show.legend = F,
     width = 0.8
   ) +
-  ylim(-40, max(non_threat$percent_diff)) +
+  ylim(-40, 75) +
   scale_fill_manual(values = c("grey", "#91CF60", "#1A9850")) +
   theme(
     axis.title = element_blank(),
