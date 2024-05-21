@@ -1,0 +1,280 @@
+scientific_name,f,f_mort,redlist_category,year_published,family,common_name,percent_diff
+Alopias pelagicus,0.06186106275,0.05793616035094209,EN,2019,Alopiidae,Pelagic thresher,6.3447
+Alopias superciliosus,0.04859941725,0.04515652267893067,VU,2019,Alopiidae,Bigeye thresher,7.0842
+Alopias vulpinus,0.06190762500000001,0.058162206544312506,VU,2022,Alopiidae,Thresher,6.05
+Apristurus fedorovi,0.01224239730944418,0.01148582587293091,LC,2021,Pentanchidae,Fedorov's catshark,6.1799
+Apristurus macrostomus,0.05447083000691234,0.05103354756546933,LC,2020,Pentanchidae,Broadmouth catshark,6.3103
+Apristurus micropterygeus,0.0697385377560006,0.06551967711403264,LC,2020,Pentanchidae,Smalldorsal cat shark,6.0495
+Atelomycterus baliensis,0.10017915859559236,0.09290274362082622,LC,2021,Scyliorhinidae,Bali catshark,7.2634
+Bythaelurus canescens,0.09313561510014665,0.08725846187123305,VU,2020,Pentanchidae,Dusky catshark,6.3103
+Bythaelurus clevai,0.09313561510014665,0.08949579765714638,DD,2019,Pentanchidae,Broadhead catshark,3.9081
+Bythaelurus hispidus,0.09313561510014665,0.088235763324636,NT,2019,Pentanchidae,Bristly catshark,5.261
+Bythaelurus immaculatus,0.09313561510014665,0.08750133893728468,LC,2020,Pentanchidae,Spotless catshark,6.0495
+Carcharhinus acronotus,0.1494957176608832,0.11365707685846033,EN,2021,Carcharhinidae,Blacknose shark,23.973
+Carcharhinus albimarginatus,0.06151584463607947,0.056949137927313015,VU,2021,Carcharhinidae,Silvertip shark,7.4236
+Carcharhinus altimus,0.0504803371039731,0.04498042103789366,NT,2020,Carcharhinidae,Bignose shark,10.8952
+Carcharhinus amblyrhynchoides,0.0811285324105828,0.061679571748806054,VU,2021,Carcharhinidae,Graceful shark,23.973
+Carcharhinus amblyrhynchos,0.05599985774999999,0.04743094618328749,EN,2020,Carcharhinidae,Blacktail reef shark,15.3017
+Carcharhinus amboinensis,0.0811285324105828,0.061679571748806054,VU,2021,Carcharhinidae,Pigeye shark,23.973
+Carcharhinus borneensis,0.0811285324105828,0.061679571748806054,CR,2021,Carcharhinidae,Borneo shark,23.973
+Carcharhinus brachyurus,0.06715183425,0.052560008450863116,VU,2020,Carcharhinidae,Copper shark,21.7296
+Carcharhinus brevipinna,0.11914994948388569,0.0896607492941104,VU,2020,Carcharhinidae,Spinner shark,24.7497
+Carcharhinus cautus,0.12508653825,0.09509951531915335,LC,2020,Carcharhinidae,Nervous shark,23.973
+Carcharhinus cerdale,0.0811285324105828,0.061679571748806054,CR,2020,Carcharhinidae,Pacific smalltail shark,23.973
+Carcharhinus coatesi,0.0811285324105828,0.061679571748806054,LC,2019,Carcharhinidae,Australian blackspot shark,23.973
+Carcharhinus dussumieri,0.05837186764658286,0.04437836716185404,EN,2019,Carcharhinidae,Whitecheek shark,23.973
+Carcharhinus falciformis,0.07234761975,0.06671788504772992,VU,2021,Carcharhinidae,Silky shark,7.7815
+Carcharhinus fitzroyensis,0.06351057749528352,0.04828517298455969,LC,2019,Carcharhinidae,Creek whaler,23.973
+Carcharhinus galapagensis,0.11689088037793594,0.10111669585958671,LC,2019,Carcharhinidae,Galapagos shark,13.4948
+Carcharhinus hemiodon,0.06351057749528352,0.049709982268597505,CR,2021,Carcharhinidae,Pondicherry shark,21.7296
+Carcharhinus humani,0.06351057749528352,0.04828517298455969,DD,2019,Carcharhinidae,Human's whaler shark,23.973
+Carcharhinus isodon,0.12857474325,0.09775149217833269,NT,2021,Carcharhinidae,Finetooth shark,23.973
+Carcharhinus leiodon,0.07908848706977871,0.06012858691979257,EN,2017,Carcharhinidae,Smoothtooth blacktip shark,23.973
+Carcharhinus leucas,0.1015901336867488,0.09380274543439288,VU,2021,Carcharhinidae,Bull shark,7.6655
+Carcharhinus limbatus,0.07862152974097482,0.06038933031300485,VU,2021,Carcharhinidae,Blacktip shark,23.1898
+Carcharhinus longimanus,0.11769573577257444,0.11015820192896769,CR,2019,Carcharhinidae,Oceanic whitetip shark,6.4043
+Carcharhinus macloti,0.07908848706977871,0.06190287421305319,NT,2021,Carcharhinidae,Hardnose shark,21.7296
+Carcharhinus melanopterus,0.07908848706977871,0.06012858691979257,VU,2020,Carcharhinidae,Blacktip reef shark,23.973
+Carcharhinus obscurus,0.0531466275,0.04988479248392781,EN,2019,Carcharhinidae,Dusky shark,6.1374
+Carcharhinus plumbeus,0.07927586069537818,0.07717370348551837,EN,2021,Carcharhinidae,Sandbar shark,2.6517
+Carcharhinus porosus,0.0926287246945725,0.0748776361125715,CR,2020,Carcharhinidae,Smalltail shark,19.1637
+Carcharhinus sealei,0.05447083000691234,0.041412526121206,VU,2021,Carcharhinidae,Blackspot shark,23.973
+Carcharhinus signatus,0.1103555725,0.09259124607165216,EN,2021,Carcharhinidae,Night shark,16.0974
+Carcharhinus sorrah,0.17057887927395027,0.11172445335667094,NT,2021,Carcharhinidae,Spottail shark,34.5028
+Carcharhinus tilstoni,0.17985470525155076,0.1407729950124036,LC,2019,Carcharhinidae,Australian blacktip shark,21.7296
+Carcharhinus tjutjot,0.05447083000691234,0.041412526121206,VU,2019,Carcharhinidae,Indonesian whaler shark,23.973
+Carcharias taurus,0.02610649776317006,0.023480868241163542,CR,2021,Odontaspididae,Sand tiger shark,10.0574
+Carcharodon carcharias,0.09315814152183474,0.08920101211135023,VU,2022,Lamnidae,Great white shark,4.2478
+Centrophorus atromarginatus,0.05335154601158458,0.04171647545423395,CR,2020,Centrophoridae,Dwarf gulper shark,21.8083
+Centrophorus granulosus,0.0296279175,0.026838339020824286,EN,2020,Centrophoridae,Gulper shark,9.4154
+Centrophorus harrissoni,0.06085329641137688,0.05125673156730274,EN,2020,Centrophoridae,Dumb gulper shark,15.77
+Centrophorus isodon,0.04057274818244219,0.03417442579407106,EN,2020,Centrophoridae,Blackfin gulper shark,15.77
+Centrophorus moluccensis,0.05335154601158458,0.0445753243051723,VU,2020,Centrophoridae,Smallfin gulper shark,16.4498
+Centrophorus squamosus,0.0347101005,0.033310380987237,EN,2020,Centrophoridae,Leafscale gulper shark,4.0326
+Centrophorus tessellatus,0.05335154601158458,0.04277778491952158,EN,2021,Centrophoridae,Mosaic gulper shark,19.819
+Centrophorus uyato,0.05335154601158458,0.04493800720555769,EN,2020,Centrophoridae,Little gulper shark,15.77
+Centroscyllium excelsum,0.05335154601158458,0.04493800720555769,NT,2021,Etmopteridae,Highfin dogfish,15.77
+Centroscyllium fabricii,0.05427108595755044,0.04662346399566282,LC,2020,Etmopteridae,Black dogfish,14.0915
+Centroscyllium granulatum,0.05427108595755044,0.04395957962561585,VU,2020,Etmopteridae,Granular dogfish,19
+Centroscyllium kamoharai,0.07062541212647888,0.059487784634133165,LC,2018,Etmopteridae,Bareskin dogfish,15.77
+Centroscyllium nigrum,0.11300190167509323,0.09518150178093102,LC,2020,Etmopteridae,Combtooth dogfish,15.77
+Centroscyllium ritteri,0.08050563813543204,0.06780989900147441,LC,2021,Etmopteridae,Whitefin dogfish,15.77
+Centroscymnus coelolepis,0.04975538205702069,0.047035609632062124,NT,2021,Somniosidae,Portuguese dogfish,5.4663
+Centroscymnus macracanthus,0.05317606138019395,0.04748422278775911,DD,2018,Somniosidae,Largespine velvet dogfish,10.7038
+Centroscymnus owstonii,0.05317606138019395,0.04551451043133706,VU,2018,Somniosidae,Roughskin dogfish,14.4079
+Centroselachus crepidater,0.07554665699999999,0.06363294919109999,NT,2020,Somniosidae,Longnose velvet dogfish,15.77
+Cephaloscyllium fasciatum,0.05317606138019395,0.041579261055303254,CR,2020,Scyliorhinidae,Reticulated swellshark,21.8083
+Cephaloscyllium isabellum,0.05317606138019395,0.04559011639529942,LC,2018,Scyliorhinidae,Draughtsboard shark,14.2657
+Cephaloscyllium sarawakensis,0.05317606138019395,0.03919075723720294,CR,2021,Scyliorhinidae,Sarawak pygmy swellshark,26.3
+Cephaloscyllium sufflans,0.05317606138019395,0.04263707964705057,NT,2020,Scyliorhinidae,Balloon shark,19.819
+Cephaloscyllium umbratile,0.05317606138019395,0.041451847680473275,NT,2021,Scyliorhinidae,Blotchy swellshark,22.0479
+Chiloscyllium burmensis,0.05968235187517175,0.04537468872223745,VU,2020,Hemiscylliidae,Burmese bamboo shark,23.973
+Chiloscyllium punctatum,0.04458962394981777,0.0339001437342198,NT,2016,Hemiscylliidae,Brownbanded bamboo shark,23.973
+Chlamydoselachus africana,0.06659175801445501,0.06256326306737728,LC,2019,Chlamydoselachidae,Southern African frilled shark,6.0495
+Chlamydoselachus anguineus,0.04772512510025441,0.043791741860556815,LC,2016,Chlamydoselachidae,Frilled shark,8.2417
+Cirrhigaleus asper,0.035839053295044,0.03002674017592036,DD,2020,Squalidae,Roughskin spurdog,16.2178
+Cirrhigaleus australis,0.05317606138019395,0.04601814315031376,DD,2016,Squalidae,Southern Mandarin dogfish,13.4608
+Cirrhigaleus barbifer,0.05284252581573869,0.04526659619071452,LC,2020,Squalidae,Mandarin dogfish,14.3368
+Cirrhoscyllium expolitum,0.05284252581573869,0.05058277376674953,DD,2020,Parascylliidae,Barbelthroat carpetshark,4.2764
+Dalatias licha,0.13143380775,0.1173654469145969,VU,2018,Dalatiidae,Kitefin shark,10.7038
+Deania calcea,0.05743938075,0.05203124970611614,NT,2020,Centrophoridae,Birdbeak dogfish,9.4154
+Deania profundorum,0.02532582016717329,0.021331938326810063,NT,2020,Centrophoridae,Arrowhead dogfish,15.77
+Deania quadrispinosa,0.08050563813543204,0.069668942828164,VU,2020,Centrophoridae,Longsnout dogfish,13.4608
+Echinorhinus brucus,0.08050563813543204,0.07193218761625748,EN,2020,Echinorhinidae,Bramble shark,10.6495
+Echinorhinus cookei,0.0347728957372008,0.03247903813485809,DD,2018,Echinorhinidae,Prickly shark,6.5967
+Etmopterus bigelowi,0.05447083000691234,0.04551048834091533,LC,2020,Etmopteridae,Blurred lanternshark,16.4498
+Etmopterus burgessi,0.04076096491588672,0.03405586840394236,LC,2020,Etmopteridae,Broadsnout lanternshark,16.4498
+Etmopterus decacuspidatus,0.0811285324105828,0.06778305246897945,LC,2020,Etmopteridae,Combtooth lanternshark,16.4498
+Etmopterus dianthus,0.0811285324105828,0.06778305246897945,LC,2015,Etmopteridae,Pink lanternshark,16.4498
+Etmopterus dislineatus,0.0811285324105828,0.06778305246897945,LC,2015,Etmopteridae,Lined lanternshark,16.4498
+Etmopterus gracilispinis,0.09208898138893253,0.07756654902389787,LC,2020,Etmopteridae,Broadbanded lanternshark,15.77
+Etmopterus granulosus,0.09313561510014665,0.07844812859885353,LC,2018,Etmopteridae,Southern lanternshark,15.77
+Etmopterus joungi,0.09313561510014665,0.07282431141539196,LC,2020,Etmopteridae,Shortfin smooth lanternshark,21.8083
+Etmopterus lucifer,0.09313561510014665,0.07844812859885353,LC,2018,Etmopteridae,Blackbelly lanternshark,15.77
+Etmopterus perryi,0.09313561510014665,0.07467703579267072,LC,2020,Etmopteridae,Dwarf lanternshark,19.819
+Etmopterus princeps,0.09313561510014665,0.07844812859885353,LC,2020,Etmopteridae,Great lanternshark,15.77
+Etmopterus pusillus,0.04076096491588672,0.03433296074865139,LC,2020,Etmopteridae,Smooth lanternshark,15.77
+Etmopterus spinax,0.1022251605475,0.08610425272915925,VU,2021,Etmopteridae,Velvet belly,15.77
+Etmopterus splendidus,0.06351057749528352,0.049507818294604655,LC,2020,Etmopteridae,Splendid lanternshark,22.0479
+Etmopterus unicolor,0.06351057749528352,0.053494959424277316,DD,2018,Etmopteridae,Brown lanternshark,15.77
+Etmopterus viator,0.06351057749528352,0.053494959424277316,LC,2018,Etmopteridae,Blue-eye lanternshark,15.77
+Etmopterus virens,0.06351057749528352,0.05306321560103104,LC,2020,Etmopteridae,Green lanternshark,16.4498
+Eusphyra blochii,0.06351057749528352,0.04899235131680983,EN,2016,Sphyrnidae,Winghead shark,22.8595
+Galeocerdo cuvier,0.15718193569786149,0.1519771874955536,NT,2019,Carcharhinidae,Tiger shark,3.3113
+Galeorhinus galeus,0.09532930062829714,0.08404179393198906,CR,2020,Triakidae,Tope shark,11.8405
+Galeus atlanticus,0.0811285324105828,0.07600906424900808,NT,2021,Pentanchidae,Atlantic sawtail catshark,6.3103
+Galeus melastomus,0.14126944125000002,0.1327232900862391,LC,2021,Pentanchidae,Blackmouth catshark,6.0495
+Galeus mincaronei,0.0811285324105828,0.07795796176394529,VU,2020,Pentanchidae,Southern sawtail catshark,3.9081
+Galeus nipponensis,0.0811285324105828,0.07795796176394529,LC,2021,Pentanchidae,Broadfin sawtail catshark,3.9081
+Galeus polli,0.0811285324105828,0.07600906424900808,VU,2021,Pentanchidae,African sawtail catshark,6.3103
+Galeus sauteri,0.05120529215092549,0.039499997658253495,LC,2020,Pentanchidae,Blacktip sawtail catshark,22.8595
+Galeus schultzi,0.04076096491588672,0.03943336947152691,LC,2020,Pentanchidae,Dwarf sawtail catshark,3.257
+Ginglymostoma cirratum,0.05413756275,0.0480043527149116,VU,2021,Ginglymostomatidae,Nurse shark,11.3289
+Gollum attenuatus,0.0811285324105828,0.06571411125257205,LC,2018,Pseudotriakidae,Slender smooth-hound,19
+Halaelurus boesemani,0.0811285324105828,0.07764061938474226,VU,2017,Pentanchidae,Speckled catshark,4.2992
+Halaelurus buergeri,0.0811285324105828,0.062314963314669,EN,2020,Pentanchidae,Blackspotted catshark,23.1898
+Halaelurus natalensis,0.0811285324105828,0.06277905180843861,VU,2020,Pentanchidae,Tiger catshark,22.6178
+Haploblepharus edwardsii,0.0811285324105828,0.061679571748806054,EN,2020,Pentanchidae,Puffadder shyshark,23.973
+Haploblepharus pictus,0.0811285324105828,0.061679571748806054,LC,2019,Pentanchidae,Dark shyshark,23.973
+Hemitriakis abdita,0.03938484108689116,0.03157914600522983,DD,2021,Triakidae,Deepwater sicklefin houndshark,19.819
+Hemitriakis complicofasciata,0.03938484108689116,0.0285220825013238,VU,2020,Triakidae,Ocellate topeshark,27.5811
+Hemitriakis indroyonoi,0.03938484108689116,0.0285220825013238,EN,2021,Triakidae,Indonesian houndshark,27.5811
+Hemitriakis japanica,0.03938484108689116,0.0285220825013238,EN,2021,Triakidae,Japanese topeshark,27.5811
+Hemitriakis leucoperiptera,0.03938484108689116,0.0285220825013238,CR,2021,Triakidae,Whitefin topeshark,27.5811
+Heptranchias perlo,0.04139485851165921,0.03672143338229832,NT,2020,Hexanchidae,Sharpnose sevengill shark,11.2899
+Heterodontus mexicanus,0.03938484108689116,0.02994310459531185,LC,2020,Heterodontidae,Mexican hornshark,23.973
+Heterodontus portusjacksoni,0.03938484108689116,0.03767254846119997,LC,2015,Heterodontidae,Port Jackson shark,4.3476
+Heterodontus zebra,0.03938484108689116,0.030429254033300244,LC,2020,Heterodontidae,Zebra bullhead shark,22.7387
+Hexanchus griseus,0.12314403825,0.11888714133248722,NT,2020,Hexanchidae,Bluntnose sixgill shark,3.4568
+Hexanchus nakamurai,0.04629853506697751,0.04116218900779901,NT,2020,Hexanchidae,Bigeyed sixgill shark,11.094
+Holohalaelurus punctatus,0.03938484108689116,0.037845648679950855,EN,2020,Pentanchidae,White-spotted Izak,3.9081
+Hypogaleus hyugaensis,0.03938484108689116,0.0307013041447543,LC,2016,Triakidae,Blacktip tope,22.0479
+Iago garricki,0.03938484108689116,0.037845648679950855,LC,2016,Triakidae,Longnose houndshark,3.9081
+Iago omanensis,0.03938484108689116,0.03724806048345709,LC,2021,Triakidae,Bigeye houndshark,5.4254
+Isistius brasiliensis,0.03938484108689116,0.03317385164748842,LC,2018,Dalatiidae,Cookiecutter shark,15.77
+Isistius plutodus,0.07908848706977871,0.0666162326588746,LC,2015,Dalatiidae,Largetooth cookiecutter shark,15.77
+Isogomphodon oxyrhynchus,0.08019986506946719,0.060973534030691966,CR,2020,Carcharhinidae,Daggernose shark,23.973
+Isurus oxyrinchus,0.0816197286119908,0.07801608467167753,EN,2019,Lamnidae,Shortfin mako,4.4152
+Isurus paucus,0.03429803012209115,0.03285845624949571,EN,2019,Lamnidae,Longfin mako,4.1972
+Lamiopsis tephrodes,0.03598158069153816,0.027355708552293283,EN,2021,Carcharhinidae,Borneo broadfin shark,23.973
+Lamna ditropis,0.164051319,0.14332808577713935,LC,2019,Lamnidae,Salmon shark,12.6322
+Lamna nasus,0.05772226424999999,0.0541499374413299,VU,2019,Lamnidae,Porbeagle,6.1888
+Loxodon macrorhinus,0.0566329797761521,0.039806023540754694,NT,2021,Carcharhinidae,Sliteye shark,29.7123
+Megachasma pelagios,0.06351057749528352,0.059858108610674955,LC,2019,Megachasmidae,Megamouth shark,5.751
+Mitsukurina owstoni,0.04251404263055997,0.04070815035207833,LC,2018,Mitsukurinidae,Goblin shark,4.2478
+Mustelus albipinnis,0.04251404263055997,0.033140581939742966,LC,2020,Triakidae,White-margin fin smooth-hound,22.0479
+Mustelus antarcticus,0.17685819602705433,0.15155525600194936,LC,2016,Triakidae,Gummy shark,14.3069
+Mustelus asterias,0.0997000935,0.07426567028173425,NT,2021,Triakidae,Starry smooth-hound,25.5109
+Mustelus californicus,0.29895817604287167,0.22421863203215373,LC,2015,Triakidae,Grey smooth-hound,25
+Mustelus canis,0.33876366975,0.29043661251966424,NT,2021,Triakidae,Dusky smooth-hound,14.2657
+Mustelus dorsalis,0.06351057749528352,0.04599368389047833,VU,2020,Triakidae,Sharptooth smooth-hound,27.5811
+Mustelus fasciatus,0.06351057749528352,0.04763293312146264,CR,2020,Triakidae,Striped smooth-hound,25
+Mustelus griseus,0.06351057749528352,0.04763293312146264,EN,2020,Triakidae,Spotless smooth-hound,25
+Mustelus henlei,0.2441266674511978,0.19030182325044728,LC,2016,Triakidae,Brown smooth-hound,22.0479
+Mustelus higmani,0.06351057749528352,0.05306321560103104,EN,2020,Triakidae,Smalleye smooth-hound,16.4498
+Mustelus lenticulatus,0.151673631,0.11823275523181252,LC,2018,Triakidae,Spotted estuary smooth-hound,22.0479
+Mustelus lunulatus,0.0811285324105828,0.06441134353977697,LC,2016,Triakidae,Sicklefin smooth-hound,20.6058
+Mustelus manazo,0.224813844,0.18412052093468084,EN,2020,Triakidae,Starspotted smooth-hound,18.1009
+Mustelus mento,0.0811285324105828,0.05875241922446502,CR,2021,Triakidae,Speckled smooth-hound,27.5811
+Mustelus minicanis,0.0811285324105828,0.06084639930793709,EN,2020,Triakidae,Dwarf smooth-hound,25
+Mustelus mosis,0.0811285324105828,0.06504964091467516,NT,2019,Triakidae,Arabian smooth-hound,19.819
+Mustelus mustelus,0.12063595575,0.10635200370829734,EN,2021,Triakidae,Smooth-hound,11.8405
+Mustelus norrisi,0.0811285324105828,0.05875241922446502,NT,2021,Triakidae,Narrowfin smooth-hound,27.5811
+Mustelus palumbes,0.0811285324105828,0.06324138119180783,LC,2020,Triakidae,Whitespotted smooth-hound,22.0479
+Mustelus punctulatus,0.0811285324105828,0.06778305246897945,VU,2021,Triakidae,Blackspotted smooth-hound,16.4498
+Mustelus ravidus,0.0811285324105828,0.06324138119180783,LC,2019,Triakidae,Australian grey smooth-hound,22.0479
+Mustelus schmitti,0.11062240575,0.08296680431249999,CR,2020,Triakidae,Narrownose smooth-hound,25
+Mustelus sinusmexicanus,0.0811285324105828,0.05948343996343929,LC,2021,Triakidae,Gulf smooth-hound,26.68
+Mustelus stevensi,0.0811285324105828,0.0679712531324919,LC,2019,Triakidae,Western spotted gummy shark,16.2178
+Mustelus walkeri,0.0811285324105828,0.06504964091467516,DD,2016,Triakidae,Eastern spotted gummy shark,19.819
+Mustelus whitneyi,0.05447083000691234,0.04014500171509439,CR,2020,Triakidae,Humpback smooth-hound,26.3
+Mustelus widodoi,0.05447083000691234,0.041657134652265455,VU,2021,Triakidae,White-fin smooth-hound,23.524
+Nasolamia velox,0.05289364285130611,0.04080239914665395,EN,2020,Carcharhinidae,Whitenose shark,22.8595
+Nebrius ferrugineus,0.05289364285130611,0.040213438384314806,VU,2021,Ginglymostomatidae,Tawny nurse shark,23.973
+Negaprion acutidens,0.05289364285130611,0.04080239914665395,EN,2021,Carcharhinidae,Sicklefin lemon shark,22.8595
+Negaprion brevirostris,0.07868339372986317,0.07138475872440839,VU,2021,Carcharhinidae,Lemon shark,9.276
+Notorynchus cepedianus,0.17732995575,0.15180599584864735,VU,2020,Hexanchidae,Broadnose sevengill shark,14.3935
+Odontaspis ferox,0.05289364285130611,0.05024949275427973,VU,2016,Odontaspididae,Smalltooth sand tiger,4.999
+Odontaspis noronhai,0.05289364285130611,0.049771476613960274,LC,2019,Odontaspididae,Bigeye sand tiger,5.9027
+Orectolobus floridus,0.05289364285130611,0.038305012882295035,LC,2015,Orectolobidae,Floral banded wobbegong,27.5811
+Orectolobus halei,0.04053085929055788,0.032848058517218476,LC,2015,Orectolobidae,Gulf wobbegong,18.9554
+Orectolobus hutchinsi,0.04053085929055788,0.02935201668033666,LC,2015,Orectolobidae,Western wobbegong,27.5811
+Orectolobus japonicus,0.04053085929055788,0.03159464920989175,LC,2020,Orectolobidae,Japanese wobbegong,22.0479
+Orectolobus leptolineatus,0.04053085929055788,0.03039814446791841,NT,2021,Orectolobidae,Indonesian wobbegong,25
+Orectolobus maculatus,0.04053085929055788,0.034697056293629285,LC,2015,Orectolobidae,Spotted wobbegong,14.3935
+Orectolobus ornatus,0.04053085929055788,0.031265691099764625,LC,2015,Orectolobidae,Ornate wobbegong,22.8595
+Orectolobus parvimaculatus,0.04053085929055788,0.030134693882529782,LC,2015,Orectolobidae,Dwarf spotted wobbegong,25.65
+Orectolobus reticulatus,0.04053085929055788,0.02935201668033666,DD,2015,Orectolobidae,Network wobbegong,27.5811
+Orectolobus wardi,0.02011448699203874,0.014566697278097838,LC,2015,Orectolobidae,Northern wobbegong,27.5811
+Oxynotus centrina,0.097129464,0.08313515306842105,EN,2021,Oxynotidae,Angular roughshark,14.4079
+Oxynotus paradoxus,0.11385134320857418,0.09856489474409515,VU,2021,Oxynotidae,Sailfin roughshark,13.4267
+Parmaturus lanatus,0.06673576301903358,0.06269855643179803,LC,2020,Pentanchidae,Velvet catshark,6.0495
+Parmaturus melanobranchus,0.06673576301903358,0.06269855643179803,LC,2020,Pentanchidae,Blackgill catshark,6.0495
+Parmaturus pilosus,0.06673576301903358,0.06269855643179803,LC,2021,Pentanchidae,Salamander shark,6.0495
+Parmaturus xaniurus,0.06673576301903358,0.06269855643179803,LC,2015,Pentanchidae,Filetail catshark,6.0495
+Pentanchus profundicolus,0.06673576301903358,0.06269855643179803,LC,2020,Pentanchidae,Onefin catshark,6.0495
+Pliotrema warreni,0.06673576301903358,0.06045234305510036,LC,2020,Pristiophoridae,Sixgill sawshark,9.4154
+Poroderma africanum,0.08277426125416902,0.06293076965995939,LC,2020,Scyliorhinidae,Pyjama shark,23.973
+Poroderma pantherinum,0.0811285324105828,0.07779540096457983,LC,2020,Scyliorhinidae,Leopard catshark,4.1085
+Prionace glauca,0.3728700730887175,0.3471204748107881,NT,2019,Carcharhinidae,Blue shark,6.9058
+Pristiophorus cirratus,0.0811285324105828,0.06943961885932119,LC,2021,Pristiophoridae,Common sawshark,14.4079
+Pristiophorus delicatus,0.0811285324105828,0.06504964091467516,LC,2015,Pristiophoridae,Tropical sawshark,19.819
+Pristiophorus japonicus,0.0811285324105828,0.06955496777269593,LC,2021,Pristiophoridae,Japanese sawshark,14.2657
+Pristiophorus lanae,0.0811285324105828,0.06504964091467516,NT,2020,Pristiophoridae,Lana's sawshark,19.819
+Pristiophorus nancyae,0.0811285324105828,0.06504964091467516,LC,2019,Pristiophoridae,Dwarf sawshark,19.819
+Pristiophorus nudipinnis,0.06351057749528352,0.049507818294604655,LC,2016,Pristiophoridae,Shortnose sawshark,22.0479
+Proscyllium habereri,0.06351057749528352,0.060901272276596696,VU,2020,Proscylliidae,Graceful catshark,4.1085
+Proscyllium magnificum,0.0811285324105828,0.07712913133975585,NT,2021,Proscylliidae,Magnificent catshark,4.9297
+Pseudocarcharias kamoharai,0.03478451079595132,0.03367775286369404,LC,2019,Pseudocarchariidae,Crocodile shark,3.1818
+Pseudotriakis microdon,0.0811285324105828,0.07244472808704279,LC,2015,Pseudotriakidae,False catshark,10.7038
+Rhizoprionodon acutus,0.07411682457513344,0.05290523353344259,VU,2020,Carcharhinidae,Milk shark,28.6191
+Rhizoprionodon lalandii,0.0811285324105828,0.061679571748806054,VU,2020,Carcharhinidae,Brazilian sharpnose shark,23.973
+Rhizoprionodon longurio,0.0811285324105828,0.061679571748806054,VU,2020,Carcharhinidae,Pacific sharpnose shark,23.973
+Rhizoprionodon oligolinx,0.0811285324105828,0.061679571748806054,NT,2021,Carcharhinidae,Grey sharpnose shark,23.973
+Rhizoprionodon porosus,0.0811285324105828,0.07763972527190224,VU,2021,Carcharhinidae,Caribbean sharpnose shark,4.3003
+Rhizoprionodon taylori,0.3746675473682105,0.284848415017455,LC,2019,Carcharhinidae,Australian sharpnose shark,23.973
+Rhizoprionodon terraenovae,0.23216899374076305,0.22263042881384154,LC,2021,Carcharhinidae,Atlantic sharpnose shark,4.1085
+Schroederichthys saurisqualus,0.0811285324105828,0.07763972527190224,VU,2020,Scyliorhinidae,Lizard catshark,4.3003
+Scyliorhinus boa,0.0811285324105828,0.07622062950150324,LC,2020,Scyliorhinidae,Boa catshark,6.0495
+Scyliorhinus canicula,0.3396902248020769,0.32862642403407727,LC,2021,Scyliorhinidae,Small-spotted catshark,3.257
+Scyliorhinus haeckelii,0.0811285324105828,0.07763972527190224,DD,2020,Scyliorhinidae,Freckled catshark,4.3003
+Scyliorhinus torazame,0.0811285324105828,0.07614932864418412,LC,2020,Scyliorhinidae,Cloudy catshark,6.1374
+Scymnodalatias albicauda,0.0811285324105828,0.06571411125257205,DD,2018,Somniosidae,Whitetail dogfish,19
+Scymnodon ringens,0.0811285324105828,0.06914218670744106,VU,2020,Somniosidae,Knifetooth dogfish,14.7745
+Somniosus antarcticus,0.0811285324105828,0.07638401978715308,LC,2018,Somniosidae,Southern sleeper shark,5.8481
+Somniosus longus,0.0811285324105828,0.07128862480532953,DD,2018,Somniosidae,Frog shark,12.1288
+Somniosus microcephalus,0.0811285324105828,0.07787829802511147,VU,2020,Somniosidae,Greenland shark,4.0063
+Somniosus pacificus,0.0811285324105828,0.07638401978715308,NT,2021,Somniosidae,Pacific sleeper shark,5.8481
+Somniosus rostratus,0.0811285324105828,0.06955496777269593,LC,2020,Somniosidae,Little sleeper shark,14.2657
+Sphyrna corona,0.0811285324105828,0.061679571748806054,CR,2020,Sphyrnidae,Scalloped bonnethead,23.973
+Sphyrna lewini,0.2183229119596849,0.20956951226363835,CR,2019,Sphyrnidae,Scalloped hammerhead,4.0094
+Sphyrna media,0.0811285324105828,0.061679571748806054,CR,2020,Sphyrnidae,Scoophead,23.973
+Sphyrna mokarran,0.15150000000000002,0.1422017993769231,CR,2019,Sphyrnidae,Great hammerhead,6.1374
+Sphyrna tiburo,0.34517967778208647,0.26378138731353945,EN,2021,Sphyrnidae,Bonnethead,23.5814
+Sphyrna tudes,0.0811285324105828,0.061679571748806054,CR,2020,Sphyrnidae,Smalleye hammerhead,23.973
+Sphyrna zygaena,0.085903428,0.07808544843665967,VU,2019,Sphyrnidae,Smooth hammerhead,9.1009
+Squaliolus laticaudus,0.0811285324105828,0.06833456284943389,LC,2020,Dalatiidae,Spined pygmy shark,15.77
+Squalus acanthias,0.02762921109360464,0.024671846333985913,VU,2020,Squalidae,Picked dogfish,10.7038
+Squalus altipinnis,0.04199797275235645,0.03367438021507622,DD,2019,Squalidae,Eastern highfin spurdog,19.819
+Squalus blainville,0.05289364285130611,0.050371725643452894,DD,2021,Squalidae,Longnose spurdog,4.7679
+Squalus brevirostris,0.035839053295044,0.027937288690430443,EN,2021,Squalidae,Japanese shortnose spurdog,22.0479
+Squalus bucephalus,0.0866463001770226,0.07239315856742831,DD,2018,Squalidae,Bighead spurdog,16.4498
+Squalus chloroculus,0.05284252581573869,0.04415003690482618,EN,2019,Squalidae,Greeneye spurdog,16.4498
+Squalus cubensis,0.03099888968323243,0.024509744743695352,LC,2020,Squalidae,Cuban dogfish,20.9335
+Squalus edmundsi,0.02398234993435664,0.0206028718417473,NT,2019,Squalidae,Edmund's spurdog,14.0915
+Squalus formosus,0.02871228257079228,0.023989170001876,EN,2020,Squalidae,Taiwan spurdog,16.4498
+Squalus grahami,0.03174472782841144,0.025453229398032268,NT,2019,Squalidae,Eastern longnose spurdog,19.819
+Squalus griffini,0.0286143754891265,0.024101888474491254,LC,2018,Squalidae,Northern spiny dogfish,15.77
+Squalus hemipinnis,0.09208898138893253,0.06668985965547622,VU,2020,Squalidae,Indonesian shortsnout spurdog,27.5811
+Squalus japonicus,0.03241157406962108,0.025265497228396085,EN,2020,Squalidae,Japanese spurdog,22.0479
+Squalus megalops,0.06112335075,0.04900929302735157,LC,2020,Squalidae,Shortnose spurdog,19.819
+Squalus melanurus,0.04815753880618548,0.038613179772844806,DD,2018,Squalidae,Blacktailed spurdog,19.819
+Squalus mitsukurii,0.06673576301903358,0.05687587892473271,EN,2020,Squalidae,Shortspine spurdog,14.7745
+Squalus montalbani,0.07055842306915049,0.059431359751145454,VU,2019,Squalidae,Philippiines spurdog,15.77
+Squalus nasutus,0.08932555610285264,0.0746316822976403,NT,2019,Squalidae,Western longnose spurdog,16.4498
+Squalus suckleyi,0.0178694295,0.015464063027648784,LC,2016,Squalidae,Pacific spiny dogfish,13.4608
+Squatina aculeata,0.02283236840722865,0.019686945669104637,CR,2019,Squatinidae,Sawback angelshark,13.7762
+Squatina africana,0.05915434989261398,0.044365762419460476,NT,2019,Squatinidae,African angelshark,25
+Squatina albipunctata,0.03366902644457015,0.025748738692510487,VU,2016,Squatinidae,Eastern angelshark,23.524
+Squatina argentina,0.07543994925,0.07087582361576547,CR,2019,Squatinidae,Argentine angelshark,6.05
+Squatina armata,0.00874105503070647,0.006330178968715012,CR,2020,Squatinidae,Chilean angelshark,27.5811
+Squatina australis,0.06673576301903358,0.05202191760173291,LC,2016,Squatinidae,Australian angelshark,22.0479
+Squatina californica,0.07697587888264691,0.05773190916198519,NT,2020,Squatinidae,Pacific angelshark,25
+Squatina dumeril,0.05447083000691234,0.046700177029069104,LC,2019,Squatinidae,Sand devil,14.2657
+Squatina formosa,0.03803603823147934,0.029741021092721,EN,2020,Squatinidae,Taiwan angelshark,21.8083
+Squatina guggenheim,0.13821382875,0.10133837923950001,EN,2019,Squatinidae,Angular angel shark,26.68
+Squatina japonica,0.02417077023656538,0.019155335412478065,CR,2021,Squatinidae,Japanese angelshark,20.75
+Squatina nebulosa,0.09208898138893253,0.08549545616920431,EN,2021,Squatinidae,Clouded angelshark,7.16
+Squatina occulta,0.0727489605,0.053818324701525616,CR,2019,Squatinidae,Hidden angel shark,26.0219
+Squatina oculata,0.04458962394981777,0.03575239117819522,CR,2019,Squatinidae,Smoothback angelshark,19.819
+Squatina pseudocellata,0.09208898138893253,0.06812571159449515,LC,2016,Squatinidae,Western angelshark,26.0219
+Squatina squatina,0.02989607417201231,0.022963225266460698,CR,2019,Squatinidae,Angelshark,23.1898
+Squatina tergocellata,0.03366902644457015,0.026996150615443595,LC,2016,Squatinidae,Ornate angelshark,19.819
+Squatina tergocellatoides,0.05540959737211086,0.04062631679323168,EN,2020,Squatinidae,Ocellated angelshark,26.68
+Sutorectus tentaculatus,0.06673576301903358,0.048329328901398336,LC,2015,Orectolobidae,Cobbler wobbegong,27.5811
+Triaenodon obesus,0.12570862273466588,0.10295423401010816,VU,2020,Carcharhinidae,Whitetip reef shark,18.1009
+Triakis acutipinna,0.03325648333908225,0.026665369568672038,EN,2021,Triakidae,Sharpfin houndshark,19.819
+Triakis megalopterus,0.04246471619207794,0.03202698651670453,LC,2020,Triakidae,Sharptooth houndshark,24.5798
+Triakis scyllium,0.08714993087782785,0.06793518674282677,EN,2021,Triakidae,Banded houndshark,22.0479
+Triakis semifasciata,0.1173835376543044,0.09319571234816859,LC,2015,Triakidae,Leopard shark,20.6058
+Zameus squamulosus,0.02365921581889635,0.0199281574842564,LC,2020,Somniosidae,Velvet dogfish,15.77

@@ -57,6 +57,8 @@ sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
   select(scientific_name, f, f_mort) %>%
   distinct()
 
+write_csv(sim_results, here::here("data", "pct_mort_reduction_sim.csv"))
+
 sim_results2 <- read_csv(here::here("data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario))
@@ -149,7 +151,15 @@ mort_summary <- prm_elasmo_subset %>%
   mutate(
     prm = ifelse(estimate_type == "post-release mortality", mortality_prop, NA),
     avm = ifelse(estimate_type == "at-vessel mortality", mortality_prop, NA)
-  )
+  ) %>% 
+  mutate(habitat = case_when(
+    habitat_associated == "pelagic" ~ "pelagic",
+    habitat_associated == "reef-associated" ~ "pelagic",
+    habitat_associated == "bathypelagic" ~ "pelagic",
+    habitat_associated == "benthopelagic" ~ "pelagic",
+    habitat_associated == "demersal" ~ "demersal",
+    habitat_associated == "bathydemersal" ~ "demersal",
+  ))
 
 # get weighted average mortality for each mortality type
 # sharks
@@ -175,7 +185,15 @@ boxplot_subset <-
 # habitat associated boxplot subset
 habitat_subset <-
   mort_summary %>%
-  group_by(habitat_associated, estimate_type, gear_class) %>%
+  mutate(habitat = case_when(
+    habitat_associated == "pelagic" ~ "pelagic",
+    habitat_associated == "reef-associated" ~ "pelagic",
+    habitat_associated == "bathypelagic" ~ "pelagic",
+    habitat_associated == "benthopelagic" ~ "pelagic",
+    habitat_associated == "demersal" ~ "demersal",
+    habitat_associated == "bathydemersal" ~ "demersal",
+  )) %>% 
+  group_by(habitat, estimate_type, gear_class) %>%
   mutate(n = n()) %>%
   filter(n > 2)
 
@@ -237,7 +255,7 @@ mort_proportions_plot_fam <-
   )) +
   labs(
     x = "",
-    y = "Fishing mortality",
+    y = "",
     color = "Estimate type",
     fill = "Estimate type"
   ) +
@@ -261,20 +279,20 @@ habitat_plot <-
   geom_point(
     data = mort_summary %>%
       filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
-        !is.na(habitat_associated) &
+        !is.na(habitat) &
         group == "Sharks") %>%
       mutate(
         estimate_type = str_to_sentence(estimate_type),
         gear_class = str_to_title(gear_class)
       ) %>%
       mutate(
-        habitat_associated = str_to_title(habitat_associated),
+        habitat = str_to_title(habitat),
         gear_class = str_to_title(gear_class)
       ) %>%
-      mutate(habitat_associated = as.factor(habitat_associated)) %>%
-      arrange(desc(habitat_associated)),
+      mutate(habitat = as.factor(habitat)) %>%
+      arrange(desc(habitat)),
     aes(
-      x = fct_inorder(habitat_associated),
+      x = fct_inorder(habitat),
       y = mortality_prop,
       color = estimate_type, group = estimate_type
     ),
@@ -283,20 +301,20 @@ habitat_plot <-
   geom_boxplot(
     data = habitat_subset %>%
       filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
-        !is.na(habitat_associated) &
+        !is.na(habitat) &
         group == "Sharks") %>%
       mutate(
         estimate_type = str_to_sentence(estimate_type),
         gear_class = str_to_title(gear_class)
       ) %>%
       mutate(
-        habitat_associated = str_to_title(habitat_associated),
+        habitat = str_to_title(habitat),
         gear_class = str_to_title(gear_class)
       ) %>%
-      mutate(habitat_associated = as.factor(habitat_associated)) %>%
-      arrange(desc(habitat_associated)),
+      mutate(habitat = as.factor(habitat)) %>%
+      arrange(desc(habitat)),
     aes(
-      x = fct_inorder(habitat_associated),
+      x = fct_inorder(habitat),
       y = mortality_prop,
       fill = estimate_type
     ),
@@ -320,7 +338,7 @@ habitat_plot <-
   )) +
   labs(
     x = "",
-    y = "Fishing mortality",
+    y = "Mortality",
     color = "Estimate type",
     fill = "Estimate type"
   ) +
@@ -410,7 +428,7 @@ mort_proportions_plot_fam_bat <-
     )) +
   labs(
     x = "",
-    y = "Fishing mortality",
+    y = "",
     color = "Estimate type",
     fill = "Estimate type"
   ) +
@@ -441,13 +459,13 @@ habitat_plot_bat <-
         gear_class = str_to_title(gear_class)
       ) %>%
       mutate(
-        habitat_associated = str_to_title(habitat_associated),
+        habitat = str_to_title(habitat),
         gear_class = str_to_title(gear_class)
       ) %>%
-      mutate(habitat_associated = as.factor(habitat_associated)) %>%
-      arrange(desc(habitat_associated)),
+      mutate(habitat = as.factor(habitat)) %>%
+      arrange(desc(habitat)),
     aes(
-      x = fct_inorder(habitat_associated),
+      x = fct_inorder(habitat),
       y = mortality_prop,
       color = estimate_type, group = estimate_type
     ),
@@ -456,20 +474,20 @@ habitat_plot_bat <-
   geom_boxplot(
     data = habitat_subset %>%
       filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
-        !is.na(habitat_associated) &
+        !is.na(habitat) &
         group != "Sharks") %>%
       mutate(
         estimate_type = str_to_sentence(estimate_type),
         gear_class = str_to_title(gear_class)
       ) %>%
       mutate(
-        habitat_associated = str_to_title(habitat_associated),
+        habitat = str_to_title(habitat),
         gear_class = str_to_title(gear_class)
       ) %>%
-      mutate(habitat_associated = as.factor(habitat_associated)) %>%
-      arrange(desc(habitat_associated)),
+      mutate(habitat = as.factor(habitat)) %>%
+      arrange(desc(habitat)),
     aes(
-      x = fct_inorder(habitat_associated),
+      x = fct_inorder(habitat),
       y = mortality_prop,
       fill = estimate_type
     ),
@@ -493,7 +511,7 @@ habitat_plot_bat <-
   )) +
   labs(
     x = "",
-    y = "Fishing mortality",
+    y = "Mortality",
     color = "Estimate type",
     fill = "Estimate type"
   ) +
