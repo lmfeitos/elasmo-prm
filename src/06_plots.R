@@ -842,6 +842,8 @@ sim_results_iucn_pct <- sim_results_iucn %>%
   mutate(percent_diff = (f - f_mort) / f * 100) %>%
   mutate(percent_diff = round(percent_diff, 4))
 
+write_csv(sim_results_iucn_pct, here::here("data", "sim_results_pct_diff.csv"))
+
 # create data subset with threatened species only
 sim_results_iucn_pct_threat <- sim_results_iucn_pct %>%
   filter(redlist_category %in% c("VU", "EN", "CR")) %>%
@@ -1201,7 +1203,7 @@ p2 <- ggplot() +
     panel.grid.minor = element_blank(),
     panel.grid.major.x = element_blank(),
     strip.background = element_rect(fill = NA),
-    strip.text.x = element_text(color = "black", face = "bold.italic"),
+    strip.text.x = element_text(color = "black", face = "bold"),
     axis.title = element_text(color = "black"),
     axis.text = element_text(color = "black")
   ) +
@@ -1238,7 +1240,7 @@ p3 <- ggplot() +
     panel.grid.minor = element_blank(),
     panel.grid.major.x = element_blank(),
     strip.background = element_rect(fill = NA),
-    strip.text.x = element_text(color = "black", face = "bold.italic"),
+    strip.text.x = element_text(color = "black", face = "bold"),
     axis.title = element_text(color = "black"),
     axis.text = element_text(color = "black")
   ) +
@@ -1275,7 +1277,7 @@ p4 <- ggplot() +
     panel.grid.minor = element_blank(),
     panel.grid.major.x = element_blank(),
     strip.background = element_rect(fill = NA),
-    strip.text.x = element_text(color = "black", face = "bold.italic"),
+    strip.text.x = element_text(color = "black", face = "bold"),
     axis.title = element_text(color = "black"),
     axis.text = element_text(color = "black")
   ) +
@@ -1312,7 +1314,7 @@ p5 <- ggplot() +
     panel.grid.minor = element_blank(),
     panel.grid.major.x = element_blank(),
     strip.background = element_rect(fill = NA),
-    strip.text.x = element_text(color = "black", face = "bold.italic"),
+    strip.text.x = element_text(color = "black", face = "bold"),
     axis.title = element_text(color = "black"),
     axis.text = element_text(color = "black")
   ) +
@@ -1349,7 +1351,7 @@ p6 <- ggplot() +
     panel.grid.minor = element_blank(),
     panel.grid.major.x = element_blank(),
     strip.background = element_rect(fill = NA),
-    strip.text.x = element_text(color = "black", face = "bold.italic"),
+    strip.text.x = element_text(color = "black", face = "bold"),
     axis.title = element_text(color = "black"),
     axis.text = element_text(color = "black")
   ) +
