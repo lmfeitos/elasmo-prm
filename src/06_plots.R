@@ -822,7 +822,7 @@ p7 <- ggplot(predictions %>% mutate(ventilation_method = str_to_sentence(ventila
 
 plot <- p1 / p2 / p5 / (p6 + p3) / (p4 + p7)  + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
 
-ggsave(plot, file = paste0("figS3.pdf"), path = here::here("figs", "supp"), height = 12, width = 15)
+ggsave(plot, file = paste0("figS3.pdf"), path = here::here("figs", "supp"), height = 20, width = 15)
 
 # Figures 4 and S4 --------------------------------------------------------
 
