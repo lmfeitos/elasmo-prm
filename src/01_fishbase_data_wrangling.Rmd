@@ -279,7 +279,7 @@ tol = read_csv(here("data", "tolerance.csv")) %>%
 ```{r}
 dat = full_join(prm_elasmo, new_dat) %>%
   left_join(tol) %>% 
-  mutate(species = scientific_name) %>%e  
+  mutate(species = scientific_name) %>% 
   separate_wider_delim(species, names = c("genus", "species"), delim = " ") 
 ```
 
@@ -291,7 +291,7 @@ dat_new_mean <- dat %>%
   group_by(genus) %>% 
   mutate(eo_new_gen = ifelse(is.na(eo), mean(eo, na.rm = TRUE), eo),
          ac_new_gen = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac)) %>% 
-  group_by(family) %>% 
+  group_by(family.x) %>% 
   mutate(eo_new_fam = ifelse(is.na(eo), mean(eo, na.rm = TRUE), eo),
          ac_new_fam = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac)) %>% 
   ungroup() %>% 

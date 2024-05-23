@@ -395,7 +395,7 @@ v2
 
 ```{r}
 # filter out rays and missing values
-new_dat <- read_csv(here::here("data", "predict_data_hyp.csv")) %>%
+new_dat <- read_csv(here::here("data", "predict_data_phylo.csv")) %>%
   filter(order != "Rajiformes") %>%
   filter(order != "Myliobatiformes") %>%
   filter(order != "Torpediniformes") %>%
@@ -407,6 +407,7 @@ new_dat <- read_csv(here::here("data", "predict_data_hyp.csv")) %>%
   filter(family != "Trygonorrhinidae") %>%
   filter(!is.na(median_depth)) %>%
   filter(!is.na(eo)) %>% 
+  filter(!is.na(evol_dist)) %>% 
   filter(!is.na(ventilation_method)) %>%
   filter(!is.na(reproductive_mode)) %>%
   filter(!is.na(habitat_associated)) %>%
