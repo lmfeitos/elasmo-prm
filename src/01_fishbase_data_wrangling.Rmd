@@ -235,10 +235,7 @@ write_csv(prm_join, file = file.path(basedir, "data", "prm_dataset_temp_hab.csv"
 
 ```{r}
 # read in phylo distance data
-shark_phylo_dist <- read_csv(here("data", "elasmo_phylo_dist.csv")) %>% 
-  dplyr::select(-scientific_name) %>% 
-  rename(scientific_name = pair_species)
-
+shark_phylo_dist <- read_csv(here("data", "elasmo_phylo_dist.csv"))
 
 prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
   filter(gear_class == "longline") %>%
