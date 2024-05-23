@@ -25,7 +25,7 @@ library(adephylo)
 elasmo_tree <- ape::read.tree(here("data" , "elasmo_max_cred_tree.tre"))
 
 # read in the prm species raw data
-prm_elasmo <- read_csv(here("data", "predict_data_hyp.csv")) %>% 
+prm_elasmo <- read_csv(here("data", "predict_data_phylo.csv")) %>% 
   dplyr::select(scientific_name, family, group) %>% 
   mutate(group = "Sharks")
 ```
@@ -40,7 +40,7 @@ elasmo_coph_copy <- elasmo_coph %>%
   as.data.frame() %>% 
   rownames_to_column("scientific_name") %>% 
   mutate(scientific_name = str_replace(scientific_name, "_", " ")) %>% 
-  left_join(prm_elasmo, by = "scientific_name")  %>% 
+  left_join(prm_elasmo, by = "scientific_name") %>% 
   relocate(family, .after = scientific_name) %>% 
   relocate(group, .before = Callorhinchus_callorynchus) %>% 
   filter(group == "Sharks") %>% 
@@ -48,24 +48,52 @@ elasmo_coph_copy <- elasmo_coph %>%
   pivot_longer(cols = Callorhinchus_callorynchus:Gollum_suluensis,
                names_to = "col",
                values_to = "phylo_dist") %>% 
-  filter(phylo_dist > 0) %>% 
+  filter(phylo_dist > 0) %>%  
   group_by(rowid) %>% 
-  slice_min(phylo_dist, n = 1)  %>% 
-  distinct(scientific_name, phylo_dist) %>%
+  slice_min(phylo_dist, n = 1) 
   ungroup() %>% 
-  dplyr::select(-rowid)
+  distinct(rowid, col, phylo_dist) 
+  dplyr::select(-rowid) 
 
 # evolutionary distinctiveness test
 elasmo_tree_distinct <- picante::evol.distinct(elasmo_tree, type = c("equal.splits", "fair.proportion"),
-                                           scale = FALSE, use.branch.lengths = TRUE)
+                                               scale = FALSE, use.branch.lengths = TRUE)
 
 elasmo_tree_distinct_final <- elasmo_tree_distinct %>% 
   rename(scientific_name = Species,
          evol_dist = w) %>% 
-  mutate(scientific_name = str_replace(scientific_name, "_", " "))
+  mutate(scientific_name = str_replace(scientific_name, "_", " ")) %>% 
+  mutate(scientific_name = ifelse(scientific_name == "Stegostoma fasciatum", "Stegostoma tigrinum", scientific_name)) %>% 
+  left_join(prm_elasmo, by = "scientific_name") %>% 
+  filter(!is.na(family)) %>% 
+  distinct()
 
-elasmo_phylo <- elasmo_coph_copy %>% 
-  left_join(elasmo_tree_distinct_final, by = "scientific_name")
+elasmo_phylo_test <- elasmo_tree_distinct_final %>% 
+  left_join(new_dat, by = "scientific_name")
 
-write_csv(elasmo_phylo, file = here("data", "elasmo_phylo_dist.csv"), col_names = TRUE, na = "")
+write_csv(elasmo_tree_distinct_final, file = here("data", "elasmo_phylo_dist.csv"), col_names = TRUE, na = "")
 ```
+
+
+```{r}
+# variance matrix in the phylogeny
+elasmo_vcv <- vcv(elasmo_tree)
+
+elasmo_vcv_df <- elasmo_vcv %>% 
+  as.data.frame() %>% 
+  rownames_to_column("scientific_name") %>% 
+  mutate(scientific_name = str_replace(scientific_name, "_", " ")) %>% 
+  left_join(prm_elasmo, by = "scientific_name") %>% 
+  relocate(family, .after = scientific_name) %>% 
+  relocate(group, .before = Callorhinchus_callorynchus) %>% 
+  filter(group == "Sharks") %>% 
+  rowid_to_column() %>% 
+  pivot_longer(cols = Callorhinchus_callorynchus:Gollum_suluensis,
+               names_to = "col",
+               values_to = "phylo_dist") %>% 
+  filter(phylo_dist > 0) %>%  
+  group_by(rowid) %>% 
+  slice_min(phylo_dist, n = 1)
+
+```
+
