@@ -234,6 +234,12 @@ write_csv(prm_join, file = file.path(basedir, "data", "prm_dataset_temp_hab.csv"
 ### Check hypoxia data
 
 ```{r}
+# read in phylo distance data
+shark_phylo_dist <- read_csv(here("data", "elasmo_phylo_dist.csv")) %>% 
+  dplyr::select(-scientific_name) %>% 
+  rename(scientific_name = pair_species)
+
+
 prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
   filter(gear_class == "longline") %>%
   filter(!grepl("Rajidae", family)) %>%
@@ -241,7 +247,8 @@ prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
   filter(family != "Pristidae") %>%
   filter(family != "Rhinidae") %>%
   filter(family != "Rhinobatidae") %>% 
-  mutate(scientific_name = ifelse(scientific_name == "Mustelus canis insularis", "Mustelus canis", scientific_name))
+  mutate(scientific_name = ifelse(scientific_name == "Mustelus canis insularis", "Mustelus canis", scientific_name)) %>% 
+  left_join(shark_phylo_dist, by = "scientific_name")
 
 new_dat <- read_csv(here::here("data", "predict_data.csv")) %>%
   filter(order != "Rajiformes") %>%
@@ -261,7 +268,8 @@ new_dat <- read_csv(here::here("data", "predict_data.csv")) %>%
   mutate(ventilation_method = as.factor(ventilation_method)) %>%
   mutate(habitat_associated = as.factor(habitat_associated)) %>%
   mutate(reproductive_mode = as.factor(reproductive_mode)) %>%
-  filter(reproductive_mode != "histotrophy")
+  filter(reproductive_mode != "histotrophy") %>% 
+  left_join(shark_phylo_dist, by = "scientific_name")
 
 tol = read_csv(here("data", "tolerance.csv")) %>% 
   rename(scientific_name = species) %>% 
@@ -276,6 +284,8 @@ dat = full_join(prm_elasmo, new_dat) %>%
   mutate(species = scientific_name) %>% 
   separate_wider_delim(species, names = c("genus", "species"), delim = " ") 
 ```
+
+
 
 ```{r}
 # populate NAs in eo and ac with family averages
@@ -295,13 +305,13 @@ dat_new_mean <- dat %>%
 dat_predict = dat_new_mean %>% 
   filter(scientific_name %in% prm_elasmo$scientific_name) %>% 
   distinct() %>% 
-  filter(!is.na(estimate))
+  filter(!is.na(estimate)) 
 
 write_csv(dat_predict, here::here("data", "prm_hypoxia.csv"))
 
 dat_new_mean = dat_new_mean %>% 
   filter(scientific_name %in% new_dat$scientific_name) %>% 
-  filter(is.na(estimate))
+  filter(is.na(estimate)) 
 
 write_csv(dat_new_mean, here::here("data", "predict_data_hyp.csv"), col_names = TRUE, na = "")
 ```
