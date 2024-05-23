@@ -1,0 +1,46 @@
+---
+title: "phylo_data"
+author: "Leonardo Feitosa"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(janitor)
+library(ape)
+library(ggtree)
+library(caper)
+library(picante)
+library(phangorn)
+library(FishPhyloMaker)
+library(reshape2)
+library(adephylo)
+```
+
+
+```{r}
+# read in the elasmobranch tree
+elasmo_tree <- ape::read.tree(here("data" , "elasmo_max_cred_tree.tre"))
+
+# tests on ways to calculate cophenetic distance
+## ape package
+elasmo_coph <- cophenetic.phylo(elasmo_tree)
+
+elasmo_coph_copy <- elasmo_coph %>% 
+  as.data.frame() %>% 
+  rownames_to_column("species") %>% 
+  mutate(species = str_replace(species, "_", " "))
+
+elasmo_coph_cal <- elasmo_coph_copy %>% 
+  filter(species == "Callorhinchus callorynchus") %>% 
+  pivot_longer(cols = 2:1193,
+               names_to = "pair_species",
+               values_to = "phylo_dist") %>% 
+  rename(scientific_name = species) %>% 
+  mutate(pair_species = str_replace(pair_species, "_", " "))
+
+write_csv(elasmo_coph_cal, file = here("data", "elasmo_phylo_dist.csv"), col_names = TRUE, na = "")
+```
