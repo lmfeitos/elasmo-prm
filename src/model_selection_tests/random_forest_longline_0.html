@@ -11,7 +11,7 @@
 
 <meta name="author" content="Leonardo Feitosa" />
 
-<meta name="date" content="2024-05-23" />
+<meta name="date" content="2024-05-24" />
 
 <title>random_forest</title>
 
@@ -352,7 +352,7 @@ display: none;
 
 <h1 class="title toc-ignore">random_forest</h1>
 <h4 class="author">Leonardo Feitosa</h4>
-<h4 class="date">2024-05-23</h4>
+<h4 class="date">2024-05-24</h4>
 
 </div>
 
@@ -383,6 +383,11 @@ prm_elasmo_subset &lt;- prm_elasmo %&gt;%
     scientific_name == &quot;rays&quot; ~ &quot;yolk-sac viviparity&quot;,
     TRUE ~ reproductive_mode
   )) %&gt;%
+  mutate(reproductive_mode_new = case_when(
+    reproductive_mode == &quot;placental viviparity&quot; ~ &quot;viviparous&quot;,
+    str_detect(reproductive_mode,&quot;yolk|histo|oophagy&quot;) ~ &quot;ovoviviparous&quot;,
+    TRUE ~ reproductive_mode
+  )) %&gt;% 
   mutate_if(is.character, as.factor) %&gt;% 
   filter(!grepl(&quot;sp&quot;, scientific_name))
 

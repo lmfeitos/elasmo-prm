@@ -59,6 +59,11 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name == "rays" ~ "yolk-sac viviparity",
     TRUE ~ reproductive_mode
   )) %>%
+  mutate(reproductive_mode_new = case_when(
+    reproductive_mode == "placental viviparity" ~ "viviparous",
+    str_detect(reproductive_mode,"yolk|histo|oophagy") ~ "ovoviviparous",
+    TRUE ~ reproductive_mode
+  )) %>% 
   mutate_if(is.character, as.factor) %>% 
   filter(!grepl("sp", scientific_name))
 
