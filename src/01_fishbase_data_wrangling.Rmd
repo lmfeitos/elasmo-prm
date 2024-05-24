@@ -238,7 +238,6 @@ write_csv(prm_join, file = file.path(basedir, "data", "prm_dataset_temp_hab.csv"
 shark_phylo_dist <- read_csv(here("data", "elasmo_phylo_dist.csv"))
 
 prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
-  filter(gear_class == "longline") %>%
   filter(!grepl("Rajidae", family)) %>%
   filter(family != "Dasyatidae") %>%
   filter(family != "Pristidae") %>%
