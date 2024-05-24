@@ -38,7 +38,8 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
     habitat_associated == "benthopelagic" ~ "pelagic",
     habitat_associated == "demersal" ~ "demersal",
     habitat_associated == "bathydemersal" ~ "demersal",
-  ))
+  )) %>% 
+  rename(family = family.x)
 ```
 
 ```{r}
@@ -46,7 +47,7 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
 prm_elasmo_subset <- prm_elasmo %>%
   select(
     scientific_name, gear_class, habitat, estimate_type, estimate, sample_size,
-    method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family, ac, eo
+    method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family, ac, eo, evol_dist
   ) %>%
   mutate(measure = case_when(
     scientific_name == "sharks" ~ "total_length",
@@ -63,7 +64,7 @@ prm_elasmo_subset <- prm_elasmo %>%
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
 elasmo_avm <- prm_elasmo_subset %>%
-  filter(estimate_type == "at-vessel mortality" & estimate > 0) %>%
+  filter(estimate_type == "at-vessel mortality") %>%
   mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
@@ -73,7 +74,7 @@ elasmo_avm <- prm_elasmo_subset %>%
 
 # Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
 elasmo_prm <- prm_elasmo_subset %>%
-  filter(estimate_type == "post-release mortality" & estimate > 0) %>%
+  filter(estimate_type == "post-release mortality") %>%
   mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
@@ -85,12 +86,12 @@ elasmo_prm <- prm_elasmo_subset %>%
 ```{r}
 # split the data into training and test set
 ## At-vessel mortality
-avm_split <- initial_split(elasmo_avm, prop = .8)
+avm_split <- initial_split(elasmo_avm, prop = .7, strata = family)
 
 avm_train <- training(avm_split)
 avm_test <- testing(avm_split)
 
-avm_folds <- vfold_cv(avm_train, repeats = 5, v = 10)
+avm_folds <- vfold_cv(avm_train, repeats = 5, v = 10, strata = family)
 
 ## Post-release mortality
 # prm_split <- initial_split(elasmo_prm, prop = .7)
@@ -98,7 +99,7 @@ avm_folds <- vfold_cv(avm_train, repeats = 5, v = 10)
 # prm_train <- training(prm_split)
 # prm_test <- testing(prm_split)
 
-prm_folds <- vfold_cv(elasmo_prm, repeats = 5, v = 10)
+prm_folds <- vfold_cv(elasmo_prm, repeats = 5, v = 10, strata = family)
 ```
 
 
@@ -108,10 +109,10 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + reproductive_mode + eo + ac, data = avm_train) %>%
+avm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + reproductive_mode + eo + ac + evol_dist, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
-prm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + reproductive_mode, data = elasmo_prm) %>%
+prm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + reproductive_mode + evol_dist, data = elasmo_prm) %>%
   step_normalize(all_numeric_predictors())
 ```
 
