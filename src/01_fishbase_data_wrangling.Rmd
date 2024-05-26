@@ -16,8 +16,8 @@ library(vroom)
 
 ```{r}
 test_fishbase <- load_taxa() %>%
-  filter(Class == "Elasmobranchii") %>%
-  select(Species, Family, Order) %>%
+  filter(Class == "Elasmobranchii") %>% 
+  select(SpecCode, Species, Family, Order) %>%
   rename(
     scientific_name = Species,
     family = Family,
@@ -33,8 +33,10 @@ test_fishbase <- test_fishbase %>%
       scientific_name,
       "Himantura|Dasyatis|Gymnura|trygon|Bathytoshia|rays|raja|Rhinoptera|Sympterygia|Pastinachus|Urobatis|Glaucostegus|Hypanus"
     ) ~ "Batoids",
+    str_detect(order, "Rajiformes") ~ "Batoids",
     TRUE ~ "Sharks"
-  ))
+  )) %>% 
+  clean_names()
 ```
 
 ```{r}
@@ -56,11 +58,53 @@ fishbase_rhino <- test_fishbase %>%
 ```
 
 ```{r}
+# get data from other FishBase tables
+maturity_fb <- fb_tbl("maturity") %>% 
+  select(Speccode, Lm) %>% 
+  clean_names() %>% 
+  rename(spec_code = speccode)
+ 
+pop_qb <- fb_tbl("popqb") %>% 
+  select(SpecCode, K, t0) %>% 
+  clean_names()
+
+# join these with the fishbase elasmo data
+test_fishbase_join <- test_fishbase %>% 
+  left_join(maturity_fb, by = "spec_code") %>% 
+  filter(group == "Sharks") %>% 
+  group_by(scientific_name) %>% 
+  mutate(mean_lm = mean(lm, na.rm = TRUE)) %>% 
+  distinct(spec_code, scientific_name, family, order, group, mean_lm) %>% 
+  ungroup() %>% 
+  mutate(species = scientific_name) %>% 
+  separate_wider_delim(species, names = c("genus", "species"), delim = " ") %>% 
+  group_by(genus) %>% 
+  mutate(lm_new_gen = ifelse(is.na(mean_lm), mean(mean_lm, na.rm = TRUE), mean_lm)) %>% 
+  mutate(lm_new_gen = round(lm_new_gen, 4)) %>% 
+  mutate(source = ifelse(is.na(mean_lm), NA, "FishBase"))
+  # ungroup() %>% 
+  # mutate(mean_lm = ifelse(is.na(mean_lm), lm_new_gen, mean_lm))
+
+write_csv(test_fishbase_join, file = here("data", "shark_spp_lm.csv"), na = "")
+
+# read in the dataset of legnth at first maturity with data from external sources and recalculate averages
+shark_lm <- read_csv(here("data", "shark_spp_lm.csv")) %>% 
+  group_by(genus) %>% 
+  mutate(lm_new_gen = ifelse(is.na(mean_lm), mean(mean_lm, na.rm = TRUE), mean_lm)) %>% 
+  ungroup() %>% 
+  mutate(mean_lm = ifelse(is.na(mean_lm), lm_new_gen, mean_lm)) %>% 
+  mutate(family = ifelse(scientific_name == "Galeocerdo cuvier", "Carcharhinidae", family))
+
+write_csv(test_fishbase_join, file = here("data", "shark_spp_lm.csv"), na = "")
+```
+
+
+```{r}
 # get shark and ray scientific names
 shark_spp <- fb_tbl("species") %>%
   clean_names() %>%
   filter(str_detect(genus, "Carcharhinus|Glyphis|Isogomphodon|Lamiopsis|Loxodon|Rhizoprionodon|Scoliodon|Triaenodon|Galeocerdo|Chaenogaleus|Hemigaleus|Hemipristis|Paragaleus|Leptocharias|Ctenacis|Eridacnis|Gollum|Proscyllium|Pseudotriakis|Apristurus|Asymbolus|Bythaelurus|Cephalurus|Figaro|Galeus|Halaelurus|Haploblepharus|Holohalaelurus|Parmaturus|Pentanchus|Atelomycterus|Aulohalaelurus|Cephaloscyllium|Poroderma|Schroederichthys|Scyliorhinus|Sphyrna|Furgaleus|Galeorhinus|Hemitriakis|Hypogaleus|Iago|Mustelus|Triakis|Scylliogaleus|Heterodontus|Hexanchus|Notorynchus|Chlamydoselachus|Carcharias|Carcharias|Carcharodon|Isurus|Lamna|Alopias|Cetorhinus|Megachasma|Mitsukurina|Odontaspis|Brachaelurus|inglymostoma|Nebrius|Chiloscyllium|Hemiscyllium|Orectolobus|Eucrossorhinus|Sutorectus|Cirrhoscyllium|Parascyllium|Rhincodon|Stegostoma|Pristiophorus|Pliotrema|Squatina|Squalus|Etmopterus|Centrophorus|Daenia|Dalatias|Euprotomicroides|Heteroscymnoides|Isistius|Mollisquama|Squaliolus|Echinorhinus|Aculeola|Centroscyllium|Centroscymnus|Scymnodalatias|Scymnodon|Somniosus|Cirrhigaleus|Oxynotus|Aetobatus|Bathytoshia|trygon|Dasyatis|Himantura|Hypanus|Maculabatis|Pastinachus|Pateobatis|Taeniura|Urogymnus|Gymnura|Aetomylaeus|Myliobatis|Manta|Mobula|Plesiobatis|Rhinoptera|Spinilophus|Urolophus|Urobatis|raja|batis|Springeria|Irolita|Sympterygia|Gurgesiella|Dipturus|Hongeo|Okamejei|Raja|Rajella|Glaucostegus|Platyrhin|Pristis|Anoxypristis|Acroteriobatus|Pseudobatos|Rhinobatos|Rhina|Rhynchobatus|Aptychotrema|Trygonorrhina|Zapteryx|Zanobatus|Hypnos|Benthobatis|Diplobatis|Discopyge|Narcine|Crassinarke|Electrolux|Heteronarce|Narke|Temera|Typhlonarke|Tetronarce|Torpedo")) %>%
-  filter(!str_detect(genus, "Potamotrygon|Paratrygon|Heliotrygon|Plesiotrygon|Glyphis")) %>% # remove freshwater stingrays and sharks
+  filter(!str_detect(genus, "Potamotrygon|Paratrygon|Heliotrygon|Plesiotrygon|Glyphis")) %>%  # remove freshwater stingrays and sharks
   select(genus, species, demers_pelag, length, l_type_max_m, depth_range_shallow, depth_range_deep, demers_pelag) %>%
   unite(scientific_name, c("genus", "species"), sep = " ", remove = FALSE)
 
@@ -237,7 +281,7 @@ write_csv(prm_join, file = file.path(basedir, "data", "prm_dataset_temp_hab.csv"
 # read in phylo distance data
 shark_phylo_dist <- read_csv(here("data", "elasmo_phylo_dist.csv"))
 
-prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
+prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>% 
   filter(!grepl("Rajidae", family)) %>%
   filter(family != "Dasyatidae") %>%
   filter(family != "Pristidae") %>%
@@ -245,7 +289,9 @@ prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
   filter(family != "Rhinobatidae") %>% 
   mutate(scientific_name = ifelse(scientific_name == "Mustelus canis insularis", "Mustelus canis", scientific_name),
          scientific_name = ifelse(scientific_name == "Centroscymnus owstoni", "Centroscymnus owstonii", scientific_name)) %>% 
-  left_join(shark_phylo_dist, by = "scientific_name")
+  left_join(shark_phylo_dist, by = c("scientific_name", "family", "group")) %>% 
+  left_join(shark_lm, by = c("scientific_name", "family", "group")) %>% 
+  filter(is.na(mean_lm))
 
 new_dat <- read_csv(here::here("data", "predict_data.csv")) %>%
   filter(order != "Rajiformes") %>%
