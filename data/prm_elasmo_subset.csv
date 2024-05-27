@@ -65,7 +65,7 @@ Rhizoprionodon acutus,trawl,demersal,at-vessel mortality,0.292,24,visual,ram,178
 Carcharhinus brevipinna,trawl,reef-associated,at-vessel mortality,0.56,25,visual,ram,304,total_length,100,placental viviparity,Carcharhinidae,Sharks
 Carcharhinus obscurus,trawl,reef-associated,at-vessel mortality,0.125,8,visual,ram,420,total_length,250,placental viviparity,Carcharhinidae,Sharks
 Carcharhinus plumbeus,trawl,benthopelagic,at-vessel mortality,0.33,6,visual,ram,243,total_length,140,placental viviparity,Carcharhinidae,Sharks
-Halaelurus lineatus,trawl,demersal,at-vessel mortality,0.192,47,visual,stationary,56,disk_width,145,oviparous,Scyliorhinidae,Sharks
+Halaelurus lineatus,trawl,demersal,at-vessel mortality,0.192,47,visual,stationary,56,total_length,145,oviparous,Pentanchidae,Sharks
 Acroteriobatus leucospilus,trawl,demersal,at-vessel mortality,0.526,19,visual,stationary,120,disk_width,50,yolk-sac viviparity,Rhinobatidae,Batoids
 Rhynchobatus djiddensis,trawl,reef-associated,at-vessel mortality,0.182,11,visual,stationary,310,total_length,38,yolk-sac viviparity,Rhinidae,Batoids
 Acroteriobatus annulatus,trawl,demersal,at-vessel mortality,0.111,9,visual,stationary,140,total_length,36.5,yolk-sac viviparity,Rhinobatidae,Batoids

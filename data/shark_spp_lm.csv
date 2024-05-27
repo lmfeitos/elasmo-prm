@@ -62,14 +62,14 @@ spec_code,scientific_name,family,order,group,mean_lm,genus,species,lm_new_gen,so
 49095,Aulohalaelurus kanakorum,Atelomycteridae,Carcharhiniformes,Sharks,,Aulohalaelurus,kanakorum,,
 795,Aulohalaelurus labiosus,Atelomycteridae,Carcharhiniformes,Sharks,,Aulohalaelurus,labiosus,,
 5893,Brachaelurus colcloughi,Brachaeluridae,Orectolobiformes,Sharks,,Brachaelurus,colcloughi,,
-5892,Brachaelurus waddi,Brachaeluridae,Orectolobiformes,Sharks,,Brachaelurus,waddi,,
+5892,Brachaelurus waddi,Brachaeluridae,Orectolobiformes,Sharks,64,Brachaelurus,waddi,,Compagno et al (2002)
 814,Bythaelurus alcockii,Pentanchidae,Carcharhiniformes,Sharks,,Bythaelurus,alcockii,,
 68150,Bythaelurus bachi,Pentanchidae,Carcharhiniformes,Sharks,,Bythaelurus,bachi,,
 817,Bythaelurus canescens,Pentanchidae,Carcharhiniformes,Sharks,,Bythaelurus,canescens,,
 54001,Bythaelurus clevai,Pentanchidae,Carcharhiniformes,Sharks,,Bythaelurus,clevai,,
 818,Bythaelurus dawsoni,Pentanchidae,Carcharhiniformes,Sharks,,Bythaelurus,dawsoni,,
 66473,Bythaelurus giddingsi,Pentanchidae,Carcharhiniformes,Sharks,,Bythaelurus,giddingsi,,
-819,Bythaelurus hispidus,Pentanchidae,Carcharhiniformes,Sharks,,Bythaelurus,hispidus,,
+819,Bythaelurus hispidus,Pentanchidae,Carcharhiniformes,Sharks,23,Bythaelurus,hispidus,,Akhilesh (2013)
 820,Bythaelurus immaculatus,Pentanchidae,Carcharhiniformes,Sharks,,Bythaelurus,immaculatus,,
 64121,Bythaelurus incanus,Pentanchidae,Carcharhiniformes,Sharks,,Bythaelurus,incanus,,
 822,Bythaelurus lutarius,Pentanchidae,Carcharhiniformes,Sharks,,Bythaelurus,lutarius,,
@@ -83,7 +83,7 @@ spec_code,scientific_name,family,order,group,mean_lm,genus,species,lm_new_gen,so
 860,Carcharhinus amblyrhynchoides,Carcharhinidae,Carcharhiniformes,Sharks,112.33333333333333,Carcharhinus,amblyrhynchoides,112.3333,FishBase
 861,Carcharhinus amblyrhynchos,Carcharhinidae,Carcharhiniformes,Sharks,125.65416653951009,Carcharhinus,amblyrhynchos,125.6542,FishBase
 862,Carcharhinus amboinensis,Carcharhinidae,Carcharhiniformes,Sharks,210.0625,Carcharhinus,amboinensis,210.0625,FishBase
-863,Carcharhinus borneensis,Carcharhinidae,Carcharhiniformes,Sharks,,Carcharhinus,borneensis,151.6176,
+863,Carcharhinus borneensis,Carcharhinidae,Carcharhiniformes,Sharks,54.8,Carcharhinus,borneensis,151.6176,White et al (2010)
 864,Carcharhinus brachyurus,Carcharhinidae,Carcharhiniformes,Sharks,214.9,Carcharhinus,brachyurus,214.9,FishBase
 865,Carcharhinus brevipinna,Carcharhinidae,Carcharhiniformes,Sharks,195.8,Carcharhinus,brevipinna,195.8,FishBase
 866,Carcharhinus cautus,Carcharhinidae,Carcharhiniformes,Sharks,86.25,Carcharhinus,cautus,86.25,FishBase
@@ -113,8 +113,8 @@ spec_code,scientific_name,family,order,group,mean_lm,genus,species,lm_new_gen,so
 884,Carcharhinus sorrah,Carcharhinidae,Carcharhiniformes,Sharks,111.375,Carcharhinus,sorrah,111.375,FishBase
 15721,Carcharhinus tilstoni,Carcharhinidae,Carcharhiniformes,Sharks,,Carcharhinus,tilstoni,151.6176,
 67456,Carcharhinus tjutjot,Carcharhinidae,Carcharhiniformes,Sharks,76.85000228881836,Carcharhinus,tjutjot,76.85,FishBase
-747,Carcharias taurus,Carchariidae,Lamniformes,Sharks,208.75,Carcharias,taurus,208.75,FishBase
-748,Carcharias tricuspidatus,Carchariidae,Lamniformes,Sharks,,Carcharias,tricuspidatus,208.75,
+747,Carcharias taurus,Odontaspididae,Lamniformes,Sharks,208.75,Carcharias,taurus,208.75,FishBase
+748,Carcharias tricuspidatus,Odontaspididae,Lamniformes,Sharks,,Carcharias,tricuspidatus,208.75,
 751,Carcharodon carcharias,Lamnidae,Lamniformes,Sharks,417.3333333333333,Carcharodon,carcharias,417.3333,FishBase
 90,Cetorhinus maximus,Cetorhinidae,Lamniformes,Sharks,688.5714285714286,Cetorhinus,maximus,688.5714,FishBase
 53922,Centrophorus atromarginatus,Centrophoridae,Squaliformes,Sharks,,Centrophorus,atromarginatus,93.9693,
@@ -156,35 +156,35 @@ spec_code,scientific_name,family,order,group,mean_lm,genus,species,lm_new_gen,so
 64127,Cephaloscyllium speccum,Scyliorhinidae,Carcharhiniformes,Sharks,,Cephaloscyllium,speccum,59.9667,
 65889,Cephaloscyllium stevensi,Scyliorhinidae,Carcharhiniformes,Sharks,,Cephaloscyllium,stevensi,59.9667,
 801,Cephaloscyllium sufflans,Scyliorhinidae,Carcharhiniformes,Sharks,,Cephaloscyllium,sufflans,59.9667,
-49109,Cephaloscyllium umbratile,Scyliorhinidae,Carcharhiniformes,Sharks,96.3499984741211,Cephaloscyllium,umbratile,96.35,FishBase
+49109,Cephaloscyllium umbratile,Scyliorhinidae,Carcharhiniformes,Sharks,96.34999847,Cephaloscyllium,umbratile,96.35,FishBase
 64129,Cephaloscyllium variegatum,Scyliorhinidae,Carcharhiniformes,Sharks,,Cephaloscyllium,variegatum,59.9667,
 802,Cephaloscyllium ventriosum,Scyliorhinidae,Carcharhiniformes,Sharks,,Cephaloscyllium,ventriosum,59.9667,
 64130,Cephaloscyllium zebrum,Scyliorhinidae,Carcharhiniformes,Sharks,,Cephaloscyllium,zebrum,59.9667,
-803,Cephalurus cephalus,Pentanchidae,Carcharhiniformes,Sharks,,Cephalurus,cephalus,,
+803,Cephalurus cephalus,Pentanchidae,Carcharhiniformes,Sharks,20.25,Cephalurus,cephalus,Aguirre-Villasenor (2012),
 5896,Chaenogaleus macrostoma,Hemigaleidae,Carcharhiniformes,Sharks,82.5,Chaenogaleus,macrostoma,82.5,FishBase
 5901,Chiloscyllium arabicum,Hemiscylliidae,Orectolobiformes,Sharks,49.5,Chiloscyllium,arabicum,49.5,FishBase
 50207,Chiloscyllium burmense,Hemiscylliidae,Orectolobiformes,Sharks,,Chiloscyllium,burmense,48.8333,
 5902,Chiloscyllium caeruleopunctatum,Hemiscylliidae,Orectolobiformes,Sharks,,Chiloscyllium,caeruleopunctatum,48.8333,
-4304,Chiloscyllium griseum,Hemiscylliidae,Orectolobiformes,Sharks,,Chiloscyllium,griseum,48.8333,
-54210,Chiloscyllium hasseltii,Hemiscylliidae,Orectolobiformes,Sharks,,Chiloscyllium,hasseltii,48.8333,
+4304,Chiloscyllium griseum,Hemiscylliidae,Orectolobiformes,Sharks,50,Chiloscyllium,griseum,48.8333,Compagno et al (2002)
+54210,Chiloscyllium hasseltii,Hemiscylliidae,Orectolobiformes,Sharks,49,Chiloscyllium,hasseltii,48.8333,Compagno et al (2002)
 5900,Chiloscyllium indicum,Hemiscylliidae,Orectolobiformes,Sharks,40.5,Chiloscyllium,indicum,40.5,FishBase
 5120,Chiloscyllium plagiosum,Hemiscylliidae,Orectolobiformes,Sharks,56.5,Chiloscyllium,plagiosum,56.5,FishBase
-5903,Chiloscyllium punctatum,Hemiscylliidae,Orectolobiformes,Sharks,,Chiloscyllium,punctatum,48.8333,
-65037,Chlamydoselachus africana,Chlamydoselachidae,Hexanchiformes,Sharks,,Chlamydoselachus,africana,145,
+5903,Chiloscyllium punctatum,Hemiscylliidae,Orectolobiformes,Sharks,68.96666667,Chiloscyllium,punctatum,48.8333,Compagno et al (2002)
+65037,Chlamydoselachus africana,Chlamydoselachidae,Hexanchiformes,Sharks,91.5,Chlamydoselachus,africana,145,Ebert et al (2009)
 635,Chlamydoselachus anguineus,Chlamydoselachidae,Hexanchiformes,Sharks,145,Chlamydoselachus,anguineus,145,FishBase
 707,Cirrhigaleus asper,Squalidae,Squaliformes,Sharks,110,Cirrhigaleus,asper,110,FishBase
 63505,Cirrhigaleus australis,Squalidae,Squaliformes,Sharks,,Cirrhigaleus,australis,110,
 668,Cirrhigaleus barbifer,Squalidae,Squaliformes,Sharks,,Cirrhigaleus,barbifer,110,
 5911,Cirrhoscyllium expolitum,Parascylliidae,Orectolobiformes,Sharks,,Cirrhoscyllium,expolitum,,
 5912,Cirrhoscyllium formosanum,Parascylliidae,Orectolobiformes,Sharks,,Cirrhoscyllium,formosanum,,
-5913,Cirrhoscyllium japonicum,Parascylliidae,Orectolobiformes,Sharks,,Cirrhoscyllium,japonicum,,
+5913,Cirrhoscyllium japonicum,Parascylliidae,Orectolobiformes,Sharks,40.63333333,Cirrhoscyllium,japonicum,,Compagno et al (2002)
 5918,Ctenacis fehlmanni,Proscylliidae,Carcharhiniformes,Sharks,,Ctenacis,fehlmanni,,
 669,Dalatias licha,Dalatiidae,Squaliformes,Sharks,125.66666666666667,Dalatias,licha,125.6667,FishBase
 670,Deania calceus,Centrophoridae,Squaliformes,Sharks,87.7,Deania,calceus,87.7,FishBase
 671,Deania hystricosa,Centrophoridae,Squaliformes,Sharks,,Deania,hystricosa,70.1,
 672,Deania profundorum,Centrophoridae,Squaliformes,Sharks,52.5,Deania,profundorum,52.5,FishBase
 673,Deania quadrispinosa,Centrophoridae,Squaliformes,Sharks,,Deania,quadrispinosa,70.1,
-641,Echinorhinus brucus,Echinorhinidae,Echinorhiniformes,Sharks,,Echinorhinus,brucus,275,
+641,Echinorhinus brucus,Echinorhinidae,Echinorhiniformes,Sharks,172,Echinorhinus,brucus,275,Akhilesh (2013)
 642,Echinorhinus cookei,Echinorhinidae,Echinorhiniformes,Sharks,275,Echinorhinus,cookei,275,FishBase
 4532,Eridacnis barbouri,Proscylliidae,Carcharhiniformes,Sharks,,Eridacnis,barbouri,23.25,
 5919,Eridacnis radcliffei,Proscylliidae,Carcharhiniformes,Sharks,17,Eridacnis,radcliffei,17,FishBase
@@ -240,7 +240,7 @@ spec_code,scientific_name,family,order,group,mean_lm,genus,species,lm_new_gen,so
 805,Figaro boardmani,Pentanchidae,Carcharhiniformes,Sharks,,Figaro,boardmani,,
 64132,Figaro striatus,Pentanchidae,Carcharhiniformes,Sharks,,Figaro,striatus,,
 5924,Furgaleus macki,Triakidae,Carcharhiniformes,Sharks,109.5,Furgaleus,macki,109.5,FishBase
-886,Galeocerdo cuvier,Galeocerdonidae,Carcharhiniformes,Sharks,283.7857142857143,Galeocerdo,cuvier,283.7857,FishBase
+886,Galeocerdo cuvier,Carcharhinidae,Carcharhiniformes,Sharks,283.7857142857143,Galeocerdo,cuvier,283.7857,FishBase
 4642,Galeorhinus galeus,Triakidae,Carcharhiniformes,Sharks,139.08333333333334,Galeorhinus,galeus,139.0833,FishBase
 54009,Galeus antillensis,Pentanchidae,Carcharhiniformes,Sharks,,Galeus,antillensis,39.9567,
 804,Galeus arae,Pentanchidae,Carcharhiniformes,Sharks,,Galeus,arae,39.9567,
@@ -254,7 +254,7 @@ spec_code,scientific_name,family,order,group,mean_lm,genus,species,lm_new_gen,so
 61184,Galeus mincaronei,Pentanchidae,Carcharhiniformes,Sharks,34.5,Galeus,mincaronei,34.5,FishBase
 808,Galeus murinus,Pentanchidae,Carcharhiniformes,Sharks,,Galeus,murinus,39.9567,
 809,Galeus nipponensis,Pentanchidae,Carcharhiniformes,Sharks,54,Galeus,nipponensis,54,FishBase
-810,Galeus piperatus,Pentanchidae,Carcharhiniformes,Sharks,,Galeus,piperatus,39.9567,
+810,Galeus piperatus,Pentanchidae,Carcharhiniformes,Sharks,18,Galeus,piperatus,39.9567,Mathews (1975)
 811,Galeus polli,Pentanchidae,Carcharhiniformes,Sharks,30.400000254313152,Galeus,polli,30.4,FishBase
 64102,Galeus priapus,Pentanchidae,Carcharhiniformes,Sharks,,Galeus,priapus,39.9567,
 812,Galeus sauteri,Pentanchidae,Carcharhiniformes,Sharks,,Galeus,sauteri,39.9567,
@@ -273,7 +273,7 @@ spec_code,scientific_name,family,order,group,mean_lm,genus,species,lm_new_gen,so
 815,Halaelurus boesemani,Pentanchidae,Carcharhiniformes,Sharks,,Halaelurus,boesemani,,
 816,Halaelurus buergeri,Pentanchidae,Carcharhiniformes,Sharks,,Halaelurus,buergeri,,
 821,Halaelurus lineatus,Pentanchidae,Carcharhiniformes,Sharks,,Halaelurus,lineatus,,
-63525,Halaelurus maculosus,Pentanchidae,Carcharhiniformes,Sharks,,Halaelurus,maculosus,,
+63525,Halaelurus maculosus,Pentanchidae,Carcharhiniformes,Sharks,36,Halaelurus,maculosus,,White et al (2007)
 823,Halaelurus natalensis,Pentanchidae,Carcharhiniformes,Sharks,,Halaelurus,natalensis,,
 824,Halaelurus quagga,Pentanchidae,Carcharhiniformes,Sharks,,Halaelurus,quagga,,
 63526,Halaelurus sellus,Pentanchidae,Carcharhiniformes,Sharks,,Halaelurus,sellus,,
@@ -290,13 +290,13 @@ spec_code,scientific_name,family,order,group,mean_lm,genus,species,lm_new_gen,so
 62544,Hemigaleus australiensis,Hemigaleidae,Carcharhiniformes,Sharks,62.5,Hemigaleus,australiensis,62.5,FishBase
 5897,Hemigaleus microstoma,Hemigaleidae,Carcharhiniformes,Sharks,81.5,Hemigaleus,microstoma,81.5,FishBase
 5898,Hemipristis elongata,Hemigaleidae,Carcharhiniformes,Sharks,,Hemipristis,elongata,,
-5904,Hemiscyllium freycineti,Hemiscylliidae,Orectolobiformes,Sharks,,Hemiscyllium,freycineti,,
+5904,Hemiscyllium freycineti,Hemiscylliidae,Orectolobiformes,Sharks,49.5,Hemiscyllium,freycineti,,Compagno et al (2002)
 63706,Hemiscyllium galei,Hemiscylliidae,Orectolobiformes,Sharks,,Hemiscyllium,galei,,
-5905,Hemiscyllium hallstromi,Hemiscylliidae,Orectolobiformes,Sharks,,Hemiscyllium,hallstromi,,
+5905,Hemiscyllium hallstromi,Hemiscylliidae,Orectolobiformes,Sharks,55.75,Hemiscyllium,hallstromi,,Compagno et al (2002)
 67088,Hemiscyllium halmahera,Hemiscylliidae,Orectolobiformes,Sharks,,Hemiscyllium,halmahera,,
 63708,Hemiscyllium henryi,Hemiscylliidae,Orectolobiformes,Sharks,,Hemiscyllium,henryi,,
 65392,Hemiscyllium michaeli,Hemiscylliidae,Orectolobiformes,Sharks,,Hemiscyllium,michaeli,,
-5906,Hemiscyllium ocellatum,Hemiscylliidae,Orectolobiformes,Sharks,,Hemiscyllium,ocellatum,,
+5906,Hemiscyllium ocellatum,Hemiscylliidae,Orectolobiformes,Sharks,61.76666667,Hemiscyllium,ocellatum,,Compagno et al (2002)
 5907,Hemiscyllium strahani,Hemiscylliidae,Orectolobiformes,Sharks,,Hemiscyllium,strahani,,
 5908,Hemiscyllium trispeculare,Hemiscylliidae,Orectolobiformes,Sharks,,Hemiscyllium,trispeculare,,
 636,Heptranchias perlo,Hexanchidae,Hexanchiformes,Sharks,85.75,Heptranchias,perlo,85.75,FishBase
@@ -348,7 +348,7 @@ spec_code,scientific_name,family,order,group,mean_lm,genus,species,lm_new_gen,so
 2540,Mustelus henlei,Triakidae,Carcharhiniformes,Sharks,58,Mustelus,henlei,58,FishBase
 5932,Mustelus higmani,Triakidae,Carcharhiniformes,Sharks,,Mustelus,higmani,79.8042,
 5933,Mustelus lenticulatus,Triakidae,Carcharhiniformes,Sharks,86.66666666666667,Mustelus,lenticulatus,86.6667,FishBase
-2541,Mustelus lunulatus,Triakidae,Carcharhiniformes,Sharks,97.2999979654948,Mustelus,lunulatus,97.3,FishBase
+2541,Mustelus lunulatus,Triakidae,Carcharhiniformes,Sharks,97.29999797,Mustelus,lunulatus,97.3,FishBase
 5941,Mustelus manazo,Triakidae,Carcharhiniformes,Sharks,66.83333333333333,Mustelus,manazo,66.8333,FishBase
 5934,Mustelus mento,Triakidae,Carcharhiniformes,Sharks,79.25,Mustelus,mento,79.25,FishBase
 50772,Mustelus minicanis,Triakidae,Carcharhiniformes,Sharks,,Mustelus,minicanis,79.8042,
@@ -362,11 +362,11 @@ spec_code,scientific_name,family,order,group,mean_lm,genus,species,lm_new_gen,so
 50773,Mustelus sinusmexicanus,Triakidae,Carcharhiniformes,Sharks,,Mustelus,sinusmexicanus,79.8042,
 64108,Mustelus stevensi,Triakidae,Carcharhiniformes,Sharks,75.05000305175781,Mustelus,stevensi,75.05,FishBase
 5939,Mustelus whitneyi,Triakidae,Carcharhiniformes,Sharks,,Mustelus,whitneyi,79.8042,
-63788,Mustelus widodoi,Triakidae,Carcharhiniformes,Sharks,,Mustelus,widodoi,79.8042,
-895,Nasolamia velox,Carcharhinidae,Carcharhiniformes,Sharks,,Nasolamia,velox,,
-5895,Nebrius ferrugineus,Ginglymostomatidae,Orectolobiformes,Sharks,,Nebrius,ferrugineus,,
+63788,Mustelus widodoi,Triakidae,Carcharhiniformes,Sharks,83,Mustelus,widodoi,79.8042,White et al (2007)
+895,Nasolamia velox,Carcharhinidae,Carcharhiniformes,Sharks,105,Nasolamia,velox,,Dominguez-Arellano (2003)
+5895,Nebrius ferrugineus,Ginglymostomatidae,Orectolobiformes,Sharks,267.75,Nebrius,ferrugineus,,Compagno et al (2002)
 896,Negaprion acutidens,Carcharhinidae,Carcharhiniformes,Sharks,230,Negaprion,acutidens,230,FishBase
-897,Negaprion brevirostris,Carcharhinidae,Carcharhiniformes,Sharks,,Negaprion,brevirostris,230,
+897,Negaprion brevirostris,Carcharhinidae,Carcharhiniformes,Sharks,240.25,Negaprion,brevirostris,230,Brown (1988); Uribe-Martinez (1993)
 2531,Notorynchus cepedianus,Hexanchidae,Hexanchiformes,Sharks,182.5,Notorynchus,cepedianus,182.5,FishBase
 749,Odontaspis ferox,Odontaspididae,Lamniformes,Sharks,,Odontaspis,ferox,293.75,
 750,Odontaspis noronhai,Odontaspididae,Lamniformes,Sharks,293.75,Odontaspis,noronhai,293.75,FishBase
@@ -375,15 +375,15 @@ spec_code,scientific_name,family,order,group,mean_lm,genus,species,lm_new_gen,so
 63346,Orectolobus hutchinsi,Orectolobidae,Orectolobiformes,Sharks,,Orectolobus,hutchinsi,83.125,
 757,Orectolobus japonicus,Orectolobidae,Orectolobiformes,Sharks,,Orectolobus,japonicus,83.125,
 65548,Orectolobus leptolineatus,Orectolobidae,Orectolobiformes,Sharks,,Orectolobus,leptolineatus,83.125,
-758,Orectolobus maculatus,Orectolobidae,Orectolobiformes,Sharks,,Orectolobus,maculatus,83.125,
+758,Orectolobus maculatus,Orectolobidae,Orectolobiformes,Sharks,60,Orectolobus,maculatus,83.125,Compagno et al (2002)
 759,Orectolobus ornatus,Orectolobidae,Orectolobiformes,Sharks,86.5,Orectolobus,ornatus,86.5,FishBase
 63748,Orectolobus parvimaculatus,Orectolobidae,Orectolobiformes,Sharks,79.75,Orectolobus,parvimaculatus,79.75,FishBase
 64117,Orectolobus reticulatus,Orectolobidae,Orectolobiformes,Sharks,,Orectolobus,reticulatus,83.125,
 760,Orectolobus wardi,Orectolobidae,Orectolobiformes,Sharks,,Orectolobus,wardi,83.125,
-715,Oxynotus bruniensis,Oxynotidae,Squaliformes,Sharks,,Oxynotus,bruniensis,,
+715,Oxynotus bruniensis,Oxynotidae,Squaliformes,Sharks,58.4,Oxynotus,bruniensis,,Finucci (2016)
 717,Oxynotus caribbaeus,Oxynotidae,Squaliformes,Sharks,,Oxynotus,caribbaeus,,
-718,Oxynotus centrina,Oxynotidae,Squaliformes,Sharks,,Oxynotus,centrina,,
-54012,Oxynotus japonicus,Oxynotidae,Squaliformes,Sharks,,Oxynotus,japonicus,,
+718,Oxynotus centrina,Oxynotidae,Squaliformes,Sharks,62.25,Oxynotus,centrina,,Capape (1999)
+54012,Oxynotus japonicus,Oxynotidae,Squaliformes,Sharks,56.5,Oxynotus,japonicus,,Yano (2002)
 719,Oxynotus paradoxus,Oxynotidae,Squaliformes,Sharks,,Oxynotus,paradoxus,,
 15840,Paragaleus leucolomatus,Hemigaleidae,Carcharhiniformes,Sharks,,Paragaleus,leucolomatus,73.75,
 57442,Paragaleus longicaudatus,Hemigaleidae,Carcharhiniformes,Sharks,65,Paragaleus,longicaudatus,65,FishBase
@@ -395,7 +395,7 @@ spec_code,scientific_name,family,order,group,mean_lm,genus,species,lm_new_gen,so
 63657,Parmaturus bigus,Pentanchidae,Carcharhiniformes,Sharks,,Parmaturus,bigus,39.6667,
 830,Parmaturus campechiensis,Pentanchidae,Carcharhiniformes,Sharks,,Parmaturus,campechiensis,39.6667,
 63658,Parmaturus lanatus,Pentanchidae,Carcharhiniformes,Sharks,,Parmaturus,lanatus,39.6667,
-5914,Parascyllium collare,Parascylliidae,Orectolobiformes,Sharks,,Parascyllium,collare,,
+5914,Parascyllium collare,Parascylliidae,Orectolobiformes,Sharks,84.25,Parascyllium,collare,,Compagno et al (2002)
 64116,Parascyllium elongatum,Parascylliidae,Orectolobiformes,Sharks,,Parascyllium,elongatum,,
 5915,Parascyllium ferrugineum,Parascylliidae,Orectolobiformes,Sharks,,Parascyllium,ferrugineum,,
 59418,Parascyllium sparsimaculatum,Parascylliidae,Orectolobiformes,Sharks,,Parascyllium,sparsimaculatum,,
@@ -481,7 +481,7 @@ spec_code,scientific_name,family,order,group,mean_lm,genus,species,lm_new_gen,so
 913,Sphyrna media,Sphyrnidae,Carcharhiniformes,Sharks,,Sphyrna,media,192.3774,
 914,Sphyrna mokarran,Sphyrnidae,Carcharhiniformes,Sharks,250.16666666666666,Sphyrna,mokarran,250.1667,FishBase
 915,Sphyrna tiburo,Sphyrnidae,Carcharhiniformes,Sharks,75.625,Sphyrna,tiburo,75.625,FishBase
-55029,Sphyrna tudes,Sphyrnidae,Carcharhiniformes,Sharks,,Sphyrna,tudes,192.3774,
+55029,Sphyrna tudes,Sphyrnidae,Carcharhiniformes,Sharks,103.51,Sphyrna,tudes,192.3774,Stride et al (1992)
 917,Sphyrna zygaena,Sphyrnidae,Carcharhiniformes,Sharks,247.17250061035156,Sphyrna,zygaena,247.1725,FishBase
 27208,Squaliolus aliae,Dalatiidae,Squaliformes,Sharks,,Squaliolus,aliae,18.5,
 705,Squaliolus laticaudus,Dalatiidae,Squaliformes,Sharks,18.5,Squaliolus,laticaudus,18.5,FishBase
@@ -494,7 +494,7 @@ spec_code,scientific_name,family,order,group,mean_lm,genus,species,lm_new_gen,so
 708,Squalus blainville,Squalidae,Squaliformes,Sharks,51.47499942779541,Squalus,blainville,51.475,FishBase
 63317,Squalus brevirostris,Squalidae,Squaliformes,Sharks,,Squalus,brevirostris,68.4302,
 63434,Squalus bucephalus,Squalidae,Squaliformes,Sharks,,Squalus,bucephalus,68.4302,
-63582,Squalus chloroculus,Squalidae,Squaliformes,Sharks,71.4000015258789,Squalus,chloroculus,71.4,FishBase
+63582,Squalus chloroculus,Squalidae,Squaliformes,Sharks,71.40000153,Squalus,chloroculus,71.4,FishBase
 68990,Squalus clarkae,Squalidae,Squaliformes,Sharks,,Squalus,clarkae,68.4302,
 63433,Squalus crassispinus,Squalidae,Squaliformes,Sharks,,Squalus,crassispinus,68.4302,
 709,Squalus cubensis,Squalidae,Squaliformes,Sharks,,Squalus,cubensis,68.4302,
@@ -546,8 +546,8 @@ spec_code,scientific_name,family,order,group,mean_lm,genus,species,lm_new_gen,so
 737,Squatina tergocellata,Squatinidae,Squatiniformes,Sharks,103,Squatina,tergocellata,103,FishBase
 738,Squatina tergocellatoides,Squatinidae,Squatiniformes,Sharks,,Squatina,tergocellatoides,98.2548,
 68861,Squatina varii,Squatinidae,Squatiniformes,Sharks,101.5,Squatina,varii,101.5,FishBase
-5374,Stegostoma tigrinum,Stegostomatidae,Orectolobiformes,Sharks,,Stegostoma,tigrinum,,
-761,Sutorectus tentaculatus,Orectolobidae,Orectolobiformes,Sharks,,Sutorectus,tentaculatus,,
+5374,Stegostoma tigrinum,Stegostomatidae,Orectolobiformes,Sharks,166.6666667,Stegostoma,tigrinum,,Compagno et al (2002)
+761,Sutorectus tentaculatus,Orectolobidae,Orectolobiformes,Sharks,65,Sutorectus,tentaculatus,,Compagno et al (2002)
 907,Triaenodon obesus,Carcharhinidae,Carcharhiniformes,Sharks,108,Triaenodon,obesus,108,FishBase
 5946,Triakis acutipinna,Triakidae,Carcharhiniformes,Sharks,,Triakis,acutipinna,118.3333,
 5947,Triakis maculata,Triakidae,Carcharhiniformes,Sharks,,Triakis,maculata,118.3333,

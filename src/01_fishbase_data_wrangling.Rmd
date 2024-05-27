@@ -69,33 +69,33 @@ pop_qb <- fb_tbl("popqb") %>%
   clean_names()
 
 # join these with the fishbase elasmo data
-test_fishbase_join <- test_fishbase %>% 
-  left_join(maturity_fb, by = "spec_code") %>% 
-  filter(group == "Sharks") %>% 
-  group_by(scientific_name) %>% 
-  mutate(mean_lm = mean(lm, na.rm = TRUE)) %>% 
-  distinct(spec_code, scientific_name, family, order, group, mean_lm) %>% 
-  ungroup() %>% 
-  mutate(species = scientific_name) %>% 
-  separate_wider_delim(species, names = c("genus", "species"), delim = " ") %>% 
-  group_by(genus) %>% 
-  mutate(lm_new_gen = ifelse(is.na(mean_lm), mean(mean_lm, na.rm = TRUE), mean_lm)) %>% 
-  mutate(lm_new_gen = round(lm_new_gen, 4)) %>% 
-  mutate(source = ifelse(is.na(mean_lm), NA, "FishBase"))
+# test_fishbase_join <- test_fishbase %>% 
+#   left_join(maturity_fb, by = "spec_code") %>% 
+#   filter(group == "Sharks") %>% 
+#   group_by(scientific_name) %>% 
+#   mutate(mean_lm = mean(lm, na.rm = TRUE)) %>% 
+#   distinct(spec_code, scientific_name, family, order, group, mean_lm) %>% 
+#   ungroup() %>% 
+#   mutate(species = scientific_name) %>% 
+#   separate_wider_delim(species, names = c("genus", "species"), delim = " ") %>% 
+#   group_by(genus) %>% 
+#   mutate(lm_new_gen = ifelse(is.na(mean_lm), mean(mean_lm, na.rm = TRUE), mean_lm)) %>% 
+#   mutate(lm_new_gen = round(lm_new_gen, 4)) %>% 
+#   mutate(source = ifelse(is.na(mean_lm), NA, "FishBase"))
   # ungroup() %>% 
   # mutate(mean_lm = ifelse(is.na(mean_lm), lm_new_gen, mean_lm))
 
-write_csv(test_fishbase_join, file = here("data", "shark_spp_lm.csv"), na = "")
+#write_csv(test_fishbase_join, file = here("data", "shark_spp_lm.csv"), na = "")
 
 # read in the dataset of legnth at first maturity with data from external sources and recalculate averages
-shark_lm <- read_csv(here("data", "shark_spp_lm.csv")) %>% 
-  group_by(genus) %>% 
-  mutate(lm_new_gen = ifelse(is.na(mean_lm), mean(mean_lm, na.rm = TRUE), mean_lm)) %>% 
-  ungroup() %>% 
-  mutate(mean_lm = ifelse(is.na(mean_lm), lm_new_gen, mean_lm)) %>% 
-  mutate(family = ifelse(scientific_name == "Galeocerdo cuvier", "Carcharhinidae", family))
+# shark_lm <- read_csv(here("data", "shark_spp_lm.csv")) %>% 
+#   group_by(genus) %>% 
+#   mutate(lm_new_gen = ifelse(is.na(mean_lm), mean(mean_lm, na.rm = TRUE), mean_lm)) %>% 
+#   ungroup() %>% 
+#   mutate(mean_lm = ifelse(is.na(mean_lm), lm_new_gen, mean_lm)) %>% 
+#   mutate(family = ifelse(scientific_name == "Galeocerdo cuvier", "Carcharhinidae", family))
 
-write_csv(test_fishbase_join, file = here("data", "shark_spp_lm.csv"), na = "")
+#write_csv(test_fishbase_join, file = here("data", "shark_spp_lm.csv"), na = "")
 ```
 
 
@@ -281,6 +281,16 @@ write_csv(prm_join, file = file.path(basedir, "data", "prm_dataset_temp_hab.csv"
 # read in phylo distance data
 shark_phylo_dist <- read_csv(here("data", "elasmo_phylo_dist.csv"))
 
+shark_lm <- read_csv(here("data", "shark_spp_lm.csv")) %>% 
+  group_by(genus) %>% 
+  mutate(lm_new_gen = ifelse(is.na(mean_lm), mean(mean_lm, na.rm = TRUE), mean_lm)) %>% 
+  ungroup() %>% 
+  group_by(family) %>% 
+  mutate(lm_new_fam = ifelse(is.na(mean_lm), mean(mean_lm, na.rm = TRUE), mean_lm)) %>% 
+  mutate(mean_lm = ifelse(is.na(mean_lm), lm_new_gen, mean_lm),
+         mean_lm = ifelse(is.nan(lm_new_gen), lm_new_fam, mean_lm)) %>% 
+  select(scientific_name, family, group, mean_lm)
+
 prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>% 
   filter(!grepl("Rajidae", family)) %>%
   filter(family != "Dasyatidae") %>%
@@ -290,8 +300,7 @@ prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
   mutate(scientific_name = ifelse(scientific_name == "Mustelus canis insularis", "Mustelus canis", scientific_name),
          scientific_name = ifelse(scientific_name == "Centroscymnus owstoni", "Centroscymnus owstonii", scientific_name)) %>% 
   left_join(shark_phylo_dist, by = c("scientific_name", "family", "group")) %>% 
-  left_join(shark_lm, by = c("scientific_name", "family", "group")) %>% 
-  filter(is.na(mean_lm))
+  left_join(shark_lm, by = c("scientific_name", "family", "group")) 
 
 new_dat <- read_csv(here::here("data", "predict_data.csv")) %>%
   filter(order != "Rajiformes") %>%
@@ -312,7 +321,8 @@ new_dat <- read_csv(here::here("data", "predict_data.csv")) %>%
   mutate(habitat_associated = as.factor(habitat_associated)) %>%
   mutate(reproductive_mode = as.factor(reproductive_mode)) %>%
   filter(reproductive_mode != "histotrophy") %>% 
-  left_join(shark_phylo_dist, by = "scientific_name") 
+  left_join(shark_phylo_dist, by = c("scientific_name", "family")) %>% 
+  left_join(shark_lm, by = c("scientific_name", "family"))  
 
 tol = read_csv(here("data", "tolerance.csv")) %>% 
   rename(scientific_name = species) %>% 
@@ -336,7 +346,7 @@ dat_new_mean <- dat %>%
   group_by(genus) %>% 
   mutate(eo_new_gen = ifelse(is.na(eo), mean(eo, na.rm = TRUE), eo),
          ac_new_gen = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac)) %>% 
-  group_by(family.x) %>% 
+  group_by(family) %>% 
   mutate(eo_new_fam = ifelse(is.na(eo), mean(eo, na.rm = TRUE), eo),
          ac_new_fam = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac)) %>% 
   ungroup() %>% 
