@@ -38,8 +38,8 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
     habitat_associated == "benthopelagic" ~ "pelagic",
     habitat_associated == "demersal" ~ "demersal",
     habitat_associated == "bathydemersal" ~ "demersal",
-  )) %>% 
-  rename(family = family.x)
+  )) %>%
+  dplyr::select(- c(family.x, family.y))
 ```
 
 ```{r}
@@ -66,6 +66,7 @@ prm_elasmo_subset <- prm_elasmo %>%
 elasmo_trawl <- prm_elasmo_subset %>%
   filter(estimate_type == "at-vessel mortality") %>%
   filter(gear_class == "trawl") %>% 
+  filter(sample_size > 2) %>% 
   mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
@@ -77,6 +78,7 @@ elasmo_trawl <- prm_elasmo_subset %>%
 elasmo_gillnet <- prm_elasmo_subset %>%
   filter(estimate_type == "at-vessel mortality") %>%
   filter(gear_class == "gillnet") %>% 
+  filter(sample_size > 2) %>% 
   mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%

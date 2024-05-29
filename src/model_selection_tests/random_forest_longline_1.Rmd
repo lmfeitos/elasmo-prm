@@ -38,8 +38,9 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
     habitat_associated == "benthopelagic" ~ "pelagic",
     habitat_associated == "demersal" ~ "demersal",
     habitat_associated == "bathydemersal" ~ "demersal",
-  )) %>% 
-  rename(family = family.x)
+  )) %>%
+  dplyr::select(-c(family.x, family.y)) %>%
+  filter(gear_class == "longline")
 ```
 
 ```{r}
@@ -59,34 +60,41 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name == "rays" ~ "yolk-sac viviparity",
     TRUE ~ reproductive_mode
   )) %>%
-  mutate_if(is.character, as.factor) %>% 
+  mutate(reproductive_mode_new = case_when(
+    reproductive_mode == "placental viviparity" ~ "viviparous",
+    str_detect(reproductive_mode, "yolk|histo|oophagy") ~ "ovoviviparous",
+    TRUE ~ reproductive_mode
+  )) %>%
+  mutate_if(is.character, as.factor) %>%
   filter(!grepl("sp", scientific_name))
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
 elasmo_avm <- prm_elasmo_subset %>%
-  filter(estimate_type == "at-vessel mortality") %>%
+  filter(estimate_type == "at-vessel mortality" & estimate != 0) %>%
+  filter(sample_size > 2) %>%
   mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
-  select(-sample_size, -estimate, -est_count) %>% 
-  distinct() %>% 
+  select(-sample_size, -estimate, -est_count) %>%
+  distinct() %>%
   drop_na()
 
 # Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
 elasmo_prm <- prm_elasmo_subset %>%
   filter(estimate_type == "post-release mortality") %>%
+  filter(sample_size > 2) %>%
   mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
-  select(-sample_size, -estimate, -est_count) %>% 
-  distinct() %>% 
+  select(-sample_size, -estimate, -est_count) %>%
+  distinct() %>%
   drop_na()
 ```
 
 ```{r}
 # split the data into training and test set
 ## At-vessel mortality
-avm_split <- initial_split(elasmo_avm, prop = .7, strata = family)
+avm_split <- initial_split(elasmo_avm, prop = .70, strata = family)
 
 avm_train <- training(avm_split)
 avm_test <- testing(avm_split)
@@ -109,10 +117,10 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~  median_depth + max_size_cm + reproductive_mode + eo + ac + evol_dist, data = avm_train) %>%
+avm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat + reproductive_mode + ac + evol_dist, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
-prm_recipe <- recipe(mortality_prop ~ + median_depth + max_size_cm + habitat + reproductive_mode + evol_dist, data = elasmo_prm) %>%
+prm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat + reproductive_mode + evol_dist, data = elasmo_prm) %>%
   step_normalize(all_numeric_predictors())
 ```
 
@@ -267,6 +275,7 @@ collect_metrics(prm_cv2)
 
 
 ### Variable importance for the at-vessel mortality and post-release mortality RF models
+
 ```{r}
 avm_fit %>%
   extract_fit_parsnip() %>%
