@@ -15,18 +15,24 @@ knitr::opts_chunk$set(
 library(tidyverse)
 library(tidymodels)
 library(here)
+library(randomForest)
 library(ranger)
+library(googlesheets4)
 library(naniar)
-library(vip)
-library(patchwork)
 library(ggpmisc)
+library(vip)
 
 set.seed(42)
 ```
 
 ```{r}
-# read in the data
 prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
+  filter(gear_class == "longline") %>%
+  filter(!grepl("Rajidae", family)) %>%
+  filter(family != "Dasyatidae") %>%
+  filter(family != "Pristidae") %>%
+  filter(family != "Rhinidae") %>%
+  filter(family != "Rhinobatidae") %>%
   mutate(habitat = case_when(
     habitat_associated == "pelagic" ~ "pelagic",
     habitat_associated == "reef-associated" ~ "pelagic",
@@ -34,29 +40,18 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
     habitat_associated == "benthopelagic" ~ "pelagic",
     habitat_associated == "demersal" ~ "demersal",
     habitat_associated == "bathydemersal" ~ "demersal",
-  ))
-```
-
-```{r}
-# get only PRM data
-prm <- prm_elasmo %>%
-  filter(estimate_type == "post-release mortality") %>%
-  rename(prm = estimate) %>%
-  select(scientific_name, prm)
-
-# get only AVM data
-avm <- prm_elasmo %>%
-  filter(estimate_type == "at-vessel mortality") %>%
-  rename(avm = estimate) %>%
-  select(scientific_name, avm)
-```
-
-```{r}
-# correlation between avm and prm
-cor_check <- full_join(avm, prm) %>%
-  filter(!is.na(avm) & !is.na(prm))
-
-cor(cor_check$prm, cor_check$avm)
+  )) %>%
+  mutate(ventilation_method = case_when(
+    scientific_name == "Ginglymostoma cirratum" ~ "stationary",
+    TRUE ~ ventilation_method
+  )) %>%
+  mutate(reproductive_mode = case_when(
+    scientific_name == "Hexanchus nakamurai" ~ "yolk-sac viviparity",
+    TRUE ~ reproductive_mode
+  )) %>%
+  group_by(scientific_name) %>%
+  mutate(median_depth = mean(median_depth)) %>%
+  distinct()
 ```
 
 ```{r}
@@ -64,7 +59,7 @@ cor(cor_check$prm, cor_check$avm)
 prm_elasmo_subset <- prm_elasmo %>%
   select(
     scientific_name, gear_class, habitat, estimate_type, estimate, sample_size,
-    method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family, ac, eo
+    method, ventilation_method, max_size_cm, ac, measure, median_depth, evol_dist, reproductive_mode, family, eo
   ) %>%
   mutate(measure = case_when(
     scientific_name == "sharks" ~ "total_length",
@@ -81,37 +76,44 @@ prm_elasmo_subset <- prm_elasmo %>%
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
 elasmo_avm <- prm_elasmo_subset %>%
-  filter(estimate_type == "at-vessel mortality" & estimate > 0) %>% 
-  mutate(est_count = sample_size * estimate) %>%
+  filter(estimate_type == "at-vessel mortality") %>%
+  filter(sample_size > 5) %>%
   group_by(scientific_name, gear_class) %>%
-  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
-  select(-sample_size, -estimate, -est_count) %>% 
-  distinct() %>% 
+  mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, evol_dist, ac, mortality_prop, family) %>%
+  distinct() %>%
   drop_na()
 
 # Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
 elasmo_prm <- prm_elasmo_subset %>%
-  filter(estimate_type == "post-release mortality" & estimate > 0) %>%
-  mutate(est_count = sample_size * estimate) %>%
+  filter(estimate_type == "post-release mortality") %>%
+  filter(sample_size > 5) %>%
   group_by(scientific_name, gear_class) %>%
-  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
-  select(-sample_size, -estimate, -est_count) %>%
+  mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, evol_dist, mortality_prop, family) %>%
   distinct() %>%
   drop_na()
 ```
 
 ```{r}
-# split the data into training and test set for At-vessel mortality
-avm_split <- initial_split(elasmo_avm, prop = .8)
+# split the data into training and test set
+## At-vessel mortality
+avm_split <- initial_split(elasmo_avm, prop = .7, strata = family)
 
 avm_train <- training(avm_split)
 avm_test <- testing(avm_split)
 
-# cross validation sets
-avm_folds <- vfold_cv(avm_train, repeats = 5, v = 10)
+avm_folds <- vfold_cv(avm_train, repeats = 5, v = 10, strata = family)
 
-prm_folds <- vfold_cv(elasmo_prm, repeats = 5, v = 10)
+## Post-release mortality
+# prm_split <- initial_split(elasmo_prm, prop = .7)
+#
+# prm_train <- training(prm_split)
+# prm_test <- testing(prm_split)
+
+prm_folds <- vfold_cv(elasmo_prm, repeats = 5, v = 10, strata = family)
 ```
+
 
 ## Overview
 
@@ -119,10 +121,10 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ reproductive_mode + median_depth + max_size_cm + ac + eo + ventilation_method + habitat, data = avm_train) %>%
+avm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + reproductive_mode + evol_dist + ac, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
-prm_recipe <- recipe(mortality_prop ~ reproductive_mode + max_size_cm + median_depth, data = elasmo_prm) %>%
+prm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat + reproductive_mode + evol_dist, data = elasmo_prm) %>%
   step_normalize(all_numeric_predictors())
 ```
 
@@ -185,7 +187,7 @@ Below displays the results of cross validation tuning for AVM
 
 ```{r, include=FALSE}
 # avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rsq")) # finalize the workflow with the best model
-# 
+#
 # saveRDS(avm_final, here::here("data", "avm_final.rds"))
 
 avm_final <- readRDS(here::here("data", "avm_final.rds"))
@@ -226,7 +228,7 @@ Below displays the results of cross validation tuning for PRM
 
 ```{r, include=FALSE}
 # prm_final <- finalize_workflow(prm_wflw, select_best(prm_tune, metric = "rsq")) # finalize the workflow with the best model
-# 
+#
 # saveRDS(prm_final, here::here("data", "prm_final.rds"))
 
 prm_final <- readRDS(here::here("data", "prm_final.rds"))
@@ -378,7 +380,7 @@ v1 <- avm_fit %>%
   extract_fit_parsnip() %>%
   vip() +
   theme_bw(base_size = 14) +
-  labs(y = "Variable Importance for At-Vessel Mortality")+
+  labs(y = "Variable Importance for At-Vessel Mortality") +
   scale_x_discrete(labels = c("Ventilation Method", "Habitat", "Reproductive Mode", "Hypoxia Vulnerability", "Thermal Sensitivity", "Maximum Size (cm)", "Median Depth (m)"))
 v1
 
@@ -386,7 +388,7 @@ v2 <- prm_fit %>%
   extract_fit_parsnip() %>%
   vip() +
   theme_bw(base_size = 14) +
-  labs(y = "Variable Importance for Post-Release Mortality")+
+  labs(y = "Variable Importance for Post-Release Mortality") +
   scale_x_discrete(labels = c("Reproductive Mode", "Median Depth", "Maximum Size (cm)"))
 v2
 ```
@@ -400,14 +402,13 @@ new_dat <- read_csv(here::here("data", "predict_data_phylo.csv")) %>%
   filter(order != "Myliobatiformes") %>%
   filter(order != "Torpediniformes") %>%
   # filter(!grepl("batidae", family)) %>%
-  filter(family != "Dasyatidae") %>%
-  filter(family != "Dasyatidae") %>%
+  filter(family.x != "Dasyatidae") %>%
   # filter(family != "Glaucostegidae") %>% # I'd remove this filter
   # filter(family != "Pristidae") %>% # I'd remove this filter
-  filter(family != "Trygonorrhinidae") %>%
+  filter(family.x != "Trygonorrhinidae") %>%
   filter(!is.na(median_depth)) %>%
-  filter(!is.na(eo)) %>% 
-  filter(!is.na(evol_dist)) %>% 
+  filter(!is.na(ac)) %>%
+  filter(!is.na(evol_dist)) %>%
   filter(!is.na(ventilation_method)) %>%
   filter(!is.na(reproductive_mode)) %>%
   filter(!is.na(habitat_associated)) %>%
@@ -415,7 +416,7 @@ new_dat <- read_csv(here::here("data", "predict_data_phylo.csv")) %>%
   mutate(ventilation_method = as.factor(ventilation_method)) %>%
   mutate(habitat_associated = as.factor(habitat_associated)) %>%
   mutate(reproductive_mode = as.factor(reproductive_mode)) %>%
-  filter(reproductive_mode != "histotrophy") %>% 
+  filter(reproductive_mode != "histotrophy") %>%
   mutate(habitat = case_when(
     habitat_associated == "pelagic" ~ "pelagic",
     habitat_associated == "reef-associated" ~ "pelagic",
@@ -429,12 +430,11 @@ new_dat <- read_csv(here::here("data", "predict_data_phylo.csv")) %>%
 predict_data <- list(avm_train, avm_test, new_dat) %>%
   reduce(full_join) %>%
   rename(avm_mort = mortality_prop) %>%
-  select(-estimate_type, -method) %>%
   full_join(elasmo_prm) %>%
   rename(prm_mort = mortality_prop) %>%
-  select(-estimate_type, -method) %>%
   distinct() %>%
-  mutate(habitat_associated = as.factor(habitat_associated))
+  mutate(habitat = as.factor(habitat)) %>%
+  filter(!is.na(ac))
 
 predict_avm <- predict(object = avm_fit, new_data = predict_data) %>% # predict the training set
   bind_cols(predict_data) %>% # bind training set column to prediction
@@ -462,8 +462,15 @@ full_predictions <- preds_bind(full_prediction_avm, prm_fit) %>%
     prm_05 = .pred_05,
     prm_25 = .pred_25,
     prm_50 = .pred_50
-  ) %>%
-  filter(family != "Dasyatidae")
+  ) %>% 
+  select(
+    order, species, genus, prm_05, prm_25, prm_50, prm_75,
+    prm_95, avm_05, avm_25, avm_50,
+    avm_75, avm_95, prm_pred, avm_pred,
+    scientific_name, gear_class, ventilation_method, median_depth,
+    max_size_cm, habitat, reproductive_mode, evol_dist,
+    ac, avm_mort, family.x, family, prm_mort
+  )
 
 write_csv(full_predictions, here::here("data", "full_model_predictions.csv"))
 ```
