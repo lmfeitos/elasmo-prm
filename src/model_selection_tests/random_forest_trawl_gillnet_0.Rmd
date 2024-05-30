@@ -21,20 +21,15 @@ library(googlesheets4)
 library(naniar)
 library(vip)
 
-# Set data paths
-basedir <- "G:/Meu Drive/PRM review/"
-datadir <- file.path(basedir, "data/fish_base_data")
-outdir <- file.path(basedir, "data/outputs") # calls present data from raster files
-
 set.seed(42)
 ```
 
 ```{r}
 prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
-  filter(!grepl("Rajidae", family)) %>% 
-  filter(family != "Dasyatidae") %>% 
-  filter(family != "Pristidae") %>% 
-  filter(family != "Rhinidae") %>% 
+  filter(!grepl("Rajidae", family)) %>%
+  filter(family != "Dasyatidae") %>%
+  filter(family != "Pristidae") %>%
+  filter(family != "Rhinidae") %>%
   filter(family != "Rhinobatidae") %>%
   mutate(habitat = case_when(
     habitat_associated == "pelagic" ~ "pelagic",
@@ -43,14 +38,14 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
     habitat_associated == "benthopelagic" ~ "pelagic",
     habitat_associated == "demersal" ~ "demersal",
     habitat_associated == "bathydemersal" ~ "demersal",
-  )) %>% 
+  )) %>%
   mutate(ventilation_method = case_when(
     scientific_name == "Squalus acanthias" ~ "stationary",
     TRUE ~ ventilation_method
-  )) %>% 
-  group_by(scientific_name) %>% 
+  )) %>%
+  group_by(scientific_name) %>%
   mutate(median_depth = mean(median_depth)) %>%
-  mutate(max_size_cm = mean(max_size_cm)) %>% 
+  mutate(max_size_cm = mean(max_size_cm)) %>%
   distinct()
 ```
 
@@ -71,27 +66,29 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name == "rays" ~ "yolk-sac viviparity",
     TRUE ~ reproductive_mode
   )) %>%
-  mutate_if(is.character, as.factor) %>% 
+  mutate_if(is.character, as.factor) %>%
   filter(!grepl("sp", scientific_name))
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
 elasmo_trawl <- prm_elasmo_subset %>%
   filter(estimate_type == "at-vessel mortality") %>%
-  filter(gear_class == "trawl") %>% 
+  filter(gear_class == "trawl") %>%
+  filter(sample_size > 5) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
-  select(ventilation_method, median_depth, max_size_cm , habitat , reproductive_mode , evol_dist , ac, mortality_prop, family) %>% 
-  distinct() %>% 
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, evol_dist, ac, mortality_prop, family) %>%
+  distinct() %>%
   drop_na()
 
 # Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
 elasmo_gillnet <- prm_elasmo_subset %>%
   filter(estimate_type == "at-vessel mortality") %>%
-  filter(gear_class == "gillnet") %>% 
+  filter(gear_class == "gillnet") %>%
+  filter(sample_size > 5) %>% 
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
-  select(ventilation_method, median_depth, max_size_cm , habitat , reproductive_mode , evol_dist , ac, mortality_prop, family) %>% 
-  distinct() %>% 
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, evol_dist, ac, mortality_prop, family) %>%
+  distinct() %>%
   drop_na()
 ```
 
@@ -150,7 +147,7 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 trawl_tune <- trawl_wflw %>% # use cross validation to tune parameters
   tune_grid(
     resamples = trawl_folds, # add cv folds
-    grid = grid_regular(trees(), finalize(mtry(), elasmo_trawl), min_n(), levels = 10) %>% filter(mtry < 7)
+    grid = 10 #grid_regular(trees(), finalize(mtry(), elasmo_trawl), min_n(), levels = 5) %>% filter(mtry < 7)
   ) # use grid of parameters to test
 ```
 
@@ -158,7 +155,7 @@ trawl_tune <- trawl_wflw %>% # use cross validation to tune parameters
 gillnet_tune <- gillnet_wflw %>% # use cross validation to tune parameters
   tune_grid(
     resamples = gillnet_folds, # add cv folds
-    grid = grid_regular(trees(), finalize(mtry(), elasmo_gillnet), min_n(), levels = 10) %>% filter(mtry < 7)
+    grid = 10 #grid_regular(trees(), finalize(mtry(), elasmo_gillnet), min_n(), levels = 5) %>% filter(mtry < 7)
   ) # use grid of parameters to test
 ```
 
@@ -175,7 +172,7 @@ Below displays the results of cross validation tuning
 
 ```{r, include=FALSE}
 trawl_final <- finalize_workflow(trawl_wflw, select_best(trawl_tune, metric = "rsq")) # finalize the workflow with the best model
-# 
+#
 # saveRDS(trawl_final, here::here("data", "trawl_final.rds"))
 
 # trawl_final <- readRDS(here::here("data", "trawl_final.rds"))
@@ -209,7 +206,7 @@ select_best(gillnet_tune, metric = "rsq", n = 1) # get the best model
 
 ```{r, include=FALSE}
 gillnet_final <- finalize_workflow(gillnet_wflw, select_best(gillnet_tune, metric = "rsq")) # finalize the workflow with the best model
-# 
+#
 # saveRDS(gillnet_final, here::here("data", "gillnet_final.rds"))
 
 # gillnet_final <- readRDS(here::here("data", "gillnet_final.rds"))

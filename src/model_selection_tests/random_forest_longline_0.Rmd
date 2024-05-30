@@ -21,21 +21,16 @@ library(googlesheets4)
 library(naniar)
 library(vip)
 
-# Set data paths
-basedir <- "G:/Meu Drive/PRM review/"
-datadir <- file.path(basedir, "data/fish_base_data")
-outdir <- file.path(basedir, "data/outputs") # calls present data from raster files
-
 set.seed(42)
 ```
 
 ```{r}
 prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
-  filter(gear_class == "longline") %>% 
-  filter(!grepl("Rajidae", family)) %>% 
-  filter(family != "Dasyatidae") %>% 
-  filter(family != "Pristidae") %>% 
-  filter(family != "Rhinidae") %>% 
+  filter(gear_class == "longline") %>%
+  filter(!grepl("Rajidae", family)) %>%
+  filter(family != "Dasyatidae") %>%
+  filter(family != "Pristidae") %>%
+  filter(family != "Rhinidae") %>%
   filter(family != "Rhinobatidae") %>%
   mutate(habitat = case_when(
     habitat_associated == "pelagic" ~ "pelagic",
@@ -44,19 +39,18 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
     habitat_associated == "benthopelagic" ~ "pelagic",
     habitat_associated == "demersal" ~ "demersal",
     habitat_associated == "bathydemersal" ~ "demersal",
-  )) %>% 
+  )) %>%
   mutate(ventilation_method = case_when(
     scientific_name == "Ginglymostoma cirratum" ~ "stationary",
     TRUE ~ ventilation_method
-  )) %>% 
+  )) %>%
   mutate(reproductive_mode = case_when(
     scientific_name == "Hexanchus nakamurai" ~ "yolk-sac viviparity",
     TRUE ~ reproductive_mode
-  )) %>% 
-  group_by(scientific_name) %>% 
-  mutate(median_depth = mean(median_depth)) %>% 
+  )) %>%
+  group_by(scientific_name) %>%
+  mutate(median_depth = mean(median_depth)) %>%
   distinct()
-
 ```
 
 ```{r}
@@ -76,34 +70,34 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name == "rays" ~ "yolk-sac viviparity",
     TRUE ~ reproductive_mode
   )) %>%
-  mutate_if(is.character, as.factor) %>% 
+  mutate_if(is.character, as.factor) %>%
   filter(!grepl("sp", scientific_name))
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
 elasmo_avm <- prm_elasmo_subset %>%
-  filter(estimate_type == "at-vessel mortality")%>%
-  # filter(sample_size > 10) %>%
+  filter(estimate_type == "at-vessel mortality") %>%
+  filter(sample_size > 5) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
-  select(ventilation_method, median_depth, max_size_cm , habitat , reproductive_mode , evol_dist , ac, mortality_prop, family) %>% 
-  distinct() %>% 
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, evol_dist, ac, mortality_prop, family) %>%
+  distinct() %>%
   drop_na()
 
 # Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
 elasmo_prm <- prm_elasmo_subset %>%
   filter(estimate_type == "post-release mortality") %>%
-  # filter(sample_size > 10) %>%
+  filter(sample_size > 5) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
-  select(ventilation_method, median_depth, max_size_cm , habitat , reproductive_mode , evol_dist ,  mortality_prop, family) %>% 
-  distinct() %>% 
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, evol_dist, mortality_prop, family) %>%
+  distinct() %>%
   drop_na()
 ```
 
 ```{r}
 # split the data into training and test set
 ## At-vessel mortality
-avm_split <- initial_split(elasmo_avm, prop = .8, strata = family)
+avm_split <- initial_split(elasmo_avm, prop = .7, strata = family)
 
 avm_train <- training(avm_split)
 avm_test <- testing(avm_split)
@@ -165,7 +159,7 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 avm_tune <- avm_wflw %>% # use cross validation to tune parameters
   tune_grid(
     resamples = avm_folds, # add cv folds
-    grid = grid_regular(trees(), finalize(mtry(), avm_train), min_n(), levels = 10) %>% filter(mtry < 7)
+    grid = 10 # grid_regular(trees(), finalize(mtry(), avm_train), min_n(), levels = 10) %>% filter(mtry < 7)
   ) # use grid of parameters to test
 ```
 
@@ -173,7 +167,7 @@ avm_tune <- avm_wflw %>% # use cross validation to tune parameters
 prm_tune <- prm_wflw %>% # use cross validation to tune parameters
   tune_grid(
     resamples = prm_folds, # add cv folds
-    grid = grid_regular(trees(), finalize(mtry(), elasmo_prm), min_n(), levels = 10) %>% filter(mtry < 7)
+    grid = 10# grid_regular(trees(), finalize(mtry(), elasmo_prm), min_n(), levels = 10) %>% filter(mtry < 7)
   ) # use grid of parameters to test
 ```
 
