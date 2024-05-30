@@ -11,7 +11,7 @@
 
 <meta name="author" content="Leonardo Feitosa" />
 
-<meta name="date" content="2024-05-29" />
+<meta name="date" content="2024-05-30" />
 
 <title>random_forest</title>
 
@@ -352,7 +352,7 @@ display: none;
 
 <h1 class="title toc-ignore">random_forest</h1>
 <h4 class="author">Leonardo Feitosa</h4>
-<h4 class="date">2024-05-29</h4>
+<h4 class="date">2024-05-30</h4>
 
 </div>
 
@@ -387,7 +387,7 @@ display: none;
 prm_elasmo_subset &lt;- prm_elasmo %&gt;%
   select(
     scientific_name, gear_class, habitat, estimate_type, estimate, sample_size,
-    method, ventilation_method, max_size_cm, ac, measure, median_depth, evol_dist, reproductive_mode, family
+    method, ventilation_method, max_size_cm, ac, measure, median_depth, evol_dist, reproductive_mode, family, eo
   ) %&gt;%
   mutate(measure = case_when(
     scientific_name == &quot;sharks&quot; ~ &quot;total_length&quot;,

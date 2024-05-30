@@ -58,7 +58,7 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
 prm_elasmo_subset <- prm_elasmo %>%
   select(
     scientific_name, gear_class, habitat, estimate_type, estimate, sample_size,
-    method, ventilation_method, max_size_cm, ac, measure, median_depth, evol_dist, reproductive_mode, family
+    method, ventilation_method, max_size_cm, ac, measure, median_depth, evol_dist, reproductive_mode, family, eo
   ) %>%
   mutate(measure = case_when(
     scientific_name == "sharks" ~ "total_length",
