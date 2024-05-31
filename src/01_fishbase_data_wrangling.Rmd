@@ -281,16 +281,6 @@ write_csv(prm_join, file = file.path(basedir, "data", "prm_dataset_temp_hab.csv"
 # read in phylo distance data
 shark_phylo_dist <- read_csv(here("data", "elasmo_phylo_dist.csv"))
 
-shark_lm <- read_csv(here("data", "shark_spp_lm.csv")) %>% 
-  group_by(genus) %>% 
-  mutate(lm_new_gen = ifelse(is.na(mean_lm), mean(mean_lm, na.rm = TRUE), mean_lm)) %>% 
-  ungroup() %>% 
-  group_by(family) %>% 
-  mutate(lm_new_fam = ifelse(is.na(mean_lm), mean(mean_lm, na.rm = TRUE), mean_lm)) %>% 
-  mutate(mean_lm = ifelse(is.na(mean_lm), lm_new_gen, mean_lm),
-         mean_lm = ifelse(is.nan(lm_new_gen), lm_new_fam, mean_lm)) %>% 
-  select(scientific_name, family, group, mean_lm)
-
 prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>% 
   filter(!grepl("Rajidae", family)) %>%
   filter(family != "Dasyatidae") %>%
@@ -299,8 +289,7 @@ prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
   filter(family != "Rhinobatidae") %>% 
   mutate(scientific_name = ifelse(scientific_name == "Mustelus canis insularis", "Mustelus canis", scientific_name),
          scientific_name = ifelse(scientific_name == "Centroscymnus owstoni", "Centroscymnus owstonii", scientific_name)) %>% 
-  left_join(shark_phylo_dist, by = c("scientific_name", "family", "group")) %>% 
-  left_join(shark_lm, by = c("scientific_name", "family", "group")) 
+  left_join(shark_phylo_dist, by = c("scientific_name", "family", "group")) 
 
 new_dat <- read_csv(here::here("data", "predict_data.csv")) %>%
   filter(order != "Rajiformes") %>%
@@ -321,8 +310,7 @@ new_dat <- read_csv(here::here("data", "predict_data.csv")) %>%
   mutate(habitat_associated = as.factor(habitat_associated)) %>%
   mutate(reproductive_mode = as.factor(reproductive_mode)) %>%
   filter(reproductive_mode != "histotrophy") %>% 
-  left_join(shark_phylo_dist, by = c("scientific_name", "family")) %>% 
-  left_join(shark_lm, by = c("scientific_name", "family"))  
+  left_join(shark_phylo_dist, by = c("scientific_name", "family")) 
 
 tol = read_csv(here("data", "tolerance.csv")) %>% 
   rename(scientific_name = species) %>% 

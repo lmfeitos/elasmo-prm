@@ -48,6 +48,7 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
     scientific_name == "Hexanchus nakamurai" ~ "yolk-sac viviparity",
     TRUE ~ reproductive_mode
   )) %>%
+  mutate(reproductive_mode = ifelse(reproductive_mode == "oophagy", "yolk-sac viviparity", reproductive_mode)) %>%  
   group_by(scientific_name) %>%
   mutate(median_depth = mean(median_depth)) %>%
   distinct()
