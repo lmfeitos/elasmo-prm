@@ -490,6 +490,26 @@ avm_train_metrics</code></pre>
 ## 1 rmse    standard       0.170
 ## 2 rsq     standard       0.740
 ## 3 mae     standard       0.138</code></pre>
+<pre class="r"><code>avm_train_metrics_p &lt;- avm_train_predict %&gt;%
+  filter(habitat == &quot;pelagic&quot;) %&gt;% 
+  metrics(mortality_prop, .pred) # get testing data metrics
+avm_train_metrics_p</code></pre>
+<pre><code>## # A tibble: 3 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard       0.182
+## 2 rsq     standard       0.771
+## 3 mae     standard       0.148</code></pre>
+<pre class="r"><code>avm_train_metrics_d &lt;- avm_train_predict %&gt;%
+  filter(habitat == &quot;demersal&quot;) %&gt;% 
+  metrics(mortality_prop, .pred) # get testing data metrics
+avm_train_metrics_d</code></pre>
+<pre><code>## # A tibble: 3 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard       0.134
+## 2 rsq     standard       0.333
+## 3 mae     standard       0.112</code></pre>
 <pre class="r"><code>avm_test_metrics &lt;- avm_test_predict %&gt;%
   metrics(mortality_prop, .pred) # get testing data metrics
 avm_test_metrics</code></pre>
@@ -499,6 +519,26 @@ avm_test_metrics</code></pre>
 ## 1 rmse    standard      0.391 
 ## 2 rsq     standard      0.0790
 ## 3 mae     standard      0.332</code></pre>
+<pre class="r"><code>avm_test_metrics_p &lt;- avm_test_predict %&gt;%
+  filter(habitat == &quot;pelagic&quot;) %&gt;% 
+  metrics(mortality_prop, .pred) # get testing data metrics
+avm_test_metrics_p</code></pre>
+<pre><code>## # A tibble: 3 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard       0.389
+## 2 rsq     standard       0.255
+## 3 mae     standard       0.323</code></pre>
+<pre class="r"><code>avm_test_metrics_d &lt;- avm_test_predict %&gt;%
+  filter(habitat == &quot;demersal&quot;) %&gt;% 
+  metrics(mortality_prop, .pred) # get testing data metrics
+avm_test_metrics_d</code></pre>
+<pre><code>## # A tibble: 3 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard       0.395
+## 2 rsq     standard       0.315
+## 3 mae     standard       0.347</code></pre>
 <p>Below displays the results of cross validation tuning</p>
 <pre class="r"><code># autoplot(prm_tune) + # plot results of tuning
 #   theme_bw() # change theme</code></pre>
