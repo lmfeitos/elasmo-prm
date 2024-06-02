@@ -347,7 +347,7 @@ v2 <- gillnet_fit %>%
   vip() +
   theme_bw(base_size = 14) +
   labs(y = "Variable Importance for At-Vessel Mortality") +
-  scale_x_discrete(labels = c("Habitat", "Ventilation Method", "Reproductive Mode", "Hypoxia Tolerance", "Maximum Size (cm)", "Median Depth (m)"))
+  scale_x_discrete(labels = c("Habitat", "Ventilation Method", "Hypoxia Tolerance", "Maximum Size (cm)", "Reproductive Mode", "Median Depth (m)"))
 v2
 ```
 
