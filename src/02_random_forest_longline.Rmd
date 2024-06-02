@@ -383,7 +383,7 @@ v1 <- avm_fit %>%
   vip() +
   theme_bw(base_size = 14) +
   labs(y = "Variable Importance for At-Vessel Mortality") +
-  scale_x_discrete(labels = c("Habitat", "Ventilation Method", "Reproductive Mode", "Maximum Size (cm)", "Median Depth (m)", "Hypoxia Vulnerability"))
+  scale_x_discrete(labels = c("Ventilation Method", "Habitat", "Reproductive Mode", "Maximum Size (cm)", "Median Depth (m)", "Hypoxia Vulnerability"))
 v1
 
 v2 <- prm_fit %>%
@@ -391,7 +391,7 @@ v2 <- prm_fit %>%
   vip() +
   theme_bw(base_size = 14) +
   labs(y = "Variable Importance for Post-Release Mortality") +
-  scale_x_discrete(labels = c("Ventilation Method", "Median Depth", "Reproductive Mode", "Maximum Size (cm)", "Hypoxia Vulnerability"))
+  scale_x_discrete(labels = c("Ventilation Method", "Reproductive Mode", "Median Depth", "Maximum Size (cm)", "Hypoxia Vulnerability"))
 v2
 ```
 
@@ -404,10 +404,10 @@ new_dat <- read_csv(here::here("data", "predict_data_phylo.csv")) %>%
   filter(order != "Myliobatiformes") %>%
   filter(order != "Torpediniformes") %>%
   # filter(!grepl("batidae", family)) %>%
-  filter(family.x != "Dasyatidae") %>%
+  filter(family != "Dasyatidae") %>%
   # filter(family != "Glaucostegidae") %>% # I'd remove this filter
   # filter(family != "Pristidae") %>% # I'd remove this filter
-  filter(family.x != "Trygonorrhinidae") %>%
+  filter(family != "Trygonorrhinidae") %>%
   filter(!is.na(median_depth)) %>%
   filter(!is.na(ac)) %>%
   filter(!is.na(ventilation_method)) %>%
@@ -426,7 +426,10 @@ new_dat <- read_csv(here::here("data", "predict_data_phylo.csv")) %>%
     habitat_associated == "demersal" ~ "demersal",
     habitat_associated == "bathydemersal" ~ "demersal",
   )) %>%
-  mutate(reproductive_mode = ifelse(reproductive_mode == "oophagy", "yolk-sac viviparity", reproductive_mode))
+  mutate(reproductive_mode = case_when(
+    reproductive_mode == "oophagy" ~ "yolk-sac viviparity", 
+    TRUE ~ reproductive_mode)) %>% 
+  mutate(reproductive_mode = as.factor(reproductive_mode))
 
 # predict AVM
 predict_data <- list(avm_train, avm_test, new_dat) %>%
@@ -471,7 +474,7 @@ full_predictions <- preds_bind(full_prediction_avm, prm_fit) %>%
     avm_75, avm_95, prm_pred, avm_pred,
     scientific_name, gear_class, ventilation_method, median_depth,
     max_size_cm, habitat, reproductive_mode,
-    ac, avm_mort, family.x, family, prm_mort
+    ac, avm_mort, family, prm_mort
   )
 
 write_csv(full_predictions, here::here("data", "full_model_predictions.csv"))
