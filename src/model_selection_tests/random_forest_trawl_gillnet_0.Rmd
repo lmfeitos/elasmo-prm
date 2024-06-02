@@ -43,6 +43,7 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
     scientific_name == "Squalus acanthias" ~ "stationary",
     TRUE ~ ventilation_method
   )) %>%
+  mutate(reproductive_mode = ifelse(reproductive_mode == "oophagy", "yolk-sac viviparity", reproductive_mode)) %>% 
   group_by(scientific_name) %>%
   mutate(median_depth = mean(median_depth)) %>%
   mutate(max_size_cm = mean(max_size_cm)) %>%
