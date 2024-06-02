@@ -19,6 +19,8 @@ library(randomForest)
 library(ranger)
 library(googlesheets4)
 library(naniar)
+library(ggpmisc)
+library(patchwork)
 library(vip)
 
 set.seed(42)
@@ -108,7 +110,7 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-trawl_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm  + reproductive_mode + evol_dist + ac, data = elasmo_trawl) %>%
+trawl_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + reproductive_mode + evol_dist + ac, data = elasmo_trawl) %>%
   step_normalize(all_numeric_predictors())
 
 gillnet_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm +  reproductive_mode + evol_dist + ac, data = elasmo_gillnet) %>%
@@ -293,7 +295,7 @@ ggplot(gillnet_quant_test) +
 write_csv(gillnet_quant_test, here::here("data", "gillnet_model_predictions.csv"))
 ```
 
-## trawl model - real values vs predicted values 
+## trawl model - real values vs predicted values
 
 ```{r}
 p1 <- ggplot(trawl_quant_test, aes(x = mortality_prop, y = .pred_50)) + # plot ln of real versus ln of predicted
@@ -336,7 +338,7 @@ v1 <- trawl_fit %>%
   vip() +
   theme_bw(base_size = 14) +
   labs(y = "") +
-  scale_x_discrete(labels = c("Associated Habitat", "Reproductive Mode", "Median Depth (m)", "Maximum Size (cm)"))
+  scale_x_discrete(labels = c("Reproductive Mode", "Hypoxia Tolerance", "Maximum Size (cm)",  "Evolutionary Distance", "Median Depth (m)"))
 v1
 
 v2 <- gillnet_fit %>%
@@ -344,7 +346,7 @@ v2 <- gillnet_fit %>%
   vip() +
   theme_bw(base_size = 14) +
   labs(y = "Variable Importance for At-Vessel Mortality") +
-  scale_x_discrete(labels = c("Associated Habitat", "Ventilation Method", "Median Depth (m)", "Maximum Size (cm)"))
+  scale_x_discrete(labels = c("Ventilation Method", "Reproductive Mode", "Maximum Size (cm)", "Hypoxia Tolerance", "Evolutionary Distance", "Median Depth (m)"))
 v2
 ```
 
