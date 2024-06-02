@@ -43,7 +43,7 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
     scientific_name == "Squalus acanthias" ~ "stationary",
     TRUE ~ ventilation_method
   )) %>%
-  mutate(reproductive_mode = ifelse(reproductive_mode == "oophagy", "yolk-sac viviparity", reproductive_mode)) %>% 
+  mutate(reproductive_mode = ifelse(reproductive_mode == "oophagy", "yolk-sac viviparity", reproductive_mode)) %>%
   group_by(scientific_name) %>%
   mutate(median_depth = mean(median_depth)) %>%
   mutate(max_size_cm = mean(max_size_cm)) %>%
@@ -55,7 +55,7 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
 prm_elasmo_subset <- prm_elasmo %>%
   select(
     scientific_name, gear_class, habitat, estimate_type, estimate, sample_size,
-    method, ventilation_method, max_size_cm, measure, median_depth, evol_dist, ac, reproductive_mode, family
+    method, ventilation_method, max_size_cm, measure, median_depth, ac, reproductive_mode, family
   ) %>%
   mutate(measure = case_when(
     scientific_name == "sharks" ~ "total_length",
@@ -77,7 +77,7 @@ elasmo_trawl <- prm_elasmo_subset %>%
   filter(sample_size > 5) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
-  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, evol_dist, ac, mortality_prop, family) %>%
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, ac, mortality_prop, family) %>%
   distinct() %>%
   drop_na()
 
@@ -85,10 +85,10 @@ elasmo_trawl <- prm_elasmo_subset %>%
 elasmo_gillnet <- prm_elasmo_subset %>%
   filter(estimate_type == "at-vessel mortality") %>%
   filter(gear_class == "gillnet") %>%
-  filter(sample_size > 5) %>% 
+  filter(sample_size > 5) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
-  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, evol_dist, ac, mortality_prop, family) %>%
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, ac, mortality_prop, family) %>%
   distinct() %>%
   drop_na()
 ```
@@ -109,10 +109,10 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-trawl_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + habitat + reproductive_mode + evol_dist + ac, data = elasmo_trawl) %>%
+trawl_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + habitat + reproductive_mode + ac, data = elasmo_trawl) %>%
   step_normalize(all_numeric_predictors())
 
-gillnet_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + habitat + reproductive_mode + evol_dist + ac, data = elasmo_gillnet) %>%
+gillnet_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + habitat + reproductive_mode + ac, data = elasmo_gillnet) %>%
   step_normalize(all_numeric_predictors())
 ```
 
@@ -148,7 +148,7 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 trawl_tune <- trawl_wflw %>% # use cross validation to tune parameters
   tune_grid(
     resamples = trawl_folds, # add cv folds
-    grid = 10 #grid_regular(trees(), finalize(mtry(), elasmo_trawl), min_n(), levels = 5) %>% filter(mtry < 7)
+    grid = 10 # grid_regular(trees(), finalize(mtry(), elasmo_trawl), min_n(), levels = 5) %>% filter(mtry < 7)
   ) # use grid of parameters to test
 ```
 
@@ -156,7 +156,7 @@ trawl_tune <- trawl_wflw %>% # use cross validation to tune parameters
 gillnet_tune <- gillnet_wflw %>% # use cross validation to tune parameters
   tune_grid(
     resamples = gillnet_folds, # add cv folds
-    grid = 10 #grid_regular(trees(), finalize(mtry(), elasmo_gillnet), min_n(), levels = 5) %>% filter(mtry < 7)
+    grid = 10 # grid_regular(trees(), finalize(mtry(), elasmo_gillnet), min_n(), levels = 5) %>% filter(mtry < 7)
   ) # use grid of parameters to test
 ```
 
