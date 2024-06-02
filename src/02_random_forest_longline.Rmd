@@ -20,6 +20,7 @@ library(ranger)
 library(googlesheets4)
 library(naniar)
 library(ggpmisc)
+library(patchwork)
 library(vip)
 
 set.seed(42)
@@ -49,6 +50,7 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
     scientific_name == "Hexanchus nakamurai" ~ "yolk-sac viviparity",
     TRUE ~ reproductive_mode
   )) %>%
+  mutate(reproductive_mode = ifelse(reproductive_mode == "oophagy", "yolk-sac viviparity", reproductive_mode)) %>%
   group_by(scientific_name) %>%
   mutate(median_depth = mean(median_depth)) %>%
   distinct()
@@ -59,7 +61,7 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
 prm_elasmo_subset <- prm_elasmo %>%
   select(
     scientific_name, gear_class, habitat, estimate_type, estimate, sample_size,
-    method, ventilation_method, max_size_cm, ac, measure, median_depth, evol_dist, reproductive_mode, family, eo
+    method, ventilation_method, max_size_cm, ac, measure, median_depth, reproductive_mode, family, eo
   ) %>%
   mutate(measure = case_when(
     scientific_name == "sharks" ~ "total_length",
@@ -80,7 +82,7 @@ elasmo_avm <- prm_elasmo_subset %>%
   filter(sample_size > 5) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
-  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, evol_dist, ac, mortality_prop, family) %>%
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, ac, mortality_prop, family) %>%
   distinct() %>%
   drop_na()
 
@@ -90,7 +92,7 @@ elasmo_prm <- prm_elasmo_subset %>%
   filter(sample_size > 5) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
-  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, evol_dist, mortality_prop, family) %>%
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, ac, family) %>%
   distinct() %>%
   drop_na()
 ```
@@ -121,10 +123,10 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + reproductive_mode + evol_dist + ac, data = avm_train) %>%
+avm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + habitat + reproductive_mode + ac, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
-prm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat + reproductive_mode + evol_dist, data = elasmo_prm) %>%
+prm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + reproductive_mode + ac, data = elasmo_prm) %>%
   step_normalize(all_numeric_predictors())
 ```
 
@@ -340,7 +342,7 @@ write_csv(prm_quant_test, here::here("data", "prm_model_predictions.csv"))
 ## AVM model - real values vs predicted values 
 
 ```{r}
-p1 <- ggplot(avm_quant_test, aes(x = mortality_prop, y = .pred_50)) + # plot ln of real versus ln of predicted
+p1 <- ggplot(avm_quant_test, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
   geom_point() +
   stat_poly_line() +
   stat_poly_eq(use_label("eq")) +
@@ -352,7 +354,7 @@ p1 <- ggplot(avm_quant_test, aes(x = mortality_prop, y = .pred_50)) + # plot ln 
   )
 p1
 
-summary(lm(.pred_50 ~ mortality_prop, data = avm_quant_test))
+summary(lm(.pred ~ mortality_prop, data = avm_quant_test))
 ```
 
 ## PRM model - real values vs predicted values
@@ -381,7 +383,7 @@ v1 <- avm_fit %>%
   vip() +
   theme_bw(base_size = 14) +
   labs(y = "Variable Importance for At-Vessel Mortality") +
-  scale_x_discrete(labels = c("Ventilation Method", "Habitat", "Reproductive Mode", "Hypoxia Vulnerability", "Thermal Sensitivity", "Maximum Size (cm)", "Median Depth (m)"))
+  scale_x_discrete(labels = c("Habitat", "Ventilation Method", "Reproductive Mode", "Maximum Size (cm)", "Median Depth (m)", "Hypoxia Vulnerability"))
 v1
 
 v2 <- prm_fit %>%
@@ -389,7 +391,7 @@ v2 <- prm_fit %>%
   vip() +
   theme_bw(base_size = 14) +
   labs(y = "Variable Importance for Post-Release Mortality") +
-  scale_x_discrete(labels = c("Reproductive Mode", "Median Depth", "Maximum Size (cm)"))
+  scale_x_discrete(labels = c("Ventilation Method", "Median Depth", "Reproductive Mode", "Maximum Size (cm)", "Hypoxia Vulnerability"))
 v2
 ```
 
@@ -408,7 +410,6 @@ new_dat <- read_csv(here::here("data", "predict_data_phylo.csv")) %>%
   filter(family.x != "Trygonorrhinidae") %>%
   filter(!is.na(median_depth)) %>%
   filter(!is.na(ac)) %>%
-  filter(!is.na(evol_dist)) %>%
   filter(!is.na(ventilation_method)) %>%
   filter(!is.na(reproductive_mode)) %>%
   filter(!is.na(habitat_associated)) %>%
@@ -424,7 +425,8 @@ new_dat <- read_csv(here::here("data", "predict_data_phylo.csv")) %>%
     habitat_associated == "benthopelagic" ~ "pelagic",
     habitat_associated == "demersal" ~ "demersal",
     habitat_associated == "bathydemersal" ~ "demersal",
-  ))
+  )) %>%
+  mutate(reproductive_mode = ifelse(reproductive_mode == "oophagy", "yolk-sac viviparity", reproductive_mode))
 
 # predict AVM
 predict_data <- list(avm_train, avm_test, new_dat) %>%
@@ -462,13 +464,13 @@ full_predictions <- preds_bind(full_prediction_avm, prm_fit) %>%
     prm_05 = .pred_05,
     prm_25 = .pred_25,
     prm_50 = .pred_50
-  ) %>% 
+  ) %>%
   select(
     order, species, genus, prm_05, prm_25, prm_50, prm_75,
     prm_95, avm_05, avm_25, avm_50,
     avm_75, avm_95, prm_pred, avm_pred,
     scientific_name, gear_class, ventilation_method, median_depth,
-    max_size_cm, habitat, reproductive_mode, evol_dist,
+    max_size_cm, habitat, reproductive_mode,
     ac, avm_mort, family.x, family, prm_mort
   )
 
