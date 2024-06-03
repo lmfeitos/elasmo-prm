@@ -120,10 +120,10 @@ gillnet_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + ma
 ```{r}
 # create models
 trawl_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>%
-  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, splitrule = "beta", importance = "impurity")
+  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, importance = "impurity")
 
 gillnet_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>%
-  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, splitrule = "beta", importance = "impurity")
+  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, importance = "impurity")
 ```
 
 ```{r}
