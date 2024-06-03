@@ -386,6 +386,91 @@ prm_fit %>%
   labs(y = "Variable Importance for Post-Release Mortality")
 ```
 
+### Predict additional shark species
+
+```{r}
+# filter out rays and missing values
+new_dat <- read_csv(here::here("data", "predict_data_phylo.csv")) %>%
+  filter(order != "Rajiformes") %>%
+  filter(order != "Myliobatiformes") %>%
+  filter(order != "Torpediniformes") %>%
+  # filter(!grepl("batidae", family)) %>%
+  filter(family != "Dasyatidae") %>%
+  # filter(family != "Glaucostegidae") %>% # I'd remove this filter
+  # filter(family != "Pristidae") %>% # I'd remove this filter
+  filter(family != "Trygonorrhinidae") %>%
+  filter(!is.na(median_depth)) %>%
+  filter(!is.na(ac)) %>%
+  filter(!is.na(ventilation_method)) %>%
+  filter(!is.na(reproductive_mode)) %>%
+  filter(!is.na(habitat_associated)) %>%
+  filter(!is.na(max_size_cm)) %>%
+  mutate(ventilation_method = as.factor(ventilation_method)) %>%
+  mutate(habitat_associated = as.factor(habitat_associated)) %>%
+  mutate(reproductive_mode = as.factor(reproductive_mode)) %>%
+  filter(reproductive_mode != "histotrophy") %>%
+  mutate(habitat = case_when(
+    habitat_associated == "pelagic" ~ "pelagic",
+    habitat_associated == "reef-associated" ~ "pelagic",
+    habitat_associated == "bathypelagic" ~ "pelagic",
+    habitat_associated == "benthopelagic" ~ "pelagic",
+    habitat_associated == "demersal" ~ "demersal",
+    habitat_associated == "bathydemersal" ~ "demersal",
+  )) %>%
+  mutate(reproductive_mode = case_when(
+    reproductive_mode == "oophagy" ~ "yolk-sac viviparity",
+    TRUE ~ reproductive_mode
+  )) %>%
+  mutate(reproductive_mode = as.factor(reproductive_mode))
+
+# predict AVM
+predict_data <- list(avm_train, avm_test, new_dat) %>%
+  reduce(full_join) %>%
+  rename(avm_mort = mortality_prop) %>%
+  full_join(elasmo_prm) %>%
+  rename(prm_mort = mortality_prop) %>%
+  distinct() %>%
+  mutate(habitat = as.factor(habitat)) %>%
+  filter(!is.na(ac))
+
+predict_avm <- predict(object = avm_fit, new_data = predict_data) %>% # predict the training set
+  bind_cols(predict_data) %>% # bind training set column to prediction
+  rename(avm_pred = .pred)
+
+# predict PRM
+predict_avm_prm <- predict(object = prm_fit, new_data = predict_avm) %>% # predict the training set
+  bind_cols(predict_avm) %>% # bind training set column to prediction
+  rename(prm_pred = .pred)
+
+# combine predictions
+full_prediction_avm <- preds_bind(predict_avm_prm, avm_fit) %>%
+  rename(
+    avm_75 = .pred_75,
+    avm_95 = .pred_95,
+    avm_05 = .pred_05,
+    avm_25 = .pred_25,
+    avm_50 = .pred_50
+  )
+
+full_predictions <- preds_bind(full_prediction_avm, prm_fit) %>%
+  rename(
+    prm_75 = .pred_75,
+    prm_95 = .pred_95,
+    prm_05 = .pred_05,
+    prm_25 = .pred_25,
+    prm_50 = .pred_50
+  ) %>%
+  select(
+    order, species, genus, prm_05, prm_25, prm_50, prm_75,
+    prm_95, avm_05, avm_25, avm_50,
+    avm_75, avm_95, prm_pred, avm_pred,
+    scientific_name, gear_class, ventilation_method, median_depth,
+    max_size_cm, habitat, reproductive_mode,
+    ac, avm_mort, family, prm_mort
+  )
+
+# write_csv(full_predictions, here::here("data", "full_model_predictions.csv"))
+```
 
 ```{r}
 # get the mean of predictions for each species
@@ -420,7 +505,9 @@ mort_subset_prm <- mean_predictions %>%
   distinct(family) %>%
   pull(family)
 
-p6 <- ggplot() +
+library(ggridges)
+
+ggplot() +
   geom_density_ridges(data = predictions, aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset_avm)), fill = fct_rev(factor(family, levels = mort_subset_avm))), alpha = 0.5) +
   geom_point(data = predictions, aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset_avm)), color = fct_rev(factor(family, levels = mort_subset_avm))), alpha = 0.5, size = 6) +
   scale_fill_viridis_d() +
