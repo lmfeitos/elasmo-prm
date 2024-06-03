@@ -19,13 +19,14 @@ library(randomForest)
 library(ranger)
 library(googlesheets4)
 library(naniar)
+library(ggpmisc)
 library(vip)
 
 set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
+prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv"))  %>%
   filter(gear_class == "longline") %>%
   filter(!grepl("Rajidae", family)) %>%
   filter(family != "Dasyatidae") %>%
@@ -59,7 +60,7 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
 prm_elasmo_subset <- prm_elasmo %>%
   select(
     scientific_name, gear_class, habitat, estimate_type, estimate, sample_size,
-    method, ventilation_method, max_size_cm, ac, measure, median_depth, reproductive_mode, family
+    method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family
   ) %>%
   mutate(measure = case_when(
     scientific_name == "sharks" ~ "total_length",
@@ -71,26 +72,28 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name == "rays" ~ "yolk-sac viviparity",
     TRUE ~ reproductive_mode
   )) %>%
-  mutate_if(is.character, as.factor) %>%
+  mutate_if(is.character, as.factor) %>% 
   filter(!grepl("sp", scientific_name))
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
 elasmo_avm <- prm_elasmo_subset %>%
   filter(estimate_type == "at-vessel mortality") %>%
-  filter(sample_size > 5) %>%
+  mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
+  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
   mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
-  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, ac, mortality_prop, family) %>%
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family) %>%
   distinct() %>%
   drop_na()
 
 # Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
 elasmo_prm <- prm_elasmo_subset %>%
   filter(estimate_type == "post-release mortality") %>%
-  filter(sample_size > 5) %>%
+  mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
+  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
   mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
-  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, ac, family) %>%
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family) %>%
   distinct() %>%
   drop_na()
 ```
@@ -103,7 +106,7 @@ avm_split <- initial_split(elasmo_avm, prop = .7, strata = family)
 avm_train <- training(avm_split)
 avm_test <- testing(avm_split)
 
-avm_folds <- vfold_cv(avm_train, repeats = 5, v = 10, strata = family)
+avm_folds <- vfold_cv(avm_train, repeats = 10, v = 3, strata = family)
 
 ## Post-release mortality
 # prm_split <- initial_split(elasmo_prm, prop = .7)
@@ -111,7 +114,7 @@ avm_folds <- vfold_cv(avm_train, repeats = 5, v = 10, strata = family)
 # prm_train <- training(prm_split)
 # prm_test <- testing(prm_split)
 
-prm_folds <- vfold_cv(elasmo_prm, repeats = 5, v = 10, strata = family)
+prm_folds <- vfold_cv(elasmo_prm, repeats = 10, v = 3, strata = family)
 ```
 
 
@@ -121,20 +124,20 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat + reproductive_mode + ac, data = avm_train) %>%
+avm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + habitat, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
-prm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat + reproductive_mode + ac, data = elasmo_prm) %>%
+prm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + reproductive_mode, data = elasmo_prm) %>%
   step_normalize(all_numeric_predictors())
 ```
 
 ```{r}
 # create models
 avm_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>%
-  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, splitrule = "beta", importance = "impurity")
+  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE,importance = "impurity")
 
 prm_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>%
-  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, splitrule = "beta", importance = "impurity")
+  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, importance = "impurity")
 ```
 
 ```{r}
@@ -160,7 +163,7 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 avm_tune <- avm_wflw %>% # use cross validation to tune parameters
   tune_grid(
     resamples = avm_folds, # add cv folds
-    grid = 10 # grid_regular(trees(), finalize(mtry(), avm_train), min_n(), levels = 10) %>% filter(mtry < 7)
+    grid = 10
   ) # use grid of parameters to test
 ```
 
@@ -168,7 +171,7 @@ avm_tune <- avm_wflw %>% # use cross validation to tune parameters
 prm_tune <- prm_wflw %>% # use cross validation to tune parameters
   tune_grid(
     resamples = prm_folds, # add cv folds
-    grid = 10 # grid_regular(trees(), finalize(mtry(), elasmo_prm), min_n(), levels = 10) %>% filter(mtry < 7)
+    grid = 10
   ) # use grid of parameters to test
 ```
 
@@ -277,8 +280,20 @@ collect_metrics(avm_cv2)
 collect_metrics(prm_cv2)
 ```
 
-### Variable importance for the at-vessel mortality and post-release mortality RF models
+```{r}
+ggplot(avm_test_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
+  geom_point() +
+  stat_poly_line() +
+  stat_poly_eq(use_label("eq")) +
+  stat_poly_eq(label.y = 0.9) +
+  theme_bw(base_size = 14) +
+  labs(
+    x = "Observed AVM Rate",
+    y = "Predicted AVM Rate"
+  )
+```
 
+### Variable importance for the at-vessel mortality and post-release mortality RF models
 ```{r}
 avm_fit %>%
   extract_fit_parsnip() %>%
