@@ -74,7 +74,8 @@ prm_elasmo_subset <- prm_elasmo %>%
     TRUE ~ reproductive_mode
   )) %>%
   mutate_if(is.character, as.factor) %>%
-  filter(!grepl("sp", scientific_name))
+  filter(!grepl("sp", scientific_name)) %>% 
+  filter(habitat == "pelagic")
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
 elasmo_avm <- prm_elasmo_subset %>%
@@ -107,7 +108,7 @@ avm_split <- initial_split(elasmo_avm, prop = .7, strata = family)
 avm_train <- training(avm_split)
 avm_test <- testing(avm_split)
 
-avm_folds <- vfold_cv(avm_train, repeats = 10, v = 3, strata = family)
+avm_folds <- vfold_cv(elasmo_avm, repeats = 10, v = 3, strata = family)
 
 prm_folds <- vfold_cv(elasmo_prm, repeats = 10, v = 3, strata = family)
 ```
@@ -118,7 +119,7 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + habitat + reproductive_mode, data = avm_train) %>%
+avm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + reproductive_mode, data = elasmo_avm) %>%
   step_normalize(all_numeric_predictors())
 
 prm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + reproductive_mode, data = elasmo_prm) %>%
@@ -189,12 +190,12 @@ avm_final <- readRDS(here::here("data", "avm_final.rds"))
 ```
 
 ```{r, include=FALSE}
-avm_fit <- fit(avm_final, avm_train) # fit the data to the training data
+avm_fit <- fit(avm_final, elasmo_avm) # fit the data to the training data
 ```
 
 ```{r, include=FALSE}
-avm_train_predict <- predict(object = avm_fit, new_data = avm_train) %>% # predict the training set
-  bind_cols(avm_train) # bind training set column to prediction
+avm_train_predict <- predict(object = avm_fit, new_data = elasmo_avm) %>% # predict the training set
+  bind_cols(elasmo_avm) # bind training set column to prediction
 
 avm_test_predict <- predict(object = avm_fit, new_data = avm_test) %>% # predict the training set
   bind_cols(avm_test) # bind prediction to testing data column
@@ -267,219 +268,4 @@ prm_cv2 <- prm_final %>%
 collect_metrics(avm_cv2)
 
 collect_metrics(prm_cv2)
-```
-
-## Quantile regression
-
-For AVM
-
-```{r}
-preds_bind <- function(data_fit, rf_fit) {
-  predict(
-    rf_fit$fit$fit$fit,
-    workflows::extract_recipe(rf_fit) %>% bake(data_fit),
-    type = "quantiles",
-    quantiles = c(.05, .25, .5, .75, .95)
-  ) %>%
-    with(predictions) %>%
-    as_tibble() %>%
-    set_names(paste0(".pred", c("_05", "_25", "_50", "_75", "_95"))) %>%
-    bind_cols(data_fit)
-} # function to preform and extract quantile estimates from random forest
-
-avm_data <- full_join(avm_test_predict, avm_train_predict)
-
-# predict quantiles
-avm_quant_test <- preds_bind(avm_data, avm_fit) %>%
-  mutate(
-    range_50 = .pred_75 - .pred_25,
-    range_95 = .pred_95 - .pred_05
-  )
-
-q1 <- ggplot(avm_quant_test) +
-  geom_boxplot(aes(range_50)) +
-  theme_bw(base_size = 14) +
-  labs(x = "Distribution of IQR for AVM") +
-  theme(
-    axis.title.y = element_blank(),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank()
-  )
-q1
-
-write_csv(avm_quant_test, here::here("data", "avm_model_predictions.csv"))
-```
-
-For PRM
-
-```{r}
-# predict quantiles
-prm_quant_test <- preds_bind(prm_train_predict, prm_fit) %>%
-  mutate(
-    range_50 = .pred_75 - .pred_25,
-    range_95 = .pred_95 - .pred_05
-  )
-
-q2 <- ggplot(prm_quant_test) +
-  geom_boxplot(aes(range_50)) +
-  theme_bw(base_size = 14) +
-  labs(x = "Distribution of IQR for PRM") +
-  theme(
-    axis.title.y = element_blank(),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank()
-  )
-q2
-
-write_csv(prm_quant_test, here::here("data", "prm_model_predictions.csv"))
-```
-
-## AVM model - real values vs predicted values 
-
-```{r}
-p1 <- ggplot(avm_quant_test, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
-  geom_point() +
-  stat_poly_line() +
-  stat_poly_eq(use_label("eq")) +
-  stat_poly_eq(label.y = 0.9) +
-  theme_bw(base_size = 14) +
-  labs(
-    x = "Observed AVM Rate",
-    y = "Predicted AVM Rate"
-  )
-p1
-
-summary(lm(.pred ~ mortality_prop, data = avm_quant_test))
-```
-
-## PRM model - real values vs predicted values
-
-```{r}
-p2 <- ggplot(prm_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
-  geom_point() +
-  stat_poly_line() +
-  stat_poly_eq(use_label("eq")) +
-  stat_poly_eq(label.y = 0.9) +
-  theme_bw(base_size = 14) +
-  labs(
-    x = "Observed PRM Rate",
-    y = "Predicted PRM Rate"
-  )
-p2
-
-summary(lm(.pred ~ mortality_prop, data = prm_train_predict))
-```
-
-### Variable importance for the at-vessel mortality and post-release mortality RF models
-
-```{r}
-v1 <- avm_fit %>%
-  extract_fit_parsnip() %>%
-  vip() +
-  theme_bw(base_size = 14) +
-  labs(y = "Variable Importance for At-Vessel Mortality") +
-  scale_x_discrete(labels = c("Ventilation Method", "Reproductive Mode", "Habitat", "Maximum Size (cm)", "Median Depth (m)"))
-v1
-
-v2 <- prm_fit %>%
-  extract_fit_parsnip() %>%
-  vip() +
-  theme_bw(base_size = 14) +
-  labs(y = "Variable Importance for Post-Release Mortality") +
-  scale_x_discrete(labels = c("Ventilation Method", "Reproductive Mode", "Median Depth", "Maximum Size (cm)"))
-v2
-```
-
-### Predict additional shark species
-
-```{r}
-# filter out rays and missing values
-new_dat <- read_csv(here::here("data", "predict_data_phylo.csv")) %>%
-  filter(order != "Rajiformes") %>%
-  filter(order != "Myliobatiformes") %>%
-  filter(order != "Torpediniformes") %>%
-  # filter(!grepl("batidae", family)) %>%
-  filter(family != "Dasyatidae") %>%
-  # filter(family != "Glaucostegidae") %>% # I'd remove this filter
-  # filter(family != "Pristidae") %>% # I'd remove this filter
-  filter(family != "Trygonorrhinidae") %>%
-  filter(!is.na(median_depth)) %>%
-  filter(!is.na(ac)) %>%
-  filter(!is.na(ventilation_method)) %>%
-  filter(!is.na(reproductive_mode)) %>%
-  filter(!is.na(habitat_associated)) %>%
-  filter(!is.na(max_size_cm)) %>%
-  mutate(ventilation_method = as.factor(ventilation_method)) %>%
-  mutate(habitat_associated = as.factor(habitat_associated)) %>%
-  mutate(reproductive_mode = as.factor(reproductive_mode)) %>%
-  filter(reproductive_mode != "histotrophy") %>%
-  mutate(habitat = case_when(
-    habitat_associated == "pelagic" ~ "pelagic",
-    habitat_associated == "reef-associated" ~ "pelagic",
-    habitat_associated == "bathypelagic" ~ "pelagic",
-    habitat_associated == "benthopelagic" ~ "pelagic",
-    habitat_associated == "demersal" ~ "demersal",
-    habitat_associated == "bathydemersal" ~ "demersal",
-  )) %>%
-  mutate(reproductive_mode = case_when(
-    reproductive_mode == "oophagy" ~ "yolk-sac viviparity",
-    TRUE ~ reproductive_mode
-  )) %>%
-  mutate(reproductive_mode = as.factor(reproductive_mode))
-
-# predict AVM
-predict_data <- list(avm_train, avm_test, new_dat) %>%
-  reduce(full_join) %>%
-  rename(avm_mort = mortality_prop) %>%
-  full_join(elasmo_prm) %>%
-  rename(prm_mort = mortality_prop) %>%
-  distinct() %>%
-  mutate(habitat = as.factor(habitat)) %>%
-  filter(!is.na(ac))
-
-predict_avm <- predict(object = avm_fit, new_data = predict_data) %>% # predict the training set
-  bind_cols(predict_data) %>% # bind training set column to prediction
-  rename(avm_pred = .pred)
-
-# predict PRM
-predict_avm_prm <- predict(object = prm_fit, new_data = predict_avm) %>% # predict the training set
-  bind_cols(predict_avm) %>% # bind training set column to prediction
-  rename(prm_pred = .pred)
-
-# combine predictions
-full_prediction_avm <- preds_bind(predict_avm_prm, avm_fit) %>%
-  rename(
-    avm_75 = .pred_75,
-    avm_95 = .pred_95,
-    avm_05 = .pred_05,
-    avm_25 = .pred_25,
-    avm_50 = .pred_50
-  )
-
-full_predictions <- preds_bind(full_prediction_avm, prm_fit) %>%
-  rename(
-    prm_75 = .pred_75,
-    prm_95 = .pred_95,
-    prm_05 = .pred_05,
-    prm_25 = .pred_25,
-    prm_50 = .pred_50
-  ) %>%
-  select(
-    order, species, genus, prm_05, prm_25, prm_50, prm_75,
-    prm_95, avm_05, avm_25, avm_50,
-    avm_75, avm_95, prm_pred, avm_pred,
-    scientific_name, gear_class, ventilation_method, median_depth,
-    max_size_cm, habitat, reproductive_mode,
-    ac, avm_mort, family, prm_mort
-  )
-
-write_csv(full_predictions, here::here("data", "full_model_predictions.csv"))
-```
- 
-## Figures for paper
-
-```{r}
-plot1 <- (p1 + v1 + q1) / (p2 + v2 + q2) + plot_annotation(tag_levels = "A")
-
-ggsave(plot1, file = paste0("fig2.pdf"), path = here::here("figs"), height = 12, width = 18)
 ```

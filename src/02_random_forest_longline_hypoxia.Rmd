@@ -27,7 +27,8 @@ set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
+prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
+  filter(gear_class == "longline") %>%
   filter(!grepl("Rajidae", family)) %>%
   filter(family != "Dasyatidae") %>%
   filter(family != "Pristidae") %>%
@@ -60,7 +61,7 @@ prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
 prm_elasmo_subset <- prm_elasmo %>%
   select(
     scientific_name, gear_class, habitat, estimate_type, estimate, sample_size,
-    method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family
+    method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family, ac
   ) %>%
   mutate(measure = case_when(
     scientific_name == "sharks" ~ "total_length",
@@ -76,35 +77,40 @@ prm_elasmo_subset <- prm_elasmo %>%
   filter(!grepl("sp", scientific_name))
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
-elasmo_trawl <- prm_elasmo_subset %>%
+elasmo_avm <- prm_elasmo_subset %>%
   filter(estimate_type == "at-vessel mortality") %>%
-  filter(gear_class == "trawl") %>%
+  mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
+  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
   mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
-  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family) %>%
+  select(ventilation_method, median_depth, ac, max_size_cm, habitat, reproductive_mode, mortality_prop, family) %>%
   distinct() %>%
   drop_na()
 
 # Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
-elasmo_gillnet <- prm_elasmo_subset %>%
-  filter(estimate_type == "at-vessel mortality") %>%
-  filter(gear_class == "gillnet") %>%
+elasmo_prm <- prm_elasmo_subset %>%
+  filter(estimate_type == "post-release mortality") %>%
+  mutate(est_count = sample_size * estimate) %>%
   group_by(scientific_name, gear_class) %>%
+  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
   mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
-  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family) %>%
+  select(ventilation_method, median_depth, ac, max_size_cm, habitat, reproductive_mode, mortality_prop, family) %>%
   distinct() %>%
   drop_na()
 ```
 
-
 ```{r}
 # split the data into training and test set
+## At-vessel mortality
+avm_split <- initial_split(elasmo_avm, prop = .7, strata = family)
 
-trawl_folds <- vfold_cv(elasmo_trawl, repeats = 10, v = 3)
+avm_train <- training(avm_split)
+avm_test <- testing(avm_split)
 
-gillnet_folds <- vfold_cv(elasmo_gillnet, repeats = 10, v = 3)
+avm_folds <- vfold_cv(avm_train, repeats = 10, v = 3, strata = family)
+
+prm_folds <- vfold_cv(elasmo_prm, repeats = 10, v = 3, strata = family)
 ```
-
 
 ## Overview
 
@@ -112,31 +118,31 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-trawl_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + reproductive_mode, data = elasmo_trawl) %>%
+avm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + habitat + reproductive_mode + ac, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
-gillnet_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + reproductive_mode, data = elasmo_gillnet) %>%
+prm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + reproductive_mode + ac, data = elasmo_prm) %>%
   step_normalize(all_numeric_predictors())
 ```
 
 ```{r}
 # create models
-trawl_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>%
+avm_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>%
   set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, importance = "impurity")
 
-gillnet_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>%
+prm_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>%
   set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, importance = "impurity")
 ```
 
 ```{r}
 # create workflows
-trawl_wflw <- workflow() %>%
-  add_model(trawl_rf) %>%
-  add_recipe(trawl_recipe)
+avm_wflw <- workflow() %>%
+  add_model(avm_rf) %>%
+  add_recipe(avm_recipe)
 
-gillnet_wflw <- workflow() %>%
-  add_model(gillnet_rf) %>%
-  add_recipe(gillnet_recipe)
+prm_wflw <- workflow() %>%
+  add_model(prm_rf) %>%
+  add_recipe(prm_recipe)
 ```
 
 ### Cross Validation
@@ -148,87 +154,96 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 * Minimum data points in each node required for node split
 
 ```{r,include=FALSE}
-# trawl_tune <- trawl_wflw %>% # use cross validation to tune parameters
-#   tune_grid(
-#     resamples = trawl_folds, # add cv folds
-#     grid = 10 # grid_regular(trees(), finalize(mtry(), elasmo_trawl), min_n(), levels = 5) %>% filter(mtry < 7)
-#   ) # use grid of parameters to test
+avm_tune <- avm_wflw %>% # use cross validation to tune parameters
+  tune_grid(
+    resamples = avm_folds, # add cv folds
+    grid = 10
+  ) # use grid of parameters to test
 ```
 
 ```{r,include=FALSE}
-# gillnet_tune <- gillnet_wflw %>% # use cross validation to tune parameters
-#   tune_grid(
-#     resamples = gillnet_folds, # add cv folds
-#     grid = 10 # grid_regular(trees(), finalize(mtry(), elasmo_gillnet), min_n(), levels = 5) %>% filter(mtry < 7)
-#   ) # use grid of parameters to test
+prm_tune <- prm_wflw %>% # use cross validation to tune parameters
+  tune_grid(
+    resamples = prm_folds, # add cv folds
+    grid = 10
+  ) # use grid of parameters to test
 ```
 
 Below displays the results of cross validation tuning
 
 ```{r}
-# autoplot(trawl_tune) + # plot results of tuning
+# autoplot(avm_tune) + # plot results of tuning
 #   theme_bw() # change theme
 ```
 
 ```{r}
-# select_best(trawl_tune, metric = "rsq", n = 1) # get the best model
+# select_best(avm_tune, metric = "rsq", n = 1) # get the best model
 ```
 
 ```{r, include=FALSE}
-# trawl_final <- finalize_workflow(trawl_wflw, select_best(trawl_tune, metric = "rsq")) # finalize the workflow with the best model
+avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rsq")) # finalize the workflow with the best model
 #
-# saveRDS(trawl_final, here::here("data", "trawl_final.rds"))
+# saveRDS(avm_final, here::here("data", "avm_final.rds"))
 
-trawl_final <- readRDS(here::here("data", "trawl_final.rds"))
+# avm_final <- readRDS(here::here("data", "avm_final.rds"))
 ```
 
 ```{r, include=FALSE}
-trawl_fit <- fit(trawl_final, elasmo_trawl) # fit the data to the training data
+avm_fit <- fit(avm_final, avm_train) # fit the data to the training data
 ```
 
 ```{r, include=FALSE}
-trawl_train_predict <- predict(object = trawl_fit, new_data = elasmo_trawl) %>% # predict the training set
-  bind_cols(elasmo_trawl) # bind training set column to prediction
+avm_train_predict <- predict(object = avm_fit, new_data = avm_train) %>% # predict the training set
+  bind_cols(avm_train) # bind training set column to prediction
+
+avm_test_predict <- predict(object = avm_fit, new_data = avm_test) %>% # predict the training set
+  bind_cols(avm_test) # bind prediction to testing data column
 ```
+
+The first is the training metrics the second is the testing metrics
 
 ```{r}
-trawl_train_metrics <- trawl_train_predict %>%
+avm_train_metrics <- avm_train_predict %>%
   metrics(mortality_prop, .pred) # get testing data metrics
-trawl_train_metrics
+avm_train_metrics
+
+avm_test_metrics <- avm_test_predict %>%
+  metrics(mortality_prop, .pred) # get testing data metrics
+avm_test_metrics
 ```
 
 Below displays the results of cross validation tuning
 
 ```{r}
-# autoplot(gillnet_tune) + # plot results of tuning
+# autoplot(prm_tune) + # plot results of tuning
 #   theme_bw() # change theme
 ```
 
 ```{r}
-# select_best(gillnet_tune, metric = "rsq", n = 1) # get the best model
+# select_best(prm_tune, metric = "rsq", n = 1) # get the best model
 ```
 
 ```{r, include=FALSE}
-# gillnet_final <- finalize_workflow(gillnet_wflw, select_best(gillnet_tune, metric = "rsq")) # finalize the workflow with the best model
+prm_final <- finalize_workflow(prm_wflw, select_best(prm_tune, metric = "rsq")) # finalize the workflow with the best model
 #
-# saveRDS(gillnet_final, here::here("data", "gillnet_final.rds"))
+# saveRDS(prm_final, here::here("data", "prm_final.rds"))
 
-gillnet_final <- readRDS(here::here("data", "gillnet_final.rds"))
+# prm_final <- readRDS(here::here("data", "prm_final.rds"))
 ```
 
 ```{r, include=FALSE}
-gillnet_fit <- fit(gillnet_final, elasmo_gillnet) # fit the data to the training data
+prm_fit <- fit(prm_final, elasmo_prm) # fit the data to the training data
 ```
 
 ```{r, include=FALSE}
-gillnet_train_predict <- predict(object = gillnet_fit, new_data = elasmo_gillnet) %>% # predict the training set
-  bind_cols(elasmo_gillnet) # bind training set column to prediction
+prm_train_predict <- predict(object = prm_fit, new_data = elasmo_prm) %>% # predict the training set
+  bind_cols(elasmo_prm) # bind training set column to prediction
 ```
 
 ```{r}
-gill_train_metrics <- gillnet_train_predict %>%
+prm_train_metrics <- prm_train_predict %>%
   metrics(mortality_prop, .pred) # get testing data metrics
-gill_train_metrics
+prm_train_metrics
 ```
 
 ```{r}
@@ -241,20 +256,22 @@ my_controls <- control_resamples(
   }
 ) # set to get prediction and out of bag errors
 
-trawl_cv2 <- trawl_final %>%
-  fit_resamples(trawl_folds, control = my_controls) # fit the folds to the final model
+avm_cv2 <- avm_final %>%
+  fit_resamples(avm_folds, control = my_controls) # fit the folds to the final model
 
-gillnet_cv2 <- gillnet_final %>%
-  fit_resamples(gillnet_folds, control = my_controls) # fit the folds to the final model
+prm_cv2 <- prm_final %>%
+  fit_resamples(prm_folds, control = my_controls) # fit the folds to the final model
 ```
 
 ```{r}
-collect_metrics(trawl_cv2)
+collect_metrics(avm_cv2)
 
-collect_metrics(gillnet_cv2)
+collect_metrics(prm_cv2)
 ```
 
 ## Quantile regression
+
+For AVM
 
 ```{r}
 preds_bind <- function(data_fit, rf_fit) {
@@ -270,95 +287,102 @@ preds_bind <- function(data_fit, rf_fit) {
     bind_cols(data_fit)
 } # function to preform and extract quantile estimates from random forest
 
-trawl_quant_test <- preds_bind(trawl_train_predict, trawl_fit) %>%
+avm_data <- full_join(avm_test_predict, avm_train_predict)
+
+# predict quantiles
+avm_quant_test <- preds_bind(avm_data, avm_fit) %>%
   mutate(
     range_50 = .pred_75 - .pred_25,
     range_95 = .pred_95 - .pred_05
   )
 
-ggplot(trawl_quant_test) +
+ggplot(avm_quant_test) +
   geom_boxplot(aes(range_50)) +
-  theme_bw()
+  theme_bw(base_size = 14) +
+  labs(x = "Distribution of IQR for AVM") +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  )
 
-write_csv(trawl_quant_test, here::here("data", "trawl_model_predictions.csv"))
+
+# write_csv(avm_quant_test, here::here("data", "avm_model_predictions.csv"))
 ```
 
+For PRM
+
 ```{r}
-gillnet_quant_test <- preds_bind(gillnet_train_predict, gillnet_fit) %>%
+# predict quantiles
+prm_quant_test <- preds_bind(prm_train_predict, prm_fit) %>%
   mutate(
     range_50 = .pred_75 - .pred_25,
     range_95 = .pred_95 - .pred_05
   )
 
-ggplot(gillnet_quant_test) +
+ggplot(prm_quant_test) +
   geom_boxplot(aes(range_50)) +
-  theme_bw()
+  theme_bw(base_size = 14) +
+  labs(x = "Distribution of IQR for PRM") +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  )
 
-write_csv(gillnet_quant_test, here::here("data", "gillnet_model_predictions.csv"))
+
+# write_csv(prm_quant_test, here::here("data", "prm_model_predictions.csv"))
 ```
 
-## trawl model - real values vs predicted values
+## AVM model - real values vs predicted values 
 
 ```{r}
-p1 <- ggplot(trawl_quant_test, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
+ggplot(avm_quant_test, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
   geom_point() +
   stat_poly_line() +
   stat_poly_eq(use_label("eq")) +
   stat_poly_eq(label.y = 0.9) +
   theme_bw(base_size = 14) +
   labs(
-    x = "",
-    y = "Predicted At-Vessel Mortality Rate"
+    x = "Observed AVM Rate",
+    y = "Predicted AVM Rate"
   )
-p1
 
-summary(lm(.pred ~ mortality_prop, data = trawl_quant_test))
+
+# summary(lm(.pred ~ mortality_prop, data = avm_quant_test))
 ```
 
-## gillnet model - real values vs predicted values
+## PRM model - real values vs predicted values
 
 ```{r}
-p2 <- ggplot(gillnet_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
+ggplot(prm_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
   geom_point() +
   stat_poly_line() +
   stat_poly_eq(use_label("eq")) +
   stat_poly_eq(label.y = 0.9) +
   theme_bw(base_size = 14) +
   labs(
-    x = "Observed At-Vessel Mortality Rate",
-    y = "Predicted At-vessel Mortality Rate"
+    x = "Observed PRM Rate",
+    y = "Predicted PRM Rate"
   )
-p2
 
-summary(lm(.pred ~ mortality_prop, data = gillnet_train_predict))
+
+# summary(lm(.pred ~ mortality_prop, data = prm_train_predict))
 ```
 
 ### Variable importance for the at-vessel mortality and post-release mortality RF models
+
 ```{r}
-v1 <- trawl_fit %>%
+avm_fit %>%
   extract_fit_parsnip() %>%
   vip() +
   theme_bw(base_size = 14) +
-  labs(y = "") +
-  scale_x_discrete(labels = c("Ventilation Method", "Reproductive Mode", "Median Depth (m)", "Maximum Size (cm)"))
-v1
+  labs(y = "Variable Importance for At-Vessel Mortality") 
 
-v2 <- gillnet_fit %>%
+prm_fit %>%
   extract_fit_parsnip() %>%
   vip() +
   theme_bw(base_size = 14) +
-  labs(y = "Variable Importance for At-Vessel Mortality") +
-  scale_x_discrete(labels = c("Reproductive Mode", "Maximum Size (cm)", "Median Depth (m)"))
-v2
+  labs(y = "Variable Importance for Post-Release Mortality")
 ```
 
-## Figures
-
-
-```{r}
-plot1 <- p1 + v1 + p2 + v2 + plot_annotation(tag_levels = "A")
-
-plot1
-
-ggsave(plot1, file = paste0("figS2.pdf"), path = here::here("figs", "supp"), height = 10, width = 15)
-```
