@@ -20,14 +20,13 @@ library(ranger)
 library(googlesheets4)
 library(naniar)
 library(ggpmisc)
-library(patchwork)
 library(vip)
 
 set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
+prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv"))  %>%
   filter(!grepl("Rajidae", family)) %>%
   filter(family != "Dasyatidae") %>%
   filter(family != "Pristidae") %>%
@@ -42,13 +41,16 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
     habitat_associated == "bathydemersal" ~ "demersal",
   )) %>%
   mutate(ventilation_method = case_when(
-    scientific_name == "Squalus acanthias" ~ "stationary",
+    scientific_name == "Ginglymostoma cirratum" ~ "stationary",
     TRUE ~ ventilation_method
+  )) %>%
+  mutate(reproductive_mode = case_when(
+    scientific_name == "Hexanchus nakamurai" ~ "yolk-sac viviparity",
+    TRUE ~ reproductive_mode
   )) %>%
   mutate(reproductive_mode = ifelse(reproductive_mode == "oophagy", "yolk-sac viviparity", reproductive_mode)) %>%
   group_by(scientific_name) %>%
   mutate(median_depth = mean(median_depth)) %>%
-  mutate(max_size_cm = mean(max_size_cm)) %>%
   distinct()
 ```
 
@@ -57,7 +59,7 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
 prm_elasmo_subset <- prm_elasmo %>%
   select(
     scientific_name, gear_class, habitat, estimate_type, estimate, sample_size,
-    method, ventilation_method, max_size_cm, measure, median_depth, ac, reproductive_mode, family
+    method, ventilation_method, max_size_cm, measure, median_depth,  reproductive_mode, family
   ) %>%
   mutate(measure = case_when(
     scientific_name == "sharks" ~ "total_length",
@@ -76,10 +78,9 @@ prm_elasmo_subset <- prm_elasmo %>%
 elasmo_trawl <- prm_elasmo_subset %>%
   filter(estimate_type == "at-vessel mortality") %>%
   filter(gear_class == "trawl") %>%
-  filter(sample_size > 5) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
-  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, ac, mortality_prop, family) %>%
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family) %>%
   distinct() %>%
   drop_na()
 
@@ -87,10 +88,9 @@ elasmo_trawl <- prm_elasmo_subset %>%
 elasmo_gillnet <- prm_elasmo_subset %>%
   filter(estimate_type == "at-vessel mortality") %>%
   filter(gear_class == "gillnet") %>%
-  filter(sample_size > 5) %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
-  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, ac, mortality_prop, family) %>%
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family) %>%
   distinct() %>%
   drop_na()
 ```
@@ -99,9 +99,9 @@ elasmo_gillnet <- prm_elasmo_subset %>%
 ```{r}
 # split the data into training and test set
 
-trawl_folds <- vfold_cv(elasmo_trawl, repeats = 5, v = 5)
+trawl_folds <- vfold_cv(elasmo_trawl, repeats = 10, v = 3)
 
-gillnet_folds <- vfold_cv(elasmo_gillnet, repeats = 5, v = 5)
+gillnet_folds <- vfold_cv(elasmo_gillnet, repeats = 10, v = 3)
 ```
 
 
@@ -111,20 +111,20 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-trawl_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + reproductive_mode + ac, data = elasmo_trawl) %>%
+trawl_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + reproductive_mode, data = elasmo_trawl) %>%
   step_normalize(all_numeric_predictors())
 
-gillnet_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + habitat + reproductive_mode + ac, data = elasmo_gillnet) %>%
+gillnet_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + reproductive_mode, data = elasmo_gillnet) %>%
   step_normalize(all_numeric_predictors())
 ```
 
 ```{r}
 # create models
 trawl_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>%
-  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, splitrule = "beta", importance = "impurity")
+  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, importance = "impurity")
 
 gillnet_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>%
-  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, splitrule = "beta", importance = "impurity")
+  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, importance = "impurity")
 ```
 
 ```{r}
@@ -150,7 +150,7 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 # trawl_tune <- trawl_wflw %>% # use cross validation to tune parameters
 #   tune_grid(
 #     resamples = trawl_folds, # add cv folds
-#     grid = 10
+#     grid = 10 # grid_regular(trees(), finalize(mtry(), elasmo_trawl), min_n(), levels = 5) %>% filter(mtry < 7)
 #   ) # use grid of parameters to test
 ```
 
@@ -158,11 +158,11 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 # gillnet_tune <- gillnet_wflw %>% # use cross validation to tune parameters
 #   tune_grid(
 #     resamples = gillnet_folds, # add cv folds
-#     grid = 10
+#     grid = 10 # grid_regular(trees(), finalize(mtry(), elasmo_gillnet), min_n(), levels = 5) %>% filter(mtry < 7)
 #   ) # use grid of parameters to test
 ```
 
-Below displays the results of cross validation tuning for trawl AVM
+Below displays the results of cross validation tuning
 
 ```{r}
 # autoplot(trawl_tune) + # plot results of tuning
@@ -175,7 +175,7 @@ Below displays the results of cross validation tuning for trawl AVM
 
 ```{r, include=FALSE}
 # trawl_final <- finalize_workflow(trawl_wflw, select_best(trawl_tune, metric = "rsq")) # finalize the workflow with the best model
-#
+# 
 # saveRDS(trawl_final, here::here("data", "trawl_final.rds"))
 
 trawl_final <- readRDS(here::here("data", "trawl_final.rds"))
@@ -196,7 +196,7 @@ trawl_train_metrics <- trawl_train_predict %>%
 trawl_train_metrics
 ```
 
-Below displays the results of cross validation tuning for gillnets AVM
+Below displays the results of cross validation tuning
 
 ```{r}
 # autoplot(gillnet_tune) + # plot results of tuning
@@ -209,7 +209,7 @@ Below displays the results of cross validation tuning for gillnets AVM
 
 ```{r, include=FALSE}
 # gillnet_final <- finalize_workflow(gillnet_wflw, select_best(gillnet_tune, metric = "rsq")) # finalize the workflow with the best model
-#
+# 
 # saveRDS(gillnet_final, here::here("data", "gillnet_final.rds"))
 
 gillnet_final <- readRDS(here::here("data", "gillnet_final.rds"))
