@@ -205,7 +205,8 @@ new_dat_subset <- new_dat %>%
 
 tol = read_csv(here("data", "tolerance.csv")) %>% 
   rename(scientific_name = species) %>% 
-  mutate(scientific_name = ifelse(scientific_name == "Stegostoma fasciatum", "Stegostoma tigrinum", scientific_name))
+  mutate(scientific_name = ifelse(scientific_name == "Stegostoma fasciatum", "Stegostoma tigrinum", scientific_name)) %>% 
+  filter(!is.na(ac))
 # eo is thermal sensitivity
 # ac is active hypoxia vulnerability
 
@@ -265,7 +266,12 @@ avm_gilman_hypoxia <- gilman_join %>%
   select(-c(record_uid, common_name.x, common_name.y, genus.y, -f_bname)) %>% 
   left_join(tol) %>% 
   select(-eo) %>% 
-  select(-reference, -bait)
+  select(-reference, -bait, -hooks_per_set, -f_bname, -species, -measure, -method, -order) %>% 
+  mutate(genus = case_when(
+    !is.na(genus) ~ genus,
+    is.na(genus) ~ genus.x
+  )) %>% 
+  select(-genus.x)
 ```
 
 ```{r}
@@ -278,7 +284,8 @@ dat_new_mean <- avm_gilman_hypoxia %>%
   ungroup() %>% 
   mutate(ac = ifelse(is.na(ac), ac_new_gen, ac),
          ac = ifelse(is.nan(ac_new_gen), ac_new_fam, ac)) %>% 
-  filter(!is.na(ac))
+  filter(!is.na(ac)) %>% 
+  select(-ac_new_gen, -ac_new_fam)
 
 dat_predict = dat_new_mean %>% 
   filter(!is.na(estimate)) 
