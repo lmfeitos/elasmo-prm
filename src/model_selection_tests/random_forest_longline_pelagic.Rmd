@@ -21,26 +21,31 @@ library(googlesheets4)
 library(naniar)
 library(ggpmisc)
 library(vip)
-library(patchwork)
 
 set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
+prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv"))%>%
   filter(gear_class == "longline") %>%
   filter(!grepl("Rajidae", family)) %>%
   filter(family != "Dasyatidae") %>%
   filter(family != "Pristidae") %>%
   filter(family != "Rhinidae") %>%
   filter(family != "Rhinobatidae") %>%
+    filter(family != "Myliobatidae") %>%
   mutate(habitat = case_when(
     habitat_associated == "pelagic" ~ "pelagic",
+    habitat_associated == "pelagic-oceanic" ~ "pelagic",
     habitat_associated == "reef-associated" ~ "pelagic",
     habitat_associated == "bathypelagic" ~ "pelagic",
     habitat_associated == "benthopelagic" ~ "pelagic",
     habitat_associated == "demersal" ~ "demersal",
     habitat_associated == "bathydemersal" ~ "demersal",
+  )) %>%
+    mutate(habitat = case_when(
+    scientific_name == "Carcharhinus perezi" ~ "pelagic",
+    TRUE ~ habitat
   )) %>%
   mutate(ventilation_method = case_when(
     scientific_name == "Ginglymostoma cirratum" ~ "stationary",
@@ -61,41 +66,33 @@ prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv")) %>%
 prm_elasmo_subset <- prm_elasmo %>%
   select(
     scientific_name, gear_class, habitat, estimate_type, estimate, sample_size,
-    method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family
+    ventilation_method, max_size_cm, median_depth, reproductive_mode, family, ac
   ) %>%
-  mutate(measure = case_when(
-    scientific_name == "sharks" ~ "total_length",
-    scientific_name %in% c("rays", "Dasyatis sp") ~ "disk_width",
-    TRUE ~ measure
-  )) %>%
   mutate(reproductive_mode = case_when(
     scientific_name == "sharks" ~ "yolk-sac viviparity",
     scientific_name == "rays" ~ "yolk-sac viviparity",
     TRUE ~ reproductive_mode
   )) %>%
-  mutate_if(is.character, as.factor) %>%
+  mutate_if(is.character, as.factor) %>% 
   filter(!grepl("sp", scientific_name)) %>% 
-  filter(habitat == "pelagic")
+  distinct() %>% 
+  filter(sample_size > 3)
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
 elasmo_avm <- prm_elasmo_subset %>%
   filter(estimate_type == "at-vessel mortality") %>%
-  mutate(est_count = sample_size * estimate) %>%
-  group_by(scientific_name, gear_class) %>%
-  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
-  mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
-  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family) %>%
+  group_by(scientific_name) %>% 
+  mutate(mortality_prop = weighted.mean(estimate, sample_size))%>%
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family, ac) %>%
   distinct() %>%
   drop_na()
 
 # Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
 elasmo_prm <- prm_elasmo_subset %>%
   filter(estimate_type == "post-release mortality") %>%
-  mutate(est_count = sample_size * estimate) %>%
-  group_by(scientific_name, gear_class) %>%
-  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
+  group_by(scientific_name) %>%
   mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
-  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family) %>%
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family, ac) %>%
   distinct() %>%
   drop_na()
 ```
