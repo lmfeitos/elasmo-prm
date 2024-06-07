@@ -26,7 +26,7 @@ set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv"))  %>%
+prm_elasmo <- read_csv(here("data", "avm_gilman_hypoxia.csv")) %>%
   filter(gear_class == "longline") %>%
   filter(!grepl("Rajidae", family)) %>%
   filter(family != "Dasyatidae") %>%
