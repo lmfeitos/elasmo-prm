@@ -299,3 +299,53 @@ dat_new_mean = dat_new_mean %>%
 write_csv(dat_new_mean, here::here("data", "predict_data_hyp.csv"), col_names = TRUE, na = "")
 
 ```
+
+# testing the reproductive mode data with Mull et al (2024)'s
+
+```{r}
+mull_df <- read_csv(here("data", "mull_etal_reproduction.csv")) %>% 
+  clean_names() %>% 
+  rename(scientific_name = species) %>% 
+  mutate(scientific_name = str_replace(scientific_name, "_", " ")) %>%
+  select(- reproductive_mode) %>% 
+  mutate(reproductive_mode = str_to_lower(vertebrate_reproductive_category)) %>% 
+  drop_na()
+
+prm_data <- read_csv(here("data", "prm_hypoxia.csv")) %>% 
+  mutate(reproductive_mode = case_when(
+    reproductive_mode == "placental viviparity" ~ "matrotrophic viviparity",
+    reproductive_mode == "yolk-sac viviparity" ~ "lecithotrophic viviparity",
+    reproductive_mode == "oophagy" ~ "matrotrophic viviparity",
+    reproductive_mode == "oviparous" ~ "lecithotrophic oviparity",
+    reproductive_mode == "histotrophy" ~ "matrotrophic viviparity"
+  ))
+```
+
+```{r}
+# join ours and Mull et al (2024)'s data
+mull_join <- prm_data %>% 
+  left_join(mull_df, by = c("scientific_name", "family", "reproductive_mode")) %>% 
+  mutate(habitat_associated = ifelse(scientific_name == "Carcharhinus perezi", "reef-associated", habitat_associated))
+
+# update dataset for model fitting
+write_csv(mull_join, here::here("data", "prm_hypoxia.csv"), na = "")
+```
+
+```{r}
+predict_data <- read_csv(here("data", "predict_data_hyp.csv")) %>% 
+  mutate(reproductive_mode = case_when(
+    reproductive_mode == "placental viviparity" ~ "matrotrophic viviparity",
+    reproductive_mode == "yolk-sac viviparity" ~ "lecithotrophic viviparity",
+    reproductive_mode == "oophagy" ~ "matrotrophic viviparity",
+    reproductive_mode == "oviparous" ~ "lecithotrophic oviparity",
+    reproductive_mode == "histotrophy" ~ "matrotrophic viviparity"
+  ))
+
+# merge predict data with Mull et al (2024)'s data
+mull_join_predict <- predict_data %>% 
+  left_join(mull_df, by = c("scientific_name", "family", "reproductive_mode"))
+
+# update predict data
+write_csv(mull_join_predict, here::here("data", "predict_data_hyp.csv"), col_names = TRUE, na = "")
+```
+
