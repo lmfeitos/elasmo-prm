@@ -103,9 +103,9 @@ elasmo_gillnet <- prm_elasmo_subset %>%
 ```{r}
 # split the data into training and test set
 
-trawl_folds <- vfold_cv(elasmo_trawl, repeats = 10, v = 3)
+trawl_folds <- vfold_cv(elasmo_trawl, repeats = 10, v = 5)
 
-gillnet_folds <- vfold_cv(elasmo_gillnet, repeats = 10, v = 3)
+gillnet_folds <- vfold_cv(elasmo_gillnet, repeats = 10, v = 5)
 ```
 
 

@@ -52,12 +52,14 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv"))%>%
     TRUE ~ ventilation_method
   )) %>%
   mutate(reproductive_mode = case_when(
-    scientific_name == "Hexanchus nakamurai" ~ "yolk-sac viviparity",
+    scientific_name == "Hexanchus nakamurai" ~ "lecithotrophic oviparity",
+    scientific_name == "Ginglymostoma cirratum" ~ "lecithotrophic oviparity",
     TRUE ~ reproductive_mode
   )) %>%
-  mutate(reproductive_mode = ifelse(reproductive_mode == "oophagy", "yolk-sac viviparity", reproductive_mode)) %>%
   group_by(scientific_name) %>%
+  filter(!grepl("sp", scientific_name)) %>% 
   mutate(median_depth = mean(median_depth)) %>%
+  mutate(max_size_cm = mean(max_size_cm)) %>%
   distinct()
 ```
 
@@ -74,7 +76,6 @@ prm_elasmo_subset <- prm_elasmo %>%
     TRUE ~ reproductive_mode
   )) %>%
   mutate_if(is.character, as.factor) %>% 
-  filter(!grepl("sp", scientific_name)) %>% 
   distinct() %>% 
   filter(sample_size > 3)
 
@@ -83,15 +84,18 @@ elasmo_avm <- prm_elasmo_subset %>%
   filter(estimate_type == "at-vessel mortality") %>%
   group_by(scientific_name) %>% 
   mutate(mortality_prop = weighted.mean(estimate, sample_size))%>%
+  # mutate(mortality_prop = estimate) %>% 
   select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family, ac) %>%
   distinct() %>%
-  drop_na()
+  drop_na()  %>% 
+  filter(habitat == "demersal")
 
 # Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
 elasmo_prm <- prm_elasmo_subset %>%
   filter(estimate_type == "post-release mortality") %>%
   group_by(scientific_name) %>%
-  mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
+  mutate(mortality_prop = weighted.mean(estimate, sample_size))%>%
+  # mutate(mortality_prop = estimate) %>% 
   select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family, ac) %>%
   distinct() %>%
   drop_na()
@@ -100,15 +104,22 @@ elasmo_prm <- prm_elasmo_subset %>%
 ```{r}
 # split the data into training and test set
 ## At-vessel mortality
-avm_split <- initial_split(elasmo_avm, prop = .7, strata = family)
+avm_split <- initial_split(elasmo_avm, prop = .75, strata = family)
 
 avm_train <- training(avm_split)
 avm_test <- testing(avm_split)
 
-avm_folds <- vfold_cv(elasmo_avm, repeats = 10, v = 3, strata = family)
+avm_folds <- vfold_cv(elasmo_avm, repeats = 10, v = 5, strata = family)
 
-prm_folds <- vfold_cv(elasmo_prm, repeats = 10, v = 3, strata = family)
+## Post-release mortality
+# prm_split <- initial_split(elasmo_prm, prop = .7)
+#
+# prm_train <- training(prm_split)
+# prm_test <- testing(prm_split)
+
+prm_folds <- vfold_cv(elasmo_prm, repeats = 10, v = 5, strata = family)
 ```
+
 
 ## Overview
 
@@ -116,17 +127,17 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + reproductive_mode, data = elasmo_avm) %>%
+avm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm, data = elasmo_avm) %>%
   step_normalize(all_numeric_predictors())
 
-prm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + reproductive_mode, data = elasmo_prm) %>%
+prm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + ac, data = elasmo_prm) %>%
   step_normalize(all_numeric_predictors())
 ```
 
 ```{r}
 # create models
 avm_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>%
-  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, importance = "impurity")
+  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE,importance = "impurity")
 
 prm_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>%
   set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, importance = "impurity")
@@ -152,19 +163,19 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 * Minimum data points in each node required for node split
 
 ```{r,include=FALSE}
-# avm_tune <- avm_wflw %>% # use cross validation to tune parameters
-#   tune_grid(
-#     resamples = avm_folds, # add cv folds
-#     grid = 10
-#   ) # use grid of parameters to test
+avm_tune <- avm_wflw %>% # use cross validation to tune parameters
+  tune_grid(
+    resamples = avm_folds, # add cv folds
+    grid = 10
+  ) # use grid of parameters to test
 ```
 
 ```{r,include=FALSE}
-# prm_tune <- prm_wflw %>% # use cross validation to tune parameters
-#   tune_grid(
-#     resamples = prm_folds, # add cv folds
-#     grid = 10
-#   ) # use grid of parameters to test
+prm_tune <- prm_wflw %>% # use cross validation to tune parameters
+  tune_grid(
+    resamples = prm_folds, # add cv folds
+    grid = 10
+  ) # use grid of parameters to test
 ```
 
 Below displays the results of cross validation tuning
@@ -175,15 +186,15 @@ Below displays the results of cross validation tuning
 ```
 
 ```{r}
-# select_best(avm_tune, metric = "rsq", n = 1) # get the best model
+select_best(avm_tune, metric = "rsq", n = 1) # get the best model
 ```
 
 ```{r, include=FALSE}
-# avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rsq")) # finalize the workflow with the best model
+avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rsq")) # finalize the workflow with the best model
 #
 # saveRDS(avm_final, here::here("data", "avm_final.rds"))
 
-avm_final <- readRDS(here::here("data", "avm_final.rds"))
+# avm_final <- readRDS(here::here("data", "avm_final.rds"))
 ```
 
 ```{r, include=FALSE}
@@ -194,20 +205,18 @@ avm_fit <- fit(avm_final, elasmo_avm) # fit the data to the training data
 avm_train_predict <- predict(object = avm_fit, new_data = elasmo_avm) %>% # predict the training set
   bind_cols(elasmo_avm) # bind training set column to prediction
 
-avm_test_predict <- predict(object = avm_fit, new_data = avm_test) %>% # predict the training set
-  bind_cols(avm_test) # bind prediction to testing data column
+# avm_test_predict <- predict(object = avm_fit, new_data = avm_test) %>% # predict the training set
+#   bind_cols(avm_test) # bind prediction to testing data column
 ```
-
-The first is the training metrics the second is the testing metrics
 
 ```{r}
 avm_train_metrics <- avm_train_predict %>%
   metrics(mortality_prop, .pred) # get testing data metrics
 avm_train_metrics
 
-avm_test_metrics <- avm_test_predict %>%
-  metrics(mortality_prop, .pred) # get testing data metrics
-avm_test_metrics
+# avm_test_metrics <- avm_test_predict %>%
+#   metrics(mortality_prop, .pred) # get testing data metrics
+# avm_test_metrics
 ```
 
 Below displays the results of cross validation tuning
@@ -222,11 +231,11 @@ Below displays the results of cross validation tuning
 ```
 
 ```{r, include=FALSE}
-# prm_final <- finalize_workflow(prm_wflw, select_best(prm_tune, metric = "rsq")) # finalize the workflow with the best model
+prm_final <- finalize_workflow(prm_wflw, select_best(prm_tune, metric = "rsq")) # finalize the workflow with the best model
 #
 # saveRDS(prm_final, here::here("data", "prm_final.rds"))
 
-prm_final <- readRDS(here::here("data", "prm_final.rds"))
+# prm_final <- readRDS(here::here("data", "prm_final.rds"))
 ```
 
 ```{r, include=FALSE}
@@ -236,12 +245,19 @@ prm_fit <- fit(prm_final, elasmo_prm) # fit the data to the training data
 ```{r, include=FALSE}
 prm_train_predict <- predict(object = prm_fit, new_data = elasmo_prm) %>% # predict the training set
   bind_cols(elasmo_prm) # bind training set column to prediction
+
+# prm_test_predict <- predict(object = prm_fit, new_data = prm_test) %>% # predict the training set
+#   bind_cols(prm_test)# bind prediction to testing data column
 ```
 
 ```{r}
 prm_train_metrics <- prm_train_predict %>%
   metrics(mortality_prop, .pred) # get testing data metrics
 prm_train_metrics
+
+# prm_test_metrics <- prm_test_predict %>%
+#   metrics(mortality_prop, .pred) # get testing data metrics
+# prm_test_metrics
 ```
 
 ```{r}
@@ -265,4 +281,29 @@ prm_cv2 <- prm_final %>%
 collect_metrics(avm_cv2)
 
 collect_metrics(prm_cv2)
+```
+
+```{r}
+ggplot(avm_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
+  geom_point() +
+  stat_poly_line() +
+  stat_poly_eq(use_label("eq")) +
+  stat_poly_eq(label.y = 0.9) +
+  theme_bw(base_size = 14) +
+  labs(
+    x = "Observed AVM Rate",
+    y = "Predicted AVM Rate"
+  )
+```
+
+### Variable importance for the at-vessel mortality and post-release mortality RF models
+
+```{r}
+avm_fit %>%
+  extract_fit_parsnip() %>%
+  vip()
+
+prm_fit %>%
+  extract_fit_parsnip() %>%
+  vip()
 ```
