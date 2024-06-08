@@ -25,31 +25,39 @@ set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv"))  %>%
+prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv"))%>%
   filter(!grepl("Rajidae", family)) %>%
   filter(family != "Dasyatidae") %>%
   filter(family != "Pristidae") %>%
   filter(family != "Rhinidae") %>%
   filter(family != "Rhinobatidae") %>%
+    filter(family != "Myliobatidae") %>%
   mutate(habitat = case_when(
     habitat_associated == "pelagic" ~ "pelagic",
+    habitat_associated == "pelagic-oceanic" ~ "pelagic",
     habitat_associated == "reef-associated" ~ "pelagic",
     habitat_associated == "bathypelagic" ~ "pelagic",
     habitat_associated == "benthopelagic" ~ "pelagic",
     habitat_associated == "demersal" ~ "demersal",
     habitat_associated == "bathydemersal" ~ "demersal",
   )) %>%
+    mutate(habitat = case_when(
+    scientific_name == "Carcharhinus perezi" ~ "pelagic",
+    TRUE ~ habitat
+  )) %>%
   mutate(ventilation_method = case_when(
     scientific_name == "Ginglymostoma cirratum" ~ "stationary",
     TRUE ~ ventilation_method
   )) %>%
   mutate(reproductive_mode = case_when(
-    scientific_name == "Hexanchus nakamurai" ~ "yolk-sac viviparity",
+    scientific_name == "Hexanchus nakamurai" ~ "lecithotrophic oviparity",
+    scientific_name == "Ginglymostoma cirratum" ~ "lecithotrophic oviparity",
     TRUE ~ reproductive_mode
   )) %>%
-  mutate(reproductive_mode = ifelse(reproductive_mode == "oophagy", "yolk-sac viviparity", reproductive_mode)) %>%
   group_by(scientific_name) %>%
+  filter(!grepl("sp", scientific_name)) %>% 
   mutate(median_depth = mean(median_depth)) %>%
+  mutate(max_size_cm = mean(max_size_cm)) %>%
   distinct()
 ```
 
@@ -58,20 +66,17 @@ prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv"))  %>%
 prm_elasmo_subset <- prm_elasmo %>%
   select(
     scientific_name, gear_class, habitat, estimate_type, estimate, sample_size,
-    method, ventilation_method, max_size_cm, measure, median_depth,  reproductive_mode, family
+    ventilation_method, max_size_cm, median_depth, reproductive_mode, family, ac
   ) %>%
-  mutate(measure = case_when(
-    scientific_name == "sharks" ~ "total_length",
-    scientific_name %in% c("rays", "Dasyatis sp") ~ "disk_width",
-    TRUE ~ measure
-  )) %>%
   mutate(reproductive_mode = case_when(
     scientific_name == "sharks" ~ "yolk-sac viviparity",
     scientific_name == "rays" ~ "yolk-sac viviparity",
     TRUE ~ reproductive_mode
   )) %>%
-  mutate_if(is.character, as.factor) %>%
-  filter(!grepl("sp", scientific_name))
+  mutate_if(is.character, as.factor) %>% 
+  filter(!grepl("sp", scientific_name)) %>% 
+  distinct() %>% 
+  filter(sample_size > 3)
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
 elasmo_trawl <- prm_elasmo_subset %>%
@@ -79,7 +84,7 @@ elasmo_trawl <- prm_elasmo_subset %>%
   filter(gear_class == "trawl") %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
-  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family) %>%
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family, ac) %>%
   distinct() %>%
   drop_na()
 
@@ -89,7 +94,7 @@ elasmo_gillnet <- prm_elasmo_subset %>%
   filter(gear_class == "gillnet") %>%
   group_by(scientific_name, gear_class) %>%
   mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
-  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family) %>%
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family, ac) %>%
   distinct() %>%
   drop_na()
 ```
@@ -110,20 +115,20 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-trawl_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + reproductive_mode, data = elasmo_trawl) %>%
+trawl_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + ac, data = elasmo_trawl) %>%
   step_normalize(all_numeric_predictors())
 
-gillnet_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + reproductive_mode, data = elasmo_gillnet) %>%
+gillnet_recipe <- recipe(mortality_prop ~ ventilation_method + max_size_cm + ac, data = elasmo_gillnet) %>%
   step_normalize(all_numeric_predictors())
 ```
 
 ```{r}
 # create models
 trawl_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>%
-  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE,importance = "impurity")
+  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, importance = "impurity")
 
 gillnet_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>%
-  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE,importance = "impurity")
+  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, importance = "impurity")
 ```
 
 ```{r}
