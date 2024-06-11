@@ -10,7 +10,7 @@ set.seed(42)
 # data load ---------------------------------------------------------------
 
 # read in the raw literature review data
-prm_elasmo <- read_csv(here("data", "prm_dataset_updated.csv"))
+prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv"))
 
 # read in the IUCN data
 iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>%
@@ -96,7 +96,7 @@ sim_results3 <- read_csv(here::here("data", "simulation_results_3msy.csv")) %>%
 prm_elasmo_subset <- prm_elasmo %>%
   select(
     scientific_name, gear_class, habitat_associated, estimate_type, estimate, sample_size,
-    method, ventilation_method, max_size_cm, measure, median_depth, reproductive_mode, family
+    ventilation_method, max_size_cm, median_depth, reproductive_mode, family, group
   ) %>%
   mutate(max_size_cm = case_when( # filling missing information based on the average per group
     scientific_name == "Dasyatis sp" ~ 143.36,
@@ -116,22 +116,7 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name == "rays" ~ 99.87,
     TRUE ~ median_depth
   )) %>%
-  mutate(measure = case_when(
-    scientific_name == "sharks" ~ "total_length",
-    scientific_name %in% c("rays", "Dasyatis sp") ~ "disk_width",
-    TRUE ~ measure
-  )) %>%
-  mutate(reproductive_mode = case_when(
-    scientific_name == "sharks" ~ "yolk-sac viviparity",
-    scientific_name == "rays" ~ "yolk-sac viviparity",
-    TRUE ~ reproductive_mode
-  )) %>%
   mutate_if(is.character, as.factor) %>%
-  mutate(group = case_when(
-    str_detect(family, "Mobulidae|Dasyatidae|Gymnyridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae") ~ "Batoids",
-    str_detect(scientific_name, "Himantura|Dasyatis|Gymnura|Neotrygon|Bathytoshia|rays|Rhinoptera|Rhynchobatus|Aptychotrema|Trygon") ~ "Batoids",
-    TRUE ~ "Sharks"
-  )) %>%
   mutate(estimate = case_when(
     estimate_type == "post-release survival" ~ 1 - estimate, # Converts post-release survival into PRM
     TRUE ~ estimate
@@ -143,23 +128,18 @@ prm_elasmo_subset <- prm_elasmo %>%
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species
 mort_summary <- prm_elasmo_subset %>%
-  filter(estimate > 0) %>%
-  mutate(est_count = sample_size * estimate) %>%
-  group_by(scientific_name, estimate_type) %>%
-  mutate(mortality_prop = sum(est_count) / sum(sample_size)) %>%
+  group_by(scientific_name, estimate_type) %>% 
+  mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
   ungroup() %>%
   mutate(
     prm = ifelse(estimate_type == "post-release mortality", mortality_prop, NA),
     avm = ifelse(estimate_type == "at-vessel mortality", mortality_prop, NA)
   ) %>% 
   mutate(habitat = case_when(
-    habitat_associated == "pelagic" ~ "pelagic",
-    habitat_associated == "reef-associated" ~ "pelagic",
-    habitat_associated == "bathypelagic" ~ "pelagic",
-    habitat_associated == "benthopelagic" ~ "pelagic",
-    habitat_associated == "demersal" ~ "demersal",
-    habitat_associated == "bathydemersal" ~ "demersal",
-  ))
+      str_detect(habitat_associated, "pelagic") ~ "pelagic",
+      habitat_associated == "reef-associated" ~ "pelagic",
+      str_detect(habitat_associated, "demersal") ~ "demersal"
+    ))
 
 # get weighted average mortality for each mortality type
 # sharks
@@ -186,12 +166,9 @@ boxplot_subset <-
 habitat_subset <-
   mort_summary %>%
   mutate(habitat = case_when(
-    habitat_associated == "pelagic" ~ "pelagic",
+    str_detect(habitat_associated, "pelagic") ~ "pelagic",
     habitat_associated == "reef-associated" ~ "pelagic",
-    habitat_associated == "bathypelagic" ~ "pelagic",
-    habitat_associated == "benthopelagic" ~ "pelagic",
-    habitat_associated == "demersal" ~ "demersal",
-    habitat_associated == "bathydemersal" ~ "demersal",
+    str_detect(habitat_associated, "demersal") ~ "demersal"
   )) %>% 
   group_by(habitat, estimate_type, gear_class) %>%
   mutate(n = n()) %>%
@@ -557,9 +534,9 @@ obs_count_plot <-
   ) +
   coord_flip() +
   scale_y_continuous(
-    expand = c(0, 0),
-    limits = c(0, 25)
-  ) +
+     expand = c(0, 0),
+     limits = c(0, 250)
+  ) + 
   labs(
     x = "",
     y = "Number of observations per species"

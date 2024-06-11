@@ -1,438 +1,441 @@
-family,hook,leader,source,sample_size,estimate,scientific_name,gear_class,habitat_associated,max_size_cm,median_depth,reproductive_mode,ventilation_method,estimate_type,group,genus,ac,superorder,order,parity_mode,trophic_mode,vertebrate_reproductive_category,reference
-Etmopteridae,,,this study,,,Aculeola nigra,,demersal,60,335,lecithotrophic viviparity,stationary,,,Aculeola,6.7768227272727275,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Alopiidae,,,this study,,,Alopias pelagicus,,pelagic,428,150,matrotrophic viviparity,ram,,,Alopias,9.7281,Galeomorphs,Lamniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Alopiidae,,,this study,,,Alopias superciliosus,,pelagic,484,361.5,matrotrophic viviparity,ram,,,Alopias,11.023,Galeomorphs,Lamniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Alopiidae,,,this study,,,Alopias vulpinus,,pelagic,573.3,325,matrotrophic viviparity,ram,,,Alopias,8.7014,Galeomorphs,Lamniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Pentanchidae,,,this study,,,Apristurus albisoma,,bathydemersal,59.6,1249.5,lecithotrophic oviparity,stationary,,,Apristurus,6.9416,,,,,,
-Pentanchidae,,,this study,,,Apristurus ampliceps,,bathydemersal,85.5,1151.5,lecithotrophic oviparity,stationary,,,Apristurus,7.0717,,,,,,
-Pentanchidae,,,this study,,,Apristurus aphyodes,,bathypelagic,55,1407,lecithotrophic oviparity,stationary,,,Apristurus,5.45665,,,,,,
-Pentanchidae,,,this study,,,Apristurus australis,,bathypelagic,61.59999847,760.5,lecithotrophic oviparity,stationary,,,Apristurus,5.45665,,,,,,
-Pentanchidae,,,this study,,,Apristurus brunneus,,demersal,69.3,682.5,lecithotrophic oviparity,stationary,,,Apristurus,6.6187,,,,,,
-Pentanchidae,,,this study,,,Apristurus bucephalus,,bathydemersal,67.5,1085,lecithotrophic oviparity,stationary,,,Apristurus,5.45665,,,,,,
-Pentanchidae,,,this study,,,Apristurus exsanguis,,bathydemersal,90.80000305,880,lecithotrophic oviparity,stationary,,,Apristurus,5.1806,,,,,,
-Pentanchidae,,,this study,,,Apristurus fedorovi,,bathypelagic,68.30000305,800,lecithotrophic oviparity,stationary,,,Apristurus,5.45665,,,,,,
-Pentanchidae,,,this study,,,Apristurus garricki,,bathydemersal,67.5,858.5,lecithotrophic oviparity,stationary,,,Apristurus,5.45665,,,,,,
-Pentanchidae,,,this study,,,Apristurus gibbosus,,bathydemersal,54.8,756.5,lecithotrophic oviparity,stationary,,,Apristurus,5.45665,,,,,,
-Pentanchidae,,,this study,,,Apristurus herklotsi,,bathydemersal,48.5,698.5,lecithotrophic oviparity,stationary,,,Apristurus,5.45665,,,,,,
-Pentanchidae,,,this study,,,Apristurus internatus,,bathypelagic,41.9,600,lecithotrophic oviparity,stationary,,,Apristurus,5.45665,,,,,,
-Pentanchidae,,,this study,,,Apristurus japonicus,,bathydemersal,71.1,867.5,lecithotrophic oviparity,stationary,,,Apristurus,5.45665,,,,,,
-Pentanchidae,,,this study,,,Apristurus laurussonii,,bathydemersal,76,1055,lecithotrophic oviparity,stationary,,,Apristurus,3.6345,,,,,,
-Pentanchidae,,,this study,,,Apristurus longicephalus,,bathydemersal,60,815,lecithotrophic oviparity,stationary,,,Apristurus,1.4606,,,,,,
-Pentanchidae,,,this study,,,Apristurus macrorhynchus,,bathydemersal,67.4,680,lecithotrophic oviparity,stationary,,,Apristurus,7.7111,,,,,,
-Pentanchidae,,,this study,,,Apristurus macrostomus,,bathydemersal,57.3,644.5,lecithotrophic oviparity,stationary,,,Apristurus,5.45665,,,,,,
-Pentanchidae,,,this study,,,Apristurus manis,,bathydemersal,85,1250,lecithotrophic oviparity,stationary,,,Apristurus,3.908,,,,,,
-Pentanchidae,,,this study,,,Apristurus melanoasper,,bathypelagic,76.09999847,1016,lecithotrophic oviparity,stationary,,,Apristurus,3.3655,,,,,,
-Pentanchidae,,,this study,,,Apristurus microps,,bathydemersal,61,1600,lecithotrophic oviparity,stationary,,,Apristurus,4.9465,,,,,,
-Pentanchidae,,,this study,,,Apristurus micropterygeus,,bathydemersal,38.1,913,lecithotrophic oviparity,stationary,,,Apristurus,5.45665,,,,,,
-Pentanchidae,,,this study,,,Apristurus nasutus,,bathydemersal,70,662.5,lecithotrophic oviparity,stationary,,,Apristurus,5.45665,,,,,,
-Pentanchidae,,,this study,,,Apristurus pinguis,,bathypelagic,83.5,600,lecithotrophic oviparity,stationary,,,Apristurus,5.45665,,,,,,
-Pentanchidae,,,this study,,,Apristurus platyrhynchus,,bathypelagic,80,740,lecithotrophic oviparity,stationary,,,Apristurus,6.2562,,,,,,
-Pentanchidae,,,this study,,,Apristurus profundorum,,bathydemersal,76,1425,lecithotrophic oviparity,stationary,,,Apristurus,13.973,,,,,,
-Pentanchidae,,,this study,,,Apristurus saldanha,,bathydemersal,88.5,676.5,lecithotrophic oviparity,stationary,,,Apristurus,4.2887,,,,,,
-Pentanchidae,,,this study,,,Apristurus sinensis,,bathydemersal,75,913.5,lecithotrophic oviparity,stationary,,,Apristurus,1.0364,,,,,,
-Pentanchidae,,,this study,,,Asymbolus analis,,reef-associated,90,95,lecithotrophic oviparity,stationary,,,Asymbolus,6.6223,,,,,,
-Pentanchidae,,,this study,,,Asymbolus occiduus,,pelagic,60.09999847,249,lecithotrophic oviparity,stationary,,,Asymbolus,6.014,,,,,,
-Pentanchidae,,,this study,,,Asymbolus pallidus,,bathypelagic,43.90000153,313.5,lecithotrophic oviparity,stationary,,,Asymbolus,9.5367,,,,,,
-Pentanchidae,,,this study,,,Asymbolus parvus,,pelagic,34.90000153,210,lecithotrophic oviparity,stationary,,,Asymbolus,11.033,,,,,,
-Pentanchidae,,,this study,,,Asymbolus rubiginosus,,pelagic,39.29999924,282.5,lecithotrophic oviparity,stationary,,,Asymbolus,6.5864,,,,,,
-Pentanchidae,,,this study,,,Asymbolus vincenti,,reef-associated,61,338.5,lecithotrophic oviparity,stationary,,,Asymbolus,6.3118,,,,,,
-Scyliorhinidae,,,this study,,,Atelomycterus baliensis,,demersal,520,32.5,lecithotrophic oviparity,stationary,,,Atelomycterus,10.984,,,,,,
-Scyliorhinidae,,,this study,,,Atelomycterus erdmanni,,reef-associated,50.09999847,32.5,lecithotrophic oviparity,stationary,,,Atelomycterus,10.984,,,,,,
-Scyliorhinidae,,,this study,,,Atelomycterus fasciatus,,demersal,45,74.5,lecithotrophic oviparity,stationary,,,Atelomycterus,10.984,,,,,,
-Scyliorhinidae,,,this study,,,Atelomycterus macleayi,,reef-associated,60,2,lecithotrophic oviparity,stationary,,,Atelomycterus,1,,,,,,
-Scyliorhinidae,,,this study,,,Atelomycterus marmoratus,,reef-associated,70,52.5,lecithotrophic oviparity,stationary,,,Atelomycterus,20.968,,,,,,
-Scyliorhinidae,,,this study,,,Atelomycterus marnkalha,,benthopelagic,47,42.5,lecithotrophic oviparity,stationary,,,Atelomycterus,10.984,,,,,,
-Scyliorhinidae,,,this study,,,Aulohalaelurus kanakorum,,reef-associated,78.5,49,lecithotrophic oviparity,stationary,,,Aulohalaelurus,4.9994,,,,,,
-Scyliorhinidae,,,this study,,,Aulohalaelurus labiosus,,demersal,67,2,lecithotrophic oviparity,stationary,,,Aulohalaelurus,4.9994,,,,,,
-Brachaeluridae,,,this study,,,Brachaelurus colcloughi,,demersal,76,110.5,lecithotrophic viviparity,stationary,,,Brachaelurus,2.3238,Galeomorphs,Orectolobiformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Brachaeluridae,,,this study,,,Brachaelurus waddi,,reef-associated,122,70,lecithotrophic viviparity,stationary,,,Brachaelurus,4.6517,Galeomorphs,Orectolobiformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Pentanchidae,,,this study,,,Bythaelurus bachi,,pelagic,42.20000076,1137.5,lecithotrophic oviparity,stationary,,,Bythaelurus,97.029375,,,,,,
-Pentanchidae,,,this study,,,Bythaelurus canescens,,bathydemersal,70,475,lecithotrophic oviparity,stationary,,,Bythaelurus,5.1264,,,,,,
-Pentanchidae,,,this study,,,Bythaelurus clevai,,bathydemersal,40,450,lecithotrophic oviparity,stationary,,,Bythaelurus,97.029375,,,,,,
-Pentanchidae,,,this study,,,Bythaelurus dawsoni,,bathydemersal,45,625,lecithotrophic oviparity,stationary,,,Bythaelurus,4.3992000000000004,,,,,,
-Pentanchidae,,,this study,,,Bythaelurus hispidus,,bathydemersal,26,301.5,lecithotrophic oviparity,stationary,,,Bythaelurus,375.29,,,,,,
-Pentanchidae,,,this study,,,Bythaelurus immaculatus,,bathydemersal,71,777,lecithotrophic oviparity,stationary,,,Bythaelurus,97.029375,,,,,,
-Pentanchidae,,,this study,,,Bythaelurus lutarius,,bathydemersal,34,552,lecithotrophic oviparity,stationary,,,Bythaelurus,3.3019,,,,,,
-Pentanchidae,,,this study,,,Bythaelurus naylori,,demersal,51.09999847,766,lecithotrophic oviparity,stationary,,,Bythaelurus,97.029375,,,,,,
-Pentanchidae,,,this study,,,Bythaelurus tenuicephalus,,pelagic,300,506.5,lecithotrophic oviparity,stationary,,,Bythaelurus,97.029375,,,,,,
-Carcharhinidae,,,this study,,,Carcharhinus acronotus,,reef-associated,200,36.5,lecithotrophic oviparity,ram,,,Carcharhinus,8.3419,,,,,,
-Carcharhinidae,,,this study,,,Carcharhinus albimarginatus,,reef-associated,300,400.5,matrotrophic viviparity,ram,,,Carcharhinus,3.5185,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Carcharhinus altimus,,reef-associated,300,411,matrotrophic viviparity,ram,,,Carcharhinus,17.283,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Carcharhinus amblyrhynchoides,,benthopelagic,182,37.5,matrotrophic viviparity,ram,,,Carcharhinus,9.972571830985917,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Carcharhinus amboinensis,,reef-associated,280,50,matrotrophic viviparity,ram,,,Carcharhinus,9.972571830985917,,,,,,
-Carcharhinidae,,,this study,,,Carcharhinus borneensis,,demersal,70,25,matrotrophic viviparity,ram,,,Carcharhinus,9.972571830985917,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Carcharhinus cautus,,reef-associated,150,10,matrotrophic viviparity,ram,,,Carcharhinus,9.972571830985917,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Carcharhinus cerdale,,demersal,140,20,matrotrophic viviparity,ram,,,Carcharhinus,9.972571830985917,,,,,,
-Carcharhinidae,,,this study,,,Carcharhinus coatesi,,reef-associated,87,61.5,matrotrophic viviparity,ram,,,Carcharhinus,9.972571830985917,,,,,,
-Carcharhinidae,,,this study,,,Carcharhinus fitzroyensis,,demersal,135,20,matrotrophic viviparity,ram,,,Carcharhinus,9.972571830985917,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Carcharhinus hemiodon,,demersal,200,80,matrotrophic viviparity,ram,,,Carcharhinus,9.972571830985917,,,,,,
-Carcharhinidae,,,this study,,,Carcharhinus humani,,benthopelagic,84.40000153,39.5,matrotrophic viviparity,ram,,,Carcharhinus,9.972571830985917,,,,,,
-Carcharhinidae,,,this study,,,Carcharhinus isodon,,demersal,200,10,matrotrophic viviparity,ram,,,Carcharhinus,16.403,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Carcharhinus leiodon,,demersal,165,35,matrotrophic viviparity,ram,,,Carcharhinus,9.972571830985917,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Carcharhinus longimanus,,pelagic,350,541,matrotrophic viviparity,ram,,,Carcharhinus,9.5821,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Carcharhinus macloti,,demersal,110,100.5,matrotrophic viviparity,ram,,,Carcharhinus,9.972571830985917,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Carcharhinus melanopterus,,reef-associated,180,50,matrotrophic viviparity,ram,,,Carcharhinus,7.9127,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Carcharhinus obsoletus,,demersal,100,25,matrotrophic viviparity,ram,,,Carcharhinus,9.972571830985917,,,,,,
-Carcharhinidae,,,this study,,,Carcharhinus porosus,,demersal,150,42,matrotrophic viviparity,ram,,,Carcharhinus,3.888,,,,,,
-Carcharhinidae,,,this study,,,Carcharhinus sealei,,reef-associated,100,20,matrotrophic viviparity,ram,,,Carcharhinus,9.972571830985917,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Carcharhinus tilstoni,,benthopelagic,200,75,matrotrophic viviparity,ram,,,Carcharhinus,9.972571830985917,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Carcharhinus tjutjot,,reef-associated,93.69999695,50,matrotrophic viviparity,ram,,,Carcharhinus,9.972571830985917,,,,,,
-Odontaspididae,,,this study,,,Carcharias taurus,,reef-associated,330,96,matrotrophic viviparity,ram,,,Carcharias,9.0956,Galeomorphs,Lamniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Lamnidae,,,this study,,,Carcharodon carcharias,,pelagic,594.4,600,matrotrophic viviparity,ram,,,Carcharodon,7.7326,Galeomorphs,Lamniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Centrophoridae,,,this study,,,Centrophorus atromarginatus,,bathydemersal,87,316.5,lecithotrophic viviparity,stationary,,,Centrophorus,10.9555,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Centrophoridae,,,this study,,,Centrophorus granulosus,,bathydemersal,176,775,lecithotrophic viviparity,stationary,,,Centrophorus,9.3579,,,,,,
-Centrophoridae,,,this study,,,Centrophorus harrissoni,,bathydemersal,111.4000015,520,lecithotrophic viviparity,stationary,,,Centrophorus,6.4469,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Centrophoridae,,,this study,,,Centrophorus isodon,,bathydemersal,108.2,602.5,lecithotrophic viviparity,stationary,,,Centrophorus,10.9555,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Centrophoridae,,,this study,,,Centrophorus lesliei,,bathydemersal,76.5,490,lecithotrophic viviparity,stationary,,,Centrophorus,10.9555,,,,,,
-Centrophoridae,,,this study,,,Centrophorus longipinnis,,bathydemersal,77.5,395,lecithotrophic viviparity,stationary,,,Centrophorus,10.9555,,,,,,
-Centrophoridae,,,this study,,,Centrophorus moluccensis,,bathydemersal,100,474,lecithotrophic viviparity,stationary,,,Centrophorus,6.732,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Centrophoridae,,,this study,,,Centrophorus tessellatus,,benthopelagic,89,376,lecithotrophic viviparity,stationary,,,Centrophorus,10.9555,,,,,,
-Centrophoridae,,,this study,,,Centrophorus uyato,,bathydemersal,110,725,lecithotrophic viviparity,stationary,,,Centrophorus,18.488,,,,,,
-Centrophoridae,,,this study,,,Centrophorus westraliensis,,bathydemersal,90.9,683,lecithotrophic viviparity,stationary,,,Centrophorus,10.9555,,,,,,
-Etmopteridae,,,this study,,,Centroscyllium excelsum,,bathydemersal,63.59999847,900,lecithotrophic viviparity,stationary,,,Centroscyllium,4.034025,,,,,,
-Etmopteridae,,,this study,,,Centroscyllium fabricii,,bathydemersal,120,1190,lecithotrophic viviparity,stationary,,,Centroscyllium,8.0273,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Centroscyllium granulatum,,bathypelagic,61.5,355,lecithotrophic viviparity,stationary,,,Centroscyllium,4.034025,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Centroscyllium kamoharai,,bathydemersal,60,965,lecithotrophic viviparity,stationary,,,Centroscyllium,1.0739,,,,,,
-Etmopteridae,,,this study,,,Centroscyllium nigrum,,benthopelagic,51,719.5,lecithotrophic viviparity,stationary,,,Centroscyllium,6.0349,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Centroscyllium ornatum,,bathydemersal,30,891.5,lecithotrophic viviparity,stationary,,,Centroscyllium,4.034025,,,,,,
-Etmopteridae,,,this study,,,Centroscyllium ritteri,,demersal,43,605,lecithotrophic viviparity,stationary,,,Centroscyllium,1,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Somniosidae,,,this study,,,Centroscymnus macracanthus,,bathydemersal,170,884.5,lecithotrophic viviparity,stationary,,,Centroscymnus,5.184480000000001,,,,,,
-Somniosidae,,,this study,,,Centroscymnus owstonii,,bathydemersal,148,800,lecithotrophic viviparity,stationary,,,Centroscymnus,5.3314,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Somniosidae,,,this study,,,Centroselachus crepidater,,bathydemersal,105,1140,lecithotrophic viviparity,stationary,,,Centroselachus,4.377177777777778,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Scyliorhinidae,,,this study,,,Cephaloscyllium albipinnum,,bathypelagic,110,340,lecithotrophic viviparity,stationary,,,Cephaloscyllium,6.171,,,,,,
-Scyliorhinidae,,,this study,,,Cephaloscyllium fasciatum,,reef-associated,42,325,lecithotrophic viviparity,stationary,,,Cephaloscyllium,6.303442857142857,,,,,,
-Scyliorhinidae,,,this study,,,Cephaloscyllium formosanum,,reef-associated,65.5,366,lecithotrophic viviparity,stationary,,,Cephaloscyllium,6.303442857142857,,,,,,
-Scyliorhinidae,,,this study,,,Cephaloscyllium hiscosellum,,bathypelagic,52,357,lecithotrophic viviparity,stationary,,,Cephaloscyllium,6.303442857142857,,,,,,
-Scyliorhinidae,,,this study,,,Cephaloscyllium isabellum,,reef-associated,150,399.5,lecithotrophic viviparity,stationary,,,Cephaloscyllium,6.3707,,,,,,
-Scyliorhinidae,,,this study,,,Cephaloscyllium laticeps,,demersal,150,110.5,lecithotrophic viviparity,stationary,,,Cephaloscyllium,6.1457,,,,,,
-Scyliorhinidae,,,this study,,,Cephaloscyllium sarawakensis,,benthopelagic,44.1,141,lecithotrophic viviparity,stationary,,,Cephaloscyllium,6.303442857142857,,,,,,
-Scyliorhinidae,,,this study,,,Cephaloscyllium signourum,,benthopelagic,74.1,590,lecithotrophic viviparity,stationary,,,Cephaloscyllium,6.303442857142857,,,,,,
-Scyliorhinidae,,,this study,,,Cephaloscyllium silasi,,bathydemersal,36,375,lecithotrophic viviparity,stationary,,,Cephaloscyllium,6.303442857142857,,,,,,
-Scyliorhinidae,,,this study,,,Cephaloscyllium speccum,,benthopelagic,68,302.5,lecithotrophic viviparity,stationary,,,Cephaloscyllium,6.303442857142857,,,,,,
-Scyliorhinidae,,,this study,,,Cephaloscyllium sufflans,,demersal,110,320,lecithotrophic viviparity,stationary,,,Cephaloscyllium,5.9196,,,,,,
-Scyliorhinidae,,,this study,,,Cephaloscyllium umbratile,,reef-associated,120,260,lecithotrophic viviparity,stationary,,,Cephaloscyllium,6.303442857142857,,,,,,
-Scyliorhinidae,,,this study,,,Cephaloscyllium variegatum,,bathypelagic,72,360,lecithotrophic viviparity,stationary,,,Cephaloscyllium,7.2257,,,,,,
-Scyliorhinidae,,,this study,,,Cephaloscyllium ventriosum,,demersal,110,231,lecithotrophic viviparity,stationary,,,Cephaloscyllium,6.303442857142857,,,,,,
-Pentanchidae,,,this study,,,Cephalurus cephalus,,bathydemersal,28,541,lecithotrophic viviparity,stationary,,,Cephalurus,15.2966675,,,,,,
-Cetorhinidae,,,this study,,,Cetorhinus maximus,,pelagic,1097.3,632,matrotrophic viviparity,ram,,,Cetorhinus,7.3075,Galeomorphs,Lamniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Hemiscylliidae,,,this study,,,Chiloscyllium arabicum,,demersal,80,51,lecithotrophic oviparity,stationary,,,Chiloscyllium,9.5884,,,,,,
-Hemiscylliidae,,,this study,,,Chiloscyllium burmensis,,demersal,57.5,31,lecithotrophic oviparity,stationary,,,Chiloscyllium,9.5884,,,,,,
-Hemiscylliidae,,,this study,,,Chiloscyllium griseum,,reef-associated,77,52.5,lecithotrophic oviparity,stationary,,,Chiloscyllium,8.7153,Galeomorphs,Orectolobiformes,Oviparity,Lecithotrophic,Lecithotrophic Oviparity,S4
-Hemiscylliidae,,,this study,,,Chiloscyllium hasselti,,reef-associated,61,6,lecithotrophic oviparity,stationary,,,Chiloscyllium,9.5884,,,,,,
-Hemiscylliidae,,,this study,,,Chiloscyllium indicum,,demersal,65,45,lecithotrophic oviparity,stationary,,,Chiloscyllium,9.5884,Galeomorphs,Orectolobiformes,Oviparity,Lecithotrophic,Lecithotrophic Oviparity,S4
-Hemiscylliidae,,,this study,,,Chiloscyllium plagiosum,,reef-associated,83,25,lecithotrophic oviparity,stationary,,,Chiloscyllium,9.3569,Galeomorphs,Orectolobiformes,Oviparity,Lecithotrophic,Lecithotrophic Oviparity,S4
-Hemiscylliidae,,,this study,,,Chiloscyllium punctatum,,reef-associated,132,42.5,lecithotrophic oviparity,stationary,,,Chiloscyllium,10.693,Galeomorphs,Orectolobiformes,Oviparity,Lecithotrophic,Lecithotrophic Oviparity,S4
-Chlamydoselachidae,,,this study,,,Chlamydoselachus africana,,benthopelagic,99,850,matrotrophic viviparity,ram,,,Chlamydoselachus,6.588,,,,,,
-Chlamydoselachidae,,,this study,,,Chlamydoselachus anguineus,,bathydemersal,200,785,matrotrophic viviparity,ram,,,Chlamydoselachus,6.588,Squalimorphs,Hexanchiformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S13
-Squalidae,,,this study,,,Cirrhigaleus asper,,bathydemersal,120,425,lecithotrophic viviparity,stationary,,,Cirrhigaleus,8.3281,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squalidae,,,this study,,,Cirrhigaleus australis,,pelagic,123,500,lecithotrophic viviparity,stationary,,,Cirrhigaleus,8.3281,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squalidae,,,this study,,,Cirrhigaleus barbifer,,bathydemersal,126,395,lecithotrophic viviparity,stationary,,,Cirrhigaleus,8.3281,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Parascylliidae,,,this study,,,Cirrhoscyllium expolitum,,demersal,34,185,lecithotrophic oviparity,stationary,,,Cirrhoscyllium,10.205,,,,,,
-Parascylliidae,,,this study,,,Cirrhoscyllium formosanum,,demersal,39,215,lecithotrophic oviparity,stationary,,,Cirrhoscyllium,10.205,,,,,,
-Parascylliidae,,,this study,,,Cirrhoscyllium japonicum,,bathydemersal,48.5,270,lecithotrophic oviparity,stationary,,,Cirrhoscyllium,10.205,,,,,,
-Dalatiidae,,,this study,,,Dalatias licha,,bathydemersal,182,915.5,lecithotrophic viviparity,stationary,,,Dalatias,9.7975,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Centrophoridae,,,this study,,,Deania profundorum,,bathydemersal,97,1002.5,lecithotrophic viviparity,stationary,,,Deania,6.0616,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Centrophoridae,,,this study,,,Deania quadrispinosa,,bathydemersal,118,755,lecithotrophic viviparity,stationary,,,Deania,6.4249,,,,,,
-Echinorhinidae,,,this study,,,Echinorhinus brucus,,bathydemersal,310,455,lecithotrophic viviparity,stationary,,,Echinorhinus,6.4253,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Echinorhinidae,,,this study,,,Echinorhinus cookei,,benthopelagic,400,555.5,lecithotrophic viviparity,stationary,,,Echinorhinus,6.4253,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Proscylliidae,,,this study,,,Eridacnis barbouri,,bathydemersal,200,525,lecithotrophic viviparity,ram,,,Eridacnis,1.0541,,,,,,
-Proscylliidae,,,this study,,,Eridacnis radcliffei,,bathydemersal,23,418.5,lecithotrophic viviparity,ram,,,Eridacnis,8.0327,,,,,,
-Proscylliidae,,,this study,,,Eridacnis sinuans,,bathydemersal,37,330,lecithotrophic viviparity,ram,,,Eridacnis,6.5241,,,,,,
-Etmopteridae,,,this study,,,Etmopterus alphus,,pelagic,33.59999847,632,lecithotrophic viviparity,stationary,,,Etmopterus,7.386333333333333,,,,,,
-Etmopteridae,,,this study,,,Etmopterus bigelowi,,pelagic,67,581.5,lecithotrophic viviparity,stationary,,,Etmopterus,6.8893,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Etmopterus brachyurus,,pelagic,50,398,lecithotrophic viviparity,stationary,,,Etmopterus,8.0241,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Etmopterus brosei,,pelagic,45.09999847,840,lecithotrophic viviparity,stationary,,,Etmopterus,7.386333333333333,,,,,,
-Etmopteridae,,,this study,,,Etmopterus bullisi,,pelagic,30.3,550,lecithotrophic viviparity,stationary,,,Etmopterus,8.1573,,,,,,
-Etmopteridae,,,this study,,,Etmopterus burgessi,,pelagic,35.5,450,lecithotrophic viviparity,stationary,,,Etmopterus,7.386333333333333,,,,,,
-Etmopteridae,,,this study,,,Etmopterus compagnoi,,pelagic,78,841.5,lecithotrophic viviparity,stationary,,,Etmopterus,5.8621,,,,,,
-Etmopteridae,,,this study,,,Etmopterus decacuspidatus,,pelagic,29,602,lecithotrophic viviparity,stationary,,,Etmopterus,7.386333333333333,,,,,,
-Etmopteridae,,,this study,,,Etmopterus dianthus,,pelagic,40.90000153,540,lecithotrophic viviparity,stationary,,,Etmopterus,7.386333333333333,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Etmopterus dislineatus,,pelagic,44.79999924,695,lecithotrophic viviparity,stationary,,,Etmopterus,7.386333333333333,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Etmopterus evansi,,pelagic,32,559.5,lecithotrophic viviparity,stationary,,,Etmopterus,7.386333333333333,,,,,,
-Etmopteridae,,,this study,,,Etmopterus fusus,,pelagic,25.799999239999998,490,lecithotrophic viviparity,stationary,,,Etmopterus,7.386333333333333,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Etmopterus gracilispinis,,pelagic,35,612.5,lecithotrophic viviparity,stationary,,,Etmopterus,7.6064,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Etmopterus granulosus,,pelagic,86,920,lecithotrophic viviparity,stationary,,,Etmopterus,7.386333333333333,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Etmopterus hillianus,,pelagic,29.5,448.5,lecithotrophic viviparity,stationary,,,Etmopterus,9.023,,,,,,
-Etmopteridae,,,this study,,,Etmopterus joungi,,pelagic,40.59999847,300,lecithotrophic viviparity,stationary,,,Etmopterus,7.386333333333333,,,,,,
-Etmopteridae,,,this study,,,Etmopterus lailae,,pelagic,36.79999924,349,lecithotrophic viviparity,stationary,,,Etmopterus,7.386333333333333,,,,,,
-Etmopteridae,,,this study,,,Etmopterus litvinovi,,bathydemersal,61,865,lecithotrophic viviparity,stationary,,,Etmopterus,7.386333333333333,,,,,,
-Etmopteridae,,,this study,,,Etmopterus lucifer,,pelagic,55,753.5,lecithotrophic viviparity,stationary,,,Etmopterus,9.0476,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Etmopterus marshae,,pelagic,23.39999962,329.5,lecithotrophic viviparity,stationary,,,Etmopterus,7.386333333333333,,,,,,
-Etmopteridae,,,this study,,,Etmopterus molleri,,pelagic,46,530,lecithotrophic viviparity,stationary,,,Etmopterus,6.5854,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Etmopterus perryi,,pelagic,17,380,lecithotrophic viviparity,stationary,,,Etmopterus,7.386333333333333,,,,,,
-Etmopteridae,,,this study,,,Etmopterus polli,,bathydemersal,30,650,lecithotrophic viviparity,stationary,,,Etmopterus,19.152,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Etmopterus princeps,,bathydemersal,94,1281.5,lecithotrophic viviparity,stationary,,,Etmopterus,7.8199,,,,,,
-Etmopteridae,,,this study,,,Etmopterus pusillus,,bathydemersal,50.2,560,lecithotrophic viviparity,stationary,,,Etmopterus,8.4153,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Etmopterus pycnolepis,,benthopelagic,45.5,546.5,lecithotrophic viviparity,stationary,,,Etmopterus,7.386333333333333,,,,,,
-Etmopteridae,,,this study,,,Etmopterus robinsi,,bathydemersal,31,600,lecithotrophic viviparity,stationary,,,Etmopterus,6.2748,,,,,,
-Etmopteridae,,,this study,,,Etmopterus schultzi,,bathydemersal,27,600,lecithotrophic viviparity,stationary,,,Etmopterus,10.029,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Etmopterus sculptus,,bathydemersal,59,631.5,lecithotrophic viviparity,stationary,,,Etmopterus,7.386333333333333,,,,,,
-Etmopteridae,,,this study,,,Etmopterus sentosus,,bathydemersal,27,350,lecithotrophic viviparity,stationary,,,Etmopterus,3.3777,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Etmopterus sheikoi,,bathypelagic,43.20000076,355,lecithotrophic viviparity,stationary,,,Etmopterus,7.386333333333333,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Etmopterus spinax,,bathydemersal,55,1280,lecithotrophic viviparity,stationary,,,Etmopterus,7.6416,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Etmopterus splendidus,,benthopelagic,30.7,245,lecithotrophic viviparity,stationary,,,Etmopterus,6.4357,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Etmopterus unicolor,,bathydemersal,79,810,lecithotrophic viviparity,stationary,,,Etmopterus,1.4346,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Etmopterus viator,,bathydemersal,39.09999847,1115,lecithotrophic viviparity,stationary,,,Etmopterus,7.386333333333333,,,,,,
-Etmopteridae,,,this study,,,Etmopterus virens,,bathydemersal,23,550,lecithotrophic viviparity,stationary,,,Etmopterus,1.1782,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Orectolobidae,,,this study,,,Eucrossorhinus dasypogon,,reef-associated,366,26,lecithotrophic viviparity,stationary,,,Eucrossorhinus,5.8454375,Galeomorphs,Orectolobiformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Dalatiidae,,,this study,,,Euprotomicrus bispinatus,,bathypelagic,26.5,900,lecithotrophic viviparity,ram,,,Euprotomicrus,14.63368,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Sphyrnidae,,,this study,,,Eusphyra blochii,,benthopelagic,186,68.5,matrotrophic viviparity,ram,,,Eusphyra,14.364,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Pentanchidae,,,this study,,,Figaro boardmani,,bathydemersal,61,475.5,lecithotrophic oviparity,stationary,,,Figaro,6.788,,,,,,
-Pentanchidae,,,this study,,,Figaro striatus,,bathydemersal,42.09999847,359.5,lecithotrophic oviparity,stationary,,,Figaro,6.788,,,,,,
-Triakidae,,,this study,,,Furgaleus macki,,demersal,160,113.5,lecithotrophic viviparity,ram,,,Furgaleus,9.697244927536232,,,,,,
-Carcharhinidae,,,this study,,,Galeocerdo cuvier,,benthopelagic,750,400,matrotrophic viviparity,ram,,,Galeocerdo,12.342,,,,,,
-Pentanchidae,,,this study,,,Galeus atlanticus,,bathydemersal,46,559.5,lecithotrophic oviparity,stationary,,,Galeus,6.3593166666666665,,,,,,
-Pentanchidae,,,this study,,,Galeus eastmani,,bathydemersal,68,500,lecithotrophic oviparity,stationary,,,Galeus,6.3593166666666665,,,,,,
-Pentanchidae,,,this study,,,Galeus gracilis,,bathydemersal,34,380,lecithotrophic oviparity,stationary,,,Galeus,5.5626,,,,,,
-Pentanchidae,,,this study,,,Galeus longirostris,,bathydemersal,80.30000305,480,lecithotrophic oviparity,stationary,,,Galeus,6.3593166666666665,,,,,,
-Pentanchidae,,,this study,,,Galeus melastomus,,demersal,90,1027.5,lecithotrophic oviparity,stationary,,,Galeus,6.0236,,,,,,
-Pentanchidae,,,this study,,,Galeus mincaronei,,bathydemersal,48.8,365,lecithotrophic oviparity,stationary,,,Galeus,6.3593166666666665,,,,,,
-Pentanchidae,,,this study,,,Galeus murinus,,bathydemersal,63,837.5,lecithotrophic oviparity,stationary,,,Galeus,3.4859,,,,,,
-Pentanchidae,,,this study,,,Galeus nipponensis,,bathydemersal,75.6,345,lecithotrophic oviparity,stationary,,,Galeus,6.3593166666666665,,,,,,
-Pentanchidae,,,this study,,,Galeus piperatus,,bathydemersal,29,800.5,lecithotrophic oviparity,stationary,,,Galeus,6.3593166666666665,,,,,,
-Pentanchidae,,,this study,,,Galeus polli,,bathydemersal,45,460,lecithotrophic oviparity,stationary,,,Galeus,9.9831,,,,,,
-Pentanchidae,,,this study,,,Galeus sauteri,,demersal,38,75,lecithotrophic oviparity,stationary,,,Galeus,7.0771,,,,,,
-Pentanchidae,,,this study,,,Galeus schultzi,,bathydemersal,29.7,380,lecithotrophic oviparity,stationary,,,Galeus,6.3593166666666665,,,,,,
-Ginglymostomatidae,,,this study,,,Ginglymostoma cirratum,,reef-associated,308,65,lecithotrophic oviparity,stationary,,,Ginglymostoma,3.1785,,,,,,
-Triakidae,,,this study,,,Gogolia filewoodi,,demersal,73.9,73,lecithotrophic viviparity,ram,,,Gogolia,9.697244927536232,,,,,,
-Pseudotriakidae,,,this study,,,Gollum attenuatus,,bathydemersal,107,390,lecithotrophic viviparity,ram,,,Gollum,4.8018,,,,,,
-Pentanchidae,,,this study,,,Halaelurus boesemani,,demersal,48,143.5,lecithotrophic oviparity,stationary,,,Halaelurus,7.727933333333333,,,,,,
-Pentanchidae,,,this study,,,Halaelurus buergeri,,demersal,49,90,lecithotrophic oviparity,stationary,,,Halaelurus,7.727933333333333,,,,,,
-Pentanchidae,,,this study,,,Halaelurus lineatus,,demersal,56,145,lecithotrophic oviparity,stationary,,,Halaelurus,8.381,,,,,,
-Pentanchidae,,,this study,,,Halaelurus natalensis,,demersal,45,86,lecithotrophic oviparity,stationary,,,Halaelurus,6.4218,,,,,,
-Pentanchidae,,,this study,,,Halaelurus quagga,,demersal,31.5,120.5,lecithotrophic oviparity,stationary,,,Halaelurus,7.727933333333333,,,,,,
-Pentanchidae,,,this study,,,Halaelurus sellus,,demersal,42.3,113,lecithotrophic oviparity,stationary,,,Halaelurus,7.727933333333333,,,,,,
-Pentanchidae,,,this study,,,Haploblepharus edwardsii,,demersal,64,65,lecithotrophic oviparity,stationary,,,Haploblepharus,6.5184,,,,,,
-Pentanchidae,,,this study,,,Haploblepharus fuscus,,reef-associated,69,17.5,lecithotrophic oviparity,stationary,,,Haploblepharus,5.7736,,,,,,
-Pentanchidae,,,this study,,,Haploblepharus kistnasamyi,,bathypelagic,50.4,25,lecithotrophic oviparity,stationary,,,Haploblepharus,5.7919,,,,,,
-Pentanchidae,,,this study,,,Haploblepharus pictus,,demersal,60,17.5,lecithotrophic oviparity,stationary,,,Haploblepharus,5.0105,,,,,,
-Hemiscylliidae,,,this study,,,Hemiscyllium freycineti,,reef-associated,72,6,lecithotrophic oviparity,stationary,,,Hemiscyllium,6.9702,,,,,,
-Hemiscylliidae,,,this study,,,Hemiscyllium galei,,reef-associated,56.75,13.5,lecithotrophic oviparity,stationary,,,Hemiscyllium,6.9702,,,,,,
-Hemiscylliidae,,,this study,,,Hemiscyllium hallstromi,,reef-associated,77,7.5,lecithotrophic oviparity,stationary,,,Hemiscyllium,6.9702,,,,,,
-Hemiscylliidae,,,this study,,,Hemiscyllium halmahera,,benthopelagic,68.09999847,7.5,lecithotrophic oviparity,stationary,,,Hemiscyllium,6.9702,,,,,,
-Hemiscylliidae,,,this study,,,Hemiscyllium henryi,,reef-associated,81.5,16.5,lecithotrophic oviparity,stationary,,,Hemiscyllium,6.9702,,,,,,
-Hemiscylliidae,,,this study,,,Hemiscyllium michaeli,,benthopelagic,69.5,11,lecithotrophic oviparity,stationary,,,Hemiscyllium,6.9702,,,,,,
-Hemiscylliidae,,,this study,,,Hemiscyllium ocellatum,,reef-associated,107,25,lecithotrophic oviparity,stationary,,,Hemiscyllium,7.4466,Galeomorphs,Orectolobiformes,Oviparity,Lecithotrophic,Lecithotrophic Oviparity,S4
-Hemiscylliidae,,,this study,,,Hemiscyllium strahani,,reef-associated,80,10.5,lecithotrophic oviparity,stationary,,,Hemiscyllium,6.9702,,,,,,
-Hemiscylliidae,,,this study,,,Hemiscyllium trispeculare,,reef-associated,79,25,lecithotrophic oviparity,stationary,,,Hemiscyllium,6.4938,,,,,,
-Triakidae,,,this study,,,Hemitriakis abdita,,bathydemersal,80,313,lecithotrophic viviparity,ram,,,Hemitriakis,8.38355,,,,,,
-Triakidae,,,this study,,,Hemitriakis complicofasciata,,benthopelagic,95.5,95,lecithotrophic viviparity,ram,,,Hemitriakis,8.38355,Galeomorphs,Carcharhiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Triakidae,,,this study,,,Hemitriakis falcata,,demersal,77.3,155,lecithotrophic viviparity,ram,,,Hemitriakis,10.784,Galeomorphs,Carcharhiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Triakidae,,,this study,,,Hemitriakis indroyonoi,,demersal,120,60,lecithotrophic viviparity,ram,,,Hemitriakis,8.38355,,,,,,
-Triakidae,,,this study,,,Hemitriakis japanica,,demersal,120,50.5,lecithotrophic viviparity,ram,,,Hemitriakis,5.9831,Galeomorphs,Carcharhiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Triakidae,,,this study,,,Hemitriakis leucoperiptera,,demersal,96,24.5,lecithotrophic viviparity,ram,,,Hemitriakis,8.38355,Galeomorphs,Carcharhiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Heterodontidae,,,this study,,,Heterodontus francisci,,demersal,122,76,lecithotrophic oviparity,stationary,,,Heterodontus,5.5965,Galeomorphs,Heterodontiformes,Oviparity,Lecithotrophic,Lecithotrophic Oviparity,S4
-Heterodontidae,,,this study,,,Heterodontus galeatus,,reef-associated,152,46.5,lecithotrophic oviparity,stationary,,,Heterodontus,4.9463,Galeomorphs,Heterodontiformes,Oviparity,Lecithotrophic,Lecithotrophic Oviparity,S4
-Heterodontidae,,,this study,,,Heterodontus japonicus,,demersal,120,53,lecithotrophic oviparity,stationary,,,Heterodontus,7.8484428571428575,,,,,,
-Heterodontidae,,,this study,,,Heterodontus mexicanus,,demersal,170,25,lecithotrophic oviparity,stationary,,,Heterodontus,6.7478,Galeomorphs,Heterodontiformes,Oviparity,Lecithotrophic,Lecithotrophic Oviparity,S4
-Heterodontidae,,,this study,,,Heterodontus omanensis,,demersal,56,76,lecithotrophic oviparity,stationary,,,Heterodontus,7.8484428571428575,,,,,,
-Heterodontidae,,,this study,,,Heterodontus portusjacksoni,,demersal,165,137.5,lecithotrophic oviparity,stationary,,,Heterodontus,10.685,Galeomorphs,Heterodontiformes,Oviparity,Lecithotrophic,Lecithotrophic Oviparity,S4
-Heterodontidae,,,this study,,,Heterodontus quoyi,,reef-associated,107,21.5,lecithotrophic oviparity,stationary,,,Heterodontus,7.5033,,,,,,
-Heterodontidae,,,this study,,,Heterodontus ramalheira,,demersal,64,172.5,lecithotrophic oviparity,stationary,,,Heterodontus,7.8484428571428575,,,,,,
-Heterodontidae,,,this study,,,Heterodontus zebra,,reef-associated,125,100,lecithotrophic oviparity,stationary,,,Heterodontus,8.7752,Galeomorphs,Heterodontiformes,Oviparity,Lecithotrophic,Lecithotrophic Oviparity,S4
-Hexanchidae,,,this study,,,Hexanchus griseus,,bathydemersal,550,1245,lecithotrophic viviparity,ram,,,Hexanchus,7.4946,Squalimorphs,Hexanchiformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Hexanchidae,,,this study,,,Hexanchus nakamurai,,bathydemersal,180,300,lecithotrophic viviparity,ram,,,Hexanchus,10.609,,,,,,
-Hexanchidae,,,this study,,,Hexanchus vitulus,,bathydemersal,180,395.5,lecithotrophic viviparity,ram,,,Hexanchus,8.829342857142857,,,,,,
-Pentanchidae,,,this study,,,Holohalaelurus favus,,pelagic,51.5,600,lecithotrophic oviparity,stationary,,,Holohalaelurus,6.75225,,,,,,
-Pentanchidae,,,this study,,,Holohalaelurus grennian,,pelagic,27,295.5,lecithotrophic oviparity,stationary,,,Holohalaelurus,6.75225,,,,,,
-Pentanchidae,,,this study,,,Holohalaelurus melanostigma,,bathydemersal,38.40000153,632.5,lecithotrophic oviparity,stationary,,,Holohalaelurus,6.75225,,,,,,
-Pentanchidae,,,this study,,,Holohalaelurus punctatus,,bathydemersal,35,330,lecithotrophic oviparity,stationary,,,Holohalaelurus,6.6565,,,,,,
-Pentanchidae,,,this study,,,Holohalaelurus regani,,bathydemersal,69,545,lecithotrophic oviparity,stationary,,,Holohalaelurus,6.848,,,,,,
-Triakidae,,,this study,,,Hypogaleus hyugaensis,,demersal,127,135,lecithotrophic viviparity,ram,,,Hypogaleus,7.1291,,,,,,
-Triakidae,,,this study,,,Iago garricki,,bathydemersal,75,362.5,matrotrophic viviparity,ram,,,Iago,8.5392,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Triakidae,,,this study,,,Iago omanensis,,bathydemersal,37,1152.5,matrotrophic viviparity,ram,,,Iago,8.5392,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Dalatiidae,,,this study,,,Isistius brasiliensis,,bathypelagic,42,1850,lecithotrophic viviparity,ram,,,Isistius,15.604,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Dalatiidae,,,this study,,,Isistius plutodus,,benthopelagic,42.3,1045,lecithotrophic viviparity,ram,,,Isistius,15.604,,,,,,
-Carcharhinidae,,,this study,,,Isogomphodon oxyrhynchus,,demersal,160,22,matrotrophic viviparity,ram,,,Isogomphodon,9.81085390070922,,,,,,
-Lamnidae,,,this study,,,Isurus oxyrinchus,,pelagic,445,375,matrotrophic viviparity,ram,,,Isurus,13.922,Galeomorphs,Lamniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Lamnidae,,,this study,,,Isurus paucus,,pelagic,427,876,matrotrophic viviparity,ram,,,Isurus,10.319,Galeomorphs,Lamniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Lamiopsis temminckii,,demersal,168,42.5,matrotrophic viviparity,ram,,,Lamiopsis,9.81085390070922,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S1
-Carcharhinidae,,,this study,,,Lamiopsis tephrodes,,demersal,145,42.5,matrotrophic viviparity,ram,,,Lamiopsis,9.81085390070922,,,,,,
-Lamnidae,,,this study,,,Lamna ditropis,,pelagic,305,325,matrotrophic viviparity,ram,,,Lamna,6.2338,Galeomorphs,Lamniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Lamnidae,,,this study,,,Lamna nasus,,pelagic,365,904.5,matrotrophic viviparity,ram,,,Lamna,6.2338,Galeomorphs,Lamniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Leptochariidae,,,this study,,,Leptocharias smithii,,demersal,82,42.5,matrotrophic viviparity,stationary,,,Leptocharias,19.152,,,,,,
-Carcharhinidae,,,this study,,,Loxodon macrorhinus,,demersal,98,53.5,lecithotrophic viviparity,ram,,,Loxodon,11.559,,,,,,
-Megachasmidae,,,this study,,,Megachasma pelagios,,pelagic,549,302.5,matrotrophic viviparity,ram,,,Megachasma,5.3356,Galeomorphs,Lamniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Mitsukurinidae,,,this study,,,Mitsukurina owstoni,,bathydemersal,617,665,matrotrophic viviparity,ram,,,Mitsukurina,6.6086,Galeomorphs,Lamniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Triakidae,,,this study,,,Mustelus albipinnis,,benthopelagic,109,155.5,lecithotrophic viviparity,ram,,,Mustelus,9.657624528301886,,,,,,
-Triakidae,,,this study,,,Mustelus andamanensis,,benthopelagic,104,75,lecithotrophic viviparity,ram,,,Mustelus,9.657624528301886,,,,,,
-Triakidae,,,this study,,,Mustelus antarcticus,,demersal,157,201.5,lecithotrophic viviparity,ram,,,Mustelus,16.442,,,,,,
-Triakidae,,,this study,,,Mustelus asterias,,demersal,140,99.5,lecithotrophic viviparity,ram,,,Mustelus,6.9015,,,,,,
-Triakidae,,,this study,,,Mustelus californicus,,demersal,116,100,lecithotrophic viviparity,ram,,,Mustelus,6.1316,,,,,,
-Triakidae,,,this study,,,Mustelus canis,,demersal,150,400,lecithotrophic viviparity,ram,,,Mustelus,8.0434,,,,,,
-Triakidae,,,this study,,,Mustelus dorsalis,,demersal,66,110,lecithotrophic viviparity,ram,,,Mustelus,7.4479,,,,,,
-Triakidae,,,this study,,,Mustelus fasciatus,,demersal,150,125.5,lecithotrophic viviparity,ram,,,Mustelus,7.3961,,,,,,
-Triakidae,,,this study,,,Mustelus griseus,,demersal,87,152.5,lecithotrophic viviparity,ram,,,Mustelus,6.3513,,,,,,
-Triakidae,,,this study,,,Mustelus henlei,,demersal,100,140.5,lecithotrophic viviparity,ram,,,Mustelus,5.3593,,,,,,
-Triakidae,,,this study,,,Mustelus higmani,,demersal,77.40000153,450.5,lecithotrophic viviparity,ram,,,Mustelus,9.657624528301886,,,,,,
-Triakidae,,,this study,,,Mustelus lenticulatus,,demersal,151,110.5,lecithotrophic viviparity,ram,,,Mustelus,5.8063,,,,,,
-Triakidae,,,this study,,,Mustelus lunulatus,,demersal,175,104.5,lecithotrophic viviparity,ram,,,Mustelus,11.937,,,,,,
-Triakidae,,,this study,,,Mustelus manazo,,demersal,220,180,lecithotrophic viviparity,ram,,,Mustelus,6.4592,,,,,,
-Triakidae,,,this study,,,Mustelus mento,,demersal,130,33,lecithotrophic viviparity,ram,,,Mustelus,9.7828,,,,,,
-Triakidae,,,this study,,,Mustelus minicanis,,benthopelagic,47.79999924,127,lecithotrophic viviparity,ram,,,Mustelus,9.657624528301886,,,,,,
-Triakidae,,,this study,,,Mustelus mosis,,demersal,150,135,lecithotrophic viviparity,ram,,,Mustelus,5.461,,,,,,
-Triakidae,,,this study,,,Mustelus mustelus,,demersal,174.5,400,lecithotrophic viviparity,ram,,,Mustelus,11.068,,,,,,
-Triakidae,,,this study,,,Mustelus norrisi,,demersal,110,50.5,lecithotrophic viviparity,ram,,,Mustelus,8.8886,,,,,,
-Triakidae,,,this study,,,Mustelus palumbes,,demersal,120,221.5,lecithotrophic viviparity,ram,,,Mustelus,7.2205,,,,,,
-Triakidae,,,this study,,,Mustelus punctulatus,,demersal,190,150,lecithotrophic viviparity,ram,,,Mustelus,5.4161,,,,,,
-Triakidae,,,this study,,,Mustelus ravidus,,benthopelagic,68.30000305,203,lecithotrophic viviparity,ram,,,Mustelus,9.657624528301886,,,,,,
-Triakidae,,,this study,,,Mustelus schmitti,,demersal,108.5,98.5,lecithotrophic viviparity,ram,,,Mustelus,6.6001,,,,,,
-Triakidae,,,this study,,,Mustelus sinusmexicanus,,pelagic,83,135,lecithotrophic viviparity,ram,,,Mustelus,9.4027,,,,,,
-Triakidae,,,this study,,,Mustelus stevensi,,benthopelagic,128.3000031,402,lecithotrophic viviparity,ram,,,Mustelus,10.731,,,,,,
-Triakidae,,,this study,,,Mustelus walkeri,,demersal,111.6,227.5,lecithotrophic viviparity,ram,,,Mustelus,4.9951,,,,,,
-Triakidae,,,this study,,,Mustelus whitneyi,,demersal,87,113.5,lecithotrophic viviparity,ram,,,Mustelus,9.657624528301886,,,,,,
-Triakidae,,,this study,,,Mustelus widodoi,,benthopelagic,109.5,90,lecithotrophic viviparity,ram,,,Mustelus,9.657624528301886,,,,,,
-Carcharhinidae,,,this study,,,Nasolamia velox,,demersal,165,96,matrotrophic viviparity,ram,,,Nasolamia,7.9069,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Ginglymostomatidae,,,this study,,,Nebrius ferrugineus,,reef-associated,320,35,lecithotrophic viviparity,ram,,,Nebrius,47.669,,,,,,
-Carcharhinidae,,,this study,,,Negaprion acutidens,,reef-associated,310,45,matrotrophic viviparity,ram,,,Negaprion,4.7028,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Hexanchidae,,,this study,,,Notorynchus cepedianus,,demersal,296,285,lecithotrophic viviparity,ram,,,Notorynchus,8.1187,Squalimorphs,Hexanchiformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Odontaspididae,,,this study,,,Odontaspis ferox,,benthopelagic,450,512.5,matrotrophic viviparity,ram,,,Odontaspis,6.0088,,,,,,
-Odontaspididae,,,this study,,,Odontaspis noronhai,,pelagic,367,530,matrotrophic viviparity,ram,,,Odontaspis,6.0088,Galeomorphs,Lamniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Orectolobidae,,,this study,,,Orectolobus floridus,,benthopelagic,75,63.5,lecithotrophic viviparity,stationary,,,Orectolobus,5.8454375,Galeomorphs,Orectolobiformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Orectolobidae,,,this study,,,Orectolobus halei,,demersal,256,97.5,lecithotrophic viviparity,stationary,,,Orectolobus,5.5714,,,,,,
-Orectolobidae,,,this study,,,Orectolobus hutchinsi,,demersal,149,55,lecithotrophic viviparity,stationary,,,Orectolobus,5.6622,Galeomorphs,Orectolobiformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Orectolobidae,,,this study,,,Orectolobus japonicus,,demersal,118,100,lecithotrophic viviparity,stationary,,,Orectolobus,5.8454375,Galeomorphs,Orectolobiformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Orectolobidae,,,this study,,,Orectolobus leptolineatus,,benthopelagic,112,65,lecithotrophic viviparity,stationary,,,Orectolobus,5.8454375,,,,,,
-Orectolobidae,,,this study,,,Orectolobus maculatus,,reef-associated,320,124,lecithotrophic viviparity,stationary,,,Orectolobus,6.4555,Galeomorphs,Orectolobiformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Orectolobidae,,,this study,,,Orectolobus ornatus,,reef-associated,290,52.5,lecithotrophic viviparity,stationary,,,Orectolobus,5.6825,Galeomorphs,Orectolobiformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Orectolobidae,,,this study,,,Orectolobus parvimaculatus,,demersal,88.5,72,lecithotrophic viviparity,stationary,,,Orectolobus,5.8454375,Galeomorphs,Orectolobiformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Orectolobidae,,,this study,,,Orectolobus reticulatus,,benthopelagic,52.3,10,lecithotrophic viviparity,stationary,,,Orectolobus,5.8454375,,,,,,
-Orectolobidae,,,this study,,,Orectolobus wardi,,reef-associated,63,2,lecithotrophic viviparity,stationary,,,Orectolobus,5.8454375,,,,,,
-Oxynotidae,,,this study,,,Oxynotus bruniensis,,bathydemersal,65,557.5,lecithotrophic viviparity,stationary,,,Oxynotus,19.152,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Oxynotidae,,,this study,,,Oxynotus caribbaeus,,bathydemersal,49,429.5,lecithotrophic viviparity,stationary,,,Oxynotus,19.152,,,,,,
-Oxynotidae,,,this study,,,Oxynotus centrina,,bathydemersal,150,420,lecithotrophic viviparity,stationary,,,Oxynotus,19.152,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Oxynotidae,,,this study,,,Oxynotus japonicus,,bathydemersal,54,225,lecithotrophic viviparity,stationary,,,Oxynotus,19.152,,,,,,
-Oxynotidae,,,this study,,,Oxynotus paradoxus,,bathydemersal,118,492.5,lecithotrophic viviparity,stationary,,,Oxynotus,19.152,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Parascylliidae,,,this study,,,Parascyllium collare,,reef-associated,85,125,lecithotrophic oviparity,stationary,,,Parascyllium,5.8863,,,,,,
-Parascylliidae,,,this study,,,Parascyllium ferrugineum,,demersal,80,77.5,lecithotrophic oviparity,stationary,,,Parascyllium,5.6604,,,,,,
-Parascylliidae,,,this study,,,Parascyllium sparsimaculatum,,bathydemersal,78.1,224.5,lecithotrophic oviparity,stationary,,,Parascyllium,5.6604,,,,,,
-Parascylliidae,,,this study,,,Parascyllium variolatum,,demersal,91,90,lecithotrophic oviparity,stationary,,,Parascyllium,5.4345,,,,,,
-Pentanchidae,,,this study,,,Parmaturus angelae,,demersal,42.5,550,lecithotrophic oviparity,stationary,,,Parmaturus,4.16125,,,,,,
-Pentanchidae,,,this study,,,Parmaturus lanatus,,bathydemersal,36,847.5,lecithotrophic oviparity,stationary,,,Parmaturus,4.16125,,,,,,
-Pentanchidae,,,this study,,,Parmaturus macmillani,,bathydemersal,45,1085,lecithotrophic oviparity,stationary,,,Parmaturus,2.2981,,,,,,
-Pentanchidae,,,this study,,,Parmaturus melanobranchus,,bathydemersal,85,779,lecithotrophic oviparity,stationary,,,Parmaturus,4.16125,,,,,,
-Pentanchidae,,,this study,,,Parmaturus pilosus,,bathydemersal,64,767.5,lecithotrophic oviparity,stationary,,,Parmaturus,4.16125,,,,,,
-Pentanchidae,,,this study,,,Parmaturus xaniurus,,bathydemersal,45,669,lecithotrophic oviparity,stationary,,,Parmaturus,6.0244,,,,,,
-Pentanchidae,,,this study,,,Pentanchus profundicolus,,bathydemersal,51,871,lecithotrophic oviparity,stationary,,,Pentanchus,15.2966675,,,,,,
-Pseudotriakidae,,,this study,,,Planonasus indicus,,demersal,64,640,matrotrophic viviparity,stationary,,,Planonasus,5.1897,,,,,,
-Pseudotriakidae,,,this study,,,Planonasus parini,,demersal,53.4,840,matrotrophic viviparity,stationary,,,Planonasus,5.1897,,,,,,
-Pristiophoridae,,,this study,,,Pliotrema annae,,demersal,98,27.5,lecithotrophic viviparity,stationary,,,Pliotrema,7.364,,,,,,
-Pristiophoridae,,,this study,,,Pliotrema kajae,,demersal,102,267,lecithotrophic viviparity,stationary,,,Pliotrema,7.364,,,,,,
-Pristiophoridae,,,this study,,,Pliotrema warreni,,demersal,170,462.5,lecithotrophic viviparity,stationary,,,Pliotrema,7.364,Squalimorphs,Pristiophoriformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Scyliorhinidae,,,this study,,,Poroderma africanum,,demersal,101,50,lecithotrophic oviparity,stationary,,,Poroderma,6.2518,,,,,,
-Scyliorhinidae,,,this study,,,Poroderma pantherinum,,reef-associated,84,128,lecithotrophic oviparity,stationary,,,Poroderma,5.5106,,,,,,
-Pristiophoridae,,,this study,,,Pristiophorus cirratus,,demersal,149,335,lecithotrophic viviparity,stationary,,,Pristiophorus,5.7533,Squalimorphs,Pristiophoriformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Pristiophoridae,,,this study,,,Pristiophorus delicatus,,pelagic,84.5,325.5,lecithotrophic viviparity,stationary,,,Pristiophorus,5.916600000000001,,,,,,
-Pristiophoridae,,,this study,,,Pristiophorus japonicus,,demersal,153,645,lecithotrophic viviparity,stationary,,,Pristiophorus,5.916600000000001,Squalimorphs,Pristiophoriformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Pristiophoridae,,,this study,,,Pristiophorus lanae,,benthopelagic,89.5,311,lecithotrophic viviparity,stationary,,,Pristiophorus,5.916600000000001,,,,,,
-Pristiophoridae,,,this study,,,Pristiophorus nancyae,,pelagic,62.1,428,lecithotrophic viviparity,stationary,,,Pristiophorus,5.916600000000001,,,,,,
-Pristiophoridae,,,this study,,,Pristiophorus nudipinnis,,demersal,124,82.5,lecithotrophic viviparity,stationary,,,Pristiophorus,6.0799,Squalimorphs,Pristiophoriformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Proscylliidae,,,this study,,,Proscyllium habereri,,demersal,65,185,lecithotrophic oviparity,stationary,,,Proscyllium,8.3397,,,,,,
-Proscylliidae,,,this study,,,Proscyllium magnificum,,pelagic,49,220.5,lecithotrophic oviparity,stationary,,,Proscyllium,8.3397,,,,,,
-Pseudotriakidae,,,this study,,,Pseudotriakis microdon,,bathydemersal,269,1031.5,lecithotrophic viviparity,ram,,,Pseudotriakis,5.5776,,,,,,
-Rhincodontidae,,,this study,,,Rhincodon typus,,pelagic,1700,964,lecithotrophic viviparity,ram,,,Rhincodon,7.7945,Galeomorphs,Orectolobiformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Rhizoprionodon acutus,,benthopelagic,178,100.5,matrotrophic viviparity,ram,,,Rhizoprionodon,6.0408,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Rhizoprionodon lalandii,,demersal,102.1,35,matrotrophic viviparity,ram,,,Rhizoprionodon,7.093567741935484,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Rhizoprionodon longurio,,benthopelagic,154,13.5,matrotrophic viviparity,ram,,,Rhizoprionodon,7.999,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Rhizoprionodon oligolinx,,reef-associated,85,18,matrotrophic viviparity,ram,,,Rhizoprionodon,17.984,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Rhizoprionodon porosus,,reef-associated,110,250,matrotrophic viviparity,ram,,,Rhizoprionodon,7.093567741935484,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Rhizoprionodon taylori,,pelagic,78.4,55,matrotrophic viviparity,ram,,,Rhizoprionodon,7.9872,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Scyliorhinidae,,,this study,,,Schroederichthys bivius,,demersal,86,185.5,lecithotrophic oviparity,stationary,,,Schroederichthys,5.2027,,,,,,
-Scyliorhinidae,,,this study,,,Schroederichthys chilensis,,demersal,70,25.5,lecithotrophic oviparity,stationary,,,Schroederichthys,5.2027,,,,,,
-Scyliorhinidae,,,this study,,,Schroederichthys saurisqualus,,bathydemersal,69.2,311,lecithotrophic oviparity,stationary,,,Schroederichthys,5.2027,,,,,,
-Scyliorhinidae,,,this study,,,Schroederichthys tenuis,,bathydemersal,47.3,261,lecithotrophic oviparity,stationary,,,Schroederichthys,5.2027,,,,,,
-Scyliorhinidae,,,this study,,,Scyliorhinus boa,,bathydemersal,54,502.5,lecithotrophic oviparity,stationary,,,Scyliorhinus,8.9471,,,,,,
-Scyliorhinidae,,,this study,,,Scyliorhinus canicula,,demersal,100,400.5,lecithotrophic oviparity,stationary,,,Scyliorhinus,6.7455,,,,,,
-Scyliorhinidae,,,this study,,,Scyliorhinus capensis,,demersal,122,260.5,lecithotrophic oviparity,stationary,,,Scyliorhinus,6.7932,,,,,,
-Scyliorhinidae,,,this study,,,Scyliorhinus cervigoni,,demersal,76,272.5,lecithotrophic oviparity,stationary,,,Scyliorhinus,55.052,,,,,,
-Scyliorhinidae,,,this study,,,Scyliorhinus comoroensis,,bathydemersal,46.4,300,lecithotrophic oviparity,stationary,,,Scyliorhinus,13.677575,,,,,,
-Scyliorhinidae,,,this study,,,Scyliorhinus haeckelii,,demersal,64.7,310,lecithotrophic oviparity,stationary,,,Scyliorhinus,8.9634,,,,,,
-Scyliorhinidae,,,this study,,,Scyliorhinus retifer,,demersal,59,413.5,lecithotrophic oviparity,stationary,,,Scyliorhinus,13.677575,,,,,,
-Scyliorhinidae,,,this study,,,Scyliorhinus stellaris,,reef-associated,162,190.5,lecithotrophic oviparity,stationary,,,Scyliorhinus,9.0255,,,,,,
-Scyliorhinidae,,,this study,,,Scyliorhinus torazame,,demersal,500,160,lecithotrophic oviparity,stationary,,,Scyliorhinus,7.1484,,,,,,
-Triakidae,,,this study,,,Scylliogaleus quecketti,,demersal,111,36.5,matrotrophic viviparity,stationary,,,Scylliogaleus,9.697244927536232,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Somniosidae,,,this study,,,Scymnodalatias albicauda,,bathypelagic,111,330,lecithotrophic viviparity,stationary,,,Scymnodalatias,4.377177777777778,,,,,,
-Somniosidae,,,this study,,,Scymnodalatias garricki,,bathypelagic,40.6,440,lecithotrophic viviparity,stationary,,,Scymnodalatias,4.377177777777778,,,,,,
-Somniosidae,,,this study,,,Scymnodalatias sherwoodi,,benthopelagic,85,450,lecithotrophic viviparity,stationary,,,Scymnodalatias,4.377177777777778,,,,,,
-Somniosidae,,,this study,,,Scymnodon ichiharai,,bathypelagic,151.1,640,lecithotrophic viviparity,stationary,,,Scymnodon,3.9064,,,,,,
-Somniosidae,,,this study,,,Scymnodon plunketi,,bathypelagic,170,865,lecithotrophic viviparity,stationary,,,Scymnodon,3.9064,,,,,,
-Somniosidae,,,this study,,,Scymnodon ringens,,bathypelagic,110,900,lecithotrophic viviparity,stationary,,,Scymnodon,3.9064,,,,,,
-Somniosidae,,,this study,,,Somniosus antarcticus,,benthopelagic,438,817.5,lecithotrophic viviparity,stationary,,,Somniosus,1.9602,,,,,,
-Somniosidae,,,this study,,,Somniosus longus,,bathydemersal,143.3,683,lecithotrophic viviparity,stationary,,,Somniosus,3.75285,,,,,,
-Somniosidae,,,this study,,,Somniosus microcephalus,,benthopelagic,730,1323.5,lecithotrophic viviparity,stationary,,,Somniosus,3.75285,,,,,,
-Somniosidae,,,this study,,,Somniosus pacificus,,benthopelagic,440,1102.5,lecithotrophic viviparity,stationary,,,Somniosus,3.75285,,,,,,
-Somniosidae,,,this study,,,Somniosus rostratus,,bathydemersal,143,765,lecithotrophic viviparity,stationary,,,Somniosus,5.5455,,,,,,
-Sphyrnidae,,,this study,,,Sphyrna corona,,demersal,92,50,matrotrophic viviparity,ram,,,Sphyrna,15.965,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Sphyrnidae,,,this study,,,Sphyrna lewini,,pelagic,430,521.5,matrotrophic viviparity,ram,,,Sphyrna,14.608,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Sphyrnidae,,,this study,,,Sphyrna media,,demersal,150,50,matrotrophic viviparity,ram,,,Sphyrna,11.3678893081761,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Sphyrnidae,,,this study,,,Sphyrna mokarran,,pelagic,610,150,matrotrophic viviparity,ram,,,Sphyrna,7.3981,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Sphyrnidae,,,this study,,,Sphyrna tiburo,,reef-associated,150,45,matrotrophic viviparity,ram,,,Sphyrna,4.199,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Sphyrnidae,,,this study,,,Sphyrna tudes,,benthopelagic,134,42.5,matrotrophic viviparity,ram,,,Sphyrna,8.8064,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Sphyrnidae,,,this study,,,Sphyrna zygaena,,pelagic,400,100,matrotrophic viviparity,ram,,,Sphyrna,10.906,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
-Dalatiidae,,,this study,,,Squaliolus aliae,,bathypelagic,24.1,1000,lecithotrophic viviparity,stationary,,,Squaliolus,5.3019,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Dalatiidae,,,this study,,,Squaliolus laticaudus,,bathypelagic,27.5,905,lecithotrophic viviparity,stationary,,,Squaliolus,7.4546,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squalidae,,,this study,,,Squalus acanthias,,benthopelagic,200,989,lecithotrophic viviparity,stationary,,,Squalus,8.2153,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squalidae,,,this study,,,Squalus acutipinnis,,benthopelagic,85,750,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,,,,,,
-Squalidae,,,this study,,,Squalus albicaudus,,benthopelagic,52.5,308,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,,,,,,
-Squalidae,,,this study,,,Squalus albifrons,,pelagic,74,290.5,lecithotrophic viviparity,stationary,,,Squalus,8.2335,,,,,,
-Squalidae,,,this study,,,Squalus altipinnis,,pelagic,58.90000153,301.5,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,,,,,,
-Squalidae,,,this study,,,Squalus bahiensis,,pelagic,69,599,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,,,,,,
-Squalidae,,,this study,,,Squalus bassi,,benthopelagic,110,375,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,,,,,,
-Squalidae,,,this study,,,Squalus blainville,,demersal,920,757.5,lecithotrophic viviparity,stationary,,,Squalus,14.925,,,,,,
-Squalidae,,,this study,,,Squalus boretzi,,demersal,95.2,312.5,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,,,,,,
-Squalidae,,,this study,,,Squalus brevirostris,,demersal,57.8,191,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squalidae,,,this study,,,Squalus bucephalus,,pelagic,90,664,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,,,,,,
-Squalidae,,,this study,,,Squalus chloroculus,,bathydemersal,99,786.5,lecithotrophic viviparity,stationary,,,Squalus,5.7216,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squalidae,,,this study,,,Squalus clarkae,,benthopelagic,82,427.5,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,,,,,,
-Squalidae,,,this study,,,Squalus crassispinus,,pelagic,67,224.5,lecithotrophic viviparity,stationary,,,Squalus,9.3249,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squalidae,,,this study,,,Squalus cubensis,,demersal,60,230,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squalidae,,,this study,,,Squalus edmundsi,,pelagic,115,527,lecithotrophic viviparity,stationary,,,Squalus,1.0252,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squalidae,,,this study,,,Squalus formosus,,pelagic,85,485,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,,,,,,
-Squalidae,,,this study,,,Squalus grahami,,pelagic,73,326,lecithotrophic viviparity,stationary,,,Squalus,7.6276,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squalidae,,,this study,,,Squalus griffini,,bathydemersal,110,493.5,lecithotrophic viviparity,stationary,,,Squalus,6.3253,,,,,,
-Squalidae,,,this study,,,Squalus hawaiiensis,,benthopelagic,101,332.5,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,,,,,,
-Squalidae,,,this study,,,Squalus hemipinnis,,benthopelagic,78,50.5,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squalidae,,,this study,,,Squalus japonicus,,bathydemersal,105,225,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squalidae,,,this study,,,Squalus lobularis,,benthopelagic,64,300,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,,,,,,
-Squalidae,,,this study,,,Squalus mahia,,pelagic,59,277.5,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,,,,,,
-Squalidae,,,this study,,,Squalus margaretsmithae,,benthopelagic,54.29999924,270,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,,,,,,
-Squalidae,,,this study,,,Squalus megalops,,demersal,64,390,lecithotrophic viviparity,stationary,,,Squalus,7.0687,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squalidae,,,this study,,,Squalus melanurus,,bathydemersal,75,330,lecithotrophic viviparity,stationary,,,Squalus,7.039,,,,,,
-Squalidae,,,this study,,,Squalus mitsukurii,,benthopelagic,112,479,lecithotrophic viviparity,stationary,,,Squalus,7.7126,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squalidae,,,this study,,,Squalus montalbani,,bathydemersal,101,762,lecithotrophic viviparity,stationary,,,Squalus,5.524,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squalidae,,,this study,,,Squalus nasutus,,pelagic,64,575,lecithotrophic viviparity,stationary,,,Squalus,10.699,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squalidae,,,this study,,,Squalus notocaudatus,,pelagic,62,339.5,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,,,,,,
-Squalidae,,,this study,,,Squalus quasimodo,,pelagic,85,417.5,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,,,,,,
-Squalidae,,,this study,,,Squalus rancureli,,bathydemersal,77,360,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,,,,,,
-Squalidae,,,this study,,,Squalus raoulensis,,pelagic,93,355,lecithotrophic viviparity,stationary,,,Squalus,7.8388375,,,,,,
-Squalidae,,,this study,,,Squalus suckleyi,,benthopelagic,130,618,lecithotrophic viviparity,stationary,,,Squalus,4.6723,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squatinidae,,,this study,,,Squatina aculeata,,demersal,188,265,lecithotrophic viviparity,stationary,,,Squatina,19.152,Squalimorphs,Squatiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squatinidae,,,this study,,,Squatina africana,,demersal,80,265,lecithotrophic viviparity,stationary,,,Squatina,9.8045,Squalimorphs,Squatiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squatinidae,,,this study,,,Squatina albipunctata,,benthopelagic,98.5,226,lecithotrophic viviparity,stationary,,,Squatina,7.0584,Squalimorphs,Squatiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squatinidae,,,this study,,,Squatina argentina,,demersal,1380,228.5,lecithotrophic viviparity,stationary,,,Squatina,10.508766666666666,,,,,,
-Squatinidae,,,this study,,,Squatina armata,,demersal,150,52.5,lecithotrophic viviparity,stationary,,,Squatina,22.209,Squalimorphs,Squatiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squatinidae,,,this study,,,Squatina australis,,demersal,152,65,lecithotrophic viviparity,stationary,,,Squatina,8.0911,Squalimorphs,Squatiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squatinidae,,,this study,,,Squatina californica,,demersal,152,103,lecithotrophic viviparity,stationary,,,Squatina,8.4192,Squalimorphs,Squatiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squatinidae,,,this study,,,Squatina david,,demersal,79,213,lecithotrophic viviparity,stationary,,,Squatina,10.508766666666666,,,,,,
-Squatinidae,,,this study,,,Squatina dumeril,,bathydemersal,152,688,lecithotrophic viviparity,stationary,,,Squatina,6.6795,Squalimorphs,Squatiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squatinidae,,,this study,,,Squatina formosa,,bathydemersal,150,201.5,lecithotrophic viviparity,stationary,,,Squatina,10.508766666666666,Squalimorphs,Squatiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squatinidae,,,this study,,,Squatina guggenheim,,demersal,96,78.5,lecithotrophic viviparity,stationary,,,Squatina,6.0762,Squalimorphs,Squatiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squatinidae,,,this study,,,Squatina japonica,,demersal,200,181,lecithotrophic viviparity,stationary,,,Squatina,10.508766666666666,Squalimorphs,Squatiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squatinidae,,,this study,,,Squatina nebulosa,,demersal,800,165,lecithotrophic viviparity,stationary,,,Squatina,10.508766666666666,Squalimorphs,Squatiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squatinidae,,,this study,,,Squatina occulta,,demersal,120,177.5,lecithotrophic viviparity,stationary,,,Squatina,10.508766666666666,Squalimorphs,Squatiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squatinidae,,,this study,,,Squatina oculata,,demersal,160,255,lecithotrophic viviparity,stationary,,,Squatina,9.3887,,,,,,
-Squatinidae,,,this study,,,Squatina pseudocellata,,benthopelagic,114,231,lecithotrophic viviparity,stationary,,,Squatina,10.508766666666666,Squalimorphs,Squatiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squatinidae,,,this study,,,Squatina squatina,,demersal,244,76,lecithotrophic viviparity,stationary,,,Squatina,10.508766666666666,Squalimorphs,Squatiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squatinidae,,,this study,,,Squatina tergocellata,,bathydemersal,140,264,lecithotrophic viviparity,stationary,,,Squatina,11.331,Squalimorphs,Squatiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Squatinidae,,,this study,,,Squatina tergocellatoides,,demersal,100,200,lecithotrophic viviparity,stationary,,,Squatina,10.508766666666666,Squalimorphs,Squatiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Stegostomidae,,,this study,,,Stegostoma tigrinum,,reef-associated,354,31,lecithotrophic oviparity,stationary,,,Stegostoma,22.777,,,,,,
-Orectolobidae,,,this study,,,Sutorectus tentaculatus,,reef-associated,92,17.5,lecithotrophic viviparity,stationary,,,Sutorectus,5.8454375,Galeomorphs,Orectolobiformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Triaenodon obesus,,reef-associated,168,165.5,lecithotrophic viviparity,stationary,,,Triaenodon,9.1561,,,,,,
-Triakidae,,,this study,,,Triakis acutipinna,,demersal,112,260,lecithotrophic viviparity,ram,,,Triakis,6.0669,,,,,,
-Triakidae,,,this study,,,Triakis maculata,,demersal,180,105,lecithotrophic viviparity,ram,,,Triakis,6.0669,,,,,,
-Triakidae,,,this study,,,Triakis megalopterus,,demersal,207.5,25,lecithotrophic viviparity,ram,,,Triakis,5.8717,Galeomorphs,Carcharhiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Triakidae,,,this study,,,Triakis scyllium,,demersal,150,90,lecithotrophic viviparity,ram,,,Triakis,6.0669,Galeomorphs,Carcharhiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Triakidae,,,this study,,,Triakis semifasciata,,demersal,213.4,78,lecithotrophic viviparity,ram,,,Triakis,6.2621,Galeomorphs,Carcharhiniformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Etmopteridae,,,this study,,,Trigonognathus kabeyai,,demersal,53.9,575,lecithotrophic viviparity,stationary,,,Trigonognathus,6.7768227272727275,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Somniosidae,,,this study,,,Zameus squamulosus,,demersal,84,755.5,lecithotrophic viviparity,stationary,,,Zameus,2.0601,Squalimorphs,Squaliformes,Viviparity,Lecithotrophic,Lecithotrophic Viviparity,S4
-Carcharhinidae,,,this study,,,Carcharhinus perezi,,reef-associated,295,189,matrotrophic viviparity,ram,,,Carcharhinus,7.6352,Galeomorphs,Carcharhiniformes,Viviparity,Matrotrophic,Matrotrophic Viviparity,S4
+family,hook,leader,source,group,sample_size,estimate,scientific_name,gear_class,habitat_associated,max_size_cm,median_depth,reproductive_mode,ventilation_method,estimate_type,genus,ac
+Triakidae,,,this study,,,,Pseudocarcharias kamoharai,longline,pelagic,122,295,oophagy,ram,,Pseudocarcharias,5.2458
+Lamnidae,,,this study,,,,Heptranchias perlo,longline,bathydemersal,140,500,oophagy,ram,,Heptranchias,11.532
+Etmopteridae,,,this study,,,,Aculeola nigra,,demersal,60,335,yolk-sac viviparity,stationary,,Aculeola,6.7768227272727275
+Alopiidae,,,this study,,,,Alopias pelagicus,,pelagic,428,150,oophagy,ram,,Alopias,9.7281
+Alopiidae,,,this study,,,,Alopias superciliosus,,pelagic,484,361.5,oophagy,ram,,Alopias,11.023
+Alopiidae,,,this study,,,,Alopias vulpinus,,pelagic,573.3,325,oophagy,ram,,Alopias,8.7014
+Pentanchidae,,,this study,,,,Apristurus albisoma,,bathydemersal,59.6,1249.5,oviparous,stationary,,Apristurus,6.9416
+Pentanchidae,,,this study,,,,Apristurus ampliceps,,bathydemersal,85.5,1151.5,oviparous,stationary,,Apristurus,7.0717
+Pentanchidae,,,this study,,,,Apristurus aphyodes,,bathypelagic,55,1407,oviparous,stationary,,Apristurus,5.45665
+Pentanchidae,,,this study,,,,Apristurus australis,,bathypelagic,61.59999847,760.5,oviparous,stationary,,Apristurus,5.45665
+Pentanchidae,,,this study,,,,Apristurus brunneus,,demersal,69.3,682.5,oviparous,stationary,,Apristurus,6.6187
+Pentanchidae,,,this study,,,,Apristurus bucephalus,,bathydemersal,67.5,1085,oviparous,stationary,,Apristurus,5.45665
+Pentanchidae,,,this study,,,,Apristurus exsanguis,,bathydemersal,90.80000305,880,oviparous,stationary,,Apristurus,5.1806
+Pentanchidae,,,this study,,,,Apristurus fedorovi,,bathypelagic,68.30000305,800,oviparous,stationary,,Apristurus,5.45665
+Pentanchidae,,,this study,,,,Apristurus garricki,,bathydemersal,67.5,858.5,oviparous,stationary,,Apristurus,5.45665
+Pentanchidae,,,this study,,,,Apristurus gibbosus,,bathydemersal,54.8,756.5,oviparous,stationary,,Apristurus,5.45665
+Pentanchidae,,,this study,,,,Apristurus herklotsi,,bathydemersal,48.5,698.5,oviparous,stationary,,Apristurus,5.45665
+Pentanchidae,,,this study,,,,Apristurus internatus,,bathypelagic,41.9,600,oviparous,stationary,,Apristurus,5.45665
+Pentanchidae,,,this study,,,,Apristurus japonicus,,bathydemersal,71.1,867.5,oviparous,stationary,,Apristurus,5.45665
+Pentanchidae,,,this study,,,,Apristurus laurussonii,,bathydemersal,76,1055,oviparous,stationary,,Apristurus,3.6345
+Pentanchidae,,,this study,,,,Apristurus longicephalus,,bathydemersal,60,815,oviparous,stationary,,Apristurus,1.4606
+Pentanchidae,,,this study,,,,Apristurus macrorhynchus,,bathydemersal,67.4,680,oviparous,stationary,,Apristurus,7.7111
+Pentanchidae,,,this study,,,,Apristurus macrostomus,,bathydemersal,57.3,644.5,oviparous,stationary,,Apristurus,5.45665
+Pentanchidae,,,this study,,,,Apristurus manis,,bathydemersal,85,1250,oviparous,stationary,,Apristurus,3.908
+Pentanchidae,,,this study,,,,Apristurus melanoasper,,bathypelagic,76.09999847,1016,oviparous,stationary,,Apristurus,3.3655
+Pentanchidae,,,this study,,,,Apristurus microps,,bathydemersal,61,1600,oviparous,stationary,,Apristurus,4.9465
+Pentanchidae,,,this study,,,,Apristurus micropterygeus,,bathydemersal,38.1,913,oviparous,stationary,,Apristurus,5.45665
+Pentanchidae,,,this study,,,,Apristurus nasutus,,bathydemersal,70,662.5,oviparous,stationary,,Apristurus,5.45665
+Pentanchidae,,,this study,,,,Apristurus pinguis,,bathypelagic,83.5,600,oviparous,stationary,,Apristurus,5.45665
+Pentanchidae,,,this study,,,,Apristurus platyrhynchus,,bathypelagic,80,740,oviparous,stationary,,Apristurus,6.2562
+Pentanchidae,,,this study,,,,Apristurus profundorum,,bathydemersal,76,1425,oviparous,stationary,,Apristurus,13.973
+Pentanchidae,,,this study,,,,Apristurus saldanha,,bathydemersal,88.5,676.5,oviparous,stationary,,Apristurus,4.2887
+Pentanchidae,,,this study,,,,Apristurus sinensis,,bathydemersal,75,913.5,oviparous,stationary,,Apristurus,1.0364
+Pentanchidae,,,this study,,,,Asymbolus analis,,reef-associated,90,95,oviparous,stationary,,Asymbolus,6.6223
+Pentanchidae,,,this study,,,,Asymbolus occiduus,,pelagic,60.09999847,249,oviparous,stationary,,Asymbolus,6.014
+Pentanchidae,,,this study,,,,Asymbolus pallidus,,bathypelagic,43.90000153,313.5,oviparous,stationary,,Asymbolus,9.5367
+Pentanchidae,,,this study,,,,Asymbolus parvus,,pelagic,34.90000153,210,oviparous,stationary,,Asymbolus,11.033
+Pentanchidae,,,this study,,,,Asymbolus rubiginosus,,pelagic,39.29999924,282.5,oviparous,stationary,,Asymbolus,6.5864
+Pentanchidae,,,this study,,,,Asymbolus vincenti,,reef-associated,61,338.5,oviparous,stationary,,Asymbolus,6.3118
+Scyliorhinidae,,,this study,,,,Atelomycterus baliensis,,demersal,520,32.5,oviparous,stationary,,Atelomycterus,10.984
+Scyliorhinidae,,,this study,,,,Atelomycterus erdmanni,,reef-associated,50.09999847,32.5,oviparous,stationary,,Atelomycterus,10.984
+Scyliorhinidae,,,this study,,,,Atelomycterus fasciatus,,demersal,45,74.5,oviparous,stationary,,Atelomycterus,10.984
+Scyliorhinidae,,,this study,,,,Atelomycterus macleayi,,reef-associated,60,2,oviparous,stationary,,Atelomycterus,1
+Scyliorhinidae,,,this study,,,,Atelomycterus marmoratus,,reef-associated,70,52.5,oviparous,stationary,,Atelomycterus,20.968
+Scyliorhinidae,,,this study,,,,Atelomycterus marnkalha,,benthopelagic,47,42.5,oviparous,stationary,,Atelomycterus,10.984
+Scyliorhinidae,,,this study,,,,Aulohalaelurus kanakorum,,reef-associated,78.5,49,oviparous,stationary,,Aulohalaelurus,4.9994
+Scyliorhinidae,,,this study,,,,Aulohalaelurus labiosus,,demersal,67,2,oviparous,stationary,,Aulohalaelurus,4.9994
+Brachaeluridae,,,this study,,,,Brachaelurus colcloughi,,demersal,76,110.5,yolk-sac viviparity,stationary,,Brachaelurus,2.3238
+Brachaeluridae,,,this study,,,,Brachaelurus waddi,,reef-associated,122,70,yolk-sac viviparity,stationary,,Brachaelurus,4.6517
+Pentanchidae,,,this study,,,,Bythaelurus bachi,,pelagic,42.20000076,1137.5,oviparous,stationary,,Bythaelurus,97.029375
+Pentanchidae,,,this study,,,,Bythaelurus canescens,,bathydemersal,70,475,oviparous,stationary,,Bythaelurus,5.1264
+Pentanchidae,,,this study,,,,Bythaelurus clevai,,bathydemersal,40,450,oviparous,stationary,,Bythaelurus,97.029375
+Pentanchidae,,,this study,,,,Bythaelurus dawsoni,,bathydemersal,45,625,oviparous,stationary,,Bythaelurus,4.3992000000000004
+Pentanchidae,,,this study,,,,Bythaelurus hispidus,,bathydemersal,26,301.5,oviparous,stationary,,Bythaelurus,375.29
+Pentanchidae,,,this study,,,,Bythaelurus immaculatus,,bathydemersal,71,777,oviparous,stationary,,Bythaelurus,97.029375
+Pentanchidae,,,this study,,,,Bythaelurus lutarius,,bathydemersal,34,552,oviparous,stationary,,Bythaelurus,3.3019
+Pentanchidae,,,this study,,,,Bythaelurus naylori,,demersal,51.09999847,766,oviparous,stationary,,Bythaelurus,97.029375
+Pentanchidae,,,this study,,,,Bythaelurus tenuicephalus,,pelagic,300,506.5,oviparous,stationary,,Bythaelurus,97.029375
+Carcharhinidae,,,this study,,,,Carcharhinus acronotus,,reef-associated,164,51.5,placental viviparity,ram,,Carcharhinus,8.3419
+Carcharhinidae,,,this study,,,,Carcharhinus albimarginatus,,reef-associated,300,400.5,placental viviparity,ram,,Carcharhinus,3.5185
+Carcharhinidae,,,this study,,,,Carcharhinus altimus,,reef-associated,300,405,placental viviparity,ram,,Carcharhinus,17.283
+Carcharhinidae,,,this study,,,,Carcharhinus amblyrhynchoides,,benthopelagic,182,37.5,placental viviparity,ram,,Carcharhinus,9.890398701298702
+Carcharhinidae,,,this study,,,,Carcharhinus amboinensis,,reef-associated,280,50,placental viviparity,ram,,Carcharhinus,9.890398701298702
+Carcharhinidae,,,this study,,,,Carcharhinus borneensis,,demersal,70,25,placental viviparity,ram,,Carcharhinus,9.890398701298702
+Carcharhinidae,,,this study,,,,Carcharhinus cautus,,reef-associated,150,10,placental viviparity,ram,,Carcharhinus,9.890398701298702
+Carcharhinidae,,,this study,,,,Carcharhinus cerdale,,demersal,140,20,placental viviparity,ram,,Carcharhinus,9.890398701298702
+Carcharhinidae,,,this study,,,,Carcharhinus coatesi,,reef-associated,87,61.5,placental viviparity,ram,,Carcharhinus,9.890398701298702
+Carcharhinidae,,,this study,,,,Carcharhinus fitzroyensis,,demersal,135,20,placental viviparity,ram,,Carcharhinus,9.890398701298702
+Carcharhinidae,,,this study,,,,Carcharhinus hemiodon,,demersal,200,80,placental viviparity,ram,,Carcharhinus,9.890398701298702
+Carcharhinidae,,,this study,,,,Carcharhinus humani,,benthopelagic,84.40000153,39.5,placental viviparity,ram,,Carcharhinus,9.890398701298702
+Carcharhinidae,,,this study,,,,Carcharhinus isodon,,demersal,200,10,placental viviparity,ram,,Carcharhinus,16.403
+Carcharhinidae,,,this study,,,,Carcharhinus leiodon,,demersal,165,35,placental viviparity,ram,,Carcharhinus,9.890398701298702
+Carcharhinidae,,,this study,,,,Carcharhinus longimanus,,pelagic,350,541,placental viviparity,ram,,Carcharhinus,9.5821
+Carcharhinidae,,,this study,,,,Carcharhinus macloti,,demersal,110,100.5,placental viviparity,ram,,Carcharhinus,9.890398701298702
+Carcharhinidae,,,this study,,,,Carcharhinus melanopterus,,reef-associated,180,50,placental viviparity,ram,,Carcharhinus,7.9127
+Carcharhinidae,,,this study,,,,Carcharhinus obsoletus,,demersal,100,25,placental viviparity,ram,,Carcharhinus,9.890398701298702
+Carcharhinidae,,,this study,,,,Carcharhinus porosus,,demersal,150,42,placental viviparity,ram,,Carcharhinus,3.888
+Carcharhinidae,,,this study,,,,Carcharhinus sealei,,reef-associated,100,20,placental viviparity,ram,,Carcharhinus,9.890398701298702
+Carcharhinidae,,,this study,,,,Carcharhinus tilstoni,,benthopelagic,200,75,placental viviparity,ram,,Carcharhinus,9.890398701298702
+Carcharhinidae,,,this study,,,,Carcharhinus tjutjot,,reef-associated,93.69999695,50,placental viviparity,ram,,Carcharhinus,9.890398701298702
+Odontaspididae,,,this study,,,,Carcharias taurus,,reef-associated,325,116,oophagy,ram,,Carcharias,9.0956
+Lamnidae,,,this study,,,,Carcharodon carcharias,,pelagic,594.4,600,oophagy,ram,,Carcharodon,7.7326
+Centrophoridae,,,this study,,,,Centrophorus atromarginatus,,bathydemersal,87,316.5,yolk-sac viviparity,stationary,,Centrophorus,11.245972727272727
+Centrophoridae,,,this study,,,,Centrophorus granulosus,,bathydemersal,176,775,yolk-sac viviparity,stationary,,Centrophorus,9.3579
+Centrophoridae,,,this study,,,,Centrophorus harrissoni,,bathydemersal,111.4000015,520,yolk-sac viviparity,stationary,,Centrophorus,6.4469
+Centrophoridae,,,this study,,,,Centrophorus isodon,,bathydemersal,108.2,602.5,yolk-sac viviparity,stationary,,Centrophorus,11.245972727272727
+Centrophoridae,,,this study,,,,Centrophorus lesliei,,bathydemersal,76.5,490,yolk-sac viviparity,stationary,,Centrophorus,11.245972727272727
+Centrophoridae,,,this study,,,,Centrophorus longipinnis,,bathydemersal,77.5,395,yolk-sac viviparity,stationary,,Centrophorus,11.245972727272727
+Centrophoridae,,,this study,,,,Centrophorus moluccensis,,bathydemersal,100,474,yolk-sac viviparity,stationary,,Centrophorus,6.732
+Centrophoridae,,,this study,,,,Centrophorus tessellatus,,benthopelagic,89,376,yolk-sac viviparity,stationary,,Centrophorus,11.245972727272727
+Centrophoridae,,,this study,,,,Centrophorus uyato,,bathydemersal,110,725,yolk-sac viviparity,stationary,,Centrophorus,18.488
+Centrophoridae,,,this study,,,,Centrophorus westraliensis,,bathydemersal,90.9,683,yolk-sac viviparity,stationary,,Centrophorus,11.245972727272727
+Etmopteridae,,,this study,,,,Centroscyllium excelsum,,bathydemersal,63.59999847,900,yolk-sac viviparity,stationary,,Centroscyllium,4.034025
+Etmopteridae,,,this study,,,,Centroscyllium fabricii,,bathydemersal,120,1190,yolk-sac viviparity,stationary,,Centroscyllium,8.0273
+Etmopteridae,,,this study,,,,Centroscyllium granulatum,,bathypelagic,61.5,355,yolk-sac viviparity,stationary,,Centroscyllium,4.034025
+Etmopteridae,,,this study,,,,Centroscyllium kamoharai,,bathydemersal,60,965,yolk-sac viviparity,stationary,,Centroscyllium,1.0739
+Etmopteridae,,,this study,,,,Centroscyllium nigrum,,benthopelagic,51,719.5,yolk-sac viviparity,stationary,,Centroscyllium,6.0349
+Etmopteridae,,,this study,,,,Centroscyllium ornatum,,bathydemersal,30,891.5,yolk-sac viviparity,stationary,,Centroscyllium,4.034025
+Etmopteridae,,,this study,,,,Centroscyllium ritteri,,demersal,43,605,yolk-sac viviparity,stationary,,Centroscyllium,1
+Somniosidae,,,this study,,,,Centroscymnus macracanthus,,bathydemersal,170,884.5,yolk-sac viviparity,stationary,,Centroscymnus,5.184480000000001
+Somniosidae,,,this study,,,,Centroscymnus owstonii,,bathydemersal,120,804.5,yolk-sac viviparity,stationary,,Centroscymnus,5.3314
+Somniosidae,,,this study,,,,Centroselachus crepidater,,bathydemersal,105,1140,yolk-sac viviparity,stationary,,Centroselachus,4.377177777777778
+Scyliorhinidae,,,this study,,,,Cephaloscyllium albipinnum,,bathypelagic,110,340,yolk-sac viviparity,stationary,,Cephaloscyllium,6.171
+Scyliorhinidae,,,this study,,,,Cephaloscyllium fasciatum,,reef-associated,42,325,yolk-sac viviparity,stationary,,Cephaloscyllium,6.303442857142857
+Scyliorhinidae,,,this study,,,,Cephaloscyllium formosanum,,reef-associated,65.5,366,yolk-sac viviparity,stationary,,Cephaloscyllium,6.303442857142857
+Scyliorhinidae,,,this study,,,,Cephaloscyllium hiscosellum,,bathypelagic,52,357,yolk-sac viviparity,stationary,,Cephaloscyllium,6.303442857142857
+Scyliorhinidae,,,this study,,,,Cephaloscyllium isabellum,,reef-associated,150,399.5,yolk-sac viviparity,stationary,,Cephaloscyllium,6.3707
+Scyliorhinidae,,,this study,,,,Cephaloscyllium laticeps,,demersal,150,110.5,yolk-sac viviparity,stationary,,Cephaloscyllium,6.1457
+Scyliorhinidae,,,this study,,,,Cephaloscyllium sarawakensis,,benthopelagic,44.1,141,yolk-sac viviparity,stationary,,Cephaloscyllium,6.303442857142857
+Scyliorhinidae,,,this study,,,,Cephaloscyllium signourum,,benthopelagic,74.1,590,yolk-sac viviparity,stationary,,Cephaloscyllium,6.303442857142857
+Scyliorhinidae,,,this study,,,,Cephaloscyllium silasi,,bathydemersal,36,375,yolk-sac viviparity,stationary,,Cephaloscyllium,6.303442857142857
+Scyliorhinidae,,,this study,,,,Cephaloscyllium speccum,,benthopelagic,68,302.5,yolk-sac viviparity,stationary,,Cephaloscyllium,6.303442857142857
+Scyliorhinidae,,,this study,,,,Cephaloscyllium sufflans,,demersal,110,320,yolk-sac viviparity,stationary,,Cephaloscyllium,5.9196
+Scyliorhinidae,,,this study,,,,Cephaloscyllium umbratile,,reef-associated,120,260,yolk-sac viviparity,stationary,,Cephaloscyllium,6.303442857142857
+Scyliorhinidae,,,this study,,,,Cephaloscyllium variegatum,,bathypelagic,72,360,yolk-sac viviparity,stationary,,Cephaloscyllium,7.2257
+Scyliorhinidae,,,this study,,,,Cephaloscyllium ventriosum,,demersal,110,231,yolk-sac viviparity,stationary,,Cephaloscyllium,6.303442857142857
+Pentanchidae,,,this study,,,,Cephalurus cephalus,,bathydemersal,28,541,yolk-sac viviparity,stationary,,Cephalurus,15.2966675
+Cetorhinidae,,,this study,,,,Cetorhinus maximus,,pelagic,1097.3,632,oophagy,ram,,Cetorhinus,7.3075
+Hemiscylliidae,,,this study,,,,Chiloscyllium arabicum,,demersal,80,51,oviparous,stationary,,Chiloscyllium,9.5884
+Hemiscylliidae,,,this study,,,,Chiloscyllium burmensis,,demersal,57.5,31,oviparous,stationary,,Chiloscyllium,9.5884
+Hemiscylliidae,,,this study,,,,Chiloscyllium griseum,,reef-associated,77,52.5,oviparous,stationary,,Chiloscyllium,8.7153
+Hemiscylliidae,,,this study,,,,Chiloscyllium hasselti,,reef-associated,61,6,oviparous,stationary,,Chiloscyllium,9.5884
+Hemiscylliidae,,,this study,,,,Chiloscyllium indicum,,demersal,65,45,oviparous,stationary,,Chiloscyllium,9.5884
+Hemiscylliidae,,,this study,,,,Chiloscyllium plagiosum,,reef-associated,83,25,oviparous,stationary,,Chiloscyllium,9.3569
+Hemiscylliidae,,,this study,,,,Chiloscyllium punctatum,,reef-associated,132,42.5,oviparous,stationary,,Chiloscyllium,10.693
+Chlamydoselachidae,,,this study,,,,Chlamydoselachus africana,,benthopelagic,99,850,oophagy,ram,,Chlamydoselachus,6.588
+Chlamydoselachidae,,,this study,,,,Chlamydoselachus anguineus,,bathydemersal,200,785,oophagy,ram,,Chlamydoselachus,6.588
+Squalidae,,,this study,,,,Cirrhigaleus asper,,bathydemersal,120,425,yolk-sac viviparity,stationary,,Cirrhigaleus,8.3281
+Squalidae,,,this study,,,,Cirrhigaleus australis,,pelagic,123,500,yolk-sac viviparity,stationary,,Cirrhigaleus,8.3281
+Squalidae,,,this study,,,,Cirrhigaleus barbifer,,bathydemersal,126,395,yolk-sac viviparity,stationary,,Cirrhigaleus,8.3281
+Parascylliidae,,,this study,,,,Cirrhoscyllium expolitum,,demersal,34,185,oviparous,stationary,,Cirrhoscyllium,10.205
+Parascylliidae,,,this study,,,,Cirrhoscyllium formosanum,,demersal,39,215,oviparous,stationary,,Cirrhoscyllium,10.205
+Parascylliidae,,,this study,,,,Cirrhoscyllium japonicum,,bathydemersal,48.5,270,oviparous,stationary,,Cirrhoscyllium,10.205
+Dalatiidae,,,this study,,,,Dalatias licha,,bathydemersal,182,915.5,yolk-sac viviparity,stationary,,Dalatias,9.7975
+Centrophoridae,,,this study,,,,Deania profundorum,,bathydemersal,97,1002.5,yolk-sac viviparity,stationary,,Deania,6.0616
+Centrophoridae,,,this study,,,,Deania quadrispinosa,,bathydemersal,118,755,yolk-sac viviparity,stationary,,Deania,6.4249
+Echinorhinidae,,,this study,,,,Echinorhinus brucus,,bathydemersal,310,455,yolk-sac viviparity,stationary,,Echinorhinus,6.4253
+Echinorhinidae,,,this study,,,,Echinorhinus cookei,,benthopelagic,400,555.5,yolk-sac viviparity,stationary,,Echinorhinus,6.4253
+Proscylliidae,,,this study,,,,Eridacnis barbouri,,bathydemersal,200,525,yolk-sac viviparity,ram,,Eridacnis,1.0541
+Proscylliidae,,,this study,,,,Eridacnis radcliffei,,bathydemersal,23,418.5,yolk-sac viviparity,ram,,Eridacnis,8.0327
+Proscylliidae,,,this study,,,,Eridacnis sinuans,,bathydemersal,37,330,yolk-sac viviparity,ram,,Eridacnis,6.5241
+Etmopteridae,,,this study,,,,Etmopterus alphus,,pelagic,33.59999847,632,yolk-sac viviparity,stationary,,Etmopterus,7.386333333333333
+Etmopteridae,,,this study,,,,Etmopterus bigelowi,,pelagic,67,581.5,yolk-sac viviparity,stationary,,Etmopterus,6.8893
+Etmopteridae,,,this study,,,,Etmopterus brachyurus,,pelagic,50,398,yolk-sac viviparity,stationary,,Etmopterus,8.0241
+Etmopteridae,,,this study,,,,Etmopterus brosei,,pelagic,45.09999847,840,yolk-sac viviparity,stationary,,Etmopterus,7.386333333333333
+Etmopteridae,,,this study,,,,Etmopterus bullisi,,pelagic,30.3,550,yolk-sac viviparity,stationary,,Etmopterus,8.1573
+Etmopteridae,,,this study,,,,Etmopterus burgessi,,pelagic,35.5,450,yolk-sac viviparity,stationary,,Etmopterus,7.386333333333333
+Etmopteridae,,,this study,,,,Etmopterus compagnoi,,pelagic,78,841.5,yolk-sac viviparity,stationary,,Etmopterus,5.8621
+Etmopteridae,,,this study,,,,Etmopterus decacuspidatus,,pelagic,29,602,yolk-sac viviparity,stationary,,Etmopterus,7.386333333333333
+Etmopteridae,,,this study,,,,Etmopterus dianthus,,pelagic,40.90000153,540,yolk-sac viviparity,stationary,,Etmopterus,7.386333333333333
+Etmopteridae,,,this study,,,,Etmopterus dislineatus,,pelagic,44.79999924,695,yolk-sac viviparity,stationary,,Etmopterus,7.386333333333333
+Etmopteridae,,,this study,,,,Etmopterus evansi,,pelagic,32,559.5,yolk-sac viviparity,stationary,,Etmopterus,7.386333333333333
+Etmopteridae,,,this study,,,,Etmopterus fusus,,pelagic,25.799999239999998,490,yolk-sac viviparity,stationary,,Etmopterus,7.386333333333333
+Etmopteridae,,,this study,,,,Etmopterus gracilispinis,,pelagic,35,612.5,yolk-sac viviparity,stationary,,Etmopterus,7.6064
+Etmopteridae,,,this study,,,,Etmopterus granulosus,,pelagic,86,920,yolk-sac viviparity,stationary,,Etmopterus,7.386333333333333
+Etmopteridae,,,this study,,,,Etmopterus hillianus,,pelagic,29.5,448.5,yolk-sac viviparity,stationary,,Etmopterus,9.023
+Etmopteridae,,,this study,,,,Etmopterus joungi,,pelagic,40.59999847,300,yolk-sac viviparity,stationary,,Etmopterus,7.386333333333333
+Etmopteridae,,,this study,,,,Etmopterus lailae,,pelagic,36.79999924,349,yolk-sac viviparity,stationary,,Etmopterus,7.386333333333333
+Etmopteridae,,,this study,,,,Etmopterus litvinovi,,bathydemersal,61,865,yolk-sac viviparity,stationary,,Etmopterus,7.386333333333333
+Etmopteridae,,,this study,,,,Etmopterus lucifer,,pelagic,55,753.5,yolk-sac viviparity,stationary,,Etmopterus,9.0476
+Etmopteridae,,,this study,,,,Etmopterus marshae,,pelagic,23.39999962,329.5,yolk-sac viviparity,stationary,,Etmopterus,7.386333333333333
+Etmopteridae,,,this study,,,,Etmopterus molleri,,pelagic,46,530,yolk-sac viviparity,stationary,,Etmopterus,6.5854
+Etmopteridae,,,this study,,,,Etmopterus perryi,,pelagic,17,380,yolk-sac viviparity,stationary,,Etmopterus,7.386333333333333
+Etmopteridae,,,this study,,,,Etmopterus polli,,bathydemersal,30,650,yolk-sac viviparity,stationary,,Etmopterus,19.152
+Etmopteridae,,,this study,,,,Etmopterus princeps,,bathydemersal,94,1281.5,yolk-sac viviparity,stationary,,Etmopterus,7.8199
+Etmopteridae,,,this study,,,,Etmopterus pusillus,,bathydemersal,50.2,560,yolk-sac viviparity,stationary,,Etmopterus,8.4153
+Etmopteridae,,,this study,,,,Etmopterus pycnolepis,,benthopelagic,45.5,546.5,yolk-sac viviparity,stationary,,Etmopterus,7.386333333333333
+Etmopteridae,,,this study,,,,Etmopterus robinsi,,bathydemersal,31,600,yolk-sac viviparity,stationary,,Etmopterus,6.2748
+Etmopteridae,,,this study,,,,Etmopterus schultzi,,bathydemersal,27,600,yolk-sac viviparity,stationary,,Etmopterus,10.029
+Etmopteridae,,,this study,,,,Etmopterus sculptus,,bathydemersal,59,631.5,yolk-sac viviparity,stationary,,Etmopterus,7.386333333333333
+Etmopteridae,,,this study,,,,Etmopterus sentosus,,bathydemersal,27,350,yolk-sac viviparity,stationary,,Etmopterus,3.3777
+Etmopteridae,,,this study,,,,Etmopterus sheikoi,,bathypelagic,43.20000076,355,yolk-sac viviparity,stationary,,Etmopterus,7.386333333333333
+Etmopteridae,,,this study,,,,Etmopterus spinax,,bathydemersal,55,1280,yolk-sac viviparity,stationary,,Etmopterus,7.6416
+Etmopteridae,,,this study,,,,Etmopterus splendidus,,benthopelagic,30.7,245,yolk-sac viviparity,stationary,,Etmopterus,6.4357
+Etmopteridae,,,this study,,,,Etmopterus unicolor,,bathydemersal,79,810,yolk-sac viviparity,stationary,,Etmopterus,1.4346
+Etmopteridae,,,this study,,,,Etmopterus viator,,bathydemersal,39.09999847,1115,yolk-sac viviparity,stationary,,Etmopterus,7.386333333333333
+Etmopteridae,,,this study,,,,Etmopterus virens,,bathydemersal,23,550,yolk-sac viviparity,stationary,,Etmopterus,1.1782
+Orectolobidae,,,this study,,,,Eucrossorhinus dasypogon,,reef-associated,366,26,yolk-sac viviparity,stationary,,Eucrossorhinus,5.8454375
+Dalatiidae,,,this study,,,,Euprotomicrus bispinatus,,bathypelagic,26.5,900,yolk-sac viviparity,ram,,Euprotomicrus,14.549304347826086
+Sphyrnidae,,,this study,,,,Eusphyra blochii,,benthopelagic,186,68.5,placental viviparity,ram,,Eusphyra,14.364
+Pentanchidae,,,this study,,,,Figaro boardmani,,bathydemersal,61,475.5,oviparous,stationary,,Figaro,6.788
+Pentanchidae,,,this study,,,,Figaro striatus,,bathydemersal,42.09999847,359.5,oviparous,stationary,,Figaro,6.788
+Triakidae,,,this study,,,,Furgaleus macki,,demersal,160,113.5,yolk-sac viviparity,ram,,Furgaleus,9.55699552238806
+Carcharhinidae,,,this study,,,,Galeocerdo cuvier,,benthopelagic,740,556,placental viviparity,ram,,Galeocerdo,12.342
+Pentanchidae,,,this study,,,,Galeus atlanticus,,bathydemersal,46,559.5,oviparous,stationary,,Galeus,6.3593166666666665
+Pentanchidae,,,this study,,,,Galeus eastmani,,bathydemersal,68,500,oviparous,stationary,,Galeus,6.3593166666666665
+Pentanchidae,,,this study,,,,Galeus gracilis,,bathydemersal,34,380,oviparous,stationary,,Galeus,5.5626
+Pentanchidae,,,this study,,,,Galeus longirostris,,bathydemersal,80.30000305,480,oviparous,stationary,,Galeus,6.3593166666666665
+Pentanchidae,,,this study,,,,Galeus melastomus,,demersal,90,1027.5,oviparous,stationary,,Galeus,6.0236
+Pentanchidae,,,this study,,,,Galeus mincaronei,,bathydemersal,48.8,365,oviparous,stationary,,Galeus,6.3593166666666665
+Pentanchidae,,,this study,,,,Galeus murinus,,bathydemersal,63,837.5,oviparous,stationary,,Galeus,3.4859
+Pentanchidae,,,this study,,,,Galeus nipponensis,,bathydemersal,75.6,345,oviparous,stationary,,Galeus,6.3593166666666665
+Pentanchidae,,,this study,,,,Galeus piperatus,,bathydemersal,29,800.5,oviparous,stationary,,Galeus,6.3593166666666665
+Pentanchidae,,,this study,,,,Galeus polli,,bathydemersal,45,460,oviparous,stationary,,Galeus,9.9831
+Pentanchidae,,,this study,,,,Galeus sauteri,,demersal,38,75,oviparous,stationary,,Galeus,7.0771
+Pentanchidae,,,this study,,,,Galeus schultzi,,bathydemersal,29.7,380,oviparous,stationary,,Galeus,6.3593166666666665
+Ginglymostomatidae,,,this study,,,,Ginglymostoma cirratum,,reef-associated,308,65,oviparous,stationary,,Ginglymostoma,3.1785
+Triakidae,,,this study,,,,Gogolia filewoodi,,demersal,73.9,73,yolk-sac viviparity,ram,,Gogolia,9.55699552238806
+Pseudotriakidae,,,this study,,,,Gollum attenuatus,,bathydemersal,107,390,yolk-sac viviparity,ram,,Gollum,4.8018
+Pentanchidae,,,this study,,,,Halaelurus boesemani,,demersal,48,143.5,oviparous,stationary,,Halaelurus,7.7279333333333335
+Pentanchidae,,,this study,,,,Halaelurus buergeri,,demersal,49,90,oviparous,stationary,,Halaelurus,7.7279333333333335
+Pentanchidae,,,this study,,,,Halaelurus lineatus,,demersal,56,145,oviparous,stationary,,Halaelurus,8.381
+Pentanchidae,,,this study,,,,Halaelurus natalensis,,demersal,45,86,oviparous,stationary,,Halaelurus,6.4218
+Pentanchidae,,,this study,,,,Halaelurus quagga,,demersal,31.5,120.5,oviparous,stationary,,Halaelurus,7.7279333333333335
+Pentanchidae,,,this study,,,,Halaelurus sellus,,demersal,42.3,113,oviparous,stationary,,Halaelurus,7.7279333333333335
+Pentanchidae,,,this study,,,,Haploblepharus edwardsii,,demersal,64,65,oviparous,stationary,,Haploblepharus,6.5184
+Pentanchidae,,,this study,,,,Haploblepharus fuscus,,reef-associated,69,17.5,oviparous,stationary,,Haploblepharus,5.7736
+Pentanchidae,,,this study,,,,Haploblepharus kistnasamyi,,bathypelagic,50.4,25,oviparous,stationary,,Haploblepharus,5.7919
+Pentanchidae,,,this study,,,,Haploblepharus pictus,,demersal,60,17.5,oviparous,stationary,,Haploblepharus,5.0105
+Hemiscylliidae,,,this study,,,,Hemiscyllium freycineti,,reef-associated,72,6,oviparous,stationary,,Hemiscyllium,6.9702
+Hemiscylliidae,,,this study,,,,Hemiscyllium galei,,reef-associated,56.75,13.5,oviparous,stationary,,Hemiscyllium,6.9702
+Hemiscylliidae,,,this study,,,,Hemiscyllium hallstromi,,reef-associated,77,7.5,oviparous,stationary,,Hemiscyllium,6.9702
+Hemiscylliidae,,,this study,,,,Hemiscyllium halmahera,,benthopelagic,68.09999847,7.5,oviparous,stationary,,Hemiscyllium,6.9702
+Hemiscylliidae,,,this study,,,,Hemiscyllium henryi,,reef-associated,81.5,16.5,oviparous,stationary,,Hemiscyllium,6.9702
+Hemiscylliidae,,,this study,,,,Hemiscyllium michaeli,,benthopelagic,69.5,11,oviparous,stationary,,Hemiscyllium,6.9702
+Hemiscylliidae,,,this study,,,,Hemiscyllium ocellatum,,reef-associated,107,25,oviparous,stationary,,Hemiscyllium,7.4466
+Hemiscylliidae,,,this study,,,,Hemiscyllium strahani,,reef-associated,80,10.5,oviparous,stationary,,Hemiscyllium,6.9702
+Hemiscylliidae,,,this study,,,,Hemiscyllium trispeculare,,reef-associated,79,25,oviparous,stationary,,Hemiscyllium,6.4938
+Triakidae,,,this study,,,,Hemitriakis abdita,,bathydemersal,80,313,yolk-sac viviparity,ram,,Hemitriakis,8.38355
+Triakidae,,,this study,,,,Hemitriakis complicofasciata,,benthopelagic,95.5,95,yolk-sac viviparity,ram,,Hemitriakis,8.38355
+Triakidae,,,this study,,,,Hemitriakis falcata,,demersal,77.3,155,yolk-sac viviparity,ram,,Hemitriakis,10.784
+Triakidae,,,this study,,,,Hemitriakis indroyonoi,,demersal,120,60,yolk-sac viviparity,ram,,Hemitriakis,8.38355
+Triakidae,,,this study,,,,Hemitriakis japanica,,demersal,314,324.5,yolk-sac viviparity,ram,,Hemitriakis,5.9831
+Triakidae,,,this study,,,,Hemitriakis leucoperiptera,,demersal,96,24.5,yolk-sac viviparity,ram,,Hemitriakis,8.38355
+Heterodontidae,,,this study,,,,Heterodontus francisci,,demersal,122,76,oviparous,stationary,,Heterodontus,5.5965
+Heterodontidae,,,this study,,,,Heterodontus galeatus,,reef-associated,152,46.5,oviparous,stationary,,Heterodontus,4.9463
+Heterodontidae,,,this study,,,,Heterodontus japonicus,,demersal,120,53,oviparous,stationary,,Heterodontus,7.8484428571428575
+Heterodontidae,,,this study,,,,Heterodontus mexicanus,,demersal,170,25,oviparous,stationary,,Heterodontus,6.7478
+Heterodontidae,,,this study,,,,Heterodontus omanensis,,demersal,56,76,oviparous,stationary,,Heterodontus,7.8484428571428575
+Heterodontidae,,,this study,,,,Heterodontus portusjacksoni,,demersal,165,137.5,oviparous,stationary,,Heterodontus,10.685
+Heterodontidae,,,this study,,,,Heterodontus quoyi,,reef-associated,107,21.5,oviparous,stationary,,Heterodontus,7.5033
+Heterodontidae,,,this study,,,,Heterodontus ramalheira,,demersal,64,172.5,oviparous,stationary,,Heterodontus,7.8484428571428575
+Heterodontidae,,,this study,,,,Heterodontus zebra,,reef-associated,125,100,oviparous,stationary,,Heterodontus,8.7752
+Hexanchidae,,,this study,,,,Hexanchus griseus,,bathydemersal,550,1245,yolk-sac viviparity,ram,,Hexanchus,7.4946
+Hexanchidae,,,this study,,,,Hexanchus nakamurai,,bathydemersal,180,300,yolk-sac viviparity,ram,,Hexanchus,10.609
+Hexanchidae,,,this study,,,,Hexanchus vitulus,,bathydemersal,180,395.5,yolk-sac viviparity,ram,,Hexanchus,8.829342857142857
+Pentanchidae,,,this study,,,,Holohalaelurus favus,,pelagic,51.5,600,oviparous,stationary,,Holohalaelurus,6.75225
+Pentanchidae,,,this study,,,,Holohalaelurus grennian,,pelagic,27,295.5,oviparous,stationary,,Holohalaelurus,6.75225
+Pentanchidae,,,this study,,,,Holohalaelurus melanostigma,,bathydemersal,38.40000153,632.5,oviparous,stationary,,Holohalaelurus,6.75225
+Pentanchidae,,,this study,,,,Holohalaelurus punctatus,,bathydemersal,35,330,oviparous,stationary,,Holohalaelurus,6.6565
+Pentanchidae,,,this study,,,,Holohalaelurus regani,,bathydemersal,69,545,oviparous,stationary,,Holohalaelurus,6.848
+Triakidae,,,this study,,,,Hypogaleus hyugaensis,,demersal,127,135,yolk-sac viviparity,ram,,Hypogaleus,7.1291
+Triakidae,,,this study,,,,Iago garricki,,bathydemersal,75,362.5,placental viviparity,ram,,Iago,8.5392
+Triakidae,,,this study,,,,Iago omanensis,,bathydemersal,37,1152.5,placental viviparity,ram,,Iago,8.5392
+Dalatiidae,,,this study,,,,Isistius brasiliensis,,bathypelagic,42,1850,yolk-sac viviparity,ram,,Isistius,15.604
+Dalatiidae,,,this study,,,,Isistius plutodus,,benthopelagic,42.3,1045,yolk-sac viviparity,ram,,Isistius,15.604
+Carcharhinidae,,,this study,,,,Isogomphodon oxyrhynchus,,demersal,160,22,placental viviparity,ram,,Isogomphodon,9.735905816831684
+Lamnidae,,,this study,,,,Isurus oxyrinchus,,pelagic,445,375,oophagy,ram,,Isurus,13.922
+Lamnidae,,,this study,,,,Isurus paucus,,pelagic,427,876,oophagy,ram,,Isurus,10.319
+Carcharhinidae,,,this study,,,,Lamiopsis temminckii,,demersal,168,42.5,placental viviparity,ram,,Lamiopsis,9.735905816831684
+Carcharhinidae,,,this study,,,,Lamiopsis tephrodes,,demersal,145,42.5,placental viviparity,ram,,Lamiopsis,9.735905816831684
+Lamnidae,,,this study,,,,Lamna ditropis,,pelagic,305,325,oophagy,ram,,Lamna,6.2338
+Lamnidae,,,this study,,,,Lamna nasus,,pelagic,365,904.5,oophagy,ram,,Lamna,6.2338
+Leptochariidae,,,this study,,,,Leptocharias smithii,,demersal,82,42.5,placental viviparity,stationary,,Leptocharias,19.152
+Carcharhinidae,,,this study,,,,Loxodon macrorhinus,,demersal,98,53.5,yolk-sac viviparity,ram,,Loxodon,11.559
+Megachasmidae,,,this study,,,,Megachasma pelagios,,pelagic,549,302.5,oophagy,ram,,Megachasma,5.3356
+Mitsukurinidae,,,this study,,,,Mitsukurina owstoni,,bathydemersal,617,665,oophagy,ram,,Mitsukurina,6.6086
+Triakidae,,,this study,,,,Mustelus albipinnis,,benthopelagic,109,155.5,yolk-sac viviparity,ram,,Mustelus,9.60231568627451
+Triakidae,,,this study,,,,Mustelus andamanensis,,benthopelagic,104,75,yolk-sac viviparity,ram,,Mustelus,9.60231568627451
+Triakidae,,,this study,,,,Mustelus antarcticus,,demersal,185.2,175.5,yolk-sac viviparity,ram,,Mustelus,16.442
+Triakidae,,,this study,,,,Mustelus asterias,,demersal,140,99.5,yolk-sac viviparity,ram,,Mustelus,6.9015
+Triakidae,,,this study,,,,Mustelus californicus,,demersal,116,100,yolk-sac viviparity,ram,,Mustelus,6.1316
+Triakidae,,,this study,,,,Mustelus canis,,demersal,155,404,yolk-sac viviparity,ram,,Mustelus,8.0434
+Triakidae,,,this study,,,,Mustelus dorsalis,,demersal,66,110,yolk-sac viviparity,ram,,Mustelus,7.4479
+Triakidae,,,this study,,,,Mustelus fasciatus,,demersal,150,125.5,yolk-sac viviparity,ram,,Mustelus,7.3961
+Triakidae,,,this study,,,,Mustelus griseus,,demersal,87,152.5,yolk-sac viviparity,ram,,Mustelus,6.3513
+Triakidae,,,this study,,,,Mustelus henlei,,demersal,100,140.5,yolk-sac viviparity,ram,,Mustelus,5.3593
+Triakidae,,,this study,,,,Mustelus higmani,,demersal,77.40000153,450.5,yolk-sac viviparity,ram,,Mustelus,9.60231568627451
+Triakidae,,,this study,,,,Mustelus lenticulatus,,demersal,151,110.5,yolk-sac viviparity,ram,,Mustelus,5.8063
+Triakidae,,,this study,,,,Mustelus lunulatus,,demersal,175,104.5,yolk-sac viviparity,ram,,Mustelus,11.937
+Triakidae,,,this study,,,,Mustelus manazo,,demersal,220,180,yolk-sac viviparity,ram,,Mustelus,6.4592
+Triakidae,,,this study,,,,Mustelus mento,,demersal,130,33,yolk-sac viviparity,ram,,Mustelus,9.7828
+Triakidae,,,this study,,,,Mustelus minicanis,,benthopelagic,47.79999924,127,yolk-sac viviparity,ram,,Mustelus,9.60231568627451
+Triakidae,,,this study,,,,Mustelus mosis,,demersal,150,135,yolk-sac viviparity,ram,,Mustelus,5.461
+Triakidae,,,this study,,,,Mustelus mustelus,,demersal,174.5,400,yolk-sac viviparity,ram,,Mustelus,11.068
+Triakidae,,,this study,,,,Mustelus norrisi,,demersal,110,50.5,yolk-sac viviparity,ram,,Mustelus,8.8886
+Triakidae,,,this study,,,,Mustelus palumbes,,demersal,120,221.5,yolk-sac viviparity,ram,,Mustelus,7.2205
+Triakidae,,,this study,,,,Mustelus punctulatus,,demersal,190,150,yolk-sac viviparity,ram,,Mustelus,5.4161
+Triakidae,,,this study,,,,Mustelus ravidus,,benthopelagic,68.30000305,203,yolk-sac viviparity,ram,,Mustelus,9.60231568627451
+Triakidae,,,this study,,,,Mustelus schmitti,,demersal,108.5,98.5,yolk-sac viviparity,ram,,Mustelus,6.6001
+Triakidae,,,this study,,,,Mustelus sinusmexicanus,,pelagic,83,135,yolk-sac viviparity,ram,,Mustelus,9.4027
+Triakidae,,,this study,,,,Mustelus stevensi,,benthopelagic,128.3000031,402,yolk-sac viviparity,ram,,Mustelus,10.731
+Triakidae,,,this study,,,,Mustelus walkeri,,demersal,111.6,227.5,yolk-sac viviparity,ram,,Mustelus,4.9951
+Triakidae,,,this study,,,,Mustelus whitneyi,,demersal,87,113.5,yolk-sac viviparity,ram,,Mustelus,9.60231568627451
+Triakidae,,,this study,,,,Mustelus widodoi,,benthopelagic,109.5,90,yolk-sac viviparity,ram,,Mustelus,9.60231568627451
+Carcharhinidae,,,this study,,,,Nasolamia velox,,demersal,165,96,placental viviparity,ram,,Nasolamia,7.9069
+Ginglymostomatidae,,,this study,,,,Nebrius ferrugineus,,reef-associated,320,35,yolk-sac viviparity,ram,,Nebrius,47.669
+Carcharhinidae,,,this study,,,,Negaprion acutidens,,reef-associated,310,45,placental viviparity,ram,,Negaprion,4.7028
+Hexanchidae,,,this study,,,,Notorynchus cepedianus,,demersal,296,285,yolk-sac viviparity,ram,,Notorynchus,8.1187
+Odontaspididae,,,this study,,,,Odontaspis ferox,,benthopelagic,450,512.5,oophagy,ram,,Odontaspis,6.0088
+Odontaspididae,,,this study,,,,Odontaspis noronhai,,pelagic,367,530,oophagy,ram,,Odontaspis,6.0088
+Orectolobidae,,,this study,,,,Orectolobus floridus,,benthopelagic,75,63.5,yolk-sac viviparity,stationary,,Orectolobus,5.8454375
+Orectolobidae,,,this study,,,,Orectolobus halei,,demersal,256,97.5,yolk-sac viviparity,stationary,,Orectolobus,5.5714
+Orectolobidae,,,this study,,,,Orectolobus hutchinsi,,demersal,149,55,yolk-sac viviparity,stationary,,Orectolobus,5.6622
+Orectolobidae,,,this study,,,,Orectolobus japonicus,,demersal,118,100,yolk-sac viviparity,stationary,,Orectolobus,5.8454375
+Orectolobidae,,,this study,,,,Orectolobus leptolineatus,,benthopelagic,112,65,yolk-sac viviparity,stationary,,Orectolobus,5.8454375
+Orectolobidae,,,this study,,,,Orectolobus maculatus,,reef-associated,320,124,yolk-sac viviparity,stationary,,Orectolobus,6.4555
+Orectolobidae,,,this study,,,,Orectolobus ornatus,,reef-associated,290,52.5,yolk-sac viviparity,stationary,,Orectolobus,5.6825
+Orectolobidae,,,this study,,,,Orectolobus parvimaculatus,,demersal,88.5,72,yolk-sac viviparity,stationary,,Orectolobus,5.8454375
+Orectolobidae,,,this study,,,,Orectolobus reticulatus,,benthopelagic,52.3,10,yolk-sac viviparity,stationary,,Orectolobus,5.8454375
+Orectolobidae,,,this study,,,,Orectolobus wardi,,reef-associated,63,2,yolk-sac viviparity,stationary,,Orectolobus,5.8454375
+Oxynotidae,,,this study,,,,Oxynotus bruniensis,,bathydemersal,65,557.5,yolk-sac viviparity,stationary,,Oxynotus,19.152
+Oxynotidae,,,this study,,,,Oxynotus caribbaeus,,bathydemersal,49,429.5,yolk-sac viviparity,stationary,,Oxynotus,19.152
+Oxynotidae,,,this study,,,,Oxynotus centrina,,bathydemersal,150,420,yolk-sac viviparity,stationary,,Oxynotus,19.152
+Oxynotidae,,,this study,,,,Oxynotus japonicus,,bathydemersal,54,225,yolk-sac viviparity,stationary,,Oxynotus,19.152
+Oxynotidae,,,this study,,,,Oxynotus paradoxus,,bathydemersal,118,492.5,yolk-sac viviparity,stationary,,Oxynotus,19.152
+Parascylliidae,,,this study,,,,Parascyllium collare,,reef-associated,85,125,oviparous,stationary,,Parascyllium,5.8863
+Parascylliidae,,,this study,,,,Parascyllium ferrugineum,,demersal,80,77.5,oviparous,stationary,,Parascyllium,5.6604
+Parascylliidae,,,this study,,,,Parascyllium sparsimaculatum,,bathydemersal,78.1,224.5,oviparous,stationary,,Parascyllium,5.6604
+Parascylliidae,,,this study,,,,Parascyllium variolatum,,demersal,91,90,oviparous,stationary,,Parascyllium,5.4345
+Pentanchidae,,,this study,,,,Parmaturus angelae,,demersal,42.5,550,oviparous,stationary,,Parmaturus,4.16125
+Pentanchidae,,,this study,,,,Parmaturus lanatus,,bathydemersal,36,847.5,oviparous,stationary,,Parmaturus,4.16125
+Pentanchidae,,,this study,,,,Parmaturus macmillani,,bathydemersal,45,1085,oviparous,stationary,,Parmaturus,2.2981
+Pentanchidae,,,this study,,,,Parmaturus melanobranchus,,bathydemersal,85,779,oviparous,stationary,,Parmaturus,4.16125
+Pentanchidae,,,this study,,,,Parmaturus pilosus,,bathydemersal,64,767.5,oviparous,stationary,,Parmaturus,4.16125
+Pentanchidae,,,this study,,,,Parmaturus xaniurus,,bathydemersal,45,669,oviparous,stationary,,Parmaturus,6.0244
+Pentanchidae,,,this study,,,,Pentanchus profundicolus,,bathydemersal,51,871,oviparous,stationary,,Pentanchus,15.2966675
+Pseudotriakidae,,,this study,,,,Planonasus indicus,,demersal,64,640,oophagy,stationary,,Planonasus,5.1897
+Pseudotriakidae,,,this study,,,,Planonasus parini,,demersal,53.4,840,oophagy,stationary,,Planonasus,5.1897
+Pristiophoridae,,,this study,,,,Pliotrema annae,,demersal,98,27.5,yolk-sac viviparity,stationary,,Pliotrema,7.364
+Pristiophoridae,,,this study,,,,Pliotrema kajae,,demersal,102,267,yolk-sac viviparity,stationary,,Pliotrema,7.364
+Pristiophoridae,,,this study,,,,Pliotrema warreni,,demersal,170,462.5,yolk-sac viviparity,stationary,,Pliotrema,7.364
+Scyliorhinidae,,,this study,,,,Poroderma africanum,,demersal,101,50,oviparous,stationary,,Poroderma,6.2518
+Scyliorhinidae,,,this study,,,,Poroderma pantherinum,,reef-associated,84,128,oviparous,stationary,,Poroderma,5.5106
+Pristiophoridae,,,this study,,,,Pristiophorus cirratus,,demersal,149,335,yolk-sac viviparity,stationary,,Pristiophorus,5.7533
+Pristiophoridae,,,this study,,,,Pristiophorus delicatus,,pelagic,84.5,325.5,yolk-sac viviparity,stationary,,Pristiophorus,5.916600000000001
+Pristiophoridae,,,this study,,,,Pristiophorus japonicus,,demersal,153,645,yolk-sac viviparity,stationary,,Pristiophorus,5.916600000000001
+Pristiophoridae,,,this study,,,,Pristiophorus lanae,,benthopelagic,89.5,311,yolk-sac viviparity,stationary,,Pristiophorus,5.916600000000001
+Pristiophoridae,,,this study,,,,Pristiophorus nancyae,,pelagic,62.1,428,yolk-sac viviparity,stationary,,Pristiophorus,5.916600000000001
+Pristiophoridae,,,this study,,,,Pristiophorus nudipinnis,,demersal,124,82.5,yolk-sac viviparity,stationary,,Pristiophorus,6.0799
+Proscylliidae,,,this study,,,,Proscyllium habereri,,demersal,65,185,oviparous,stationary,,Proscyllium,8.3397
+Proscylliidae,,,this study,,,,Proscyllium magnificum,,pelagic,49,220.5,oviparous,stationary,,Proscyllium,8.3397
+Pseudotriakidae,,,this study,,,,Pseudotriakis microdon,,bathydemersal,269,1031.5,yolk-sac viviparity,ram,,Pseudotriakis,5.5776
+Rhincodontidae,,,this study,,,,Rhincodon typus,,pelagic,1700,964,yolk-sac viviparity,ram,,Rhincodon,7.7945
+Carcharhinidae,,,this study,,,,Rhizoprionodon acutus,,benthopelagic,178,100.5,placental viviparity,ram,,Rhizoprionodon,6.0408
+Carcharhinidae,,,this study,,,,Rhizoprionodon lalandii,,demersal,102.1,35,placental viviparity,ram,,Rhizoprionodon,7.117931034482759
+Carcharhinidae,,,this study,,,,Rhizoprionodon longurio,,benthopelagic,154,13.5,placental viviparity,ram,,Rhizoprionodon,7.999
+Carcharhinidae,,,this study,,,,Rhizoprionodon oligolinx,,reef-associated,85,18,placental viviparity,ram,,Rhizoprionodon,17.984
+Carcharhinidae,,,this study,,,,Rhizoprionodon porosus,,reef-associated,110,250,placental viviparity,ram,,Rhizoprionodon,7.117931034482759
+Carcharhinidae,,,this study,,,,Rhizoprionodon taylori,,pelagic,78.4,55,placental viviparity,ram,,Rhizoprionodon,7.9872
+Scyliorhinidae,,,this study,,,,Schroederichthys bivius,,demersal,86,185.5,oviparous,stationary,,Schroederichthys,5.2027
+Scyliorhinidae,,,this study,,,,Schroederichthys chilensis,,demersal,70,25.5,oviparous,stationary,,Schroederichthys,5.2027
+Scyliorhinidae,,,this study,,,,Schroederichthys saurisqualus,,bathydemersal,69.2,311,oviparous,stationary,,Schroederichthys,5.2027
+Scyliorhinidae,,,this study,,,,Schroederichthys tenuis,,bathydemersal,47.3,261,oviparous,stationary,,Schroederichthys,5.2027
+Scyliorhinidae,,,this study,,,,Scyliorhinus boa,,bathydemersal,54,502.5,oviparous,stationary,,Scyliorhinus,8.9471
+Scyliorhinidae,,,this study,,,,Scyliorhinus canicula,,demersal,100,400.5,oviparous,stationary,,Scyliorhinus,6.7455
+Scyliorhinidae,,,this study,,,,Scyliorhinus capensis,,demersal,122,260.5,oviparous,stationary,,Scyliorhinus,6.7932
+Scyliorhinidae,,,this study,,,,Scyliorhinus cervigoni,,demersal,76,272.5,oviparous,stationary,,Scyliorhinus,55.052
+Scyliorhinidae,,,this study,,,,Scyliorhinus comoroensis,,bathydemersal,46.4,300,oviparous,stationary,,Scyliorhinus,13.677575
+Scyliorhinidae,,,this study,,,,Scyliorhinus haeckelii,,demersal,64.7,310,oviparous,stationary,,Scyliorhinus,8.9634
+Scyliorhinidae,,,this study,,,,Scyliorhinus retifer,,demersal,59,413.5,oviparous,stationary,,Scyliorhinus,13.677575
+Scyliorhinidae,,,this study,,,,Scyliorhinus stellaris,,reef-associated,162,190.5,oviparous,stationary,,Scyliorhinus,9.0255
+Scyliorhinidae,,,this study,,,,Scyliorhinus torazame,,demersal,500,160,oviparous,stationary,,Scyliorhinus,7.1484
+Triakidae,,,this study,,,,Scylliogaleus quecketti,,demersal,111,36.5,placental viviparity,stationary,,Scylliogaleus,9.55699552238806
+Somniosidae,,,this study,,,,Scymnodalatias albicauda,,bathypelagic,111,330,yolk-sac viviparity,stationary,,Scymnodalatias,4.377177777777778
+Somniosidae,,,this study,,,,Scymnodalatias garricki,,bathypelagic,40.6,440,yolk-sac viviparity,stationary,,Scymnodalatias,4.377177777777778
+Somniosidae,,,this study,,,,Scymnodalatias sherwoodi,,benthopelagic,85,450,yolk-sac viviparity,stationary,,Scymnodalatias,4.377177777777778
+Somniosidae,,,this study,,,,Scymnodon ichiharai,,bathypelagic,151.1,640,yolk-sac viviparity,stationary,,Scymnodon,3.9064
+Somniosidae,,,this study,,,,Scymnodon plunketi,,bathypelagic,170,865,yolk-sac viviparity,stationary,,Scymnodon,3.9064
+Somniosidae,,,this study,,,,Scymnodon ringens,,bathypelagic,110,900,yolk-sac viviparity,stationary,,Scymnodon,3.9064
+Somniosidae,,,this study,,,,Somniosus antarcticus,,benthopelagic,438,817.5,yolk-sac viviparity,stationary,,Somniosus,1.9602
+Somniosidae,,,this study,,,,Somniosus longus,,bathydemersal,143.3,683,yolk-sac viviparity,stationary,,Somniosus,3.7528499999999996
+Somniosidae,,,this study,,,,Somniosus microcephalus,,benthopelagic,730,1323.5,yolk-sac viviparity,stationary,,Somniosus,3.7528499999999996
+Somniosidae,,,this study,,,,Somniosus pacificus,,benthopelagic,440,1102.5,yolk-sac viviparity,stationary,,Somniosus,3.7528499999999996
+Somniosidae,,,this study,,,,Somniosus rostratus,,bathydemersal,143,765,yolk-sac viviparity,stationary,,Somniosus,5.5455
+Sphyrnidae,,,this study,,,,Sphyrna corona,,demersal,92,50,placental viviparity,ram,,Sphyrna,15.965
+Sphyrnidae,,,this study,,,,Sphyrna lewini,,pelagic,430,521.5,placental viviparity,ram,,Sphyrna,14.608
+Sphyrnidae,,,this study,,,,Sphyrna media,,demersal,150,50,placental viviparity,ram,,Sphyrna,11.400312925170068
+Sphyrnidae,,,this study,,,,Sphyrna mokarran,,pelagic,610,150,placental viviparity,ram,,Sphyrna,7.3981
+Sphyrnidae,,,this study,,,,Sphyrna tiburo,,reef-associated,150,45,placental viviparity,ram,,Sphyrna,4.199
+Sphyrnidae,,,this study,,,,Sphyrna tudes,,benthopelagic,134,42.5,placental viviparity,ram,,Sphyrna,8.8064
+Sphyrnidae,,,this study,,,,Sphyrna zygaena,,pelagic,400,100,placental viviparity,ram,,Sphyrna,10.906
+Dalatiidae,,,this study,,,,Squaliolus aliae,,bathypelagic,24.1,1000,yolk-sac viviparity,stationary,,Squaliolus,5.3019
+Dalatiidae,,,this study,,,,Squaliolus laticaudus,,bathypelagic,27.5,905,yolk-sac viviparity,stationary,,Squaliolus,7.4546
+Squalidae,,,this study,,,,Squalus acanthias,,benthopelagic,200,989,yolk-sac viviparity,stationary,,Squalus,8.2153
+Squalidae,,,this study,,,,Squalus acutipinnis,,benthopelagic,85,750,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus albicaudus,,benthopelagic,52.5,308,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus albifrons,,pelagic,74,290.5,yolk-sac viviparity,stationary,,Squalus,8.2335
+Squalidae,,,this study,,,,Squalus altipinnis,,pelagic,58.90000153,301.5,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus bahiensis,,pelagic,69,599,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus bassi,,benthopelagic,110,375,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus blainville,,demersal,920,757.5,yolk-sac viviparity,stationary,,Squalus,14.925
+Squalidae,,,this study,,,,Squalus boretzi,,demersal,95.2,312.5,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus brevirostris,,demersal,57.8,191,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus bucephalus,,pelagic,90,664,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus chloroculus,,bathydemersal,99,786.5,yolk-sac viviparity,stationary,,Squalus,5.7216
+Squalidae,,,this study,,,,Squalus clarkae,,benthopelagic,82,427.5,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus crassispinus,,pelagic,67,224.5,yolk-sac viviparity,stationary,,Squalus,9.3249
+Squalidae,,,this study,,,,Squalus cubensis,,demersal,60,230,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus edmundsi,,pelagic,115,527,yolk-sac viviparity,stationary,,Squalus,1.0252
+Squalidae,,,this study,,,,Squalus formosus,,pelagic,85,485,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus grahami,,pelagic,73,326,yolk-sac viviparity,stationary,,Squalus,7.6276
+Squalidae,,,this study,,,,Squalus griffini,,bathydemersal,110,493.5,yolk-sac viviparity,stationary,,Squalus,6.3253
+Squalidae,,,this study,,,,Squalus hawaiiensis,,benthopelagic,101,332.5,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus hemipinnis,,benthopelagic,78,50.5,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus japonicus,,bathydemersal,105,225,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus lobularis,,benthopelagic,64,300,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus mahia,,pelagic,59,277.5,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus margaretsmithae,,benthopelagic,54.29999924,270,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus megalops,,demersal,64,390,yolk-sac viviparity,stationary,,Squalus,7.0687
+Squalidae,,,this study,,,,Squalus melanurus,,bathydemersal,75,330,yolk-sac viviparity,stationary,,Squalus,7.039
+Squalidae,,,this study,,,,Squalus mitsukurii,,benthopelagic,112,479,yolk-sac viviparity,stationary,,Squalus,7.7126
+Squalidae,,,this study,,,,Squalus montalbani,,bathydemersal,101,762,yolk-sac viviparity,stationary,,Squalus,5.524
+Squalidae,,,this study,,,,Squalus nasutus,,pelagic,64,575,yolk-sac viviparity,stationary,,Squalus,10.699
+Squalidae,,,this study,,,,Squalus notocaudatus,,pelagic,62,339.5,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus quasimodo,,pelagic,85,417.5,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus rancureli,,bathydemersal,77,360,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus raoulensis,,pelagic,93,355,yolk-sac viviparity,stationary,,Squalus,7.826693548387096
+Squalidae,,,this study,,,,Squalus suckleyi,,benthopelagic,130,618,yolk-sac viviparity,stationary,,Squalus,4.6723
+Squatinidae,,,this study,,,,Squatina aculeata,,demersal,188,265,yolk-sac viviparity,stationary,,Squatina,19.152
+Squatinidae,,,this study,,,,Squatina africana,,demersal,80,265,yolk-sac viviparity,stationary,,Squatina,9.8045
+Squatinidae,,,this study,,,,Squatina albipunctata,,benthopelagic,98.5,226,yolk-sac viviparity,stationary,,Squatina,7.0584
+Squatinidae,,,this study,,,,Squatina argentina,,demersal,1380,228.5,yolk-sac viviparity,stationary,,Squatina,10.508766666666666
+Squatinidae,,,this study,,,,Squatina armata,,demersal,150,52.5,yolk-sac viviparity,stationary,,Squatina,22.209
+Squatinidae,,,this study,,,,Squatina australis,,demersal,152,65,yolk-sac viviparity,stationary,,Squatina,8.0911
+Squatinidae,,,this study,,,,Squatina californica,,demersal,152,103,yolk-sac viviparity,stationary,,Squatina,8.4192
+Squatinidae,,,this study,,,,Squatina david,,demersal,79,213,yolk-sac viviparity,stationary,,Squatina,10.508766666666666
+Squatinidae,,,this study,,,,Squatina dumeril,,bathydemersal,152,688,yolk-sac viviparity,stationary,,Squatina,6.6795
+Squatinidae,,,this study,,,,Squatina formosa,,bathydemersal,150,201.5,yolk-sac viviparity,stationary,,Squatina,10.508766666666666
+Squatinidae,,,this study,,,,Squatina guggenheim,,demersal,96,78.5,yolk-sac viviparity,stationary,,Squatina,6.0762
+Squatinidae,,,this study,,,,Squatina japonica,,demersal,200,181,yolk-sac viviparity,stationary,,Squatina,10.508766666666666
+Squatinidae,,,this study,,,,Squatina nebulosa,,demersal,800,165,yolk-sac viviparity,stationary,,Squatina,10.508766666666666
+Squatinidae,,,this study,,,,Squatina occulta,,demersal,120,177.5,yolk-sac viviparity,stationary,,Squatina,10.508766666666666
+Squatinidae,,,this study,,,,Squatina oculata,,demersal,160,255,yolk-sac viviparity,stationary,,Squatina,9.3887
+Squatinidae,,,this study,,,,Squatina pseudocellata,,benthopelagic,114,231,yolk-sac viviparity,stationary,,Squatina,10.508766666666666
+Squatinidae,,,this study,,,,Squatina squatina,,demersal,244,76,yolk-sac viviparity,stationary,,Squatina,10.508766666666666
+Squatinidae,,,this study,,,,Squatina tergocellata,,bathydemersal,140,264,yolk-sac viviparity,stationary,,Squatina,11.331
+Squatinidae,,,this study,,,,Squatina tergocellatoides,,demersal,100,200,yolk-sac viviparity,stationary,,Squatina,10.508766666666666
+Stegostomidae,,,this study,,,,Stegostoma tigrinum,,reef-associated,354,31,oviparous,stationary,,Stegostoma,22.777
+Orectolobidae,,,this study,,,,Sutorectus tentaculatus,,reef-associated,92,17.5,yolk-sac viviparity,stationary,,Sutorectus,5.8454375
+Carcharhinidae,,,this study,,,,Triaenodon obesus,,reef-associated,168,165.5,yolk-sac viviparity,stationary,,Triaenodon,9.1561
+Triakidae,,,this study,,,,Triakis acutipinna,,demersal,112,260,yolk-sac viviparity,ram,,Triakis,6.0669
+Triakidae,,,this study,,,,Triakis maculata,,demersal,180,105,yolk-sac viviparity,ram,,Triakis,6.0669
+Triakidae,,,this study,,,,Triakis megalopterus,,demersal,207.5,25,yolk-sac viviparity,ram,,Triakis,5.8717
+Triakidae,,,this study,,,,Triakis scyllium,,demersal,150,90,yolk-sac viviparity,ram,,Triakis,6.0669
+Triakidae,,,this study,,,,Triakis semifasciata,,demersal,213.4,78,yolk-sac viviparity,ram,,Triakis,6.2621
+Etmopteridae,,,this study,,,,Trigonognathus kabeyai,,demersal,53.9,575,yolk-sac viviparity,stationary,,Trigonognathus,6.7768227272727275
+Somniosidae,,,this study,,,,Zameus squamulosus,,demersal,84,755.5,yolk-sac viviparity,stationary,,Zameus,2.0601
+Lamnidae,,,this study,,,,Alopias vulpinus,longline,pelagic,573.3,325,oophagy,ram,,Alopias,8.7014
+Carcharhinidae,,,this study,,,,Carcharhinus perezi,,reef-associated,295,189,placental viviparity,ram,,Carcharhinus,7.6352

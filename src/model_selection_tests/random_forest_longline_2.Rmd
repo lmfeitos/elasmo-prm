@@ -70,11 +70,6 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name, gear_class, habitat, estimate_type, estimate, sample_size,
     ventilation_method, max_size_cm, median_depth, reproductive_mode, family, ac
   ) %>%
-  mutate(reproductive_mode = case_when(
-    scientific_name == "sharks" ~ "yolk-sac viviparity",
-    scientific_name == "rays" ~ "yolk-sac viviparity",
-    TRUE ~ reproductive_mode
-  )) %>%
   mutate_if(is.character, as.factor) %>% 
   distinct() %>% 
   filter(sample_size > 3)
@@ -126,7 +121,7 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + habitat, data = avm_train) %>%
+avm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + ac, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
 prm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat + ac, data = elasmo_prm) %>%

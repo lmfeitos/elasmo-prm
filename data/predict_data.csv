@@ -9,7 +9,7 @@ Carcharhinus plumbeus,longline,benthopelagic,ram,243,total_length,140,placental 
 Carcharhinus signatus,longline,benthopelagic,ram,280,total_length,300,placental viviparity,Carcharhinidae,Carcharhiniformes
 Isurus oxyrinchus,longline,pelagic,ram,445,total_length,375,oophagy,Lamnidae,NA
 Carcharhinus longimanus,longline,pelagic,ram,350,total_length,541,placental viviparity,Carcharhinidae,NA
-Mustelus antarcticus,longline,demersal,ram,185.2,total_length,178,yolk-sac viviparity,Triakidae,NA
+Mustelus antarcticus,longline,demersal,ram,185.2,total_length,175.5,yolk-sac viviparity,Triakidae,NA
 Carcharhinus falciformis,longline,reef-associated,ram,350,total_length,250,placental viviparity,Carcharhinidae,Carcharhiniformes
 Carcharhinus brachyurus,longline,reef-associated,ram,322,total_length,73,placental viviparity,Carcharhinidae,Carcharhiniformes
 Mustelus antarcticus,longline,demersal,ram,185.2,total_length,175.5,yolk-sac viviparity,Triakidae,NA
@@ -35,7 +35,7 @@ Deania calcea,longline,bathydemersal,stationary,162,total_length,782,yolk-sac vi
 Carcharhinus limbatus,longline,reef-associated,ram,286,total_length,70,placental viviparity,Carcharhinidae,Carcharhiniformes
 Isurus paucus,longline,pelagic,ram,427,total_length,876,oophagy,Lamnidae,NA
 Carcharhinus albimarginatus,longline,reef-associated,ram,300,total_length,400,placental viviparity,Carcharhinidae,NA
-Centroscymnus owstoni,longline,bathydemersal,stationary,120,total_length,804.5,yolk-sac viviparity,Somniosidae,NA
+Centroscymnus owstonii,longline,bathydemersal,stationary,120,total_length,804.5,yolk-sac viviparity,Somniosidae,NA
 Galeocerdo cuvier,longline,benthopelagic,ram,740,total_length,556,placental viviparity,Carcharhinidae,NA
 Alopias vulpinus,longline,pelagic,ram,573.3,total_length,325,oophagy,Alopiidae,NA
 Pseudocarcharias kamoharai,longline,pelagic,ram,122,total_length,295,oophagy,Triakidae,NA
@@ -106,9 +106,9 @@ Bythaelurus immaculatus,NA,bathydemersal,stationary,71,NA,777,oviparous,Pentanch
 Bythaelurus lutarius,NA,bathydemersal,stationary,34,NA,552,oviparous,Pentanchidae,Carcharhiniformes
 Bythaelurus naylori,NA,demersal,stationary,51.09999847,NA,766,oviparous,Pentanchidae,Carcharhiniformes
 Bythaelurus tenuicephalus,NA,pelagic,stationary,300,NA,506.5,oviparous,Pentanchidae,Carcharhiniformes
-Carcharhinus acronotus,NA,reef-associated,ram,200,NA,36.5,oviparous,Carcharhinidae,Carcharhiniformes
+Carcharhinus acronotus,NA,reef-associated,ram,164,NA,51.5,placental viviparity,Carcharhinidae,Carcharhiniformes
 Carcharhinus albimarginatus,NA,reef-associated,ram,300,NA,400.5,placental viviparity,Carcharhinidae,Carcharhiniformes
-Carcharhinus altimus,NA,reef-associated,ram,300,NA,411,placental viviparity,Carcharhinidae,Carcharhiniformes
+Carcharhinus altimus,NA,reef-associated,ram,300,NA,405,placental viviparity,Carcharhinidae,Carcharhiniformes
 Carcharhinus amblyrhynchoides,NA,benthopelagic,ram,182,NA,37.5,placental viviparity,Carcharhinidae,Carcharhiniformes
 Carcharhinus amboinensis,NA,reef-associated,ram,280,NA,50,placental viviparity,Carcharhinidae,Carcharhiniformes
 Carcharhinus borneensis,NA,demersal,ram,70,NA,25,placental viviparity,Carcharhinidae,Carcharhiniformes
@@ -128,7 +128,7 @@ Carcharhinus porosus,NA,demersal,ram,150,NA,42,placental viviparity,Carcharhinid
 Carcharhinus sealei,NA,reef-associated,ram,100,NA,20,placental viviparity,Carcharhinidae,Carcharhiniformes
 Carcharhinus tilstoni,NA,benthopelagic,ram,200,NA,75,placental viviparity,Carcharhinidae,Carcharhiniformes
 Carcharhinus tjutjot,NA,reef-associated,ram,93.69999695,NA,50,placental viviparity,Carcharhinidae,Carcharhiniformes
-Carcharias taurus,NA,reef-associated,ram,330,NA,96,oophagy,Odontaspididae,Lamniformes
+Carcharias taurus,NA,reef-associated,ram,325,NA,116,oophagy,Odontaspididae,Lamniformes
 Carcharodon carcharias,NA,pelagic,ram,594.4,NA,600,oophagy,Lamnidae,Lamniformes
 Centrophorus atromarginatus,NA,bathydemersal,stationary,87,NA,316.5,yolk-sac viviparity,Centrophoridae,Squaliformes
 Centrophorus granulosus,NA,bathydemersal,stationary,176,NA,775,yolk-sac viviparity,Centrophoridae,Squaliformes
@@ -148,7 +148,7 @@ Centroscyllium nigrum,NA,benthopelagic,stationary,51,NA,719.5,yolk-sac viviparit
 Centroscyllium ornatum,NA,bathydemersal,stationary,30,NA,891.5,yolk-sac viviparity,Etmopteridae,Squaliformes
 Centroscyllium ritteri,NA,demersal,stationary,43,NA,605,yolk-sac viviparity,Etmopteridae,Squaliformes
 Centroscymnus macracanthus,NA,bathydemersal,stationary,170,NA,884.5,yolk-sac viviparity,Somniosidae,Squaliformes
-Centroscymnus owstonii,NA,bathydemersal,stationary,148,NA,800,yolk-sac viviparity,Somniosidae,Squaliformes
+Centroscymnus owstonii,NA,bathydemersal,stationary,120,NA,804.5,yolk-sac viviparity,Somniosidae,Squaliformes
 Centroselachus crepidater,NA,bathydemersal,stationary,105,NA,1140,yolk-sac viviparity,Somniosidae,Squaliformes
 Cephaloscyllium albipinnum,NA,bathypelagic,stationary,110,NA,340,yolk-sac viviparity,Scyliorhinidae,Carcharhiniformes
 Cephaloscyllium fasciatum,NA,reef-associated,stationary,42,NA,325,yolk-sac viviparity,Scyliorhinidae,Carcharhiniformes
@@ -231,7 +231,7 @@ Eusphyra blochii,NA,benthopelagic,ram,186,NA,68.5,placental viviparity,Sphyrnida
 Figaro boardmani,NA,bathydemersal,stationary,61,NA,475.5,oviparous,Pentanchidae,Carcharhiniformes
 Figaro striatus,NA,bathydemersal,stationary,42.09999847,NA,359.5,oviparous,Pentanchidae,Carcharhiniformes
 Furgaleus macki,NA,demersal,ram,160,NA,113.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
-Galeocerdo cuvier,NA,benthopelagic,ram,750,NA,400,placental viviparity,Carcharhinidae,Carcharhiniformes
+Galeocerdo cuvier,NA,benthopelagic,ram,740,NA,556,placental viviparity,Carcharhinidae,Carcharhiniformes
 Galeus atlanticus,NA,bathydemersal,stationary,46,NA,559.5,oviparous,Pentanchidae,Carcharhiniformes
 Galeus eastmani,NA,bathydemersal,stationary,68,NA,500,oviparous,Pentanchidae,Carcharhiniformes
 Galeus gracilis,NA,bathydemersal,stationary,34,NA,380,oviparous,Pentanchidae,Carcharhiniformes
@@ -310,10 +310,10 @@ Megachasma pelagios,NA,pelagic,ram,549,NA,302.5,oophagy,Megachasmidae,Lamniforme
 Mitsukurina owstoni,NA,bathydemersal,ram,617,NA,665,oophagy,Mitsukurinidae,Lamniformes
 Mustelus albipinnis,NA,benthopelagic,ram,109,NA,155.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
 Mustelus andamanensis,NA,benthopelagic,ram,104,NA,75,yolk-sac viviparity,Triakidae,Carcharhiniformes
-Mustelus antarcticus,NA,demersal,ram,157,NA,201.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus antarcticus,NA,demersal,ram,185.2,NA,175.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
 Mustelus asterias,NA,demersal,ram,140,NA,99.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
 Mustelus californicus,NA,demersal,ram,116,NA,100,yolk-sac viviparity,Triakidae,Carcharhiniformes
-Mustelus canis,NA,demersal,ram,150,NA,400,yolk-sac viviparity,Triakidae,Carcharhiniformes
+Mustelus canis,NA,demersal,ram,155,NA,404,yolk-sac viviparity,Triakidae,Carcharhiniformes
 Mustelus dorsalis,NA,demersal,ram,66,NA,110,yolk-sac viviparity,Triakidae,Carcharhiniformes
 Mustelus fasciatus,NA,demersal,ram,150,NA,125.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
 Mustelus griseus,NA,demersal,ram,87,NA,152.5,yolk-sac viviparity,Triakidae,Carcharhiniformes
