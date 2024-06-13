@@ -26,13 +26,13 @@ set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv"))%>%
+prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>% 
   filter(!grepl("Rajidae", family)) %>%
   filter(family != "Dasyatidae") %>%
   filter(family != "Pristidae") %>%
   filter(family != "Rhinidae") %>%
   filter(family != "Rhinobatidae") %>%
-    filter(family != "Myliobatidae") %>%
+  filter(family != "Myliobatidae") %>%
   mutate(habitat = case_when(
     habitat_associated == "pelagic" ~ "pelagic",
     habitat_associated == "pelagic-oceanic" ~ "pelagic",
@@ -51,7 +51,8 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv"))%>%
     TRUE ~ ventilation_method
   )) %>%
   mutate(reproductive_mode = case_when(
-    scientific_name == "Hexanchus nakamurai" ~ "lecithotrophic oviparity",
+    scientific_name == "Hexanchus griseus" ~ "lecithotrophic viviparity",
+    scientific_name == "Hexanchus nakamurai" ~ "lecithotrophic viviparity",
     scientific_name == "Ginglymostoma cirratum" ~ "lecithotrophic oviparity",
     TRUE ~ reproductive_mode
   )) %>%

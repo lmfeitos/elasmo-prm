@@ -275,7 +275,7 @@ collect_metrics(prm_cv2)
 ```
 
 ```{r}
-ggplot(avm_test_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
+ggplot(avm_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
   geom_point() +
   stat_poly_line() +
   stat_poly_eq(use_label("eq")) +
