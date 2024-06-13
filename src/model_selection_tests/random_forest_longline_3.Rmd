@@ -39,7 +39,7 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv"))%>%
     habitat_associated == "pelagic-oceanic" ~ "pelagic",
     habitat_associated == "reef-associated" ~ "pelagic",
     habitat_associated == "bathypelagic" ~ "pelagic",
-    habitat_associated == "benthopelagic" ~ "pelagic",
+    habitat_associated == "benthopelagic" ~ "demersal",
     habitat_associated == "demersal" ~ "demersal",
     habitat_associated == "bathydemersal" ~ "demersal",
   )) %>%
@@ -70,14 +70,9 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name, gear_class, habitat, estimate_type, estimate, sample_size,
     ventilation_method, max_size_cm, median_depth, reproductive_mode, family, ac
   ) %>%
-  mutate(reproductive_mode = case_when(
-    scientific_name == "sharks" ~ "yolk-sac viviparity",
-    scientific_name == "rays" ~ "yolk-sac viviparity",
-    TRUE ~ reproductive_mode
-  )) %>%
   mutate_if(is.character, as.factor) %>% 
   distinct() %>% 
-  filter(sample_size > 3)
+  filter(sample_size > 15)
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
 elasmo_avm <- prm_elasmo_subset %>%
@@ -103,18 +98,12 @@ elasmo_prm <- prm_elasmo_subset %>%
 ```{r}
 # split the data into training and test set
 ## At-vessel mortality
-avm_split <- initial_split(elasmo_avm, prop = .75, strata = family)
+avm_split <- initial_split(elasmo_avm, prop = .7, strata = family)
 
 avm_train <- training(avm_split)
 avm_test <- testing(avm_split)
 
 avm_folds <- vfold_cv(avm_train, repeats = 10, v = 5, strata = family)
-
-## Post-release mortality
-# prm_split <- initial_split(elasmo_prm, prop = .7)
-#
-# prm_train <- training(prm_split)
-# prm_test <- testing(prm_split)
 
 prm_folds <- vfold_cv(elasmo_prm, repeats = 10, v = 5, strata = family)
 ```
@@ -126,10 +115,10 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm, data = avm_train) %>%
+avm_recipe <- recipe(mortality_prop ~ median_depth + reproductive_mode + max_size_cm + ac, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
-prm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + ac, data = elasmo_prm) %>%
+prm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat + ac, data = elasmo_prm) %>%
   step_normalize(all_numeric_predictors())
 ```
 
@@ -162,34 +151,37 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 * Minimum data points in each node required for node split
 
 ```{r,include=FALSE}
+set.seed(42)
+
 avm_tune <- avm_wflw %>% # use cross validation to tune parameters
   tune_grid(
     resamples = avm_folds, # add cv folds
-    grid = 10
+    grid = expand.grid(mtry = seq(1, 3, 1), trees = seq(100, 2000, 100), min_n = seq(1, 28, 5))
   ) # use grid of parameters to test
 ```
 
 ```{r,include=FALSE}
+set.seed(42)
 prm_tune <- prm_wflw %>% # use cross validation to tune parameters
   tune_grid(
     resamples = prm_folds, # add cv folds
-    grid = 10
+    grid = expand.grid(mtry = seq(1, 3, 1), trees = seq(100, 2000, 100), min_n = seq(1, 12, 5))
   ) # use grid of parameters to test
 ```
 
 Below displays the results of cross validation tuning
 
 ```{r}
-# autoplot(avm_tune) + # plot results of tuning
-#   theme_bw() # change theme
+autoplot(avm_tune) + # plot results of tuning
+  theme_bw() # change theme
 ```
 
 ```{r}
-select_best(avm_tune, metric = "rsq", n = 1) # get the best model
+# select_best(avm_tune, metric = "rmse", n = 1) # get the best model
 ```
 
 ```{r, include=FALSE}
-avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rsq")) # finalize the workflow with the best model
+avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rmse")) # finalize the workflow with the best model
 #
 # saveRDS(avm_final, here::here("data", "avm_final.rds"))
 
@@ -221,8 +213,8 @@ avm_test_metrics
 Below displays the results of cross validation tuning
 
 ```{r}
-# autoplot(prm_tune) + # plot results of tuning
-#   theme_bw() # change theme
+autoplot(prm_tune) + # plot results of tuning
+  theme_bw() # change theme
 ```
 
 ```{r}
@@ -230,7 +222,7 @@ Below displays the results of cross validation tuning
 ```
 
 ```{r, include=FALSE}
-prm_final <- finalize_workflow(prm_wflw, select_best(prm_tune, metric = "rsq")) # finalize the workflow with the best model
+prm_final <- finalize_workflow(prm_wflw, select_best(prm_tune, metric = "rmse")) # finalize the workflow with the best model
 #
 # saveRDS(prm_final, here::here("data", "prm_final.rds"))
 
@@ -269,8 +261,12 @@ my_controls <- control_resamples(
   }
 ) # set to get prediction and out of bag errors
 
+set.seed(42)
+
 avm_cv2 <- avm_final %>%
   fit_resamples(avm_folds, control = my_controls) # fit the folds to the final model
+
+set.seed(42)
 
 prm_cv2 <- prm_final %>%
   fit_resamples(prm_folds, control = my_controls) # fit the folds to the final model
