@@ -123,7 +123,6 @@ prm_elasmo_subset <- read_csv(here("data", "prm_dataset_updated.csv")) %>%
     ) ~ "Batoids",
     TRUE ~ "Sharks")) %>% 
   relocate(group, .after = family) %>% 
-  filter(group == "Sharks") %>% 
   mutate(scientific_name = ifelse(scientific_name == "Mustelus canis insularis", "Mustelus canis", scientific_name),
          scientific_name = ifelse(scientific_name == "Centroscymnus owstoni", "Centroscymnus owstonii", scientific_name)) %>% 
   filter(!scientific_name %in% c("sharks", "rays")) %>% 
