@@ -493,6 +493,7 @@ Triakis scyllium,NA,demersal,ram,150,NA,90,yolk-sac viviparity,Triakidae,Carchar
 Triakis semifasciata,NA,demersal,ram,213.4,NA,78,yolk-sac viviparity,Triakidae,Carcharhiniformes
 Trigonognathus kabeyai,NA,demersal,stationary,53.9,NA,575,yolk-sac viviparity,Etmopteridae,Squaliformes
 Zameus squamulosus,NA,demersal,stationary,84,NA,755.5,yolk-sac viviparity,Somniosidae,Squaliformes
-Alopias vulpinus,longline,pelagic,ram,573.3,total_length,325,oophagy,Lamnidae,NA
+Alopias vulpinus,longline,pelagic,ram,573.3,total_length,325,oophagy,Alopiidae,NA
 Scyliorhinus canicula,longline,demersal,stationary,100,total_length,400.5,oviparous,Scyliorhinidae,NA
 Carcharhinus perezi,,reef-associated,ram,295,total_length,189,placental viviparity,Carcharhinidae,Carcharhiniformes
+Centrophorus zeehaani,,bathydemersal,stationary,112,,476.5,yolk-sac viviparity,Centrophoridae,Squaliformes
