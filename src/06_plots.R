@@ -424,35 +424,39 @@ mort_proportions_plot_fam_bat <-
     panel.spacing.x = unit(5, "mm")
   )
 
+habitat_bat <- habitat_subset %>%
+  filter(gear_class %in% c("longline", "trawl", "gillnet") &
+           !is.na(habitat) & group != "Sharks") %>% 
+  distinct(scientific_name, estimate_type, habitat, mortality_prop) 
+
 habitat_plot_bat <-
   ggplot() +
   geom_point(
-    data = mort_summary %>%
-      filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
-        !is.na(habitat_associated) &
-        group != "Sharks") %>%
-      mutate(
-        estimate_type = str_to_sentence(estimate_type),
-        gear_class = str_to_title(gear_class)
-      ) %>%
-      mutate(
-        habitat = str_to_title(habitat),
-        gear_class = str_to_title(gear_class)
-      ) %>%
-      mutate(habitat = as.factor(habitat)) %>%
-      arrange(desc(habitat)),
-    aes(
-      x = fct_inorder(habitat),
-      y = mortality_prop,
-      color = estimate_type, group = estimate_type
-    ),
-    position = position_jitterdodge(jitter.width = .1)
+   data = mort_summary %>%
+     filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
+       !is.na(habitat_associated) &
+       group != "Sharks") %>%
+     mutate(
+       estimate_type = str_to_sentence(estimate_type),
+       gear_class = str_to_title(gear_class)
+     ) %>%
+     mutate(
+       habitat = str_to_title(habitat),
+       gear_class = str_to_title(gear_class)
+     ) %>%
+     mutate(habitat = as.factor(habitat)) %>%
+     arrange(desc(habitat)),
+   aes(
+     x = fct_inorder(habitat),
+     y = mortality_prop,
+     color = estimate_type, group = estimate_type
+   ),
+   position = position_jitterdodge(jitter.width = .1)
   ) +
   geom_boxplot(
-    data = habitat_subset %>%
+    data = habitat_bat %>%
       filter(!gear_class %in% c("handline", "purse seine", "pole and line") &
-        !is.na(habitat) &
-        group != "Sharks") %>%
+        !is.na(habitat)) %>%
       mutate(
         estimate_type = str_to_sentence(estimate_type),
         gear_class = str_to_title(gear_class)
@@ -506,12 +510,15 @@ habitat_plot_bat <-
     panel.spacing.x = unit(5, "mm")
   )
 
+
 mort_proportions_plot_bat <-
   mort_proportions_plot_fam_bat /
     habitat_plot_bat +
     plot_annotation(tag_levels = "A") +
     plot_layout(guides = "collect") &
     theme(legend.position = "bottom")
+
+mort_proportions_plot_bat
 
 ggsave(mort_proportions_plot_bat, file = paste0("figS1.pdf"), path = here::here("figs", "supp"), height = 12, width = 15)
 
@@ -535,7 +542,7 @@ obs_count_plot <-
   coord_flip() +
   scale_y_continuous(
      expand = c(0, 0),
-     limits = c(0, 250)
+     limits = c(0, 150)
   ) + 
   labs(
     x = "",
