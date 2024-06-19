@@ -34,6 +34,7 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
   filter(family != "Rhinidae") %>%
   filter(family != "Rhinobatidae") %>%
   filter(family != "Myliobatidae") %>%
+  filter(family != "Mobulidae") %>%
   mutate(habitat = case_when(
     habitat_associated == "pelagic" ~ "pelagic",
     habitat_associated == "pelagic-oceanic" ~ "pelagic",
@@ -55,8 +56,15 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
     scientific_name == "Hexanchus griseus" ~ "lecithotrophic viviparity",
     scientific_name == "Hexanchus nakamurai" ~ "lecithotrophic viviparity",
     scientific_name == "Ginglymostoma cirratum" ~ "lecithotrophic oviparity",
+    scientific_name == "Orectolobus ornatus" ~ "lecithotrophic viviparity",
     TRUE ~ reproductive_mode
   )) %>%
+  mutate(family = case_when(
+    scientific_name == "Galeus melastomus" ~ "Scyliorhinidae",
+    scientific_name == "Ginglymostoma cirratum" ~ "Ginglymostomatidae",
+    scientific_name == "Pseudocarcharias kamoharai" ~ "Pseudocarchariidae",
+    TRUE ~ family
+  )) %>% 
   group_by(scientific_name) %>%
   filter(!grepl("sp", scientific_name)) %>% 
   mutate(median_depth = mean(median_depth)) %>%
@@ -72,12 +80,12 @@ prm_elasmo_subset <- prm_elasmo %>%
     ventilation_method, max_size_cm, median_depth, reproductive_mode, family, ac
   ) %>%
   mutate_if(is.character, as.factor) %>% 
-  distinct() %>% 
-  filter(sample_size > 15)
+  distinct()
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
 elasmo_avm <- prm_elasmo_subset %>%
   filter(estimate_type == "at-vessel mortality") %>%
+  filter(sample_size > 15) %>% 
   group_by(scientific_name) %>% 
   mutate(mortality_prop = weighted.mean(estimate, sample_size))%>%
   # mutate(mortality_prop = estimate) %>% 
@@ -88,6 +96,7 @@ elasmo_avm <- prm_elasmo_subset %>%
 # Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
 elasmo_prm <- prm_elasmo_subset %>%
   filter(estimate_type == "post-release mortality") %>%
+  filter(sample_size > 5) %>% 
   group_by(scientific_name) %>%
   mutate(mortality_prop = weighted.mean(estimate, sample_size))%>%
   # mutate(mortality_prop = estimate) %>% 
@@ -157,7 +166,7 @@ set.seed(42)
 avm_tune <- avm_wflw %>% # use cross validation to tune parameters
   tune_grid(
     resamples = avm_folds, # add cv folds
-    grid = expand.grid(mtry = seq(1, 5, 1), trees = seq(100, 2000, 100), min_n = seq(1, 28, 5))
+    grid = expand.grid(mtry = seq(1, 5, 1), trees = seq(100, 2000, 100), min_n = seq(1, 31, 5))
   ) # use grid of parameters to test
 ```
 
