@@ -72,7 +72,7 @@ prm_elasmo_subset <- prm_elasmo %>%
   ) %>%
   mutate_if(is.character, as.factor) %>% 
   distinct() %>% 
-  filter(sample_size > 15)
+  filter(sample_size > 5)
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
 elasmo_trawl <- prm_elasmo_subset %>%

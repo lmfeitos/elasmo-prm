@@ -111,10 +111,10 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-trawl_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + reproductive_mode, data = elasmo_trawl) %>%
+trawl_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + reproductive_mode + habitat + ac, data = elasmo_trawl) %>%
   step_normalize(all_numeric_predictors())
 
-gillnet_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + reproductive_mode, data = elasmo_gillnet) %>%
+gillnet_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + ac, data = elasmo_gillnet) %>%
   step_normalize(all_numeric_predictors())
 ```
 
@@ -150,7 +150,7 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 # trawl_tune <- trawl_wflw %>% # use cross validation to tune parameters
 #   tune_grid(
 #     resamples = trawl_folds, # add cv folds
-#     grid = expand.grid(mtry = seq(1, 5, 1), trees = seq(100, 2000, 100), min_n = seq(1, 9, 2))
+#     grid = expand.grid(mtry = seq(1, 4, 1), trees = seq(100, 2000, 100), min_n = seq(1, 9, 2))
 #   ) # use grid of parameters to test
 ```
 
@@ -158,7 +158,7 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 # gillnet_tune <- gillnet_wflw %>% # use cross validation to tune parameters
 #   tune_grid(
 #     resamples = gillnet_folds, # add cv folds
-#     grid = expand.grid(mtry = seq(1, 5, 1), trees = seq(100, 2000, 100), min_n = seq(1, 19, 5))
+#     grid = expand.grid(mtry = seq(1, 3, 1), trees = seq(100, 2000, 100), min_n = seq(1, 19, 5))
 #   ) # use grid of parameters to test
 ```
 
