@@ -26,14 +26,15 @@ set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv"))%>%
+prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>% 
   filter(gear_class == "longline") %>%
   filter(!grepl("Rajidae", family)) %>%
   filter(family != "Dasyatidae") %>%
   filter(family != "Pristidae") %>%
   filter(family != "Rhinidae") %>%
   filter(family != "Rhinobatidae") %>%
-    filter(family != "Myliobatidae") %>%
+  filter(family != "Myliobatidae") %>%
+  filter(family != "Mobulidae") %>%
   mutate(habitat = case_when(
     habitat_associated == "pelagic" ~ "pelagic",
     habitat_associated == "pelagic-oceanic" ~ "pelagic",
@@ -52,10 +53,18 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv"))%>%
     TRUE ~ ventilation_method
   )) %>%
   mutate(reproductive_mode = case_when(
-    scientific_name == "Hexanchus nakamurai" ~ "lecithotrophic oviparity",
+    scientific_name == "Hexanchus griseus" ~ "lecithotrophic viviparity",
+    scientific_name == "Hexanchus nakamurai" ~ "lecithotrophic viviparity",
     scientific_name == "Ginglymostoma cirratum" ~ "lecithotrophic oviparity",
+    scientific_name == "Orectolobus ornatus" ~ "lecithotrophic viviparity",
     TRUE ~ reproductive_mode
   )) %>%
+  mutate(family = case_when(
+    scientific_name == "Galeus melastomus" ~ "Scyliorhinidae",
+    scientific_name == "Ginglymostoma cirratum" ~ "Ginglymostomatidae",
+    scientific_name == "Pseudocarcharias kamoharai" ~ "Pseudocarchariidae",
+    TRUE ~ family
+  )) %>% 
   group_by(scientific_name) %>%
   filter(!grepl("sp", scientific_name)) %>% 
   mutate(median_depth = mean(median_depth)) %>%
@@ -71,12 +80,12 @@ prm_elasmo_subset <- prm_elasmo %>%
     ventilation_method, max_size_cm, median_depth, reproductive_mode, family, ac
   ) %>%
   mutate_if(is.character, as.factor) %>% 
-  distinct() %>% 
-  filter(sample_size > 15)
+  distinct()
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
 elasmo_avm <- prm_elasmo_subset %>%
   filter(estimate_type == "at-vessel mortality") %>%
+  filter(sample_size > 15) %>% 
   group_by(scientific_name) %>% 
   mutate(mortality_prop = weighted.mean(estimate, sample_size))%>%
   # mutate(mortality_prop = estimate) %>% 
@@ -87,6 +96,7 @@ elasmo_avm <- prm_elasmo_subset %>%
 # Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
 elasmo_prm <- prm_elasmo_subset %>%
   filter(estimate_type == "post-release mortality") %>%
+  filter(sample_size > 5) %>% 
   group_by(scientific_name) %>%
   mutate(mortality_prop = weighted.mean(estimate, sample_size))%>%
   # mutate(mortality_prop = estimate) %>% 
@@ -154,7 +164,7 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 # avm_tune <- avm_wflw %>% # use cross validation to tune parameters
 #   tune_grid(
 #     resamples = avm_folds, # add cv folds
-#     grid = expand.grid(mtry = seq(1, 5, 1), trees = seq(100, 2000, 100), min_n = seq(1, 28, 5))
+#     grid = expand.grid(mtry = seq(1, 5, 1), trees = seq(100, 2000, 100), min_n = seq(1, 31, 5))
 #   ) # use grid of parameters to test
 ```
 
@@ -174,15 +184,15 @@ Below displays the results of cross validation tuning
 ```
 
 ```{r}
-# select_best(avm_tune, metric = "rsq", n = 1) # get the best model
+# select_best(avm_tune, metric = "rmse", n = 1) # get the best model
 ```
 
 ```{r, include=FALSE}
-# avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rsq")) # finalize the workflow with the best model
-#
-# saveRDS(avm_final, here::here("data", "avm_final.rds"))
-
-avm_final <- readRDS(here::here("data", "avm_final.rds"))
+# # avm_final <- finalize_workflow(avm_wflw, select_best(avm_tune, metric = "rmse")) # finalize the workflow with the best model
+# #
+# # saveRDS(avm_final, here::here("data", "avm_final.rds"))
+# 
+# avm_final <- readRDS(here::here("data", "avm_final.rds"))
 ```
 
 ```{r, include=FALSE}
@@ -217,11 +227,11 @@ Below displays the results of cross validation tuning
 ```
 
 ```{r}
-# select_best(prm_tune, metric = "rsq", n = 1) # get the best model
+# select_best(prm_tune, metric = "rmse", n = 1) # get the best model
 ```
 
 ```{r, include=FALSE}
-# prm_final <- finalize_workflow(prm_wflw, select_best(prm_tune, metric = "rsq")) # finalize the workflow with the best model
+# prm_final <- finalize_workflow(prm_wflw, select_best(prm_tune, metric = "rmse")) # finalize the workflow with the best model
 #
 # saveRDS(prm_final, here::here("data", "prm_final.rds"))
 
@@ -395,10 +405,7 @@ new_dat <- read_csv(here::here("data", "predict_data_phylo.csv")) %>%
   filter(order != "Rajiformes") %>%
   filter(order != "Myliobatiformes") %>%
   filter(order != "Torpediniformes") %>%
-  # filter(!grepl("batidae", family)) %>%
   filter(family != "Dasyatidae") %>%
-  # filter(family != "Glaucostegidae") %>% # I'd remove this filter
-  # filter(family != "Pristidae") %>% # I'd remove this filter
   filter(family != "Trygonorrhinidae") %>%
   filter(!is.na(median_depth)) %>%
   filter(!is.na(ac)) %>%
@@ -409,18 +416,14 @@ new_dat <- read_csv(here::here("data", "predict_data_phylo.csv")) %>%
   mutate(ventilation_method = as.factor(ventilation_method)) %>%
   mutate(habitat_associated = as.factor(habitat_associated)) %>%
   mutate(reproductive_mode = as.factor(reproductive_mode)) %>%
-  filter(reproductive_mode != "histotrophy") %>%
   mutate(habitat = case_when(
     habitat_associated == "pelagic" ~ "pelagic",
+    habitat_associated == "pelagic-oceanic" ~ "pelagic",
     habitat_associated == "reef-associated" ~ "pelagic",
     habitat_associated == "bathypelagic" ~ "pelagic",
-    habitat_associated == "benthopelagic" ~ "pelagic",
+    habitat_associated == "benthopelagic" ~ "demersal",
     habitat_associated == "demersal" ~ "demersal",
     habitat_associated == "bathydemersal" ~ "demersal",
-  )) %>%
-  mutate(reproductive_mode = case_when(
-    reproductive_mode == "oophagy" ~ "yolk-sac viviparity",
-    TRUE ~ reproductive_mode
   )) %>%
   mutate(reproductive_mode = as.factor(reproductive_mode))
 

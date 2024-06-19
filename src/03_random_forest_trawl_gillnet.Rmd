@@ -19,25 +19,26 @@ library(randomForest)
 library(ranger)
 library(googlesheets4)
 library(naniar)
+library(ggpmisc)
 library(vip)
 
 set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv"))%>%
+prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>% 
   filter(!grepl("Rajidae", family)) %>%
   filter(family != "Dasyatidae") %>%
   filter(family != "Pristidae") %>%
   filter(family != "Rhinidae") %>%
   filter(family != "Rhinobatidae") %>%
-    filter(family != "Myliobatidae") %>%
+  filter(family != "Myliobatidae") %>%
   mutate(habitat = case_when(
     habitat_associated == "pelagic" ~ "pelagic",
     habitat_associated == "pelagic-oceanic" ~ "pelagic",
     habitat_associated == "reef-associated" ~ "pelagic",
     habitat_associated == "bathypelagic" ~ "pelagic",
-    habitat_associated == "benthopelagic" ~ "pelagic",
+    habitat_associated == "benthopelagic" ~ "demersal",
     habitat_associated == "demersal" ~ "demersal",
     habitat_associated == "bathydemersal" ~ "demersal",
   )) %>%
@@ -50,7 +51,8 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv"))%>%
     TRUE ~ ventilation_method
   )) %>%
   mutate(reproductive_mode = case_when(
-    scientific_name == "Hexanchus nakamurai" ~ "lecithotrophic oviparity",
+    scientific_name == "Hexanchus griseus" ~ "lecithotrophic viviparity",
+    scientific_name == "Hexanchus nakamurai" ~ "lecithotrophic viviparity",
     scientific_name == "Ginglymostoma cirratum" ~ "lecithotrophic oviparity",
     TRUE ~ reproductive_mode
   )) %>%
@@ -68,15 +70,9 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name, gear_class, habitat, estimate_type, estimate, sample_size,
     ventilation_method, max_size_cm, median_depth, reproductive_mode, family, ac
   ) %>%
-  mutate(reproductive_mode = case_when(
-    scientific_name == "sharks" ~ "yolk-sac viviparity",
-    scientific_name == "rays" ~ "yolk-sac viviparity",
-    TRUE ~ reproductive_mode
-  )) %>%
   mutate_if(is.character, as.factor) %>% 
-  filter(!grepl("sp", scientific_name)) %>% 
   distinct() %>% 
-  filter(sample_size > 3)
+  filter(sample_size > 5)
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
 elasmo_trawl <- prm_elasmo_subset %>%
@@ -154,7 +150,7 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 # trawl_tune <- trawl_wflw %>% # use cross validation to tune parameters
 #   tune_grid(
 #     resamples = trawl_folds, # add cv folds
-#     grid = 10 # grid_regular(trees(), finalize(mtry(), elasmo_trawl), min_n(), levels = 5) %>% filter(mtry < 7)
+#     grid = expand.grid(mtry = seq(1, 5, 1), trees = seq(100, 2000, 100), min_n = seq(1, 9, 2))
 #   ) # use grid of parameters to test
 ```
 
@@ -162,7 +158,7 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 # gillnet_tune <- gillnet_wflw %>% # use cross validation to tune parameters
 #   tune_grid(
 #     resamples = gillnet_folds, # add cv folds
-#     grid = 10 # grid_regular(trees(), finalize(mtry(), elasmo_gillnet), min_n(), levels = 5) %>% filter(mtry < 7)
+#     grid = expand.grid(mtry = seq(1, 5, 1), trees = seq(100, 2000, 100), min_n = seq(1, 19, 5))
 #   ) # use grid of parameters to test
 ```
 
@@ -174,11 +170,11 @@ Below displays the results of cross validation tuning
 ```
 
 ```{r}
-# select_best(trawl_tune, metric = "rsq", n = 1) # get the best model
+# select_best(trawl_tune, metric = "rmse", n = 1) # get the best model
 ```
 
 ```{r, include=FALSE}
-# trawl_final <- finalize_workflow(trawl_wflw, select_best(trawl_tune, metric = "rsq")) # finalize the workflow with the best model
+# trawl_final <- finalize_workflow(trawl_wflw, select_best(trawl_tune, metric = "rmse")) # finalize the workflow with the best model
 #
 # saveRDS(trawl_final, here::here("data", "trawl_final.rds"))
 
@@ -208,11 +204,11 @@ Below displays the results of cross validation tuning
 ```
 
 ```{r}
-# select_best(gillnet_tune, metric = "rsq", n = 1) # get the best model
+# select_best(gillnet_tune, metric = "rmse", n = 1) # get the best model
 ```
 
 ```{r, include=FALSE}
-# gillnet_final <- finalize_workflow(gillnet_wflw, select_best(gillnet_tune, metric = "rsq")) # finalize the workflow with the best model
+# gillnet_final <- finalize_workflow(gillnet_wflw, select_best(gillnet_tune, metric = "rmse")) # finalize the workflow with the best model
 #
 # saveRDS(gillnet_final, here::here("data", "gillnet_final.rds"))
 
