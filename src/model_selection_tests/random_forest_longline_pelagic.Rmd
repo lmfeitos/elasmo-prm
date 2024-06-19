@@ -26,14 +26,15 @@ set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv"))%>%
+prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>% 
   filter(gear_class == "longline") %>%
   filter(!grepl("Rajidae", family)) %>%
   filter(family != "Dasyatidae") %>%
   filter(family != "Pristidae") %>%
   filter(family != "Rhinidae") %>%
   filter(family != "Rhinobatidae") %>%
-    filter(family != "Myliobatidae") %>%
+  filter(family != "Myliobatidae") %>%
+  filter(family != "Mobulidae") %>%
   mutate(habitat = case_when(
     habitat_associated == "pelagic" ~ "pelagic",
     habitat_associated == "pelagic-oceanic" ~ "pelagic",
@@ -52,10 +53,18 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv"))%>%
     TRUE ~ ventilation_method
   )) %>%
   mutate(reproductive_mode = case_when(
-    scientific_name == "Hexanchus nakamurai" ~ "lecithotrophic oviparity",
+    scientific_name == "Hexanchus griseus" ~ "lecithotrophic viviparity",
+    scientific_name == "Hexanchus nakamurai" ~ "lecithotrophic viviparity",
     scientific_name == "Ginglymostoma cirratum" ~ "lecithotrophic oviparity",
+    scientific_name == "Orectolobus ornatus" ~ "lecithotrophic viviparity",
     TRUE ~ reproductive_mode
   )) %>%
+  mutate(family = case_when(
+    scientific_name == "Galeus melastomus" ~ "Scyliorhinidae",
+    scientific_name == "Ginglymostoma cirratum" ~ "Ginglymostomatidae",
+    scientific_name == "Pseudocarcharias kamoharai" ~ "Pseudocarchariidae",
+    TRUE ~ family
+  )) %>% 
   group_by(scientific_name) %>%
   filter(!grepl("sp", scientific_name)) %>% 
   mutate(median_depth = mean(median_depth)) %>%
@@ -72,12 +81,12 @@ prm_elasmo_subset <- prm_elasmo %>%
   ) %>%
   mutate_if(is.character, as.factor) %>% 
   distinct() %>% 
-  filter(sample_size > 15)
+  filter(habitat == "pelagic")
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
 elasmo_avm <- prm_elasmo_subset %>%
-  filter(habitat == "pelagic") %>% 
   filter(estimate_type == "at-vessel mortality") %>%
+  filter(sample_size > 15) %>% 
   group_by(scientific_name) %>% 
   mutate(mortality_prop = weighted.mean(estimate, sample_size))%>%
   # mutate(mortality_prop = estimate) %>% 
@@ -85,15 +94,6 @@ elasmo_avm <- prm_elasmo_subset %>%
   distinct() %>%
   drop_na() 
 
-# Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
-elasmo_prm <- prm_elasmo_subset %>%
-  filter(estimate_type == "post-release mortality") %>%
-  group_by(scientific_name) %>%
-  mutate(mortality_prop = weighted.mean(estimate, sample_size))%>%
-  # mutate(mortality_prop = estimate) %>% 
-  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family, ac) %>%
-  distinct() %>%
-  drop_na()
 ```
 
 ```{r}
@@ -104,7 +104,7 @@ avm_split <- initial_split(elasmo_avm, prop = .7, strata = family)
 avm_train <- training(avm_split)
 avm_test <- testing(avm_split)
 
-avm_folds <- vfold_cv(avm_train, repeats = 10, v = 5, strata = family)
+avm_folds <- vfold_cv(elasmo_avm, repeats = 10, v = 5, strata = family)
 
 prm_folds <- vfold_cv(elasmo_prm, repeats = 10, v = 5, strata = family)
 ```
@@ -116,11 +116,9 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 
 ```{r}
 # Create the recipes for each estimate
-avm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + reproductive_mode + max_size_cm + ac, data = elasmo_avm) %>%
+avm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + reproductive_mode + ac, data = elasmo_avm) %>%
   step_normalize(all_numeric_predictors())
 
-prm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_size_cm + habitat + ac, data = elasmo_prm) %>%
-  step_normalize(all_numeric_predictors())
 ```
 
 ```{r}
@@ -128,8 +126,6 @@ prm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + max_si
 avm_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>%
   set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE,importance = "impurity")
 
-prm_rf <- rand_forest(trees = tune(), mtry = tune(), min_n = tune(), mode = "regression") %>%
-  set_engine("ranger", verbose = TRUE, oob.error = TRUE, quantreg = TRUE, importance = "impurity")
 ```
 
 ```{r}
@@ -138,9 +134,7 @@ avm_wflw <- workflow() %>%
   add_model(avm_rf) %>%
   add_recipe(avm_recipe)
 
-prm_wflw <- workflow() %>%
-  add_model(prm_rf) %>%
-  add_recipe(prm_recipe)
+
 ```
 
 ### Cross Validation
@@ -157,18 +151,10 @@ set.seed(42)
 avm_tune <- avm_wflw %>% # use cross validation to tune parameters
   tune_grid(
     resamples = avm_folds, # add cv folds
-    grid = expand.grid(mtry = seq(1, 4, 1), trees = seq(100, 2000, 100), min_n = seq(1, 17, 5))
+    grid = expand.grid(mtry = seq(1, 4, 1), trees = seq(100, 2000, 100), min_n = seq(1, 31, 5))
   ) # use grid of parameters to test
 ```
 
-```{r,include=FALSE}
-set.seed(42)
-prm_tune <- prm_wflw %>% # use cross validation to tune parameters
-  tune_grid(
-    resamples = prm_folds, # add cv folds
-    grid = expand.grid(mtry = seq(1, 5, 1), trees = seq(100, 2000, 100), min_n = seq(1, 12, 5))
-  ) # use grid of parameters to test
-```
 
 Below displays the results of cross validation tuning
 
@@ -206,46 +192,6 @@ avm_train_metrics
 
 ```
 
-Below displays the results of cross validation tuning
-
-```{r}
-autoplot(prm_tune) + # plot results of tuning
-  theme_bw() # change theme
-```
-
-```{r}
-# select_best(prm_tune, metric = "rsq", n = 1) # get the best model
-```
-
-```{r, include=FALSE}
-prm_final <- finalize_workflow(prm_wflw, select_best(prm_tune, metric = "rmse")) # finalize the workflow with the best model
-#
-# saveRDS(prm_final, here::here("data", "prm_final.rds"))
-
-# prm_final <- readRDS(here::here("data", "prm_final.rds"))
-```
-
-```{r, include=FALSE}
-prm_fit <- fit(prm_final, elasmo_prm) # fit the data to the training data
-```
-
-```{r, include=FALSE}
-prm_train_predict <- predict(object = prm_fit, new_data = elasmo_prm) %>% # predict the training set
-  bind_cols(elasmo_prm) # bind training set column to prediction
-
-# prm_test_predict <- predict(object = prm_fit, new_data = prm_test) %>% # predict the training set
-#   bind_cols(prm_test)# bind prediction to testing data column
-```
-
-```{r}
-prm_train_metrics <- prm_train_predict %>%
-  metrics(mortality_prop, .pred) # get testing data metrics
-prm_train_metrics
-
-# prm_test_metrics <- prm_test_predict %>%
-#   metrics(mortality_prop, .pred) # get testing data metrics
-# prm_test_metrics
-```
 
 ```{r}
 my_controls <- control_resamples(
@@ -261,21 +207,15 @@ set.seed(42)
 
 avm_cv2 <- avm_final %>%
   fit_resamples(avm_folds, control = my_controls) # fit the folds to the final model
-
-set.seed(42)
-
-prm_cv2 <- prm_final %>%
-  fit_resamples(prm_folds, control = my_controls) # fit the folds to the final model
 ```
 
 ```{r}
 collect_metrics(avm_cv2)
 
-collect_metrics(prm_cv2)
 ```
 
 ```{r}
-ggplot(avm_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
+ggplot(avm_test_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
   geom_point() +
   stat_poly_line() +
   stat_poly_eq(use_label("eq")) +
@@ -294,7 +234,4 @@ avm_fit %>%
   extract_fit_parsnip() %>%
   vip()
 
-prm_fit %>%
-  extract_fit_parsnip() %>%
-  vip()
 ```

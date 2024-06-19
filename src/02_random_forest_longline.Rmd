@@ -263,8 +263,12 @@ my_controls <- control_resamples(
   }
 ) # set to get prediction and out of bag errors
 
+set.seed(42)
+
 avm_cv2 <- avm_final %>%
   fit_resamples(avm_folds, control = my_controls) # fit the folds to the final model
+
+set.seed(42)
 
 prm_cv2 <- prm_final %>%
   fit_resamples(prm_folds, control = my_controls) # fit the folds to the final model
