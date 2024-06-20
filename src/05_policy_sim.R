@@ -26,6 +26,7 @@ sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>%
   mutate(msy = r_value / 2) %>%
   mutate(f = 1.5 * msy)
 
+# 0.41 M for FMSY Zhou et 
 
 # Functions ---------------------------------------------------------------
 

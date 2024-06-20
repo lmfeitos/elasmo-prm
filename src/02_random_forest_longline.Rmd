@@ -88,7 +88,10 @@ elasmo_avm <- prm_elasmo_subset %>%
   filter(estimate_type == "at-vessel mortality") %>%
   filter(sample_size > 15) %>%
   group_by(scientific_name) %>%
-  mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
+  mutate(
+    mortality_prop = weighted.mean(estimate, sample_size),
+    avm_sd = sd(estimate)
+  ) %>%
   # mutate(mortality_prop = estimate) %>%
   select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family, ac) %>%
   distinct() %>%
@@ -99,7 +102,10 @@ elasmo_prm <- prm_elasmo_subset %>%
   filter(estimate_type == "post-release mortality") %>%
   filter(sample_size > 5) %>%
   group_by(scientific_name) %>%
-  mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
+  mutate(
+    mortality_prop = weighted.mean(estimate, sample_size),
+    prm_sd = sd(estimate)
+  ) %>%
   # mutate(mortality_prop = estimate) %>%
   select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family, ac) %>%
   distinct() %>%
@@ -129,7 +135,7 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 avm_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + reproductive_mode + ac, data = avm_train) %>%
   step_normalize(all_numeric_predictors())
 
-prm_recipe <- recipe(mortality_prop ~ median_depth + max_size_cm + habitat + ac, data = elasmo_prm) %>%
+prm_recipe <- recipe(mortality_prop ~ median_depth + reproductive_mode + max_size_cm + habitat + ac, data = elasmo_prm) %>%
   step_normalize(all_numeric_predictors())
 ```
 
@@ -398,7 +404,7 @@ v2 <- prm_fit %>%
   vip() +
   theme_bw(base_size = 14) +
   labs(y = "Variable Importance for Post-Release Mortality") +
-  scale_x_discrete(labels = c("Habitat", "Median Depth", "Hypoxia Tolerance", "Maximum Size (cm)"))
+  scale_x_discrete(labels = c("Habitat", "Reproductive Mode", "Hypoxia Tolerance", "Median Depth", "Maximum Size (cm)"))
 v2
 ```
 
