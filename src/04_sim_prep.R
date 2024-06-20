@@ -53,7 +53,7 @@ predictions <- predictions_full %>%
 
 # assign r value for matching species to our predictions
 for (i in 1:nrow(predictions)) {
-  species <- Match_species(genus_species = predictions$scientific_name[i])
+  species <- FishLife::Match_species(genus_species = predictions$scientific_name[i])
 
   data_filled <- rbind(fish_data[species[[1]], ], data_filled)
 }
@@ -78,7 +78,6 @@ pred_r <- left_join(predictions_full, r_growth) %>%
     !is.na(mean_r) ~ mean_r,
     !is.na(fish_r) ~ fish_r
   )) %>%
-  filter(!is.na(r_value)) %>%
-  mutate(dif_r = mean_r - fish_r)
+  filter(!is.na(r_value))
 
 write_csv(pred_r, here::here("data", "simulation_data.csv"))
