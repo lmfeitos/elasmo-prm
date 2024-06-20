@@ -26,7 +26,8 @@ iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>%
     redlist_category == "Critically Endangered" ~ "CR",
     str_detect(redlist_category, "Least") ~ "LC",
     TRUE ~ redlist_category
-  ))
+  )) %>% 
+  filter(!str_detect(scientific_name, "Parmaturus|Bythaelurus|Cirrhoscyllium|Proscyllium|Megachasma|Cetorhinus|Rhincodon "))
 
 #read in taxonomic assigmnets of IUCN data
 iucn_taxonomy <- read_csv(here("data", "iucn_data", "taxonomy.csv")) %>%
@@ -52,9 +53,10 @@ iucn_data_non_longline <- read_csv(here("data", "iucn_data", "assessments.csv"))
 sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
+  filter(t == 200) %>% 
   filter(mort_scenario == "BAU" | mort_scenario == "Median Mortality") %>%
-  mutate(f_mort = ((100 * f) - 100 * f * mid_avm * mid_prm) / 100) %>%
-  select(scientific_name, f, f_mort) %>%
+  mutate(f_mort = (100 * f * (1-mid_avm) * (1-mid_prm)) / 100) %>%
+  select(scientific_name, f, f_mort, mid_avm, mid_prm) %>%
   distinct()
 
 write_csv(sim_results, here::here("data", "pct_mort_reduction_sim.csv"))
@@ -622,13 +624,13 @@ p6 <- ggplot() +
 
 ggsave(p6, file = paste0("fig3.pdf"), path = here::here("figs"), height = 22, width = 20)
 
-p1 <- ggplot(predictions) +
+p1 <- ggplot(predictions %>% filter(estimate_type == "PRM")) +
   geom_point(aes(max_size_cm, mortality_prop),
     alpha = 0.5, size = 4
   ) +
   theme_bw(base_size = 14) +
   labs(
-    y = "Estimated mortality",
+    y = "Estimated Mortality",
     x = "Size (cm)",
     color = "Group"
   ) +
@@ -651,7 +653,7 @@ p2 <- ggplot(predictions) +
   ) +
   theme_bw(base_size = 14) +
   labs(
-    y = "Estimated mortality",
+    y = "Estimated Mortality",
     x = "Median Depth (m)",
     color = "Group"
   ) +
@@ -668,36 +670,13 @@ p2 <- ggplot(predictions) +
   scale_color_viridis_d() +
   theme(legend.position = "none")
 
-p3 <- ggplot(predictions %>% filter(estimate_type == "AVM")) +
-  geom_point(aes(eo, mortality_prop),
-             alpha = 0.5, size = 4
-  ) +
-  theme_bw(base_size = 14) +
-  labs(
-    y = "",
-    x = "Thermal Sensitvity",
-    color = "Group"
-  ) +
-  facet_wrap(~estimate_type, scales = "free_x") +
-  theme(
-    axis.text = element_text(color = "black"),
-    axis.text.y = element_text(color = "black"),
-    axis.title.x = element_text(color = "black"),
-    panel.grid.minor = element_blank(),
-    panel.grid.major.x = element_blank(),
-    strip.background = element_rect(fill = "transparent"),
-    panel.spacing.x = unit(5, "mm")
-  ) +
-  scale_color_viridis_d() +
-  theme(legend.position = "none")
-
-p6 <- ggplot(predictions %>% filter(estimate_type == "AVM") %>% filter(ac < 30)) +
+p6 <- ggplot(predictions) +
   geom_point(aes(ac, mortality_prop),
              alpha = 0.5, size = 4
   ) +
   theme_bw(base_size = 14) +
   labs(
-    y = "Estimated mortality",
+    y = "Estimated Mortality",
     x = "Active Hypoxia Tolerance",
     color = "Group"
   ) +
@@ -712,9 +691,10 @@ p6 <- ggplot(predictions %>% filter(estimate_type == "AVM") %>% filter(ac < 30))
     panel.spacing.x = unit(5, "mm"),
   ) +
   scale_color_viridis_d() +
-  theme(legend.position = "none")
+  theme(legend.position = "none") +
+  scale_x_log10()
 
-p4 <- ggplot(predictions %>% mutate(habitat = str_to_sentence(habitat)) %>% filter(estimate_type == "AVM")) +
+p4 <- ggplot(predictions %>% mutate(habitat = str_to_sentence(habitat)) %>% filter(estimate_type == "PRM")) +
   geom_point(aes(mortality_prop, habitat),
     alpha = 0.1,
     show.legend = F, size = 4
@@ -727,7 +707,7 @@ p4 <- ggplot(predictions %>% mutate(habitat = str_to_sentence(habitat)) %>% filt
   theme_bw(base_size = 14) +
   labs(
     y = "Associated Habitat",
-    x = "Estimated mortality",
+    x = "Estimated Mortality",
     color = "Group"
   ) +
   facet_wrap(~estimate_type, scales = "free_x") +
@@ -757,7 +737,7 @@ p5 <- ggplot(predictions %>% mutate(reproductive_mode = str_to_sentence(reproduc
   theme_bw(base_size = 14) +
   labs(
     y = "Reproductive Mode",
-    x = "Estimated mortality",
+    x = "Estimated Mortality",
     color = "Group"
   ) +
   facet_wrap(~estimate_type, scales = "free_x") +
@@ -786,8 +766,8 @@ p7 <- ggplot(predictions %>% mutate(ventilation_method = str_to_sentence(ventila
   ) +
   theme_bw(base_size = 14) +
   labs(
-    y = "",
-    x = "Ventilation Method",
+    y = "Ventilation Method",
+    x = "Estimated Mortality",
     color = "Group"
   ) +
   facet_wrap(~estimate_type, scales = "free_x") +
@@ -804,7 +784,7 @@ p7 <- ggplot(predictions %>% mutate(ventilation_method = str_to_sentence(ventila
   scale_fill_viridis_d() +
   theme(legend.position = "none")
 
-plot <- p1 / p2 / p5 / (p6 + p3) / (p4 + p7)  + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
+plot <- p2 / p6  / p1 / p5 / (p7 + p4) + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
 
 ggsave(plot, file = paste0("figS3.pdf"), path = here::here("figs", "supp"), height = 20, width = 15)
 
@@ -823,7 +803,7 @@ sim_results_top <- left_join(top_shark_mort, sim_results_iucn) %>%
   filter(!is.na(f)) 
 
 sim_results_iucn_pct <- sim_results_iucn %>%
-  mutate(percent_diff = (f - f_mort) / f * 100) %>%
+  mutate(percent_diff = (f - f_mort) / abs(f) * 100) %>%
   mutate(percent_diff = round(percent_diff, 4))
 
 write_csv(sim_results_iucn_pct, here::here("data", "sim_results_pct_diff.csv"))
@@ -941,7 +921,7 @@ prop <-
     show.legend = F,
     width = 0.8
   ) +
-  ylim(-40, 75) +
+  ylim(-40, NA) +
   scale_fill_manual(values = c("#E31A1C", "#FD8D3C", "#FED976")) +
   theme(
     axis.title = element_blank(),
@@ -1040,7 +1020,7 @@ prop <- ggplot(data = non_threat) +
     show.legend = F,
     width = 0.8
   ) +
-  ylim(-40, 75) +
+  ylim(-40, NA) +
   scale_fill_manual(values = c("grey", "#91CF60", "#1A9850")) +
   theme(
     axis.title = element_blank(),
@@ -1387,7 +1367,7 @@ p <- ggplot() +
     data = no_cq_sub,
     aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.23, fill = as.factor(redlist_category))
   ) +
-  geom_line(data = no_cq_sub, aes(t, n_div_k, color = mort_scenario, group = total_mort), linewidth = 2) +
+  geom_line(data = no_cq_sub %>% filter(!is.na(scenario)), aes(t, n_div_k, color = mort_scenario, group = total_mort), linewidth = 2) +
   geom_text(
     data = tag_text %>%
       filter(scientific_name %in% c("Prionace glauca", "Isurus oxyrinchus", "Squatina squatina")),
@@ -1440,7 +1420,7 @@ eq <- sim_results %>%
   mutate(mort_scenario = fct_relevel(mort_scenario, "Low Mortality", after = Inf)) %>%
   mutate(scientific_name = fct_reorder(scientific_name, n_div_k))
 
-p <- ggplot(eq) +
+p <- ggplot(eq %>% filter(mort_scenario != "Low Mortality")) +
   geom_line(aes(fp, n_div_k, group = scientific_name), color = "grey") +
   geom_hline(
     yintercept = 0.5,
@@ -1470,7 +1450,7 @@ ggsave(p, file = paste0("figS11.pdf"), path = here::here("figs", "supp"), height
 # Summarize sensitivity stats within paper
 
 percent_calc <- sim_results %>%
-  mutate(f_mort = ((100 * f) - 100 * f * mid_avm * mid_prm) / 100) %>%
+  mutate(f_mort = (100 * f * (1-mid_avm) * (1-mid_prm)) / 100) %>%
   select(scientific_name, f, f_mort, fp)%>%
   distinct() %>%
   mutate(percent_diff = (f - f_mort) / f * 100) %>% 
@@ -1486,15 +1466,15 @@ sim_200 <- sim_results %>%
   select(scientific_name, fp) %>% 
   distinct() %>%
   group_by(fp) %>%
-  summarize(per = n() / 279 * 100)
+  summarize(per = n() / 265 * 100)
 
-mort_25 = percent_calc %>% 
-  filter(percent_diff > 25) %>% 
+mort_50 = percent_calc %>% 
+  filter(percent_diff > 50) %>% 
   filter(fp == 1.5) %>% 
   select(scientific_name) %>% 
   distinct()
 
-nrow(mort_25) / 279 * 100
+nrow(mort_50) / 265 * 100
 
 output <- eq %>%
   left_join(percent_calc) %>%
