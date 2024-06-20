@@ -21,12 +21,13 @@ library(googlesheets4)
 library(naniar)
 library(ggpmisc)
 library(vip)
+library(patchwork)
 
 set.seed(42)
 ```
 
 ```{r}
-prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>% 
+prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
   filter(!grepl("Rajidae", family)) %>%
   filter(family != "Dasyatidae") %>%
   filter(family != "Pristidae") %>%
@@ -42,7 +43,7 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
     habitat_associated == "demersal" ~ "demersal",
     habitat_associated == "bathydemersal" ~ "demersal",
   )) %>%
-    mutate(habitat = case_when(
+  mutate(habitat = case_when(
     scientific_name == "Carcharhinus perezi" ~ "pelagic",
     TRUE ~ habitat
   )) %>%
@@ -57,7 +58,7 @@ prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv")) %>%
     TRUE ~ reproductive_mode
   )) %>%
   group_by(scientific_name) %>%
-  filter(!grepl("sp", scientific_name)) %>% 
+  filter(!grepl("sp", scientific_name)) %>%
   mutate(median_depth = mean(median_depth)) %>%
   mutate(max_size_cm = mean(max_size_cm)) %>%
   distinct()
@@ -70,8 +71,8 @@ prm_elasmo_subset <- prm_elasmo %>%
     scientific_name, gear_class, habitat, estimate_type, estimate, sample_size,
     ventilation_method, max_size_cm, median_depth, reproductive_mode, family, ac
   ) %>%
-  mutate_if(is.character, as.factor) %>% 
-  distinct() %>% 
+  mutate_if(is.character, as.factor) %>%
+  distinct() %>%
   filter(sample_size > 5)
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
@@ -339,7 +340,7 @@ v1 <- trawl_fit %>%
   vip() +
   theme_bw(base_size = 14) +
   labs(y = "") +
-  scale_x_discrete(labels = c("Ventilation Method", "Reproductive Mode", "Median Depth (m)", "Maximum Size (cm)"))
+  scale_x_discrete(labels = c("Hypoxia Tolerance", "Habitat", "Median Depth (m)", "Maximum Size (cm)", "Reproductive Mode"))
 v1
 
 v2 <- gillnet_fit %>%
@@ -347,7 +348,7 @@ v2 <- gillnet_fit %>%
   vip() +
   theme_bw(base_size = 14) +
   labs(y = "Variable Importance for At-Vessel Mortality") +
-  scale_x_discrete(labels = c("Reproductive Mode", "Maximum Size (cm)", "Median Depth (m)"))
+  scale_x_discrete(labels = c("Hypoxia Tolerance", "Ventilation Method", "Maximum Size (cm)", "Median Depth (m)"))
 v2
 ```
 

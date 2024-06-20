@@ -106,7 +106,6 @@ avm_test <- testing(avm_split)
 
 avm_folds <- vfold_cv(elasmo_avm, repeats = 10, v = 5, strata = family)
 
-prm_folds <- vfold_cv(elasmo_prm, repeats = 10, v = 5, strata = family)
 ```
 
 
@@ -212,19 +211,6 @@ avm_cv2 <- avm_final %>%
 ```{r}
 collect_metrics(avm_cv2)
 
-```
-
-```{r}
-ggplot(avm_test_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
-  geom_point() +
-  stat_poly_line() +
-  stat_poly_eq(use_label("eq")) +
-  stat_poly_eq(label.y = 0.9) +
-  theme_bw(base_size = 14) +
-  labs(
-    x = "Observed AVM Rate",
-    y = "Predicted AVM Rate"
-  )
 ```
 
 ### Variable importance for the at-vessel mortality and post-release mortality RF models
