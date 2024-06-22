@@ -1,0 +1,175 @@
+---
+title: "summary_info"
+author: "Leonardo Feitosa"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE)
+library(tidyverse)
+library(here)
+library(rfishbase)
+library(janitor)
+```
+
+```{r}
+# read in the IUCN data
+iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>%
+  janitor::clean_names() %>%
+  filter(str_detect(systems, "Marine") & str_detect(threats, "longline") |
+    str_detect(scientific_name, "Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus|Mustelus|Stegostoma")) %>% # list of genera to keep in the filtering
+  select(scientific_name, redlist_category, year_published) %>%
+  mutate(redlist_category = case_when(
+    str_detect(redlist_category, "Near") ~ "NT",
+    str_detect(redlist_category, "Vul") ~ "VU",
+    str_detect(redlist_category, "Data") ~ "DD",
+    redlist_category == "Endangered" ~ "EN",
+    redlist_category == "Critically Endangered" ~ "CR",
+    str_detect(redlist_category, "Least") ~ "LC",
+    TRUE ~ redlist_category
+  )) %>% 
+  filter(!str_detect(scientific_name, "Parmaturus|Bythaelurus|Cirrhoscyllium|Proscyllium|Megachasma|Cetorhinus|Rhincodon "))
+
+#read in taxonomic assignments of IUCN data
+iucn_taxonomy <- read_csv(here("data", "iucn_data", "taxonomy.csv")) %>%
+  clean_names() %>%
+  mutate(family = str_to_sentence(family_name)) %>%
+  select(family, genus_name, species_name) %>%
+  unite(col = "scientific_name", c(genus_name, species_name), sep = " ")
+# read in avm and prm model output dataframe
+full_predictions <- read_csv(here::here("data", "full_model_predictions.csv")) %>%
+  filter(scientific_name %in% iucn_data$scientific_name)
+
+# read in the raw data from literature review
+prm_elasmo <- read_csv(here::here("data", "prm_dataset_updated.csv")) %>% 
+  select(scientific_name, estimate, estimate_type, sample_size, gear_class, family, habitat_associated, reference)
+
+# read in the data from Gilman et al (2022)
+gilman_df <- read_csv(here::here("data", "Gilman_et_2022_elasmobranch-longline-haulbak-conditon_database_PUBLIC.xlsx - AVMdatabase.csv")) %>% 
+  clean_names() %>% 
+  select(-c(pub_uid, subset, region, studycat, soak_max_hours, branchline_length_m, hooks_between_floats)) %>% 
+  #filter(!genus %in% c("Pteroplatytrygon", "Mobula")) %>% 
+  mutate(source = "Gilman et al (2022)") %>% 
+  rename(common_name = commonname) %>% 
+  mutate(common_name = str_replace(common_name, "shark", "")) %>% 
+  mutate(common_name = str_trim(common_name, side = "right")) %>% 
+  mutate(common_name = ifelse(common_name == "shorfin mako", "shortfin mako", common_name)) %>% 
+  mutate(genus = ifelse(genus == "Rhinobatos", "Glaucostegus", genus)) %>% 
+  mutate(family = ifelse(family == "Rhinobatidae", "Glaucostegidae", family)) %>%
+  mutate(group = case_when(
+    str_detect(family, "Mobulidae|Dasyatidae|Rhinobatidae|Rajidae|Glaucostegidae|Myliobatidae") ~ "Batoids",
+    TRUE ~ "Sharks"
+  )) %>% 
+  group_by(record_uid) %>% 
+  mutate(sample_size = sum(alive, dead)) %>% 
+  ungroup() %>% 
+  mutate(estimate = dead / (alive + dead)) %>% 
+  select(-alive, -dead) 
+
+# read in fishbase data
+shark_spp <- fb_tbl("species") %>%
+  clean_names() %>%
+  # filter(str_detect(genus, "Prionace|Carcharhinus|Glyphis|Isogomphodon|Lamiopsis|Loxodon|Rhizoprionodon|Scoliodon|Triaenodon|Galeocerdo|Chaenogaleus|Hemigaleus|Hemipristis|Paragaleus|Leptocharias|Ctenacis|Eridacnis|Gollum|Proscyllium|Pseudotriakis|Apristurus|Asymbolus|Bythaelurus|Cephalurus|Figaro|Galeus|Halaelurus|Haploblepharus|Holohalaelurus|Parmaturus|Pentanchus|Atelomycterus|Aulohalaelurus|Cephaloscyllium|Poroderma|Schroederichthys|Scyliorhinus|Sphyrna|Furgaleus|Galeorhinus|Hemitriakis|Hypogaleus|Iago|Mustelus|Triakis|Scylliogaleus|Heterodontus|Hexanchus|Notorynchus|Chlamydoselachus|Carcharias|Carcharias|Carcharodon|Isurus|Lamna|Alopias|Cetorhinus|Megachasma|Mitsukurina|Odontaspis|Brachaelurus|inglymostoma|Nebrius|Chiloscyllium|Hemiscyllium|Orectolobus|Eucrossorhinus|Sutorectus|Cirrhoscyllium|Parascyllium|Rhincodon|Stegostoma|Pristiophorus|Pliotrema|Squatina|Squalus|Etmopterus|Centrophorus|Daenia|Dalatias|Euprotomicroides|Heteroscymnoides|Isistius|Mollisquama|Squaliolus|Echinorhinus|Aculeola|Centroscyllium|Centroscymnus|Scymnodalatias|Scymnodon|Somniosus|Cirrhigaleus|Oxynotus|Aetobatus|Bathytoshia|trygon|Dasyatis|Himantura|Hypanus|Maculabatis|Pastinachus|Pateobatis|Taeniura|Urogymnus|Gymnura|Aetomylaeus|Myliobatis|Manta|Mobula|Plesiobatis|Rhinoptera|Spinilophus|Urolophus|Urobatis|raja|batis|Springeria|Irolita|Sympterygia|Gurgesiella|Dipturus|Hongeo|Okamejei|Raja|Rajella|Glaucostegus|Platyrhin|Pristis|Anoxypristis|Acroteriobatus|Pseudobatos|Rhinobatos|Rhina|Rhynchobatus|Aptychotrema|Trygonorrhina|Zapteryx|Zanobatus|Hypnos|Benthobatis|Diplobatis|Discopyge|Narcine|Crassinarke|Electrolux|Heteronarce|Narke|Temera|Typhlonarke|Tetronarce|Torpedo")) %>%
+  filter(!str_detect(genus, "Potamotrygon|Paratrygon|Heliotrygon|Plesiotrygon|Glyphis")) %>% # remove freshwater stingrays and sharks
+  select(genus, species, f_bname, demers_pelag) %>%
+  unite(scientific_name, c("genus", "species"), sep = " ", remove = FALSE) %>% 
+  mutate(common_name = str_to_lower(f_bname)) 
+```
+
+```{r}
+# wrangle the shark_spp df
+shark_spp_subset <- shark_spp %>% 
+  select(scientific_name, common_name, genus) %>% 
+  mutate(common_name = str_replace(common_name, "shark", "")) %>% 
+  mutate(common_name = str_trim(common_name, side = "right")) %>% 
+  mutate(scientific_name = ifelse(scientific_name == "Carcharhinus perezii", "Carcharhinus perezi", scientific_name)) %>% 
+  mutate(common_name = ifelse(common_name == "giant manta", "giant manta ray", common_name))
+
+# wrangle predictions dataset
+full_predictions_iucn <- full_predictions %>%
+  left_join(iucn_data, by = "scientific_name")
+```
+
+```{r}
+# join gilman_df and fishbase data
+gilman_join <- gilman_df %>% 
+  left_join(shark_spp_subset, by = c("genus", "common_name")) %>% 
+  mutate(scientific_name = case_when(
+    genus == "Pseudocarcharias" ~ "Pseudocarcharias kamoharai",
+    genus == "Scymnodon" ~ "Scymnodon ichiharai",
+    common_name == "grey reef" ~ "Carcharhinus amblyrhynchos",
+    genus == "Heptranchias" ~ "Heptranchias perlo",
+    common_name == "sicklefin lemon" ~ "Negaprion acutidens",
+    common_name == "lemon" ~ "Negaprion brevirostris",
+    TRUE ~ scientific_name
+  )) %>% 
+  select(scientific_name, estimate, sample_size, group, family, reference) %>% 
+  left_join(shark_spp, by = "scientific_name") %>% 
+  rename(habitat_associated = demers_pelag) %>% 
+  bind_rows(prm_elasmo) %>% 
+  mutate(estimate_type = ifelse(is.na(estimate_type), "at-vessel mortality", estimate_type),
+         gear_class = ifelse(is.na(gear_class), "longline", gear_class)) %>% 
+    mutate(group = case_when(
+    str_detect(family, "Mobulidae|Dasyatidae|Gymnuridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae|Plesiobatidae|Potamo|Urolophidae|Zanobatidae|Narcinidae|Platyrhinidae|Trygon|Hypnidae|Narkidae") ~ "Batoids",
+    str_detect(
+      scientific_name,
+      "Himantura|Dasyatis|trygon|Bathytoshia|rays|raja|Rhinoptera|Sympterygia|Pastinachus|Urobatis|Glaucostegus|Hypanus|Rhynchobatus"
+    ) ~ "Batoids",
+    TRUE ~ "Sharks"
+  ))
+
+# removing duplicates from gilman_join
+gilman_join_clean <- gilman_join %>% 
+  distinct(scientific_name, estimate, sample_size, estimate_type)
+```
+
+```{r}
+# calculate number of references used
+gilman_join_ref_count <- gilman_join %>% 
+  distinct(reference) %>% 
+  count()
+```
+
+```{r}
+# calculate number of shark and batoid species present for each mortality estimate type
+gilman_join_summary <- gilman_join %>%
+  distinct(scientific_name, group, estimate_type) %>% 
+  group_by(group, estimate_type) %>% 
+  count()
+
+taxa_n <- gilman_join %>% 
+  distinct(scientific_name)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

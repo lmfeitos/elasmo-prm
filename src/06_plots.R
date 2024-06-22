@@ -44,6 +44,9 @@ full_predictions <- read_csv(here::here("data", "full_model_predictions.csv")) %
 full_predictions_iucn <- full_predictions %>%
   left_join(iucn_data, by = "scientific_name")
 
+# AVM gillnet predictions
+gillnet_predictions <- read_csv(here::here("data", "gillnet_model_avm_predictions.csv"))
+
 #read in ICUN assessments and filter to only longline
 iucn_data_non_longline <- read_csv(here("data", "iucn_data", "assessments.csv")) %>%
   clean_names() %>%
@@ -571,12 +574,30 @@ mean_predictions <- full_predictions %>%
     prm_pred = mean(prm_pred)
   )
 
-#pivot estimates to a single column
 predictions <- mean_predictions %>%
   pivot_longer(cols = c("avm_pred", "prm_pred"), names_to = "estimate_type", values_to = "mortality_prop") %>%
   mutate(estimate_type = case_when(
     estimate_type == "avm_pred" ~ "AVM",
     estimate_type == "prm_pred" ~ "PRM"
+  )) %>%
+  mutate(gear = "longline")
+
+# gillnet predictions
+mean_gill_predictions <- gillnet_predictions %>%
+  group_by(scientific_name) %>%
+  mutate(avm_pred_gill = mean(avm_pred)) %>%
+  mutate(gear = "gillnet")
+
+# join longline and gillnet predictions
+predictions_join <- mean_predictions %>%
+  left_join(mean_gill_predictions, by = c("scientific_name", "family", "ventilation_method", "median_depth", "max_size_cm", "reproductive_mode", "ac")) %>%
+  pivot_longer(cols = c("avm_pred_long", "avm_pred_gill", "prm_pred_long"),
+               names_to = "estimate_type",
+               values_to = "mortality_prop") %>%
+  mutate(estimate_type = case_when(
+    estimate_type == "avm_pred_long" ~ "AVM Longline",
+    estimate_type == "avm_pred_gill" ~ "AVM Gillnet",
+    estimate_type == "prm_pred_long" ~ "PRM Longline"
   ))
 
 #get family level estimates for AVM
@@ -596,14 +617,20 @@ mort_subset_prm <- mean_predictions %>%
   pull(family)
 
 p6 <- ggplot() +
-  geom_density_ridges(data = predictions, aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset_avm)), fill = fct_rev(factor(family, levels = mort_subset_avm))), alpha = 0.5) +
-  geom_point(data = predictions, aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset_avm)), color = fct_rev(factor(family, levels = mort_subset_avm))), alpha = 0.5, size = 6) +
+  geom_density_ridges(data = predictions_join,
+                      aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset_avm)),
+                          fill = fct_rev(factor(family, levels = mort_subset_avm))),
+                      alpha = 0.5) +
+  geom_point(data = predictions_join,
+             aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset_avm)),
+                 color = fct_rev(factor(family, levels = mort_subset_avm))),
+             alpha = 0.5, size = 6) +
   scale_fill_viridis_d() +
   scale_color_viridis_d() +
-  facet_grid(
-    cols = vars(estimate_type),
-    scales = "free_x",
-    space = "free_x"
+  facet_grid( ~ factor(estimate_type,
+                       levels = c("AVM Longline", "PRM Longline", "AVM Gillnet")),
+              scales = "free_x",
+              space = "free_x"
   ) +
   labs(
     y = "Family",
