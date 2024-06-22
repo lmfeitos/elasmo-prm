@@ -55,13 +55,13 @@ sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>% 
   filter(mort_scenario == "BAU" | mort_scenario == "Median Mortality") %>%
-  mutate(f_mort = (100 * f * (1-mid_avm) * (1-mid_prm)) / 100) %>%
+  mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1-mid_avm) * (1 - mid_prm)))) / 100) %>%
   select(scientific_name, f, f_mort, mid_avm, mid_prm) %>%
   distinct()
 
 write_csv(sim_results, here::here("data", "pct_mort_reduction_sim.csv"))
 
-sim_results2 <- read_csv(here::here("data", "simulation_results.csv")) %>%
+sim_results_2 <- read_csv(here::here("data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario))
 
@@ -1061,7 +1061,7 @@ ggsave(prop, file = paste0("figS4.pdf"), path = here::here("figs", "supp"), heig
 # Figure 5 and S5-10 ----------------------------------------------------------------
 
 ### ADDED THIS CODE TO MAKE FIGURES 5 AND SX DISPLAY COMMON NAMES ON THE FACET STRIPS INSTEAD OF THE SCIENTIFIC NAMES
-sim_results_new <- sim_results2 %>%
+sim_results_new <- sim_results_2 %>%
   left_join(sim_results_common) %>%
   mutate(common_name = case_when(
     scientific_name == "Alopias vulpinus" ~ "Common thresher",
@@ -1082,14 +1082,17 @@ no_cq <- sim_results_new %>%
   mutate(mort_scenario = case_when(
     mort_scenario == "BAU" ~ "Full retention",
     TRUE ~ mort_scenario
-  ))
+  )) %>% 
+  select(-avm, -prm, -prm_75, -prm_25, -avm_25, -avm_25)  
+
+no_cq = no_cq[!duplicated(no_cq %>% select(-n_div_k, -pop.array)), ]
 
 no_cq_sci <- no_cq %>%
   distinct(scientific_name) %>%
   pull()
 
 no_cq_cr <- no_cq %>%
-  filter(redlist_category == "CR")
+  filter(redlist_category == "CR") 
 no_cq_en <- no_cq %>%
   filter(redlist_category == "EN")
 no_cq_vu <- no_cq %>%
@@ -1411,6 +1414,8 @@ sim_results <- list(sim_results1_5, sim_results1, sim_results2, sim_results3) %>
   reduce(full_join) %>%
   filter(scientific_name %in% iucn_data$scientific_name)
 
+sim_results = sim_results[!duplicated(sim_results %>% select(scientific_name, t, mort_scenario, fp)), ]
+
 rm(sim_results1_5, sim_results1, sim_results2, sim_results3)
 gc()
 
@@ -1420,7 +1425,7 @@ eq <- sim_results %>%
   mutate(mort_scenario = fct_relevel(mort_scenario, "Low Mortality", after = Inf)) %>%
   mutate(scientific_name = fct_reorder(scientific_name, n_div_k))
 
-p <- ggplot(eq %>% filter(mort_scenario != "Low Mortality")) +
+p <- ggplot(eq) +
   geom_line(aes(fp, n_div_k, group = scientific_name), color = "grey") +
   geom_hline(
     yintercept = 0.5,
@@ -1450,7 +1455,7 @@ ggsave(p, file = paste0("figS11.pdf"), path = here::here("figs", "supp"), height
 # Summarize sensitivity stats within paper
 
 percent_calc <- sim_results %>%
-  mutate(f_mort = (100 * f * (1-mid_avm) * (1-mid_prm)) / 100) %>%
+  mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1-mid_avm) * (1 - mid_prm)))) / 100) %>%
   select(scientific_name, f, f_mort, fp)%>%
   distinct() %>%
   mutate(percent_diff = (f - f_mort) / f * 100) %>% 
