@@ -122,30 +122,75 @@ gilman_join <- gilman_df %>%
 
 # removing duplicates from gilman_join
 gilman_join_clean <- gilman_join %>% 
-  distinct(scientific_name, estimate, sample_size, estimate_type)
+  distinct(scientific_name, estimate, sample_size, estimate_type, .keep_all = TRUE)
 ```
 
 ```{r}
 # calculate number of references used
 gilman_join_ref_count <- gilman_join %>% 
-  distinct(reference) %>% 
-  count()
+  distinct(reference) 
 ```
 
 ```{r}
 # calculate number of shark and batoid species present for each mortality estimate type
-gilman_join_summary <- gilman_join %>%
-  distinct(scientific_name, group, estimate_type) %>% 
+gilman_join_summary <- gilman_join_clean %>%
   group_by(group, estimate_type) %>% 
+  count() %>% 
+  ungroup() %>% 
+  group_by(group) %>% 
+  mutate(sum_count = sum(n))
+
+taxa_n <- gilman_join_clean %>% 
+  distinct(scientific_name, estimate_type, .keep_all = TRUE) %>% 
+  group_by(estimate_type) %>% 
   count()
 
-taxa_n <- gilman_join %>% 
-  distinct(scientific_name)
+taxa_n_group <- gilman_join_clean %>% 
+  distinct(scientific_name, group, .keep_all = TRUE) %>% 
+  group_by(group) %>% 
+  count()
+```
+
+```{r}
+# count number of observations per gear
+gear_count <- gilman_join_clean %>% 
+  distinct(reference, gear_class, .keep_all = TRUE) %>% 
+  group_by(gear_class) %>% 
+  count()
+```
+
+```{r}
+# mean mortality per estimate type
+mean_mort_est <- gilman_join_clean %>% 
+  filter(gear_class %in% c("longline", "trawl", "gillnet")) %>% 
+  mutate(estimate = ifelse(estimate_type == "post-release survival", 1 - estimate, estimate)) %>% 
+  mutate(estimate_type = ifelse(estimate_type == "post-release survival", "post-release mortality", estimate_type)) %>% 
+  group_by(gear_class, estimate_type) %>% 
+  summarise(mean_mort = mean(estimate))
+
+mean_mort <- gilman_join_clean %>% 
+  filter(gear_class %in% c("longline", "trawl", "gillnet")) %>% 
+  mutate(estimate = ifelse(estimate_type == "post-release survival", 1 - estimate, estimate)) %>% 
+  mutate(estimate_type = ifelse(estimate_type == "post-release survival", "post-release mortality", estimate_type)) %>% 
+  group_by(estimate_type) %>% 
+  summarise(mean_mort = mean(estimate))
 ```
 
 
+```{r}
+# family level mortality means
+mean_mort_fam <- gilman_join_clean %>% 
+  filter(gear_class %in% c("longline", "trawl", "gillnet") & estimate_type == "at-vessel mortality") %>%  
+  drop_na(family) %>% 
+  group_by(family) %>% 
+  mutate(fam_obs_count = n()) %>% 
+  ungroup() %>% 
+  filter(fam_obs_count > 5) %>% 
+  group_by(family, gear_class) %>% 
+  mutate(mean_mort = mean(estimate))
+         
 
-
+```
 
 
 
