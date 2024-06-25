@@ -39,14 +39,14 @@ sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>%
   mutate(msy = r_value / 2) %>%
   mutate(f = 1.5 * msy)
 
-ggplot(predictions %>% filter(avm_pred > 0.35 & IQR_cat_avm %in% c( "Medium Uncertainty", "High Uncertainty")), aes(avm_mort, avm_pred)) +
-  geom_point(aes(avm_mort, avm_pred)) +
-  theme_bw() +
-  geom_smooth(se=FALSE) +
-  stat_poly_line() +
-  stat_poly_eq(use_label("eq")) +
-  stat_poly_eq(label.y = 0.9) +
-  geom_vline(aes(xintercept = 0.4))
+# ggplot(predictions %>% filter(avm_pred > 0.35 & IQR_cat_avm %in% c( "Medium Uncertainty", "High Uncertainty")), aes(avm_mort, avm_pred)) +
+#   geom_point(aes(avm_mort, avm_pred)) +
+#   theme_bw() +
+#   geom_smooth(se=FALSE) +
+#   stat_poly_line() +
+#   stat_poly_eq(use_label("eq")) +
+#   stat_poly_eq(label.y = 0.9) +
+#   geom_vline(aes(xintercept = 0.4))
 
 # comment out if doing uncorrected results
 sim_data <- sim_data %>%
