@@ -1442,7 +1442,45 @@ p <- ggplot() +
 
 ggsave(p, file = paste0("fig5.pdf"), path = here::here("figs"), height = 10, width = 20)
 
-# Figure S11 and Dryad data--------------------------------------------------------------
+# Figure S11--------------------------------------------------------------------------
+pct_mort_reduction <- read_csv(here("data", "sim_results_pct_diff.csv"))
+
+mean_mort_reduction_fam <- pct_mort_reduction %>% 
+  mutate(threat = ifelse(redlist_category %in% c("CR", "VU", "EN"), "threatened", "not threatened")) %>% 
+  group_by(family) %>% 
+  mutate(mean_mort_reduction = mean(percent_diff),
+         sd_mort_reduction = sd(percent_diff)) %>% 
+  ungroup() %>% 
+  filter(threat == "threatened") %>% 
+  group_by(family) %>% 
+  mutate(sp_threat = n()) %>% 
+  mutate(sp_threat = case_when(
+    sp_threat < 10 ~ 10,
+    sp_threat > 10 & sp_threat < 20 ~ 20,
+    sp_threat > 20 & sp_threat < 30 ~ 30,
+    sp_threat > 30 ~ 40
+  ))
+
+
+fam_pct_plot <- ggplot(data = mean_mort_reduction_fam) +
+  geom_point(aes(x = fct_reorder(family, mean_mort_reduction), y = mean_mort_reduction, size = sp_threat)) +
+  geom_linerange(aes(x = family, ymax = mean_mort_reduction + sd_mort_reduction, ymin = mean_mort_reduction - sd_mort_reduction)) +
+  geom_hline(yintercept = 50,
+             linetype = "dashed") +
+  coord_flip() +
+  labs(y = "Mean mortality reduction from retention prohibition",
+       x = "",
+       size = "Number of\nthreatened species") +
+  scale_size(labels = c("<10", "<20", "<30", ">30")) +
+  theme_bw() +
+  theme(axis.title = element_text(size = 12, color = "black"),
+        axis.text = element_text(size = 10, color = "black"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank())
+
+ggsave(fam_pct_plot, file = paste0("figs11.pdf"), path = here::here("figs", "supp"), height = 10, width = 20)
+
+# Figure S12 and Dryad data--------------------------------------------------------------
 
 sim_results <- list(sim_results1_5, sim_results1, sim_results2, sim_results3) %>%
   reduce(full_join) %>%
@@ -1484,7 +1522,7 @@ p <- ggplot(eq) +
   )
 p
 
-ggsave(p, file = paste0("figS11.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
+ggsave(p, file = paste0("figS12.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
 
 # Summarize sensitivity stats within paper
 
