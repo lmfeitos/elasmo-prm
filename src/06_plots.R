@@ -107,20 +107,25 @@ sim_results_common <- read_csv(here::here("data", "f_sim_results.csv")) %>%
 # fishing pressure sensitivity results
 sim_results1 <- read_csv(here::here("data", "simulation_results_msy.csv")) %>%
   filter(scenario != "CQ") %>%
-  mutate(fp = 1)
+  mutate(fp = 1) %>% 
+  mutate(corrected = "yes")
 sim_results1_5 <- read_csv(here::here("data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
-  mutate(fp = 1.5)
+  mutate(fp = 1.5) %>% 
+  mutate(corrected = "yes")
 sim_results2 <- read_csv(here::here("data", "simulation_results_2msy.csv")) %>%
   filter(scenario != "CQ") %>%
-  mutate(fp = 2)
+  mutate(fp = 2) %>% 
+  mutate(corrected = "yes")
 sim_results3 <- read_csv(here::here("data", "simulation_results_3msy.csv")) %>%
   filter(scenario != "CQ") %>%
-  mutate(fp = 3)
+  mutate(fp = 3) %>% 
+  mutate(corrected = "yes")
 
 uncorrected_results =read_csv(here::here("data", "uncorrected_results.csv")) %>%
   filter(scenario != "CQ") %>%
-  mutate(fp = 1.5) 
+  mutate(fp = 1.5) %>% 
+  mutate(corrected = "no")
 
 # Figures 1 and S1 and S14 --------------------------------------------------------
 
@@ -627,6 +632,26 @@ predictions_join <- mean_predictions %>%
 
 write_csv(predictions_join, file = here("data", "tableS5.csv"), na = "")
 
+count_avm = predictions_join %>% 
+  filter(estimate_type %in% c("AVM Longline", "AVM Gillnet")) %>% 
+  select(scientific_name) %>% 
+  distinct()
+
+count_avm_longline = predictions_join %>% 
+  filter(estimate_type == "AVM Longline") %>% 
+  select(scientific_name) %>% 
+  distinct()
+
+count_prm_longline = predictions_join %>% 
+  filter(estimate_type == "PRM Longline") %>% 
+  select(scientific_name) %>% 
+  distinct()
+
+count_avm_gillnet = predictions_join %>% 
+  filter(estimate_type == "AVM Gillnet") %>% 
+  select(scientific_name) %>% 
+  distinct()
+
 #get family level estimates for AVM
 mort_subset_avm <- mean_predictions %>%
   group_by(family) %>%
@@ -956,7 +981,7 @@ plot = p2 / p1 / (p3 / p4 / p5) + plot_layout(guides = "collect") + plot_annotat
 
 ggsave(plot, file = paste0("figS3.pdf"), path = here::here("figs", "supp"), height = 20, width = 20)
 
-# Figures 4 and S4/S13 --------------------------------------------------------
+# Figures 4 and S4 --------------------------------------------------------
 
 iucn_data <- iucn_data %>%
   left_join(iucn_taxonomy, by = "scientific_name")
@@ -1576,15 +1601,15 @@ p <- ggplot() +
 
 ggsave(p, file = paste0("fig5.pdf"), path = here::here("figs"), height = 10, width = 20)
 
-# Figure S12 and Dryad data--------------------------------------------------------------
+# Figure S13 and Dryad data--------------------------------------------------------------
 
-sim_results <- list(sim_results1_5, sim_results1, sim_results2, sim_results3) %>%
+sim_results <- list(sim_results1_5, sim_results1, sim_results2, sim_results3, uncorrected_results) %>%
   reduce(full_join) %>%
   filter(scientific_name %in% iucn_data$scientific_name)
 
-sim_results = sim_results[!duplicated(sim_results %>% select(scientific_name, t, mort_scenario, fp)), ]
+sim_results = sim_results[!duplicated(sim_results %>% select(scientific_name, t, mort_scenario, fp, corrected)), ]
 
-rm(sim_results1_5, sim_results1, sim_results2, sim_results3)
+rm(sim_results1_5, sim_results1, sim_results2, sim_results3, uncorrected_results)
 gc()
 
 eq <- sim_results %>%
@@ -1593,7 +1618,7 @@ eq <- sim_results %>%
   mutate(mort_scenario = fct_relevel(mort_scenario, "Low Mortality", after = Inf)) %>%
   mutate(scientific_name = fct_reorder(scientific_name, n_div_k))
 
-p <- ggplot(eq) +
+p <- ggplot(eq %>% filter(corrected == "yes")) +
   geom_line(aes(fp, n_div_k, group = scientific_name), color = "grey") +
   geom_hline(
     yintercept = 0.5,
@@ -1618,21 +1643,22 @@ p <- ggplot(eq) +
   )
 p
 
-ggsave(p, file = paste0("figS12.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
+ggsave(p, file = paste0("figS13.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
 
 # Summarize sensitivity stats within paper
 
 percent_calc <- sim_results %>%
   mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1-mid_avm) * (1 - mid_prm)))) / 100) %>%
-  select(scientific_name, f, f_mort, fp)%>%
+  select(scientific_name, f, f_mort, fp, corrected)%>%
   distinct() %>%
   mutate(percent_diff = (f - f_mort) / f * 100) %>% 
-  group_by(fp) %>% 
+  group_by(fp, corrected) %>% 
   mutate(mean_diff = mean(percent_diff, na.rm = TRUE)) %>%
   ungroup()
 
 sim_200 <- sim_results %>%
   filter(t == 200) %>%
+  filter(corrected == "yes") %>% 
   filter(mort_scenario == "Median Mortality") %>%
   select(n_div_k, scientific_name, fp)%>%
   filter(n_div_k >= 0.5) %>% 
@@ -1642,7 +1668,8 @@ sim_200 <- sim_results %>%
   summarize(per = n() / 265 * 100)
 
 mort_50 = percent_calc %>% 
-  filter(percent_diff > 50) %>% 
+  filter(corrected == "yes") %>% 
+  filter(percent_diff > 75) %>% 
   filter(fp == 1.5) %>% 
   select(scientific_name) %>% 
   distinct()
@@ -1664,12 +1691,13 @@ output <- eq %>%
     percent_mort_diff = percent_diff,
     fishing_mort_bau = f,
     fishing_mort_rb = f_mort,
-    msy_multiple_fishing = fp
+    msy_multiple_fishing = fp,
+    avm_correction = corrected
   ) %>%
   select(
     scientific_name, msy_multiple_fishing, fishing_mort_bau, fishing_mort_rb, percent_mort_diff,
     mort_scenario, simulation_avm, simulation_prm, n_div_k,
-    pred_avm_25, pred_avm_mean, pred_avm_75, pred_prm_25, pred_prm_mean, pred_prm_75
+    pred_avm_25, pred_avm_mean, pred_avm_75, pred_prm_25, pred_prm_mean, pred_prm_75, avm_correction
   )
 
 # create dryad data 
