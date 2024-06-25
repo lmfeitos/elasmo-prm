@@ -232,20 +232,25 @@ predictions_full <- read_csv(here("data", "long_gill_predictions.csv"))
 
 ```{r}
 # median per categorical predictor variable
+full_predictions_tidy <- full_predictions %>% 
+  pivot_longer(cols = c(prm_pred, avm_pred, avm_gillnet_pred),
+               names_to = "estimate_type",
+               values_to = "mortality_prop")
+
 # reproductive mode
-rep_mode_median <- predictions_full %>% 
+rep_mode_median <- full_predictions_tidy %>% 
   group_by(estimate_type, reproductive_mode) %>% 
   summarise(median_mort = median(mortality_prop, na.rm = TRUE),
             var_mort = var(mortality_prop, na.rm = TRUE))
 
 # ventilation method
-vent_method_median <- predictions_full %>% 
+vent_method_median <- full_predictions_tidy %>% 
   group_by(estimate_type, ventilation_method) %>% 
   summarise(median_mort = median(mortality_prop, na.rm = TRUE),
             var_mort = var(mortality_prop, na.rm = TRUE))
 
 # habitat associated
-habitat_median <- predictions_full %>% 
+habitat_median <- full_predictions_tidy %>% 
   group_by(estimate_type, habitat) %>% 
   summarise(median_mort = median(mortality_prop, na.rm = TRUE),
             var_mort = var(mortality_prop, na.rm = TRUE))
@@ -253,7 +258,7 @@ habitat_median <- predictions_full %>%
 
 ```{r}
 # number of species per gear class
-predictions_full_gear <- predictions_full %>% 
+predictions_full_gear <- full_predictions_tidy %>% 
   mutate(gear_class = case_when(
     str_detect(estimate_type, "Longline") ~ "Longline",
     str_detect(estimate_type, "Gillnet") ~ "Gillnet"
@@ -264,6 +269,14 @@ sp_gear_count <- predictions_full_gear %>%
   drop_na() %>% 
   group_by(gear_class) %>% 
   count()
+```
+
+```{r}
+# get summary stats for gillnet predictions only
+gillnet_summary <- full_predictions_tidy %>% 
+  filter(str_detect(estimate_type, "gillnet")) %>% 
+  group_by(family) %>% 
+  summarise(mean_mort = mean(mortality_prop, na.rm = TRUE))
 ```
 
 
