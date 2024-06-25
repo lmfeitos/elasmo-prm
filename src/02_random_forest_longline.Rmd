@@ -317,7 +317,7 @@ avm_quant_test <- preds_bind(avm_data, avm_fit) %>%
 q1 <- ggplot(avm_quant_test) +
   geom_boxplot(aes(range_50)) +
   theme_bw(base_size = 14) +
-  labs(x = "Distribution of IQR for AVM") +
+  labs(x = "Distribution of IQR for AVM (Longline)") +
   theme(
     axis.title.y = element_blank(),
     axis.text.y = element_blank(),
@@ -362,8 +362,8 @@ p1 <- ggplot(avm_quant_test, aes(x = mortality_prop, y = .pred)) + # plot ln of 
   stat_poly_eq(label.y = 0.9) +
   theme_bw(base_size = 14) +
   labs(
-    x = "Observed AVM Rate",
-    y = "Predicted AVM Rate"
+    x = "Observed AVM Rate (Longline)",
+    y = "Predicted AVM Rate (Longline)"
   )
 p1
 
@@ -395,7 +395,7 @@ v1 <- avm_fit %>%
   extract_fit_parsnip() %>%
   vip() +
   theme_bw(base_size = 14) +
-  labs(y = "Variable Importance for At-Vessel Mortality") +
+  labs(y = "Variable Importance for AVM (Longline)") +
   scale_x_discrete(labels = c("Ventilation Method", "Reproductive Mode", "Hypoxia Tolerance", "Median Depth (m)"))
 v1
 
@@ -403,7 +403,7 @@ v2 <- prm_fit %>%
   extract_fit_parsnip() %>%
   vip() +
   theme_bw(base_size = 14) +
-  labs(y = "Variable Importance for Post-Release Mortality") +
+  labs(y = "Variable Importance for PRM") +
   scale_x_discrete(labels = c("Habitat", "Reproductive Mode", "Hypoxia Tolerance", "Median Depth", "Maximum Size (cm)"))
 v2
 ```
@@ -487,7 +487,7 @@ write_csv(full_predictions, here::here("data", "full_model_predictions.csv"))
 ## Figures for paper
 
 ```{r}
-plot1 <- (p1 + v1 + q1) / (p2 + v2 + q2) + plot_annotation(tag_levels = "A")
+plot1 <- (p2_gill + v2_gill + q2_gill) / (p1 + v1 + q1) / (p2 + v2 + q2) + plot_annotation(tag_levels = "A")
 
-ggsave(plot1, file = paste0("fig2.pdf"), path = here::here("figs"), height = 12, width = 18)
+ggsave(plot1, file = paste0("fig2_test.pdf"), path = here::here("figs"), height = 14, width = 18)
 ```

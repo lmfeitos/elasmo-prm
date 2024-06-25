@@ -44,7 +44,7 @@ full_predictions <- read_csv(here::here("data", "full_model_predictions.csv")) %
 
 # read in the raw data from literature review
 prm_elasmo <- read_csv(here::here("data", "prm_dataset_updated.csv")) %>% 
-  select(scientific_name, estimate, estimate_type, sample_size, gear_class, family, habitat_associated, reference)
+  select(scientific_name, estimate, estimate_type, sample_size, gear_class, family, habitat_associated, location, flagstate, reference)
 
 # read in the data from Gilman et al (2022)
 gilman_df <- read_csv(here::here("data", "Gilman_et_2022_elasmobranch-longline-haulbak-conditon_database_PUBLIC.xlsx - AVMdatabase.csv")) %>% 
@@ -105,7 +105,7 @@ gilman_join <- gilman_df %>%
     common_name == "lemon" ~ "Negaprion brevirostris",
     TRUE ~ scientific_name
   )) %>% 
-  select(scientific_name, estimate, sample_size, group, family, reference) %>% 
+  select(scientific_name, estimate, sample_size, group, family, location, flagstate, reference) %>% 
   left_join(shark_spp, by = "scientific_name") %>% 
   rename(habitat_associated = demers_pelag) %>% 
   bind_rows(prm_elasmo) %>% 
@@ -118,7 +118,8 @@ gilman_join <- gilman_df %>%
       "Himantura|Dasyatis|trygon|Bathytoshia|rays|raja|Rhinoptera|Sympterygia|Pastinachus|Urobatis|Glaucostegus|Hypanus|Rhynchobatus"
     ) ~ "Batoids",
     TRUE ~ "Sharks"
-  ))
+  )) %>% 
+  mutate(flagstate = ifelse(is.na(flagstate), location, flagstate))
 
 # removing duplicates from gilman_join
 gilman_join_clean <- gilman_join %>% 
@@ -194,10 +195,76 @@ mean_mort_fam <- gilman_join_clean %>%
 
 
 
+```{r}
+# get number of references per country
+country_ref_n <- gilman_join_clean %>% 
+  distinct(reference, .keep_all = TRUE) %>% 
+  select(flagstate, reference) %>% 
+  drop_na() %>% 
+  mutate(country = strsplit(as.character(flagstate), ",\\s*")) %>% 
+  unnest(country) %>% 
+  mutate(country = case_when(
+    str_detect(country, "California|Florida|Gulf of Mexico|Virginia|Carolina|Samoa|Hawaii|Maine|Rhode|Massachussets|Alabama") ~ "USA",
+    country == "Grand banks" ~ "Canada",
+    country == "Sierra Leone Basin" ~ "Sierra Leone",
+    country == "Galicia" ~ "Spain",
+    country == "Bay of Biscay" ~ "France",
+    str_detect(country, "Australia") ~ "Australia",
+    country == "Antalya Bay" ~ "Turkey",
+    country == "English channel" ~ "United Kingdom",
+    TRUE ~ country
+  )) %>% 
+  filter(!country %in% c("Victoria", "Mediterranean", "North Atlantic")) %>% 
+  mutate(region = ifelse(country %in% c("USA", "Canada", "United Kingdom", "England", "Spain", "New Zealand", "Portugal", "France", "Australia"), "Global North", "Global South")) %>% 
+  group_by(country, region) %>% 
+  count() %>% 
+  ungroup() %>% 
+  group_by(region) %>% 
+  mutate(region_n = sum(n)) %>% 
+  ungroup() %>% 
+  mutate(sum_n = sum(n))
+```
 
+# Get summary stats for the model predictions
+```{r}
+predictions_full <- read_csv(here("data", "long_gill_predictions.csv"))
+```
 
+```{r}
+# median per categorical predictor variable
+# reproductive mode
+rep_mode_median <- predictions_full %>% 
+  group_by(estimate_type, reproductive_mode) %>% 
+  summarise(median_mort = median(mortality_prop, na.rm = TRUE),
+            var_mort = var(mortality_prop, na.rm = TRUE))
 
+# ventilation method
+vent_method_median <- predictions_full %>% 
+  group_by(estimate_type, ventilation_method) %>% 
+  summarise(median_mort = median(mortality_prop, na.rm = TRUE),
+            var_mort = var(mortality_prop, na.rm = TRUE))
 
+# habitat associated
+habitat_median <- predictions_full %>% 
+  group_by(estimate_type, habitat) %>% 
+  summarise(median_mort = median(mortality_prop, na.rm = TRUE),
+            var_mort = var(mortality_prop, na.rm = TRUE))
+```
+
+```{r}
+# number of species per gear class
+predictions_full_gear <- predictions_full %>% 
+  mutate(gear_class = case_when(
+    str_detect(estimate_type, "Longline") ~ "Longline",
+    str_detect(estimate_type, "Gillnet") ~ "Gillnet"
+  ))
+
+sp_gear_count <- predictions_full_gear %>% 
+  filter(str_detect(estimate_type, "AVM")) %>% 
+  drop_na() %>% 
+  group_by(gear_class) %>% 
+  count()
+```
 
 
 

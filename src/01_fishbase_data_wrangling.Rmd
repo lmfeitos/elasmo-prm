@@ -155,14 +155,25 @@ iucn_taxonomy <- read_csv(here("data", "iucn_data", "taxonomy.csv")) %>%
   rename(family = family_name) %>%
   mutate(family = str_to_sentence(family))
 
-iucn_assessment <- read_csv(here("data", "iucn_data", "assessments.csv")) %>%
+iucn_assessment_long <- read_csv(here("data", "iucn_data", "assessments.csv")) %>%
   clean_names() %>%
   filter(str_detect(systems, "Marine") & str_detect(threats, "longline") | str_detect(scientific_name, "Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus|Mustelus")) %>%
   select(scientific_name, threats, systems, redlist_category)
 
-iucn_data <- iucn_assessment %>%
+iucn_assessment_gill <- read_csv(here("data", "iucn_data", "assessments.csv")) %>%
+  clean_names() %>%
+  filter(str_detect(systems, "Marine") & str_detect(threats, "gillnet")) %>%
+  select(scientific_name, threats, systems, redlist_category)
+
+iucn_data_long <- iucn_assessment_long %>%
   left_join(iucn_taxonomy, by = "scientific_name")
 
+iucn_data_gill <- iucn_assessment_gill %>% 
+  left_join(iucn_taxonomy, by = "scientific_name") %>% 
+  filter(!str_detect(family, "Mobulidae|Dasyatidae|Gymnuridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae|Plesiobatidae|Potamo|Urolophidae|Zanobatidae|Narcinidae|Platyrhinidae|Trygon|Hypnidae|Narkidae|Gurgesiellidae|Rhinopteridae|Urotrygonidae|Arhynchobatidae|Glaucostegidae|Anacanthobatidae")) %>% 
+  filter(!str_detect(scientific_name, "Glyphis")) 
+
+#write_csv(iucn_data_gill, file = here("data", "predict_gillnet.csv"))
 # r_data_merge <- shark_spp %>%
 #    left_join(r_data, by = "scientific_name")
 
@@ -206,6 +217,7 @@ new_dat <- read_csv(here::here("data", "predict_data.csv")) %>%
   filter(!is.na(reproductive_mode)) %>%
   filter(!is.na(habitat_associated)) %>%
   filter(!is.na(max_size_cm)) %>%
+  filter(!str_detect(scientific_name, "/")) %>% 
   mutate(ventilation_method = as.factor(ventilation_method)) %>%
   mutate(habitat_associated = as.factor(habitat_associated)) %>%
   mutate(reproductive_mode = as.factor(reproductive_mode)) %>%
@@ -350,12 +362,13 @@ dat_predict = dat_new_mean %>%
 
 write_csv(dat_predict, here::here("data", "prm_hypoxia.csv"))
 
-dat_new_mean = dat_new_mean %>% 
+dat_new_mean_check = dat_new_mean %>% 
   filter(scientific_name %in% new_dat$scientific_name) %>% 
   filter(is.na(estimate)) 
 
-write_csv(dat_new_mean, here::here("data", "predict_data_hyp.csv"), col_names = TRUE, na = "")
+test <- 
 
+write_csv(dat_new_mean, here::here("data", "predict_data_hyp.csv"), col_names = TRUE, na = "")
 ```
 
 # testing the reproductive mode data with Mull et al (2024)'s
@@ -411,5 +424,27 @@ mull_join_predict <- predict_data %>%
 
 # update predict data
 write_csv(mull_join_predict, here::here("data", "predict_data_hyp.csv"), col_names = TRUE, na = "")
+```
+
+```{r}
+# join the predict longline and gillnet data to check for missing species
+predict_data_long <- read_csv(here::here("data", "predict_data_hyp.csv"))
+
+prm_hypoxia <- read_csv(here("data", "prm_hypoxia.csv")) %>% 
+  select(scientific_name, family, ventilation_method, reproductive_mode, median_depth, max_size_cm, habitat_associated, ac) %>%
+  distinct()
+
+
+predict_gillnet <- read_csv(here::here("data", "predict_gillnet.csv"))
+
+predict_gillnet_join <- predict_gillnet  %>% 
+  full_join(predict_data_long, by = c("scientific_name", "family")) %>% 
+  full_join(prm_hypoxia, by = c("scientific_name", "family")) %>% 
+   %>% 
+  
+predict_gillnet_final <- predict_gillnet_join %>% 
+  filter(scientific_name %in% prm_hypoxia$scientific_name)
+  
+write_csv(predict_gillnet_final, file = here::here("data", "predict_gillnet_final.csv"), na = "")
 ```
 

@@ -570,8 +570,8 @@ ggsave(obs_count_plot, file = paste0("figS12.pdf"), path = here::here("figs", "s
 mean_predictions <- full_predictions %>%
   group_by(scientific_name) %>%
   mutate(
-    avm_pred = mean(avm_pred),
-    prm_pred = mean(prm_pred)
+    avm_pred_long = mean(avm_pred),
+    prm_pred_long = mean(prm_pred)
   )
 
 predictions <- mean_predictions %>%
@@ -598,7 +598,12 @@ predictions_join <- mean_predictions %>%
     estimate_type == "avm_pred_long" ~ "AVM Longline",
     estimate_type == "avm_pred_gill" ~ "AVM Gillnet",
     estimate_type == "prm_pred_long" ~ "PRM Longline"
-  ))
+  )) %>% 
+  select(scientific_name, family, reproductive_mode, ac, median_depth, max_size_cm, ventilation_method, habitat, estimate_type, mortality_prop) %>% 
+  mutate(gear_class = ifelse(estimate_type %in% c("AVM Longline", "PRM Longline"), "Longline", "Gillnet")) %>% 
+  mutate(estimate_type_new = ifelse(str_detect(estimate_type, "AVM"), "AVM", "PRM"))
+
+write_csv(predictions_join, file = here("data", "long_gill_predictions.csv"), na = "")
 
 #get family level estimates for AVM
 mort_subset_avm <- mean_predictions %>%
@@ -612,7 +617,7 @@ mort_subset_avm <- mean_predictions %>%
 mort_subset_prm <- mean_predictions %>%
   group_by(family) %>%
   summarize(fam_mean = mean(prm_pred)) %>%
-  arrange(desc(fam_mean)) %>%
+  arrange(desc(fam_mean)) 
   distinct(family) %>%
   pull(family)
 
@@ -651,17 +656,18 @@ p6 <- ggplot() +
 
 ggsave(p6, file = paste0("fig3.pdf"), path = here::here("figs"), height = 22, width = 20)
 
-p1 <- ggplot(predictions %>% filter(estimate_type == "PRM")) +
-  geom_point(aes(max_size_cm, mortality_prop),
+p1 <- ggplot(predictions_join %>% filter(estimate_type %in% c("PRM Longline", "AVM Gillnet"))) +
+  geom_point(aes(max_size_cm, mortality_prop, color = gear_class),
     alpha = 0.5, size = 4
   ) +
   theme_bw(base_size = 14) +
   labs(
     y = "Estimated Mortality",
-    x = "Size (cm)",
+    x = "Maximum size (cm)",
     color = "Group"
   ) +
-  facet_wrap(~estimate_type, scales = "free_x") +
+  facet_wrap(~estimate_type, 
+             scales = "free_x") +
   theme(
     axis.text = element_text(color = "black"),
     axis.text.y = element_text(color = "black"),
@@ -671,11 +677,11 @@ p1 <- ggplot(predictions %>% filter(estimate_type == "PRM")) +
     strip.background = element_rect(fill = "transparent"),
     panel.spacing.x = unit(5, "mm")
   ) +
-  scale_color_viridis_d() +
+  scale_color_manual(values = c("#440154FF", "#22A884FF")) +
   theme(legend.position = "none")
 
-p2 <- ggplot(predictions) +
-  geom_point(aes(median_depth, mortality_prop),
+p2 <- ggplot(predictions_join) +
+  geom_point(aes(median_depth, mortality_prop, color = gear_class),
              alpha = 0.5, size = 4
   ) +
   theme_bw(base_size = 14) +
@@ -684,7 +690,7 @@ p2 <- ggplot(predictions) +
     x = "Median Depth (m)",
     color = "Group"
   ) +
-  facet_wrap(~estimate_type, scales = "free_x") +
+  facet_wrap(~estimate_type_new, scales = "free_x") +
   theme(
     axis.text = element_text(color = "black"),
     axis.text.y = element_text(color = "black"),
@@ -694,11 +700,10 @@ p2 <- ggplot(predictions) +
     strip.background = element_rect(fill = "transparent"),
     panel.spacing.x = unit(5, "mm")
   ) +
-  scale_color_viridis_d() +
-  theme(legend.position = "none")
+  scale_color_manual(values = c("#440154FF", "#22A884FF")) 
 
-p6 <- ggplot(predictions) +
-  geom_point(aes(ac, mortality_prop),
+p6 <- ggplot(predictions_join) +
+  geom_point(aes(ac, mortality_prop, color = gear_class),
              alpha = 0.5, size = 4
   ) +
   theme_bw(base_size = 14) +
@@ -707,7 +712,7 @@ p6 <- ggplot(predictions) +
     x = "Active Hypoxia Tolerance",
     color = "Group"
   ) +
-  facet_wrap(~estimate_type, scales = "free_x") +
+  facet_wrap(~estimate_type_new, scales = "free_x") +
   theme(
     axis.text = element_text(color = "black"),
     axis.text.y = element_text(color = "black"),
@@ -717,18 +722,17 @@ p6 <- ggplot(predictions) +
     strip.background = element_rect(fill = "transparent"),
     panel.spacing.x = unit(5, "mm"),
   ) +
-  scale_color_viridis_d() +
-  theme(legend.position = "none") +
+  scale_color_manual(values = c("#440154FF", "#22A884FF")) +
   scale_x_log10()
 
-p4 <- ggplot(predictions %>% mutate(habitat = str_to_sentence(habitat)) %>% filter(estimate_type == "PRM")) +
-  geom_point(aes(mortality_prop, habitat),
+p4 <- ggplot(predictions_join %>% mutate(habitat = str_to_sentence(habitat)) %>% filter(str_detect(estimate_type, "PRM"))) +
+  geom_point(aes(mortality_prop, habitat, color = gear_class),
     alpha = 0.1,
     show.legend = F, size = 4
   ) +
-  geom_boxplot(aes(mortality_prop, habitat),
+  geom_boxplot(aes(mortality_prop, habitat, fill = gear_class),
     outlier.alpha = 0,
-    alpha = 0.85,
+    alpha = 0.6,
     show.legend = F
   ) +
   theme_bw(base_size = 14) +
@@ -737,7 +741,7 @@ p4 <- ggplot(predictions %>% mutate(habitat = str_to_sentence(habitat)) %>% filt
     x = "Estimated Mortality",
     color = "Group"
   ) +
-  facet_wrap(~estimate_type, scales = "free_x") +
+  facet_wrap(~estimate_type_new, scales = "free_x") +
   theme(
     axis.text = element_text(color = "black"),
     axis.text.y = element_text(color = "black"),
@@ -747,18 +751,19 @@ p4 <- ggplot(predictions %>% mutate(habitat = str_to_sentence(habitat)) %>% filt
     strip.background = element_rect(fill = "transparent"),
     panel.spacing.x = unit(5, "mm")
   ) +
-  scale_color_viridis_d() +
-  scale_fill_viridis_d() +
+  scale_color_manual(values = c("#440154FF", "#22A884FF")) +
+  scale_fill_manual(values = c("#440154FF", "#22A884FF")) +
   theme(legend.position = "none")
 
-p5 <- ggplot(predictions %>% mutate(reproductive_mode = str_to_sentence(reproductive_mode))) +
-  geom_point(aes(mortality_prop, reproductive_mode),
-    alpha = 0.1,
+p5 <- ggplot(predictions_join %>% mutate(reproductive_mode = str_to_sentence(reproductive_mode))) +
+  geom_point(aes(mortality_prop, reproductive_mode, color = gear_class),
+             position = position_jitterdodge(jitter.width = .1),
+             alpha = 0.1,
     show.legend = F, size = 4
   ) +
-  geom_boxplot(aes(mortality_prop, reproductive_mode),
+  geom_boxplot(aes(mortality_prop, reproductive_mode, fill = gear_class),
     outlier.alpha = 0,
-    alpha = 0.85,
+    alpha = 0.6,
     show.legend = F
   ) +
   theme_bw(base_size = 14) +
@@ -767,7 +772,7 @@ p5 <- ggplot(predictions %>% mutate(reproductive_mode = str_to_sentence(reproduc
     x = "Estimated Mortality",
     color = "Group"
   ) +
-  facet_wrap(~estimate_type, scales = "free_x") +
+  facet_wrap(~estimate_type_new, scales = "free_x") +
   theme(
     axis.text = element_text(color = "black"),
     axis.text.y = element_text(color = "black"),
@@ -777,18 +782,18 @@ p5 <- ggplot(predictions %>% mutate(reproductive_mode = str_to_sentence(reproduc
     strip.background = element_rect(fill = "transparent"),
     panel.spacing.x = unit(5, "mm")
   ) +
-  scale_color_viridis_d() +
-  scale_fill_viridis_d() +
-  theme(legend.position = "none")
+  scale_color_manual(values = c("#440154FF", "#22A884FF")) +
+  scale_fill_manual(values = c("#440154FF", "#22A884FF"))
 
-p7 <- ggplot(predictions %>% mutate(ventilation_method = str_to_sentence(ventilation_method)) %>% filter(estimate_type == "AVM")) +
-  geom_point(aes(mortality_prop, ventilation_method),
+p7 <- ggplot(predictions_join %>% mutate(ventilation_method = str_to_sentence(ventilation_method)) %>% filter(str_detect(estimate_type, "AVM"))) +
+  geom_point(aes(mortality_prop, ventilation_method, color = gear_class),
+             position = position_jitterdodge(jitter.width = .1),
              alpha = 0.1,
              show.legend = F, size = 4
   ) +
-  geom_boxplot(aes(mortality_prop, ventilation_method),
+  geom_boxplot(aes(mortality_prop, ventilation_method, fill = gear_class),
                outlier.alpha = 0,
-               alpha = 0.85,
+               alpha = 0.6,
                show.legend = F
   ) +
   theme_bw(base_size = 14) +
@@ -797,7 +802,7 @@ p7 <- ggplot(predictions %>% mutate(ventilation_method = str_to_sentence(ventila
     x = "Estimated Mortality",
     color = "Group"
   ) +
-  facet_wrap(~estimate_type, scales = "free_x") +
+  facet_wrap(~estimate_type_new, scales = "free_x") +
   theme(
     axis.text = element_text(color = "black"),
     axis.text.y = element_text(color = "black"),
@@ -807,11 +812,13 @@ p7 <- ggplot(predictions %>% mutate(ventilation_method = str_to_sentence(ventila
     strip.background = element_rect(fill = "transparent"),
     panel.spacing.x = unit(5, "mm")
   ) +
-  scale_color_viridis_d() +
-  scale_fill_viridis_d() +
-  theme(legend.position = "none")
+  scale_color_manual(values = c("#440154FF", "#22A884FF")) +
+  scale_fill_manual(values = c("#440154FF", "#22A884FF"))
 
-plot <- p2 / p6  / p1 / p5 / (p7 + p4) + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
+plot <- p2 / p6  / p1 / p5 / (p7 + p4) + 
+  plot_annotation(tag_levels = "A") + 
+  plot_layout(guides = "collect") & 
+  theme(legend.position = "bottom")
 
 ggsave(plot, file = paste0("figS3.pdf"), path = here::here("figs", "supp"), height = 20, width = 15)
 
