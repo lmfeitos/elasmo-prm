@@ -40,8 +40,6 @@ sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>%
   )) %>% 
   mutate(IQR_cat_prm = fct_relevel(as.factor(IQR_cat_prm), c("Low Uncertainty", "Medium Uncertainty", "High Uncertainty")))
 
-# 0.41 M for FMSY Zhou et 
-
 # Functions ---------------------------------------------------------------
 
 # create the simulation based on equation in paper
@@ -170,4 +168,4 @@ summarized <- list(species_max_mort, species_median_mort, species_min_mort, sim_
   )) %>%
   select(-med_mort, -min_mort, -max_mort)
 
-write_csv(summarized, here::here("data", "uncorrected_results.csv"))
+write_csv(summarized, here::here("data", "sim_results.csv"))

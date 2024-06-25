@@ -118,7 +118,11 @@ sim_results3 <- read_csv(here::here("data", "simulation_results_3msy.csv")) %>%
   filter(scenario != "CQ") %>%
   mutate(fp = 3)
 
-# Figures 1 and S1 and S13 --------------------------------------------------------
+uncorrected_results =read_csv(here::here("data", "uncorrected_results.csv")) %>%
+  filter(scenario != "CQ") %>%
+  mutate(fp = 1.5) 
+
+# Figures 1 and S1 and S14 --------------------------------------------------------
 
 # data wrangling for plotting raw data
 prm_elasmo_subset <- prm_elasmo %>%
@@ -585,7 +589,7 @@ obs_count_plot <-
     panel.grid.major.y = element_blank()
   )
 
-ggsave(obs_count_plot, file = paste0("figS13.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
+ggsave(obs_count_plot, file = paste0("figS14.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
 
 # Figures 3 and S2 and S3 --------------------------------------------------------
 
@@ -1572,7 +1576,7 @@ p <- ggplot() +
 
 ggsave(p, file = paste0("fig5.pdf"), path = here::here("figs"), height = 10, width = 20)
 
-# Figure S12 and Dryad data--------------------------------------------------------------
+# Figure S12 S13 and Dryad data--------------------------------------------------------------
 
 sim_results <- list(sim_results1_5, sim_results1, sim_results2, sim_results3) %>%
   reduce(full_join) %>%
