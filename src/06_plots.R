@@ -4,6 +4,7 @@ library(patchwork)
 library(janitor)
 library(ggh4x)
 library(here)
+library(ggpmisc)
 
 set.seed(42)
 
@@ -846,7 +847,110 @@ plot <- p2 / p6  / p1 / p5 / p7  / p4 +
   plot_layout(guides = "collect") & 
   theme(legend.position = "bottom")
 
-ggsave(plot, file = paste0("figS3.pdf"), path = here::here("figs", "supp"), height = 25, width = 15)
+ggsave(plot, file = paste0("figS2.pdf"), path = here::here("figs", "supp"), height = 25, width = 15)
+
+IQR_analysis = full_predictions %>% 
+  mutate(range_50_prm = prm_75 - prm_25,
+         range_50_avm = avm_75 - avm_25) %>% 
+  select(range_50_avm, range_50_prm, scientific_name, ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, ac, family, avm_pred, prm_pred, avm_mort, prm_mort) %>% 
+  distinct() %>% 
+  mutate(IQR_cat_avm = case_when(
+    range_50_avm <= quantile(range_50_avm, probs = 0.25, na.rm=TRUE) ~ "Low Uncertainty",
+    range_50_avm >= quantile(range_50_avm, probs = 0.75, na.rm=TRUE) ~ "High Uncertainty",
+    TRUE ~ "Medium Uncertainty"
+  )) %>% 
+  mutate(IQR_cat_avm = fct_relevel(as.factor(IQR_cat_avm), c("Low Uncertainty", "Medium Uncertainty", "High Uncertainty")))%>% 
+  mutate(IQR_cat_prm = case_when(
+    range_50_prm <= quantile(range_50_prm, probs = 0.25, na.rm=TRUE) ~ "Low Uncertainty",
+    range_50_prm >= quantile(range_50_prm, probs = 0.75, na.rm=TRUE) ~ "High Uncertainty",
+    TRUE ~ "Medium Uncertainty"
+  )) %>% 
+  mutate(IQR_cat_prm = fct_relevel(as.factor(IQR_cat_prm), c("Low Uncertainty", "Medium Uncertainty", "High Uncertainty")))
+
+fam_level = IQR_analysis %>% 
+  group_by(family) %>% 
+  summarise(fam_mean = mean(avm_pred, na.rm = TRUE)) %>% 
+  distinct() %>% 
+  arrange(fam_mean)%>% 
+  filter(!is.na(fam_mean)) %>% 
+  pull(family)
+
+p1 = ggplot(data = IQR_analysis, aes(avm_mort, avm_pred)) +
+  geom_point()+
+  stat_poly_line() +
+  stat_poly_eq(use_label("eq")) +
+  stat_poly_eq(label.y = 0.9) +
+  theme_bw() +
+  labs(
+    x = "Observed PRM Rate",
+    y = "Predicted PRM Rate"
+  ) +
+  facet_wrap(~IQR_cat_avm) +
+  theme(
+    axis.text = element_text(color = "black"),
+    # axis.text.y = element_text(face = "italic"),
+    axis.title = element_text(color = "black"),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    strip.background = element_rect(fill = "transparent"),
+    panel.spacing.x = unit(5, "mm"))
+
+p2= ggplot(data = IQR_analysis %>% filter(family %in% fam_level), aes(avm_pred, fct_rev(factor(family, levels = fam_level)))) +
+  geom_point(aes(color = IQR_cat_avm)) +
+  theme_bw() +
+  scale_color_viridis_d() +
+  labs(x = "Predicted Longline AVM",
+       y = "Family",
+       color = "Uncertainty") +
+  theme(
+    axis.text = element_text(color = "black"),
+    # axis.text.y = element_text(face = "italic"),
+    axis.title = element_text(color = "black"),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    strip.background = element_rect(fill = "transparent"),
+    panel.spacing.x = unit(5, "mm")) +
+  theme(legend.position = "none")
+
+p3 = ggplot(data = IQR_analysis, aes(median_depth, avm_pred)) +
+  geom_point(aes(color = IQR_cat_avm)) +
+  theme_bw() +
+  scale_color_viridis_d() +
+  labs(x = "Median Depth",
+       y = "Predicted Longline AVM",
+       color = "Uncertainty") +
+  theme(legend.position = "none")
+
+ggplot(data = IQR_analysis, aes(ac, avm_pred)) +
+  geom_point(aes(color = IQR_cat_avm)) +
+  theme_bw() +
+  scale_color_viridis_d()
+
+p4 = ggplot(data = IQR_analysis, aes(reproductive_mode)) +
+  geom_bar(aes(color = IQR_cat_avm, fill = IQR_cat_avm), position = "fill") +
+  theme_bw() +
+  coord_flip() +
+  scale_color_viridis_d() +
+  scale_fill_viridis_d()+
+  labs(x = "Count",
+       y = "Reproductive Mode",
+       color = "Uncertainty", 
+       fill = "Uncertainty")
+
+p5 = ggplot(data = IQR_analysis, aes(ventilation_method)) +
+  geom_bar(aes(color = IQR_cat_avm, fill = IQR_cat_avm), position = "fill") +
+  coord_flip() +
+  theme_bw() +
+  scale_color_viridis_d() +
+  scale_fill_viridis_d() +
+  labs(x = "Count",
+       y = "Ventilation Method",
+       color = "Uncertainty", 
+       fill = "Uncertainty")
+
+plot = p2 / p1 / (p3 / p4 / p5) + plot_layout(guides = "collect") + plot_annotation(tag_levels = "A")
+
+ggsave(plot, file = paste0("figS3.pdf"), path = here::here("figs", "supp"), height = 20, width = 20)
 
 # Figures 4 and S4 --------------------------------------------------------
 
