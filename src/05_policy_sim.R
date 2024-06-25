@@ -9,9 +9,21 @@ set.seed(42)
 # 1 Full Retention "FR"
 # 2 Retention Ban ("RB")
 
+predictions <- read_csv(here::here("data", "full_model_predictions.csv")) %>%
+  mutate(
+    range_50_prm = prm_75 - prm_25,
+    range_50_avm = avm_75 - avm_25
+  ) %>%
+  mutate(IQR_cat_avm = case_when(
+    range_50_avm <= quantile(range_50_avm, probs = 0.25, na.rm = TRUE) ~ "Low Uncertainty",
+    range_50_avm >= quantile(range_50_avm, probs = 0.75, na.rm = TRUE) ~ "High Uncertainty",
+    TRUE ~ "Medium Uncertainty"
+  )) %>%
+  mutate(IQR_cat_avm = fct_relevel(as.factor(IQR_cat_avm), c("Low Uncertainty", "Medium Uncertainty", "High Uncertainty")))
+
 # read in data from sim_prep.R
 sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>%
-  select(prm_75, prm_25, avm_25, avm_75, scientific_name, r_value, avm_50, prm_50) %>%
+  select(prm_75, prm_25, avm_25, avm_75, scientific_name, r_value, avm_50, prm_50, avm_pred) %>%
   group_by(scientific_name) %>%
   mutate(
     prm_75 = max(prm_75),
@@ -22,23 +34,38 @@ sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>%
     mid_avm = mean(prm_50),
     r_value = mean(r_value)
   ) %>%
+  select(-avm_50, -prm_50) %>% 
   distinct() %>%
   mutate(msy = r_value / 2) %>%
-  mutate(f = 1.5 * msy) %>% 
-  mutate(range_50_prm = prm_75 - prm_25,
-         range_50_avm = avm_75 - avm_25) %>% 
-  mutate(IQR_cat_avm = case_when(
-    range_50_avm <= quantile(range_50_avm, probs = 0.25, na.rm=TRUE) ~ "Low Uncertainty",
-    range_50_avm >= quantile(range_50_avm, probs = 0.75, na.rm=TRUE) ~ "High Uncertainty",
-    TRUE ~ "Medium Uncertainty"
-  )) %>% 
-  mutate(IQR_cat_avm = fct_relevel(as.factor(IQR_cat_avm), c("Low Uncertainty", "Medium Uncertainty", "High Uncertainty")))%>% 
-  mutate(IQR_cat_prm = case_when(
-    range_50_prm <= quantile(range_50_prm, probs = 0.25, na.rm=TRUE) ~ "Low Uncertainty",
-    range_50_prm >= quantile(range_50_prm, probs = 0.75, na.rm=TRUE) ~ "High Uncertainty",
-    TRUE ~ "Medium Uncertainty"
-  )) %>% 
-  mutate(IQR_cat_prm = fct_relevel(as.factor(IQR_cat_prm), c("Low Uncertainty", "Medium Uncertainty", "High Uncertainty")))
+  mutate(f = 1.5 * msy)
+
+ggplot(predictions %>% filter(avm_pred > 0.35 & IQR_cat_avm %in% c( "Medium Uncertainty", "High Uncertainty")), aes(avm_mort, avm_pred)) +
+  geom_point(aes(avm_mort, avm_pred)) +
+  theme_bw() +
+  geom_smooth(se=FALSE) +
+  stat_poly_line() +
+  stat_poly_eq(use_label("eq")) +
+  stat_poly_eq(label.y = 0.9) +
+  geom_vline(aes(xintercept = 0.4))
+
+# comment out if doing uncorrected results
+sim_data <- sim_data %>%
+  mutate(
+    avm_75 = case_when(
+      avm_pred <= 0.35 ~ avm_75,
+      avm_pred > 0.35 & avm_pred < 0.4 ~ avm_75 * 1.2,
+      avm_pred >= 0.4 ~ avm_75 * 1.4
+    ),
+    avm_25 = case_when(
+      avm_pred <= 0.35 ~ avm_25,
+      avm_pred > 0.35 & avm_pred < 0.4 ~ avm_25 * 1.2,
+      avm_pred >= 0.4 ~ avm_25 * 1.4
+    ),
+    mid_avm = case_when(
+      avm_pred <= 0.35 ~ mid_avm,
+      avm_pred > 0.35 & avm_pred < 0.4 ~ mid_avm * 1.2,
+      avm_pred >= 0.4 ~ mid_avm * 1.4, 
+    ))
 
 # Functions ---------------------------------------------------------------
 
