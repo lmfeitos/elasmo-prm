@@ -195,4 +195,4 @@ summarized <- list(species_max_mort, species_median_mort, species_min_mort, sim_
   )) %>%
   select(-med_mort, -min_mort, -max_mort)
 
-write_csv(summarized, here::here("data", "sim_results.csv"))
+write_csv(summarized, here::here("data", "simulation_results.csv"))
