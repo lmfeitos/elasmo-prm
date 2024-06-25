@@ -17,7 +17,7 @@ iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>%
   janitor::clean_names() %>%
   filter(str_detect(systems, "Marine") & str_detect(threats, "longline") |
     str_detect(scientific_name, "Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus|Mustelus|Stegostoma")) %>% # list of genera to keep in the filtering
-  select(scientific_name, redlist_category, year_published) %>%
+  select(scientific_name, redlist_category) %>%
   mutate(redlist_category = case_when(
     str_detect(redlist_category, "Near") ~ "NT",
     str_detect(redlist_category, "Vul") ~ "VU",
@@ -37,20 +37,42 @@ iucn_taxonomy <- read_csv(here("data", "iucn_data", "taxonomy.csv")) %>%
   unite(col = "scientific_name", c(genus_name, species_name), sep = " ")
 
 # read in the AVM PRM model predictions
-full_predictions <- read_csv(here::here("data", "full_model_predictions.csv")) %>%
+longline_predictions <- read_csv(here::here("data", "full_model_predictions.csv")) %>%
   filter(scientific_name %in% iucn_data$scientific_name)
 
 # join IUCN and prediction data
-full_predictions_iucn <- full_predictions %>%
+longline_predictions_iucn <- longline_predictions %>%
   left_join(iucn_data, by = "scientific_name")
-
-# AVM gillnet predictions
-gillnet_predictions <- read_csv(here::here("data", "gillnet_model_avm_predictions.csv"))
 
 #read in ICUN assessments and filter to only longline
 iucn_data_non_longline <- read_csv(here("data", "iucn_data", "assessments.csv")) %>%
   clean_names() %>%
   filter(str_detect(systems, "Marine") & !str_detect(threats, "longline"))
+
+#read in ICUN assessments and filter to only gillnet
+iucn_data_gill <- read_csv(here("data", "iucn_data", "assessments.csv")) %>%
+  clean_names() %>%
+  filter(str_detect(systems, "Marine") & str_detect(threats, "gillnet")) %>% 
+  select(scientific_name, redlist_category) %>%
+  mutate(redlist_category = case_when(
+    str_detect(redlist_category, "Near") ~ "NT",
+    str_detect(redlist_category, "Vul") ~ "VU",
+    str_detect(redlist_category, "Data") ~ "DD",
+    redlist_category == "Endangered" ~ "EN",
+    redlist_category == "Critically Endangered" ~ "CR",
+    str_detect(redlist_category, "Least") ~ "LC",
+    TRUE ~ redlist_category
+  ))
+
+# AVM gillnet predictions
+gillnet_predictions <- read_csv(here::here("data", "gillnet_model_predictions.csv")) %>%
+  filter(scientific_name %in% iucn_data_gill$scientific_name)
+
+gillnet_predictions_iucn = gillnet_predictions %>%
+  left_join(iucn_data_gill, by = "scientific_name") %>% 
+  select(-genus, -order)
+
+full_predictions = full_join(longline_predictions_iucn, gillnet_predictions_iucn)
 
 # read in simulation results
 sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
@@ -567,68 +589,72 @@ ggsave(obs_count_plot, file = paste0("figS12.pdf"), path = here::here("figs", "s
 # Figures 3 and S3 --------------------------------------------------------
 
 # get the mean of predictions for each species
-mean_predictions <- full_predictions %>%
+mean_predictions <- longline_predictions %>%
   group_by(scientific_name) %>%
   mutate(
     avm_pred_long = mean(avm_pred),
     prm_pred_long = mean(prm_pred)
-  )
-
-predictions <- mean_predictions %>%
-  pivot_longer(cols = c("avm_pred", "prm_pred"), names_to = "estimate_type", values_to = "mortality_prop") %>%
-  mutate(estimate_type = case_when(
-    estimate_type == "avm_pred" ~ "AVM",
-    estimate_type == "prm_pred" ~ "PRM"
-  )) %>%
-  mutate(gear = "longline")
+  ) %>%
+  mutate(gear = "longline") 
 
 # gillnet predictions
 mean_gill_predictions <- gillnet_predictions %>%
   group_by(scientific_name) %>%
-  mutate(avm_pred_gill = mean(avm_pred)) %>%
-  mutate(gear = "gillnet")
+  mutate(avm_gill_long = mean(avm_gillnet_pred)) %>%
+  mutate(gear = "gillnet") %>% 
+  select(-order, -genus)
 
 # join longline and gillnet predictions
 predictions_join <- mean_predictions %>%
-  left_join(mean_gill_predictions, by = c("scientific_name", "family", "ventilation_method", "median_depth", "max_size_cm", "reproductive_mode", "ac")) %>%
-  pivot_longer(cols = c("avm_pred_long", "avm_pred_gill", "prm_pred_long"),
+  full_join(mean_gill_predictions) %>% 
+  pivot_longer(cols = c("avm_pred_long", "avm_gill_long", "prm_pred_long"),
                names_to = "estimate_type",
                values_to = "mortality_prop") %>%
   mutate(estimate_type = case_when(
     estimate_type == "avm_pred_long" ~ "AVM Longline",
-    estimate_type == "avm_pred_gill" ~ "AVM Gillnet",
+    estimate_type == "avm_gill_long" ~ "AVM Gillnet",
     estimate_type == "prm_pred_long" ~ "PRM Longline"
   )) %>% 
   select(scientific_name, family, reproductive_mode, ac, median_depth, max_size_cm, ventilation_method, habitat, estimate_type, mortality_prop) %>% 
   mutate(gear_class = ifelse(estimate_type %in% c("AVM Longline", "PRM Longline"), "Longline", "Gillnet")) %>% 
-  mutate(estimate_type_new = ifelse(str_detect(estimate_type, "AVM"), "AVM", "PRM"))
+  mutate(estimate_type_new = ifelse(str_detect(estimate_type, "AVM"), "AVM", "PRM")) %>% 
+  filter(!is.na(mortality_prop))
 
-write_csv(predictions_join, file = here("data", "long_gill_predictions.csv"), na = "")
+write_csv(predictions_join, file = here("data", "tableS5.csv"), na = "")
 
 #get family level estimates for AVM
 mort_subset_avm <- mean_predictions %>%
   group_by(family) %>%
-  summarize(fam_mean = mean(avm_pred)) %>%
-  arrange(fam_mean) %>%
-  distinct(family) %>%
-  pull(family)
+  summarize(fam_mean = mean(avm_pred)) %>% 
+  distinct()
 
 #get family level estimates for PRM
 mort_subset_prm <- mean_predictions %>%
   group_by(family) %>%
   summarize(fam_mean = mean(prm_pred)) %>%
-  arrange(desc(fam_mean)) 
+  arrange(desc(fam_mean)) %>% 
   distinct(family) %>%
+  pull(family)
+
+#get family level estimates for PRM
+mort_subset_gill <- mean_gill_predictions %>%
+  group_by(family) %>%
+  summarize(fam_mean = mean(avm_gillnet_pred)) %>% 
+  filter(!(family %in% mort_subset_avm$family))%>% 
+  distinct()
+
+mort_avm = full_join(mort_subset_avm, mort_subset_gill)%>%
+  arrange(fam_mean) %>% 
   pull(family)
 
 p6 <- ggplot() +
   geom_density_ridges(data = predictions_join,
-                      aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset_avm)),
-                          fill = fct_rev(factor(family, levels = mort_subset_avm))),
+                      aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_avm)),
+                          fill = fct_rev(factor(family, levels = mort_avm))),
                       alpha = 0.5) +
   geom_point(data = predictions_join,
-             aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_subset_avm)),
-                 color = fct_rev(factor(family, levels = mort_subset_avm))),
+             aes(x = mortality_prop, y = fct_rev(factor(family, levels = mort_avm)),
+                 color = fct_rev(factor(family, levels = mort_avm))),
              alpha = 0.5, size = 6) +
   scale_fill_viridis_d() +
   scale_color_viridis_d() +
@@ -690,7 +716,7 @@ p2 <- ggplot(predictions_join) +
     x = "Median Depth (m)",
     color = "Group"
   ) +
-  facet_wrap(~estimate_type_new, scales = "free_x") +
+  facet_wrap(~estimate_type, scales = "free_x") +
   theme(
     axis.text = element_text(color = "black"),
     axis.text.y = element_text(color = "black"),
@@ -712,7 +738,7 @@ p6 <- ggplot(predictions_join) +
     x = "Active Hypoxia Tolerance",
     color = "Group"
   ) +
-  facet_wrap(~estimate_type_new, scales = "free_x") +
+  facet_wrap(~estimate_type, scales = "free_x") +
   theme(
     axis.text = element_text(color = "black"),
     axis.text.y = element_text(color = "black"),
@@ -741,7 +767,7 @@ p4 <- ggplot(predictions_join %>% mutate(habitat = str_to_sentence(habitat)) %>%
     x = "Estimated Mortality",
     color = "Group"
   ) +
-  facet_wrap(~estimate_type_new, scales = "free_x") +
+  facet_wrap(~estimate_type, scales = "free_x") +
   theme(
     axis.text = element_text(color = "black"),
     axis.text.y = element_text(color = "black"),
@@ -772,7 +798,7 @@ p5 <- ggplot(predictions_join %>% mutate(reproductive_mode = str_to_sentence(rep
     x = "Estimated Mortality",
     color = "Group"
   ) +
-  facet_wrap(~estimate_type_new, scales = "free_x") +
+  facet_wrap(~estimate_type, scales = "free_x") +
   theme(
     axis.text = element_text(color = "black"),
     axis.text.y = element_text(color = "black"),
@@ -802,7 +828,7 @@ p7 <- ggplot(predictions_join %>% mutate(ventilation_method = str_to_sentence(ve
     x = "Estimated Mortality",
     color = "Group"
   ) +
-  facet_wrap(~estimate_type_new, scales = "free_x") +
+  facet_wrap(~estimate_type, scales = "free_x") +
   theme(
     axis.text = element_text(color = "black"),
     axis.text.y = element_text(color = "black"),
@@ -815,12 +841,12 @@ p7 <- ggplot(predictions_join %>% mutate(ventilation_method = str_to_sentence(ve
   scale_color_manual(values = c("#440154FF", "#22A884FF")) +
   scale_fill_manual(values = c("#440154FF", "#22A884FF"))
 
-plot <- p2 / p6  / p1 / p5 / (p7 + p4) + 
+plot <- p2 / p6  / p1 / p5 / p7  / p4 + 
   plot_annotation(tag_levels = "A") + 
   plot_layout(guides = "collect") & 
   theme(legend.position = "bottom")
 
-ggsave(plot, file = paste0("figS3.pdf"), path = here::here("figs", "supp"), height = 20, width = 15)
+ggsave(plot, file = paste0("figS3.pdf"), path = here::here("figs", "supp"), height = 25, width = 15)
 
 # Figures 4 and S4 --------------------------------------------------------
 
@@ -1442,7 +1468,7 @@ p <- ggplot() +
 
 ggsave(p, file = paste0("fig5.pdf"), path = here::here("figs"), height = 10, width = 20)
 
-# Figure S11 and Dryad data--------------------------------------------------------------
+# Figure S12 and Dryad data--------------------------------------------------------------
 
 sim_results <- list(sim_results1_5, sim_results1, sim_results2, sim_results3) %>%
   reduce(full_join) %>%
@@ -1484,7 +1510,7 @@ p <- ggplot(eq) +
   )
 p
 
-ggsave(p, file = paste0("figS11.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
+ggsave(p, file = paste0("figS12.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
 
 # Summarize sensitivity stats within paper
 
@@ -1540,4 +1566,4 @@ output <- eq %>%
 
 # create dryad data 
 
-write_csv(output, here::here("data", "table_s5.csv"))
+write_csv(output, here::here("data", "table_s6.csv"))
