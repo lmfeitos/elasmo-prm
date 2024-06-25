@@ -7,7 +7,7 @@ predictions_full <- read_csv(here::here("data", "full_model_predictions.csv"))
 
 # read in r from literature review
 r_growth <- read_csv(here::here("data", "intrinsic_pop_growth_rates_full.csv")) %>%
-  select(scientific_name, mean_r) %>%
+  select(scientific_name, mean_r, pop_growth_rate_measure) %>%
   distinct()
 
 # get fishlife data
@@ -62,6 +62,11 @@ predictions$fish_r <- data_filled$r
 
 # combine with our data set and remove NAs
 pred_r <- left_join(predictions_full, r_growth) %>%
+  mutate(mean_r = case_when(
+    pop_growth_rate_measure == "rmax" ~ mean_r / 2,
+    TRUE ~ mean_r
+  )) %>% 
+  select(-pop_growth_rate_measure, -mean_r2, -mean_r) %>% 
   distinct() %>%
   left_join(predictions) %>%
   mutate(mid_avm = case_when(

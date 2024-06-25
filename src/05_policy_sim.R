@@ -24,7 +24,21 @@ sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>%
   ) %>%
   distinct() %>%
   mutate(msy = r_value / 2) %>%
-  mutate(f = 1.5 * msy)
+  mutate(f = 1.5 * msy) %>% 
+  mutate(range_50_prm = prm_75 - prm_25,
+         range_50_avm = avm_75 - avm_25) %>% 
+  mutate(IQR_cat_avm = case_when(
+    range_50_avm <= quantile(range_50_avm, probs = 0.25, na.rm=TRUE) ~ "Low Uncertainty",
+    range_50_avm >= quantile(range_50_avm, probs = 0.75, na.rm=TRUE) ~ "High Uncertainty",
+    TRUE ~ "Medium Uncertainty"
+  )) %>% 
+  mutate(IQR_cat_avm = fct_relevel(as.factor(IQR_cat_avm), c("Low Uncertainty", "Medium Uncertainty", "High Uncertainty")))%>% 
+  mutate(IQR_cat_prm = case_when(
+    range_50_prm <= quantile(range_50_prm, probs = 0.25, na.rm=TRUE) ~ "Low Uncertainty",
+    range_50_prm >= quantile(range_50_prm, probs = 0.75, na.rm=TRUE) ~ "High Uncertainty",
+    TRUE ~ "Medium Uncertainty"
+  )) %>% 
+  mutate(IQR_cat_prm = fct_relevel(as.factor(IQR_cat_prm), c("Low Uncertainty", "Medium Uncertainty", "High Uncertainty")))
 
 # 0.41 M for FMSY Zhou et 
 
@@ -156,4 +170,4 @@ summarized <- list(species_max_mort, species_median_mort, species_min_mort, sim_
   )) %>%
   select(-med_mort, -min_mort, -max_mort)
 
-write_csv(summarized, here::here("data", "simulation_results.csv"))
+write_csv(summarized, here::here("data", "uncorrected_results.csv"))
