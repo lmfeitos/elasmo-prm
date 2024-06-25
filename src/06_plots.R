@@ -117,7 +117,7 @@ sim_results3 <- read_csv(here::here("data", "simulation_results_3msy.csv")) %>%
   filter(scenario != "CQ") %>%
   mutate(fp = 3)
 
-# Figures 1 and S1 and S12 --------------------------------------------------------
+# Figures 1 and S1 and S13 --------------------------------------------------------
 
 # data wrangling for plotting raw data
 prm_elasmo_subset <- prm_elasmo %>%
@@ -584,9 +584,9 @@ obs_count_plot <-
     panel.grid.major.y = element_blank()
   )
 
-ggsave(obs_count_plot, file = paste0("figS12.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
+ggsave(obs_count_plot, file = paste0("figS13.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
 
-# Figures 3 and S3 --------------------------------------------------------
+# Figures 3 and S2 and S3 --------------------------------------------------------
 
 # get the mean of predictions for each species
 mean_predictions <- longline_predictions %>%
