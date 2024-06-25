@@ -956,7 +956,7 @@ plot = p2 / p1 / (p3 / p4 / p5) + plot_layout(guides = "collect") + plot_annotat
 
 ggsave(plot, file = paste0("figS3.pdf"), path = here::here("figs", "supp"), height = 20, width = 20)
 
-# Figures 4 and S4 --------------------------------------------------------
+# Figures 4 and S4/S13 --------------------------------------------------------
 
 iucn_data <- iucn_data %>%
   left_join(iucn_taxonomy, by = "scientific_name")
@@ -1576,7 +1576,7 @@ p <- ggplot() +
 
 ggsave(p, file = paste0("fig5.pdf"), path = here::here("figs"), height = 10, width = 20)
 
-# Figure S12 S13 and Dryad data--------------------------------------------------------------
+# Figure S12 and Dryad data--------------------------------------------------------------
 
 sim_results <- list(sim_results1_5, sim_results1, sim_results2, sim_results3) %>%
   reduce(full_join) %>%
