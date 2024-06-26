@@ -226,6 +226,33 @@ avm_test_metrics <- avm_test_predict %>%
 avm_test_metrics
 ```
 
+```{r}
+# pelagic
+pelagic_train_metrics <- avm_train_predict %>%
+  filter(habitat == "pelagic") %>% 
+  metrics(mortality_prop, .pred) # get testing data metrics
+pelagic_train_metrics
+
+pelagic_test_metrics <- avm_test_predict %>%
+   filter(habitat == "pelagic") %>% 
+  metrics(mortality_prop, .pred) # get testing data metrics
+pelagic_test_metrics
+```
+
+```{r}
+# demersal
+demersal_train_metrics <- avm_train_predict %>%
+   filter(habitat == "demersal")  %>% 
+  metrics(mortality_prop, .pred) # get testing data metrics
+demersal_train_metrics
+
+demersal_test_metrics <- avm_test_predict %>%
+   filter(habitat == "demersal")%>% 
+  metrics(mortality_prop, .pred) # get testing data metrics
+demersal_test_metrics
+```
+
+
 Below displays the results of cross validation tuning
 
 ```{r}
