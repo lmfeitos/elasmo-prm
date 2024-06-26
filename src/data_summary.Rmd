@@ -361,6 +361,7 @@ ram_ts_val_df <- ram_ts_val %>%
   relocate(scientificname, .after = stockid) %>% 
   relocate(commonname, .after = scientificname) %>% 
   filter(str_detect(scientificname, "Sphyrna|Carcharhinus|Prionace|Isurus|Rhizoprionodon|Alopias")) %>% 
+  filter(f < 5) %>% 
   group_by(scientificname) %>% 
   summarise(mean_f = mean(f, na.rm = TRUE)) %>% 
   mutate(source = "RAMLDB")  %>% 
