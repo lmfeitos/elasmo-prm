@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE,
 library(tidyverse)
 library(here)
 library(rfishbase)
+library(readxl)
 library(janitor)
 ```
 
@@ -343,6 +344,30 @@ sim_join <- read_csv(here("data", "sim_pct_correct_uncorrect.csv")) %>%
 ```
 
 
+```{r}
+# file paths for RAMLDB data
+basedir <- file.path("G:/Meu Drive/PhD Project - Fisheries bycatch/Bycatch project/Chapter 3 - Predator-prey cycles in fisheries/analyses")
+ramdir <- file.path(basedir, "RAMLDB v4.64", "Excel")
+
+ram_ts_val <- read_excel(file.path(ramdir, "RAMLDB v4.64 (assessment data only).xlsx"),
+                                sheet = "timeseries_values_views")
+
+ram_stock <- read_excel(file.path(ramdir, "RAMLDB v4.64 (assessment data only).xlsx"),
+                                sheet = "stock")
+
+ram_ts_val_df <- ram_ts_val %>% 
+  clean_names() %>% 
+  left_join(ram_stock, by = c("stockid", "stocklong")) %>% 
+  relocate(scientificname, .after = stockid) %>% 
+  relocate(commonname, .after = scientificname) %>% 
+  filter(str_detect(scientificname, "Sphyrna|Carcharhinus|Prionace|Isurus|Rhizoprionodon|Alopias")) %>% 
+  group_by(scientificname) %>% 
+  summarise(mean_f = mean(f, na.rm = TRUE)) %>% 
+  mutate(source = "RAMLDB")  %>% 
+  drop_na()
+
+write_csv(ram_ts_val_df, file = here::here("data", "ramldb_f_means.csv"))
+```
 
 
 
