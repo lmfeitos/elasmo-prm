@@ -222,7 +222,7 @@ uncorrected_results = read_csv(here::here("data", "uncorrected_results.csv")) %>
   mutate(fp = 1.5) %>% 
   mutate(corrected = "no")
 
-# Figures 1 and S1 and S14 --------------------------------------------------------
+# Figures 1 and S1 and S13 --------------------------------------------------------
 
 # data wrangling for plotting raw data
 prm_elasmo_subset <- prm_elasmo %>%
@@ -1934,7 +1934,7 @@ mort_red_corrected <-
 
 ggsave(mort_red_corrected, file = paste0("figS11.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
 
-# Figure S13 and Dryad data--------------------------------------------------------------
+# Figure S12 and Dryad data--------------------------------------------------------------
 
 sim_results <- list(sim_results1_5, sim_results1, sim_results2, sim_results3, uncorrected_results) %>%
   reduce(full_join) %>%
@@ -1976,7 +1976,7 @@ p <- ggplot(eq %>% filter(corrected == "yes")) +
   )
 p
 
-ggsave(p, file = paste0("figS13.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
+ggsave(p, file = paste0("figS12.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
 
 # Summarize sensitivity stats within paper
 
