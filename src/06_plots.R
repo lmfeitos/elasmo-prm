@@ -182,6 +182,10 @@ sim_results_uncorrected <- read_csv(here::here("data", "uncorrected_results.csv"
 
 write_csv(sim_results_uncorrected, here::here("data", "pct_mort_reduction_sim_uncorrected.csv"))
 
+f_vals = read_csv(here::here("data", "ramldb_f_means.csv")) %>% 
+  rename(scientific_name = scientificname) %>%
+  select(-source)
+
 sim_results_2 <- read_csv(here::here("data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario))
@@ -1255,6 +1259,31 @@ sim_results_iucn_pct <- sim_results_iucn %>%
   mutate(percent_diff = round(percent_diff, 4))
 
 write_csv(sim_results_iucn_pct, here::here("data", "sim_results_pct_diff.csv"))
+
+f_val_sim = left_join(f_vals, sim_results_iucn_pct) %>% 
+  mutate(f_fmsy = mean_f / f) %>% 
+  mutate(f_reduce = mean_f - mean_f * (percent_diff/100)) %>% 
+  mutate(success = case_when(
+    f_reduce <= f/1.5 ~ "yes", 
+    f_reduce > f/1.5 ~ "no"
+  )) %>% 
+  mutate(f_ratio = case_when(
+    f_fmsy >=1 ~ "Overfished",
+    f_fmsy < 1 ~ "Not overfished"
+  ))
+
+write_csv(f_val_sim, here::here("data", "f_reduce_f_msy_compare.csv"))
+
+p1 = ggplot(f_val_sim %>%  filter(f_reduce < 1)) +
+  geom_abline(linetype = "dashed") +
+  geom_point(aes(f/1.5, f_reduce, color = percent_diff, shape = f_ratio), size = 2) +
+  theme_bw() +
+  scale_color_viridis_c() +
+  labs(x = "FMSY", y = "Expected F with Retention Ban", 
+       color = "Percent Mortality \n Reduction of \n Retention Ban",
+       shape = "") +
+  scale_y_continuous(breaks = )
+p1
 
 # create data subset with threatened species only
 sim_results_iucn_pct_threat <- sim_results_iucn_pct %>%
