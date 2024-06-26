@@ -7,6 +7,7 @@ library(here)
 library(ggpmisc)
 library(tidymodels)
 library(vip)
+library(ggrepel)
 
 set.seed(42)
 
@@ -1274,17 +1275,6 @@ f_val_sim = left_join(f_vals, sim_results_iucn_pct) %>%
 
 write_csv(f_val_sim, here::here("data", "f_reduce_f_msy_compare.csv"))
 
-p1 = ggplot(f_val_sim %>%  filter(f_reduce < 1)) +
-  geom_abline(linetype = "dashed") +
-  geom_point(aes(f/1.5, f_reduce, color = percent_diff, shape = f_ratio), size = 2) +
-  theme_bw() +
-  scale_color_viridis_c() +
-  labs(x = "FMSY", y = "Expected F with Retention Ban", 
-       color = "Percent Mortality \n Reduction of \n Retention Ban",
-       shape = "") +
-  scale_y_continuous(breaks = )
-p1
-
 # create data subset with threatened species only
 sim_results_iucn_pct_threat <- sim_results_iucn_pct %>%
   filter(redlist_category %in% c("VU", "EN", "CR")) %>%
@@ -1810,32 +1800,31 @@ species_sub <- c(
 )
 
 no_cq_sub <- no_cq %>%
-  filter(sci %in% species_sub) %>%
-  mutate(scientific_name = case_when(
-    scientific_name == "Blue shark" ~ "Blue shark (NT)",
-    scientific_name == "Crocodile shark" ~ "Crocodile shark (LC)",
-    scientific_name == "Common thresher" ~ "Common thresher (VU)",
-    scientific_name == "Silky shark" ~ "Silky shark (VU)",
-    scientific_name == "Shortfin mako" ~ "Shortfin mako (EN)",
-    scientific_name == "Spiny dogfish" ~ "Spiny dogfish (VU)",
-    scientific_name == "Pondicherry shark" ~ "Pondicherry shark (CR)",
-    scientific_name == "Scalloped bonnethead" ~ "Scalloped bonnethead (CR)",
-    scientific_name == "Angelshark" ~ "Angelshark (CR)",
-    scientific_name == "Great hammerhead" ~ "Great hammerhead (CR)",
-    scientific_name == "Blacktip shark" ~ "Blacktip shark (VU)",
-    scientific_name == "Tope shark" ~ "Tope shark (CR)"
-  ))
+  filter(sci %in% f_val_sim$scientific_name) %>% 
+  mutate(scientific_name = paste0(scientific_name, " (", redlist_category, ")"))
 
 tag_text <- data.frame(
   t = c(180, 180, 180),
   n_div_k = c(0.98, 0.98, 0.98),
   label = c("A", "B", "C"),
-  scientific_name = factor(c(
-    "Blue shark (NT)", "Crocodile shark (LC)", "Common thresher (VU)", "Silky shark (VU)",
-    "Shortfin mako (EN)", "Spiny dogfish (VU)", "Pondicherry shark (CR)", "Scalloped bonnethead (CR)",
-    "Angelshark (CR)", "Great hammerhead (CR)", "Blacktip shark (VU)", "Tope shark (CR)"
-  ))
+  scientific_name = factor(unique(no_cq_sub$scientific_name))
 )
+
+f_val_sim = f_val_sim %>% 
+  mutate(name = paste0(common_name," (", redlist_category, ")"))
+
+p1 = ggplot(data = f_val_sim, aes(f/1.5, f_reduce)) +
+  geom_abline(linetype = "dashed") +
+  geom_point(aes(color = percent_diff, shape = f_ratio), size = 4) +
+  theme_bw(base_size = 14) +
+  scale_color_viridis_c() +
+  labs(x = "FMSY", y = "Expected F with Retention Ban", 
+       color = "Percent Mortality \n Reduction of \n Retention Ban",
+       shape = "") +
+  annotate(geom="text", label = "F Retention / FMSY", x = 0.15, y = 0.2) +
+  geom_curve(aes(x = 0.15, y = 0.195, xend = 0.15, yend = 0.155), arrow = arrow(length = unit(0.1, "inches"))) +
+  geom_label_repel(aes(label = name), size = 3, vjust = "outward", hjust = "outward")
+p1
 
 p <- ggplot() +
   geom_hline(
@@ -1858,13 +1847,9 @@ p <- ggplot() +
   ) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
   facet_wrap(~ factor(scientific_name,
-    levels = c(
-      "Blue shark (NT)", "Crocodile shark (LC)", "Common thresher (VU)", "Silky shark (VU)",
-      "Shortfin mako (EN)", "Spiny dogfish (VU)", "Pondicherry shark (CR)", "Scalloped bonnethead (CR)",
-      "Angelshark (CR)", "Great hammerhead (CR)", "Blacktip shark (VU)", "Tope shark (CR)"
-    )
+    levels = unique(no_cq_sub$scientific_name)
   )) +
-  theme_bw(base_size = 20) +
+  theme_bw(base_size = 14) +
   scale_color_viridis_d() +
   scale_fill_manual(values = c("#E31A1C", "#FD8D3C", "#FED976", "#91CF60", "#1A9850")) +
   labs(
@@ -1883,7 +1868,9 @@ p <- ggplot() +
   ) +
   coord_cartesian(clip = "off", ylim = c(0, 1))
 
-ggsave(p, file = paste0("fig5.pdf"), path = here::here("figs"), height = 10, width = 20)
+p / p1
+
+ggsave(p / p1 + plot_annotation(tag_levels = "A"), file = paste0("fig5.pdf"), path = here::here("figs"), height = 20, width = 20)
 
 # Figure S11-----------------------------------------------------------------------------
 
