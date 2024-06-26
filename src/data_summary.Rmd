@@ -295,8 +295,8 @@ slice_bottom <- mean_mort_reduction %>%
   arrange(desc(percent_diff)) %>% 
   slice_tail(n = 10)
 
-spp_75_pct <- pct_mort_reduction %>% 
-  filter(percent_diff>= 75)
+spp_50_pct <- pct_mort_reduction %>% 
+  filter(percent_diff >= 50)
 ```
 
 
@@ -311,7 +311,7 @@ mean_mort_reduction_iucn <- pct_mort_reduction %>%
 
 ```{r}
 # mean mortality reductions for threatened and non-threatened species
-mean_mort_reduction_iucn <- pct_mort_reduction %>% 
+mean_mort_reduction_threat <- pct_mort_reduction %>% 
   mutate(threat = ifelse(redlist_category %in% c("CR", "VU", "EN"), "threatened", "not threatened")) %>% 
   group_by(threat) %>% 
   summarise(mean_mort_reduction = mean(percent_diff))
@@ -329,39 +329,17 @@ non_threatened_spp <- pct_mort_reduction %>%
 ```
 
 ```{r}
-# family test
-mean_mort_reduction_fam <- pct_mort_reduction %>% 
-  mutate(threat = ifelse(redlist_category %in% c("CR", "VU", "EN"), "threatened", "not threatened")) %>% 
+# Check for changes between corrected and uncorrected estimates
+sim_join <- read_csv(here("data", "sim_pct_correct_uncorrect.csv")) %>% 
+  select(family, status, mean_mort_reduction) %>% 
+  distinct() %>% 
+  pivot_wider(names_from = status,
+              values_from = mean_mort_reduction) %>% 
+  clean_names() %>% 
   group_by(family) %>% 
-  mutate(mean_mort_reduction = mean(percent_diff),
-            sd_mort_reduction = sd(percent_diff)) %>% 
+  summarise(diff = corrected - uncorrected) %>% 
   ungroup() %>% 
-  filter(threat == "threatened") %>% 
-  group_by(family) %>% 
-  mutate(sp_threat = n()) %>% 
-  mutate(sp_threat = case_when(
-    sp_threat < 10 ~ 10,
-    sp_threat > 10 & sp_threat < 20 ~ 20,
-    sp_threat > 20 & sp_threat < 30 ~ 30,
-    sp_threat > 30 ~ 40
-  ))
-  
-
-ggplot(data = mean_mort_reduction_fam) +
-  geom_point(aes(x = fct_reorder(family, mean_mort_reduction), y = mean_mort_reduction, size = sp_threat)) +
-  geom_linerange(aes(x = family, ymax = mean_mort_reduction + sd_mort_reduction, ymin = mean_mort_reduction - sd_mort_reduction)) +
-  geom_hline(yintercept = 50,
-             linetype = "dashed") +
-  coord_flip() +
-  labs(y = "Mean mortality reduction from retention prohibition",
-       x = "",
-       size = "Number of\nthreatened species") +
-  scale_size(labels = c("<10", "<20", "<30", ">30")) +
-  theme_bw() +
-  theme(axis.title = element_text(size = 12, color = "black"),
-        axis.text = element_text(size = 10, color = "black"),
-        panel.grid.minor = element_blank(),
-        panel.grid.major.x = element_blank())
+  mutate(mean_diff = mean(diff))
 ```
 
 

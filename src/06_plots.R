@@ -5,6 +5,8 @@ library(janitor)
 library(ggh4x)
 library(here)
 library(ggpmisc)
+library(tidymodels)
+library(vip)
 
 set.seed(42)
 
@@ -12,6 +14,88 @@ set.seed(42)
 
 # read in the raw literature review data
 prm_elasmo <- read_csv(here("data", "prm_hypoxia.csv"))
+
+# wrangle for the gillnet and longline data subsets
+prm_elasmo_subset <- prm_elasmo %>%
+  filter(!grepl("Rajidae", family)) %>%
+  filter(family != "Dasyatidae") %>%
+  filter(family != "Pristidae") %>%
+  filter(family != "Rhinidae") %>%
+  filter(family != "Rhinobatidae") %>%
+  filter(family != "Myliobatidae") %>%
+  mutate(habitat = case_when(
+    habitat_associated == "pelagic" ~ "pelagic",
+    habitat_associated == "pelagic-oceanic" ~ "pelagic",
+    habitat_associated == "reef-associated" ~ "pelagic",
+    habitat_associated == "bathypelagic" ~ "pelagic",
+    habitat_associated == "benthopelagic" ~ "demersal",
+    habitat_associated == "demersal" ~ "demersal",
+    habitat_associated == "bathydemersal" ~ "demersal",
+  )) %>%
+  mutate(habitat = case_when(
+    scientific_name == "Carcharhinus perezi" ~ "pelagic",
+    TRUE ~ habitat
+  )) %>%
+  mutate(ventilation_method = case_when(
+    scientific_name == "Ginglymostoma cirratum" ~ "stationary",
+    TRUE ~ ventilation_method
+  )) %>%
+  mutate(reproductive_mode = case_when(
+    scientific_name == "Hexanchus griseus" ~ "lecithotrophic viviparity",
+    scientific_name == "Hexanchus nakamurai" ~ "lecithotrophic viviparity",
+    scientific_name == "Ginglymostoma cirratum" ~ "lecithotrophic oviparity",
+    TRUE ~ reproductive_mode
+  )) %>%
+  group_by(scientific_name) %>%
+  filter(!grepl("sp", scientific_name)) %>%
+  mutate(median_depth = mean(median_depth)) %>%
+  mutate(max_size_cm = mean(max_size_cm)) %>%
+  distinct()
+
+## gillnet
+elasmo_gillnet <- prm_elasmo_subset %>% 
+  filter(estimate_type == "at-vessel mortality") %>%
+  filter(gear_class == "gillnet") %>%
+  group_by(scientific_name, gear_class) %>%
+  mutate(mortality_prop = weighted.mean(estimate, sample_size)) %>%
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family, ac) %>%
+  distinct() %>%
+  drop_na()
+
+## longline
+### AVM
+elasmo_avm <- prm_elasmo_subset %>%
+  filter(estimate_type == "at-vessel mortality") %>%
+  filter(sample_size > 15) %>%
+  group_by(scientific_name) %>%
+  mutate(
+    mortality_prop = weighted.mean(estimate, sample_size),
+    avm_sd = sd(estimate)
+  ) %>%
+  # mutate(mortality_prop = estimate) %>%
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family, ac) %>%
+  distinct() %>%
+  drop_na()
+
+avm_split <- initial_split(elasmo_avm, prop = .7, strata = family)
+
+avm_train <- training(avm_split)
+avm_test <- testing(avm_split)
+
+
+### PRM
+elasmo_prm <- prm_elasmo_subset %>%
+  filter(estimate_type == "post-release mortality") %>%
+  filter(sample_size > 5) %>%
+  group_by(scientific_name) %>%
+  mutate(
+    mortality_prop = weighted.mean(estimate, sample_size),
+    prm_sd = sd(estimate)
+  ) %>%
+  # mutate(mortality_prop = estimate) %>%
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family, ac) %>%
+  distinct() %>%
+  drop_na()
 
 # read in the IUCN data
 iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>%
@@ -87,6 +171,17 @@ sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
 
 write_csv(sim_results, here::here("data", "pct_mort_reduction_sim.csv"))
 
+sim_results_uncorrected <- read_csv(here::here("data", "uncorrected_results.csv")) %>% 
+  filter(scenario != "CQ") %>%
+  filter(!is.na(mort_scenario)) %>%
+  filter(t == 200) %>% 
+  filter(mort_scenario == "BAU" | mort_scenario == "Median Mortality") %>%
+  mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1-mid_avm) * (1 - mid_prm)))) / 100) %>%
+  select(scientific_name, f, f_mort, mid_avm, mid_prm) %>%
+  distinct()
+
+write_csv(sim_results_uncorrected, here::here("data", "pct_mort_reduction_sim_uncorrected.csv"))
+
 sim_results_2 <- read_csv(here::here("data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario))
@@ -122,7 +217,7 @@ sim_results3 <- read_csv(here::here("data", "simulation_results_3msy.csv")) %>%
   mutate(fp = 3) %>% 
   mutate(corrected = "yes")
 
-uncorrected_results =read_csv(here::here("data", "uncorrected_results.csv")) %>%
+uncorrected_results = read_csv(here::here("data", "uncorrected_results.csv")) %>%  
   filter(scenario != "CQ") %>%
   mutate(fp = 1.5) %>% 
   mutate(corrected = "no")
@@ -381,7 +476,7 @@ mort_proportions_plot
 
 ggsave(mort_proportions_plot, file = paste0("fig1.pdf"), path = here::here("figs"), height = 10, width = 12)
 
-## Batoid Plot
+## Figure S1
 
 mort_proportions_plot_fam_bat <-
   ggplot() +
@@ -559,7 +654,7 @@ mort_proportions_plot_bat
 
 ggsave(mort_proportions_plot_bat, file = paste0("figS1.pdf"), path = here::here("figs", "supp"), height = 12, width = 15)
 
-# create species count plot
+# Figure S14
 obs_count_plot <-
   prm_elasmo_subset %>%
   filter(group == "Sharks") %>%
@@ -595,6 +690,166 @@ obs_count_plot <-
   )
 
 ggsave(obs_count_plot, file = paste0("figS14.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
+
+# Figure 2
+# function to preform and extract quantile estimates from random forest
+preds_bind <- function(data_fit, rf_fit) {
+  predict(
+    rf_fit$fit$fit$fit,
+    workflows::extract_recipe(rf_fit) %>% bake(data_fit),
+    type = "quantiles",
+    quantiles = c(.05, .25, .5, .75, .95)
+  ) %>%
+    with(predictions) %>%
+    as_tibble() %>%
+    set_names(paste0(".pred", c("_05", "_25", "_50", "_75", "_95"))) %>%
+    bind_cols(data_fit)
+}
+
+gillnet_final <- readRDS(here::here("data", "gillnet_final.rds"))
+
+gillnet_fit <- fit(gillnet_final, elasmo_gillnet) # fit the data to the training data
+
+gillnet_train_predict <- predict(object = gillnet_fit, new_data = elasmo_gillnet) %>% # predict the training set
+  bind_cols(elasmo_gillnet) # bind training set column to prediction
+
+gill_train_metrics <- gillnet_train_predict %>%
+  metrics(mortality_prop, .pred) # get testing data metrics
+
+gillnet_quant_test <- preds_bind(gillnet_train_predict, gillnet_fit) %>%
+  mutate(
+    range_50 = .pred_75 - .pred_25,
+    range_95 = .pred_95 - .pred_05
+  )
+
+p2_gill <- ggplot(gillnet_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
+  geom_point() +
+  stat_poly_line() +
+  stat_poly_eq(use_label("eq")) +
+  stat_poly_eq(label.y = 0.9) +
+  theme_bw(base_size = 14) +
+  labs(
+    x = "Observed AVM Rate (Gillnet)",
+    y = "Predicted AVM Rate (Gillnet)"
+  )
+
+v2_gill <- gillnet_fit %>%
+  extract_fit_parsnip() %>%
+  vip() +
+  theme_bw(base_size = 14) +
+  labs(y = "Variable Importance for AVM (Gillnet)") +
+  scale_x_discrete(labels = c("Hypoxia Tolerance", "Ventilation Method", "Maximum Size (cm)", "Median Depth (m)", "Reproductive mode"))
+
+q2_gill <- 
+  ggplot(gillnet_quant_test) +
+  geom_boxplot(aes(range_50)) +
+  theme_bw(base_size = 14) +
+  labs(x = "Distribution of IQR for AVM (Gillnet)") +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  )
+
+## Longline
+### AVM
+avm_final <- readRDS(here::here("data", "avm_final.rds"))
+
+avm_fit <- fit(avm_final, avm_train) # fit the data to the training data
+
+avm_train_predict <- predict(object = avm_fit, new_data = avm_train) %>% # predict the training set
+  bind_cols(avm_train) # bind training set column to prediction
+
+avm_test_predict <- predict(object = avm_fit, new_data = avm_test) %>% # predict the training set
+  bind_cols(avm_test) # bind prediction to testing data column
+
+avm_data <- full_join(avm_test_predict, avm_train_predict)
+
+# predict quantiles
+avm_quant_test <- preds_bind(avm_data, avm_fit) %>%
+  mutate(
+    range_50 = .pred_75 - .pred_25,
+    range_95 = .pred_95 - .pred_05
+  )
+
+p1 <- ggplot(avm_quant_test, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
+  geom_point() +
+  stat_poly_line() +
+  stat_poly_eq(use_label("eq")) +
+  stat_poly_eq(label.y = 0.9) +
+  theme_bw(base_size = 14) +
+  labs(
+    x = "Observed AVM Rate (Longline)",
+    y = "Predicted AVM Rate (Longline)"
+  )
+
+q1 <- ggplot(avm_quant_test) +
+  geom_boxplot(aes(range_50)) +
+  theme_bw(base_size = 14) +
+  labs(x = "Distribution of IQR for AVM (Longline)") +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  )
+
+v1 <- avm_fit %>%
+  extract_fit_parsnip() %>%
+  vip() +
+  theme_bw(base_size = 14) +
+  labs(y = "Variable Importance for AVM (Longline)") +
+  scale_x_discrete(labels = c("Ventilation Method", "Reproductive Mode", "Hypoxia Tolerance", "Median Depth (m)"))
+
+## PRM
+prm_final <- readRDS(here::here("data", "prm_final.rds"))
+
+prm_fit <- fit(prm_final, elasmo_prm) # fit the data to the training data
+
+prm_train_predict <- predict(object = prm_fit, new_data = elasmo_prm) %>% # predict the training set
+  bind_cols(elasmo_prm) # bind training set column to prediction
+
+prm_train_metrics <- prm_train_predict %>%
+  metrics(mortality_prop, .pred) # get testing data metrics
+
+prm_quant_test <- preds_bind(prm_train_predict, prm_fit) %>%
+  mutate(
+    range_50 = .pred_75 - .pred_25,
+    range_95 = .pred_95 - .pred_05
+  )
+
+p2 <- ggplot(prm_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
+  geom_point() +
+  stat_poly_line() +
+  stat_poly_eq(use_label("eq")) +
+  stat_poly_eq(label.y = 0.9) +
+  theme_bw(base_size = 14) +
+  labs(
+    x = "Observed PRM Rate",
+    y = "Predicted PRM Rate"
+  )
+
+v2 <- prm_fit %>%
+  extract_fit_parsnip() %>%
+  vip() +
+  theme_bw(base_size = 14) +
+  labs(y = "Variable Importance for PRM") +
+  scale_x_discrete(labels = c("Habitat", "Reproductive Mode", "Hypoxia Tolerance", "Median Depth", "Maximum Size (cm)"))
+
+
+q2 <- ggplot(prm_quant_test) +
+  geom_boxplot(aes(range_50)) +
+  theme_bw(base_size = 14) +
+  labs(x = "Distribution of IQR for PRM") +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  )
+
+plot1 <- (p2_gill + v2_gill + q2_gill) / (p1 + v1 + q1) / (p2 + v2 + q2) + plot_annotation(tag_levels = "A") &
+  theme(panel.grid = element_blank())
+
+ggsave(plot1, file = paste0("fig2.pdf"), path = here::here("figs"), height = 14, width = 18)
 
 # Figures 3 and S2 and S3 --------------------------------------------------------
 
@@ -1600,6 +1855,84 @@ p <- ggplot() +
   coord_cartesian(clip = "off", ylim = c(0, 1))
 
 ggsave(p, file = paste0("fig5.pdf"), path = here::here("figs"), height = 10, width = 20)
+
+# Figure S11-----------------------------------------------------------------------------
+
+pct_mort_reduction <- read_csv(here::here("data", "pct_mort_reduction_sim.csv"))
+
+pct_mort_reduction_uncorrected <- read_csv(here::here("data", "pct_mort_reduction_sim_uncorrected.csv"))
+
+mean_mort_reduction_fam <- pct_mort_reduction %>% 
+  mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1-mid_avm) * (1 - mid_prm)))) / 100) %>%
+  select(scientific_name, f, f_mort)%>%
+  distinct() %>%
+  mutate(percent_diff = (f - f_mort) / f * 100) %>% 
+  left_join(iucn_data, by = "scientific_name") %>% 
+  left_join(iucn_taxonomy, by = "scientific_name") %>% 
+  mutate(threat = ifelse(redlist_category %in% c("CR", "VU", "EN"), "threatened", "not threatened")) %>% 
+  group_by(family) %>% 
+  mutate(mean_mort_reduction = mean(percent_diff),
+         sd_mort_reduction = sd(percent_diff)) %>% 
+  ungroup() %>% 
+  filter(threat == "threatened") %>% 
+  group_by(family) %>% 
+  mutate(sp_threat = n()) %>% 
+  mutate(sp_threat = case_when(
+    sp_threat < 10 ~ 10,
+    sp_threat > 10 & sp_threat < 20 ~ 20,
+    sp_threat > 20 & sp_threat < 30 ~ 30,
+    sp_threat > 30 ~ 40
+  )) %>% 
+  mutate(status = "Corrected")
+
+mean_mort_reduction_fam_unc <- pct_mort_reduction_uncorrected %>% 
+  mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1-mid_avm) * (1 - mid_prm)))) / 100) %>%
+  select(scientific_name, f, f_mort)%>%
+  distinct() %>%
+  mutate(percent_diff = (f - f_mort) / f * 100) %>% 
+  left_join(iucn_data, by = "scientific_name") %>% 
+  left_join(iucn_taxonomy, by = "scientific_name") %>% 
+  mutate(threat = ifelse(redlist_category %in% c("CR", "VU", "EN"), "threatened", "not threatened")) %>% 
+  group_by(family) %>% 
+  mutate(mean_mort_reduction = mean(percent_diff),
+         sd_mort_reduction = sd(percent_diff)) %>% 
+  ungroup() %>% 
+  filter(threat == "threatened") %>% 
+  group_by(family) %>% 
+  mutate(sp_threat = n()) %>% 
+  mutate(sp_threat = case_when(
+    sp_threat < 10 ~ 10,
+    sp_threat > 10 & sp_threat < 20 ~ 20,
+    sp_threat > 20 & sp_threat < 30 ~ 30,
+    sp_threat > 30 ~ 40
+  )) %>% 
+  mutate(status = "Uncorrected")
+
+sim_join <- full_join(mean_mort_reduction_fam, mean_mort_reduction_fam_unc)
+
+write_csv(sim_join, file = here::here("data", "sim_pct_correct_uncorrect.csv"))
+
+mort_red_corrected <- 
+  ggplot(data = sim_join) +
+  geom_point(aes(x = fct_reorder(family, mean_mort_reduction), y = mean_mort_reduction, size = sp_threat)) +
+  geom_linerange(aes(x = family, ymax = mean_mort_reduction + sd_mort_reduction, ymin = mean_mort_reduction - sd_mort_reduction)) +
+  geom_hline(yintercept = 50,
+             linetype = "dashed") +
+  facet_wrap(~ status) +
+  coord_flip() +
+  labs(y = "Mean mortality reduction from retention prohibition",
+       x = "",
+       size = "Number of\nthreatened species") +
+  scale_size(labels = c("<10", "<20", "<30", ">30")) +
+  theme_bw() +
+  theme(axis.title = element_text(size = 12, color = "black"),
+        axis.text = element_text(size = 10, color = "black"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        strip.background = element_rect(fill = "transparent"),
+        strip.text = element_text(color = "black", size = 11)) 
+
+ggsave(mort_red_corrected, file = paste0("figS11.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
 
 # Figure S13 and Dryad data--------------------------------------------------------------
 
