@@ -161,7 +161,7 @@ gillnet_predictions_iucn = gillnet_predictions %>%
 full_predictions = full_join(longline_predictions_iucn, gillnet_predictions_iucn)
 
 # read in simulation results
-sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
+sim_results <- read_csv(here::here(basedir, "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>% 
@@ -187,7 +187,7 @@ f_vals = read_csv(here::here("data", "ramldb_f_means.csv")) %>%
   rename(scientific_name = scientificname) %>%
   select(-source)
 
-sim_results_2 <- read_csv(here::here("data", "simulation_results.csv")) %>%
+sim_results_2 <- read_csv(here::here(basedir, "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario))
 
@@ -1793,6 +1793,8 @@ p6 <- ggplot() +
 
 ggsave(p6, file = paste0("figS10.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
 
+f_val_sim <- read_csv(here::here("data", "f_reduce_f_msy_compare.csv"))
+
 species_sub <- c(
   "Prionace glauca", "Carcharhinus limbatus", "Isurus oxyrinchus", "Squalus acanthias", "Alopias vulpinus",
   "Pseudocarcharias kamoharai", "Carcharhinus falciformis", "Sphyrna mokarran",
@@ -1823,7 +1825,7 @@ p1 = ggplot(data = f_val_sim, aes(f/1.5, f_reduce)) +
        shape = "") +
   annotate(geom="text", label = "F Retention / FMSY", x = 0.15, y = 0.2) +
   geom_curve(aes(x = 0.15, y = 0.195, xend = 0.15, yend = 0.155), arrow = arrow(length = unit(0.1, "inches"))) +
-  geom_label_repel(aes(label = name), size = 3, vjust = "outward", hjust = "outward")
+  geom_label_repel(aes(label = name), size = 3, vjust = "outward", hjust = "outward", alpha = 0.75)
 p1
 
 p <- ggplot() +
@@ -1834,7 +1836,7 @@ p <- ggplot() +
   ) +
   geom_rect(
     data = no_cq_sub,
-    aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.23, fill = as.factor(redlist_category))
+    aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.165, fill = as.factor(redlist_category))
   ) +
   geom_line(data = no_cq_sub %>% filter(!is.na(scenario)), aes(t, n_div_k, color = mort_scenario, group = total_mort), linewidth = 2) +
   geom_text(

@@ -1,16 +1,12 @@
 scientificname,mean_f,source
-Alopias vulpinus,0.532439024,RAMLDB
+Alopias vulpinus,0.5324390243902439,RAMLDB
 Carcharhinus acronotus,0.08368,RAMLDB
 Carcharhinus falciformis,0.313,RAMLDB
-Carcharhinus isodon,0.001906333,RAMLDB
-Carcharhinus limbatus,0.007107037,RAMLDB
-Carcharhinus longimanus,0.346521739,RAMLDB
+Carcharhinus isodon,0.0019063333333333332,RAMLDB
+Carcharhinus limbatus,0.007107037037037037,RAMLDB
+Carcharhinus longimanus,0.34652173913043477,RAMLDB
 Carcharhinus obscurus,0.09944,RAMLDB
 Carcharhinus plumbeus,0.129075,RAMLDB
-Isurus oxyrinchus,0.181464286,RAMLDB
-Prionace glauca,0.346521739,RAMLDB
+Prionace glauca,0.34652173913043477,RAMLDB
 Rhizoprionodon terraenovae,0.121625,RAMLDB
 Sphyrna tiburo,0.18675,RAMLDB
-Carcharhinus porosus,0.395,Santana et al (2020)
-Triakis semifasciata,0.084,Cailliet(1992)
-Isogomphodon oxyrhynchus,0.501,Lessa et al (2016)
