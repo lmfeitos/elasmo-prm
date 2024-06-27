@@ -1880,7 +1880,8 @@ mean_mort_reduction_fam <- pct_mort_reduction %>%
   mutate(threat = ifelse(redlist_category %in% c("CR", "VU", "EN"), "threatened", "not threatened")) %>% 
   group_by(family) %>% 
   mutate(mean_mort_reduction = mean(percent_diff),
-         sd_mort_reduction = sd(percent_diff)) %>% 
+         sd_mort_reduction = sd(percent_diff),
+         se_mort_reduction = sd(percent_diff) / sqrt(n())) %>% 
   ungroup() %>% 
   filter(threat == "threatened") %>% 
   group_by(family) %>% 
@@ -1903,7 +1904,8 @@ mean_mort_reduction_fam_unc <- pct_mort_reduction_uncorrected %>%
   mutate(threat = ifelse(redlist_category %in% c("CR", "VU", "EN"), "threatened", "not threatened")) %>% 
   group_by(family) %>% 
   mutate(mean_mort_reduction = mean(percent_diff),
-         sd_mort_reduction = sd(percent_diff)) %>% 
+         sd_mort_reduction = sd(percent_diff),
+         se_mort_reduction = sd(percent_diff) / sqrt(n())) %>% 
   ungroup() %>% 
   filter(threat == "threatened") %>% 
   group_by(family) %>% 
@@ -1923,7 +1925,7 @@ write_csv(sim_join, file = here::here("data", "sim_pct_correct_uncorrect.csv"))
 mort_red_corrected <- 
   ggplot(data = sim_join) +
   geom_point(aes(x = fct_reorder(family, mean_mort_reduction), y = mean_mort_reduction, size = sp_threat)) +
-  geom_linerange(aes(x = family, ymax = mean_mort_reduction + sd_mort_reduction, ymin = mean_mort_reduction - sd_mort_reduction)) +
+  geom_linerange(aes(x = family, ymax = mean_mort_reduction + se_mort_reduction, ymin = mean_mort_reduction - se_mort_reduction)) +
   geom_hline(yintercept = 50,
              linetype = "dashed") +
   facet_wrap(~ status) +
