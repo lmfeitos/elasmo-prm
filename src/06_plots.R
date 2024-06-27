@@ -1816,9 +1816,9 @@ p1 = ggplot(data = f_val_sim, aes(f/1.5, f_reduce)) +
   labs(x = expression(F[MSY]), y = "Expected F with Retention Prohibition", 
        color = "Percent Mortality \n Reduction of \n Retention Ban",
        shape = "") +
-  annotate(geom="text", label = "F[Retention] / F[MSY]", x = 0.15, y = 0.2, parse = TRUE) +
+  annotate(geom="text", label = "F[Retention] / F[MSY]", x = 0.15, y = 0.2, parse = TRUE, size = 8) +
   geom_curve(aes(x = 0.15, y = 0.195, xend = 0.15, yend = 0.155), arrow = arrow(length = unit(0.1, "inches"))) +
-  geom_label_repel(aes(label = name), size = 3, vjust = "outward", hjust = "outward", alpha = 0.75)
+  geom_label_repel(aes(label = name), size = 5, vjust = "outward", hjust = "outward", alpha = 0.75)
 p1
 
 p <- ggplot() +
