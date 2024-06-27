@@ -1805,13 +1805,6 @@ no_cq_sub <- no_cq %>%
   filter(sci %in% f_val_sim$scientific_name) %>% 
   mutate(scientific_name = paste0(scientific_name, " (", redlist_category, ")"))
 
-tag_text <- data.frame(
-  t = c(180, 180, 180),
-  n_div_k = c(0.98, 0.98, 0.98),
-  label = c("A", "B", "C"),
-  scientific_name = factor(unique(no_cq_sub$scientific_name))
-)
-
 f_val_sim = f_val_sim %>% 
   mutate(name = paste0(common_name," (", redlist_category, ")"))
 
@@ -1820,10 +1813,10 @@ p1 = ggplot(data = f_val_sim, aes(f/1.5, f_reduce)) +
   geom_point(aes(color = percent_diff, shape = f_ratio), size = 4) +
   theme_bw(base_size = 14) +
   scale_color_viridis_c() +
-  labs(x = "FMSY", y = "Expected F with Retention Ban", 
+  labs(x = expression(F[MSY]), y = "Expected F with Retention Prohibition", 
        color = "Percent Mortality \n Reduction of \n Retention Ban",
        shape = "") +
-  annotate(geom="text", label = "F Retention / FMSY", x = 0.15, y = 0.2) +
+  annotate(geom="text", label = "F[Retention] / F[MSY]", x = 0.15, y = 0.2, parse = TRUE) +
   geom_curve(aes(x = 0.15, y = 0.195, xend = 0.15, yend = 0.155), arrow = arrow(length = unit(0.1, "inches"))) +
   geom_label_repel(aes(label = name), size = 3, vjust = "outward", hjust = "outward", alpha = 0.75)
 p1
@@ -1839,14 +1832,6 @@ p <- ggplot() +
     aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.165, fill = as.factor(redlist_category))
   ) +
   geom_line(data = no_cq_sub %>% filter(!is.na(scenario)), aes(t, n_div_k, color = mort_scenario, group = total_mort), linewidth = 2) +
-  geom_text(
-    data = tag_text %>%
-      filter(scientific_name %in% c("Prionace glauca", "Isurus oxyrinchus", "Squatina squatina")),
-    aes(x = t, y = n_div_k, label = label),
-    color = "black",
-    fontface = "bold",
-    size = 5
-  ) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
   facet_wrap(~ factor(scientific_name,
     levels = unique(no_cq_sub$scientific_name)
