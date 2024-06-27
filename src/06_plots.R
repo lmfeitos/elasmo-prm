@@ -1806,7 +1806,8 @@ no_cq_sub <- no_cq %>%
   mutate(scientific_name = paste0(scientific_name, " (", redlist_category, ")"))
 
 f_val_sim = f_val_sim %>% 
-  mutate(name = paste0(common_name," (", redlist_category, ")"))
+  mutate(name = paste0(common_name," (", redlist_category, ")")) %>% 
+  mutate(name = ifelse(name == "Thresher (VU)", "Common thresher (VU)", name))
 
 p1 = ggplot(data = f_val_sim, aes(f/1.5, f_reduce)) +
   geom_abline(linetype = "dashed") +
@@ -1814,11 +1815,15 @@ p1 = ggplot(data = f_val_sim, aes(f/1.5, f_reduce)) +
   theme_bw(base_size = 14) +
   scale_color_viridis_c() +
   labs(x = expression(F[MSY]), y = "Expected F with Retention Prohibition", 
-       color = "Percent Mortality \n Reduction of \n Retention Ban",
+       color = "Percent Mortality \n Reduction from \n Retention Prohibition",
        shape = "") +
   annotate(geom="text", label = "F[Retention] / F[MSY]", x = 0.15, y = 0.2, parse = TRUE, size = 8) +
   geom_curve(aes(x = 0.15, y = 0.195, xend = 0.15, yend = 0.155), arrow = arrow(length = unit(0.1, "inches"))) +
-  geom_label_repel(aes(label = name), size = 5, vjust = "outward", hjust = "outward", alpha = 0.75)
+  geom_label_repel(aes(label = name), size = 5, vjust = "outward", hjust = "outward", alpha = 0.75)+
+  theme(legend.key.size = unit(8, "mm"),
+        panel.grid.minor = element_blank()) +
+  guides(color = guide_colorbar(ticks.colour = "black", frame.colour = "black"))
+
 p1
 
 p <- ggplot() +
