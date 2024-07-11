@@ -161,7 +161,7 @@ gillnet_predictions_iucn = gillnet_predictions %>%
 full_predictions = full_join(longline_predictions_iucn, gillnet_predictions_iucn)
 
 # read in simulation results
-sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
+sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>% 
@@ -172,7 +172,7 @@ sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
 
 write_csv(sim_results, here::here("data", "pct_mort_reduction_sim.csv"))
 
-sim_results_uncorrected <- read_csv(here::here("data", "uncorrected_results.csv")) %>% 
+sim_results_uncorrected <- read_csv(here::here(basedir, "data", "uncorrected_results.csv")) %>% 
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>% 
@@ -187,7 +187,7 @@ f_vals = read_csv(here::here("data", "ramldb_f_means.csv")) %>%
   rename(scientific_name = scientificname) %>%
   select(-source)
 
-sim_results_2 <- read_csv(here::here(basedir, "simulation_results.csv")) %>%
+sim_results_2 <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario))
 
@@ -1269,7 +1269,8 @@ sim_results_iucn_pct = sim_results_iucn_pct %>%
     abs_diff <= bins[1] ~ "Low",
     abs_diff > bins[1] & abs_diff < bins[2] ~ "Medium",
     abs_diff >= bins[2] ~ "High"
-  ))
+  )) %>% 
+  mutate(diff_bin = as.factor(diff_bin))
 
 # bin_count = sim_results_iucn_pct %>% 
 #   group_by(diff_bin) %>% 
@@ -1317,7 +1318,8 @@ non_threat <- sim_results_iucn %>%
   filter(redlist_category %in% c("DD", "NT", "LC")) %>%
   rowid_to_column("id") %>%
   mutate(id = fct_reorder(as.factor(id), percent_diff)) %>%
-  mutate(redlist_category = as.factor(redlist_category)) %>%
+  mutate(redlist_category = as.factor(redlist_category),
+         diff_bin = as.factor(diff_bin)) %>%
   arrange(id) %>%
   select(-scientific_name) %>%
   rename(scientific_name = common_name)
@@ -1445,7 +1447,7 @@ prop <-
     data = redlist_breaks,
     aes(x = title, y = -18, label = diff_bin, color = diff_bin),
     show.legend = F,
-    hjust = 1, alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE
+    hjust = 0.5, alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE
   ) +
   scale_color_manual(values = c("#E31A1C", "#FD8D3C", "#FED976")) +
   # geom_text(data = redlist_breaks,
@@ -1455,7 +1457,7 @@ prop <-
   labs(
     x = "",
     y = ""
-  )
+  ) 
 
 ggsave(prop, file = paste0("fig4.pdf"), path = here::here("figs"), height = 20, width = 20)
 
@@ -1500,7 +1502,8 @@ redlist_breaks <- redlist_breaks %>%
   mutate(v = list(v)) %>%
   unnest(cols = c(v))
 
-prop <- ggplot(data = non_threat) +
+prop <- 
+  ggplot(data = non_threat) +
   geom_segment(
     data = redlist_breaks %>%
       filter(v != 100),
@@ -1544,7 +1547,7 @@ prop <- ggplot(data = non_threat) +
     data = redlist_breaks,
     aes(x = title, y = -18, label = diff_bin, color = diff_bin),
     show.legend = F,
-    hjust = 1, alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE
+    hjust = 0.5, alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE
   ) +
   scale_color_manual(values = c("grey", "#91CF60", "#1A9850")) +
   # geom_text(data = redlist_breaks,
