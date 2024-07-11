@@ -161,7 +161,7 @@ gillnet_predictions_iucn = gillnet_predictions %>%
 full_predictions = full_join(longline_predictions_iucn, gillnet_predictions_iucn)
 
 # read in simulation results
-sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
+sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>% 
@@ -172,7 +172,7 @@ sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %
 
 write_csv(sim_results, here::here("data", "pct_mort_reduction_sim.csv"))
 
-sim_results_uncorrected <- read_csv(here::here(basedir, "data", "uncorrected_results.csv")) %>% 
+sim_results_uncorrected <- read_csv(here::here("data", "uncorrected_results.csv")) %>% 
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>% 
@@ -187,7 +187,7 @@ f_vals = read_csv(here::here("data", "ramldb_f_means.csv")) %>%
   rename(scientific_name = scientificname) %>%
   select(-source)
 
-sim_results_2 <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
+sim_results_2 <- read_csv(here::here("data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario))
 
@@ -1257,18 +1257,19 @@ sim_results_top <- left_join(top_shark_mort, sim_results_iucn) %>%
 
 sim_results_iucn_pct <- sim_results_iucn %>%
   mutate(percent_diff = (f - f_mort) / abs(f) * 100,
-         abs_diff = f - f_mort) %>%
+         abs_diff = f - f_mort,
+         avm_prm = mid_avm + mid_prm) %>%
   mutate(percent_diff = round(percent_diff, 4))
 
 write_csv(sim_results_iucn_pct, here::here("data", "sim_results_pct_diff.csv"))
 
-bins = quantile(sim_results_iucn_pct$abs_diff, probs = c(0.33, 0.66))
+bins = quantile(sim_results_iucn_pct$avm_prm, probs = c(0.33, 0.66))
 
 sim_results_iucn_pct = sim_results_iucn_pct %>% 
   mutate(diff_bin = case_when(
-    abs_diff <= bins[1] ~ "Low",
-    abs_diff > bins[1] & abs_diff < bins[2] ~ "Medium",
-    abs_diff >= bins[2] ~ "High"
+    avm_prm < bins[1] ~ "Low AVM/PRM",
+    avm_prm >= bins[1] & avm_prm <= bins[2] ~ "Medium AVM/PRM",
+    avm_prm > bins[2] ~ "High AVM/PRM"
   )) %>% 
   mutate(diff_bin = as.factor(diff_bin))
 
@@ -1278,7 +1279,7 @@ sim_results_iucn_pct = sim_results_iucn_pct %>%
 # 
 # ggplot() +
 #   geom_vline(aes(xintercept = bins))+
-#   geom_density(data = sim_results_iucn_pct, aes(abs_diff)) +
+#   geom_density(data = sim_results_iucn_pct, aes(avm_prm)) +
 #   theme_bw()
 
 f_val_sim = left_join(f_vals, sim_results_iucn_pct) %>% 
@@ -1308,12 +1309,13 @@ sim_results_iucn_pct_threat <- sim_results_iucn_pct %>%
 # create data subset with non-threatened species only
 non_threat <- sim_results_iucn %>%
   mutate(percent_diff = (f - f_mort) / f * 100,
-         abs_diff = f - f_mort) %>%
+         abs_diff = f - f_mort,
+         avm_prm = mid_avm + mid_prm) %>%
   mutate(percent_diff = round(percent_diff, 4)) %>%
   mutate(diff_bin = case_when(
-    abs_diff <= bins[1] ~ "Low",
-    abs_diff > bins[1] & abs_diff < bins[2] ~ "Medium",
-    abs_diff >= bins[2] ~ "High"
+    avm_prm <= bins[1] ~ "Low AVM/PRM",
+    avm_prm > bins[1] & avm_prm < bins[2] ~ "Medium AVM/PRM",
+    avm_prm >= bins[2] ~ "High AVM/PRM"
   )) %>% 
   filter(redlist_category %in% c("DD", "NT", "LC")) %>%
   rowid_to_column("id") %>%
@@ -1358,7 +1360,7 @@ sim_results_iucn_pct_plot_m_ave <- sim_results_iucn_pct %>%
 
 # get average mortality reductions per main fished family
 diff_fam <- sim_results_iucn_pct %>%
-  group_by(family) %>%
+  group_by(family.x) %>%
   summarise(mean_diff = mean(percent_diff))
 
 # Set a number of empty bars to add at the end of each group
@@ -1424,7 +1426,7 @@ prop <-
     width = 0.8
   ) +
   ylim(-40, NA) +
-  scale_fill_manual(values = c("#E31A1C", "#FD8D3C", "#FED976")) +
+  scale_fill_viridis_d()+ # manual(values = c("#E31A1C", "#FD8D3C", "#FED976")) +
   theme(
     axis.title = element_blank(),
     axis.text = element_blank(),
@@ -1449,7 +1451,7 @@ prop <-
     show.legend = F,
     hjust = 0.5, alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE
   ) +
-  scale_color_manual(values = c("#E31A1C", "#FD8D3C", "#FED976")) +
+  scale_color_viridis_d() + #(values = c("#E31A1C", "#FD8D3C", "#FED976")) +
   # geom_text(data = redlist_breaks,
   #             aes(x = title, y = 48, label = redlist_category),  colour = "black", alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE) +
   labs(fill = "Redlist Category") + # y = 80
@@ -1524,7 +1526,7 @@ prop <-
     width = 0.8
   ) +
   ylim(-40, NA) +
-  scale_fill_manual(values = c("grey", "#91CF60", "#1A9850")) +
+  scale_fill_viridis_d() + # manual(values = c("grey", "#91CF60", "#1A9850")) +
   theme(
     axis.title = element_blank(),
     axis.text = element_blank(),
@@ -1549,7 +1551,7 @@ prop <-
     show.legend = F,
     hjust = 0.5, alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE
   ) +
-  scale_color_manual(values = c("grey", "#91CF60", "#1A9850")) +
+  scale_color_viridis_d() +# manual(values = c("grey", "#91CF60", "#1A9850")) +
   # geom_text(data = redlist_breaks,
   #             aes(x = title, y = 48, label = redlist_category),  colour = "black", alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE) +
   labs(fill = "Redlist Category") + # y = 80
