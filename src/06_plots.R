@@ -1307,16 +1307,7 @@ sim_results_iucn_pct_threat <- sim_results_iucn_pct %>%
   rename(scientific_name = common_name)
 
 # create data subset with non-threatened species only
-non_threat <- sim_results_iucn %>%
-  mutate(percent_diff = (f - f_mort) / f * 100,
-         abs_diff = f - f_mort,
-         avm_prm = mid_avm + mid_prm) %>%
-  mutate(percent_diff = round(percent_diff, 4)) %>%
-  mutate(diff_bin = case_when(
-    avm_prm <= bins[1] ~ "Low AVM/PRM",
-    avm_prm > bins[1] & avm_prm < bins[2] ~ "Medium AVM/PRM",
-    avm_prm >= bins[2] ~ "High AVM/PRM"
-  )) %>% 
+non_threat <- sim_results_iucn_pct %>%
   filter(redlist_category %in% c("DD", "NT", "LC")) %>%
   rowid_to_column("id") %>%
   mutate(id = fct_reorder(as.factor(id), percent_diff)) %>%
