@@ -77,11 +77,6 @@ sim <- function(t, N_0, K, r, avs, prs, q, f, quota, scenario) {
     prs <- 0
   }
 
-  # there is not quota so set it to 0
-  if (scenario != "CQ") {
-    quota <- 0
-  }
-
   pop.array <- array(numeric(), dim = c(t)) # create population array
   pop.array[1] <- N_0 # initialize population
 
@@ -89,7 +84,8 @@ sim <- function(t, N_0, K, r, avs, prs, q, f, quota, scenario) {
     dt <- 1
 
     # population growth - fishing + returned bycatch
-    dN.dt <- (r * pop.array[i - 1] * (1 - (pop.array[i - 1] / K))) - (q * f * pop.array[i - 1]) + ((q * f * pop.array[i - 1] - quota) * avs * prs) * dt
+    dN.dt <- (r * pop.array[i - 1] * (1 - (pop.array[i - 1] / K))) - (q * f * pop.array[i - 1]) + 
+      ((q * f * pop.array[i - 1] - quota) * avs * prs) * dt
     pop.array[i] <- pop.array[i - 1] + dN.dt
   }
 
