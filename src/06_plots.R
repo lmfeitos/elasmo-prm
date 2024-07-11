@@ -161,7 +161,7 @@ gillnet_predictions_iucn = gillnet_predictions %>%
 full_predictions = full_join(longline_predictions_iucn, gillnet_predictions_iucn)
 
 # read in simulation results
-sim_results <- read_csv(here::here(basedir, "simulation_results.csv")) %>%
+sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>% 
@@ -1256,13 +1256,32 @@ sim_results_top <- left_join(top_shark_mort, sim_results_iucn) %>%
   filter(!is.na(f)) 
 
 sim_results_iucn_pct <- sim_results_iucn %>%
-  mutate(percent_diff = (f - f_mort) / abs(f) * 100) %>%
+  mutate(percent_diff = (f - f_mort) / abs(f) * 100,
+         abs_diff = f - f_mort) %>%
   mutate(percent_diff = round(percent_diff, 4))
 
 write_csv(sim_results_iucn_pct, here::here("data", "sim_results_pct_diff.csv"))
 
+bins = quantile(sim_results_iucn_pct$abs_diff, probs = c(0.33, 0.66))
+
+sim_results_iucn_pct = sim_results_iucn_pct %>% 
+  mutate(diff_bin = case_when(
+    abs_diff <= bins[1] ~ "Low",
+    abs_diff > bins[1] & abs_diff < bins[2] ~ "Medium",
+    abs_diff >= bins[2] ~ "High"
+  ))
+
+# bin_count = sim_results_iucn_pct %>% 
+#   group_by(diff_bin) %>% 
+#   summarize(count = n())
+# 
+# ggplot() +
+#   geom_vline(aes(xintercept = bins))+
+#   geom_density(data = sim_results_iucn_pct, aes(abs_diff)) +
+#   theme_bw()
+
 f_val_sim = left_join(f_vals, sim_results_iucn_pct) %>% 
-  mutate(f_fmsy = mean_f / f) %>% 
+  mutate(f_fmsy = mean_f / f) %>%
   mutate(f_reduce = mean_f - mean_f * (percent_diff/100)) %>% 
   mutate(success = case_when(
     f_reduce <= f/1.5 ~ "yes", 
@@ -1287,8 +1306,14 @@ sim_results_iucn_pct_threat <- sim_results_iucn_pct %>%
 
 # create data subset with non-threatened species only
 non_threat <- sim_results_iucn %>%
-  mutate(percent_diff = (f - f_mort) / f * 100) %>%
+  mutate(percent_diff = (f - f_mort) / f * 100,
+         abs_diff = f - f_mort) %>%
   mutate(percent_diff = round(percent_diff, 4)) %>%
+  mutate(diff_bin = case_when(
+    abs_diff <= bins[1] ~ "Low",
+    abs_diff > bins[1] & abs_diff < bins[2] ~ "Medium",
+    abs_diff >= bins[2] ~ "High"
+  )) %>% 
   filter(redlist_category %in% c("DD", "NT", "LC")) %>%
   rowid_to_column("id") %>%
   mutate(id = fct_reorder(as.factor(id), percent_diff)) %>%
@@ -1313,6 +1338,14 @@ sim_results_iucn_pct_sum_stats <- sim_results_iucn_pct %>%
     var_percent_diff = var(percent_diff, na.rm = TRUE)
   )
 
+sim_results_bin_stats <- sim_results_iucn_pct %>%
+  group_by(diff_bin) %>%
+  summarise(
+    mean_percent_diff = mean(percent_diff, na.rm = TRUE),
+    sd_percent_diff = sd(percent_diff, na.rm = TRUE),
+    var_percent_diff = var(percent_diff, na.rm = TRUE)
+  )
+
 # get average mortality reductions per iucn status
 sim_results_iucn_pct_plot_m_ave <- sim_results_iucn_pct %>%
   group_by(redlist_category) %>% 
@@ -1328,11 +1361,11 @@ diff_fam <- sim_results_iucn_pct %>%
 
 # Set a number of empty bars to add at the end of each group
 empty_bar <- 7
-to_add <- data.frame(matrix(NA, empty_bar * nlevels(sim_results_iucn_pct_threat$redlist_category), ncol(sim_results_iucn_pct_threat)))
+to_add <- data.frame(matrix(NA, empty_bar * nlevels(sim_results_iucn_pct_threat$diff_bin), ncol(sim_results_iucn_pct_threat)))
 colnames(to_add) <- colnames(sim_results_iucn_pct_threat)
-to_add$redlist_category <- rep(levels(sim_results_iucn_pct_threat$redlist_category), each = empty_bar)
+to_add$diff_bin <- rep(levels(sim_results_iucn_pct_threat$diff_bin), each = empty_bar)
 sim_results_iucn_pct_threat <- rbind(sim_results_iucn_pct_threat, to_add)
-sim_results_iucn_pct_threat <- sim_results_iucn_pct_threat %>% arrange(redlist_category)
+sim_results_iucn_pct_threat <- sim_results_iucn_pct_threat %>% arrange(diff_bin)
 sim_results_iucn_pct_threat$id <- seq(1, nrow(sim_results_iucn_pct_threat))
 
 # get the name and the y position of each label
@@ -1344,7 +1377,7 @@ label_data_m$angle <- ifelse(angle < -90, angle + 180, angle)
 
 # Not sure how to use the code below
 redlist_breaks <- sim_results_iucn_pct_threat %>%
-  group_by(redlist_category) %>%
+  group_by(diff_bin) %>%
   summarize(
     start = min(id),
     end = max(id) - 3
@@ -1383,7 +1416,7 @@ prop <-
     aes(
       x = id,
       y = percent_diff,
-      fill = redlist_category
+      fill = diff_bin
     ),
     show.legend = F,
     width = 0.8
@@ -1410,7 +1443,7 @@ prop <-
   ) +
   geom_text(
     data = redlist_breaks,
-    aes(x = title, y = -18, label = redlist_category, color = redlist_category),
+    aes(x = title, y = -18, label = diff_bin, color = diff_bin),
     show.legend = F,
     hjust = 1, alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE
   ) +
@@ -1428,11 +1461,11 @@ ggsave(prop, file = paste0("fig4.pdf"), path = here::here("figs"), height = 20, 
 
 # Set a number of empty bars to add at the end of each group
 empty_bar <- 7
-to_add <- data.frame(matrix(NA, empty_bar * nlevels(non_threat$redlist_category), ncol(non_threat)))
+to_add <- data.frame(matrix(NA, empty_bar * nlevels(non_threat$diff_bin), ncol(non_threat)))
 colnames(to_add) <- colnames(non_threat)
-to_add$redlist_category <- rep(levels(non_threat$redlist_category), each = empty_bar)
+to_add$diff_bin <- rep(levels(non_threat$diff_bin), each = empty_bar)
 non_threat <- rbind(non_threat, to_add)
-non_threat <- non_threat %>% arrange(redlist_category)
+non_threat <- non_threat %>% arrange(diff_bin)
 non_threat$id <- seq(1, nrow(non_threat))
 
 # get the name and the y position of each label
@@ -1444,7 +1477,7 @@ label_data_m$angle <- ifelse(angle < -90, angle + 180, angle)
 
 # Not sure how to use the code below
 redlist_breaks <- non_threat %>%
-  group_by(redlist_category) %>%
+  group_by(diff_bin) %>%
   summarize(
     start = min(id),
     end = max(id) - 3
@@ -1482,7 +1515,7 @@ prop <- ggplot(data = non_threat) +
     aes(
       x = id,
       y = percent_diff,
-      fill = redlist_category
+      fill = diff_bin
     ),
     show.legend = F,
     width = 0.8
@@ -1509,7 +1542,7 @@ prop <- ggplot(data = non_threat) +
   ) +
   geom_text(
     data = redlist_breaks,
-    aes(x = title, y = -18, label = redlist_category, color = redlist_category),
+    aes(x = title, y = -18, label = diff_bin, color = diff_bin),
     show.legend = F,
     hjust = 1, alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE
   ) +
