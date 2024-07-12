@@ -165,7 +165,7 @@ sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>%
-  filter(mort_scenario == "BAU" | mort_scenario == "Median Mortality") %>%
+  filter(mort_scenario == "BAU" | mort_scenario == "Median Mortality") %>% 
   mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1 - mid_avm) * (1 - mid_prm)))) / 100) %>%
   select(scientific_name, f, f_mort, mid_avm, mid_prm) %>%
   distinct()
@@ -1338,7 +1338,8 @@ non_threat <- sim_results_iucn_pct %>%
   filter(redlist_category %in% c("DD", "NT", "LC")) %>%
   rowid_to_column("id") %>%
   mutate(id = fct_reorder(as.factor(id), percent_diff)) %>%
-  mutate(
+  mutate()
+  mutate(mean_percent_diff = mean(percent_diff, na.rm = TRUE),  
     redlist_category = as.factor(redlist_category),
     diff_bin = as.factor(diff_bin)
   ) %>%
@@ -1365,9 +1366,9 @@ sim_results_iucn_pct_sum_stats <- sim_results_iucn_pct %>%
 sim_results_bin_stats <- sim_results_iucn_pct %>%
   group_by(diff_bin) %>%
   summarise(
-    mean_percent_diff = mean(percent_diff, na.rm = TRUE),
-    sd_percent_diff = sd(percent_diff, na.rm = TRUE),
-    var_percent_diff = var(percent_diff, na.rm = TRUE)
+    mean_percent_diff = mean(abs_diff, na.rm = TRUE),
+    sd_percent_diff = sd(abs_diff, na.rm = TRUE),
+    var_percent_diff = var(abs_diff, na.rm = TRUE)
   )
 
 # get average mortality reductions per iucn status
@@ -1541,20 +1542,7 @@ redlist_breaks <- redlist_breaks %>%
   mutate(v = list(v)) %>%
   unnest(cols = c(v))
 
-ggplot() +
-  geom_segment(data = lolli_data1,
-               aes(
-                 x = common_name,
-                 xend = common_name,
-                 y = 0,
-                 yend = abs_diff
-               ),
-               show.legend = F
-  ) +
-  geom_point(data = lolli_data1,
-             aes(x = common_name, y = abs_diff, color = percent_diff))
-
-#prop2 <-
+prop2 <-
   ggplot(data = lolli_data1 %>% 
            group_by(diff_bin) %>% 
            mutate(id = fct_reorder(as.factor(id), abs_diff))) +
@@ -1602,10 +1590,11 @@ ggplot() +
   geom_text(
     data = redlist_breaks,
     aes(x = title, y = -18, label = diff_bin, color = diff_bin),
+    color = "black",
     show.legend = F,
     hjust = 0.5, alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE
   ) +
-  scale_color_viridis_d() + # (values = c("#E31A1C", "#FD8D3C", "#FED976")) +
+  #scale_color_viridis_d() + # (values = c("#E31A1C", "#FD8D3C", "#FED976")) +
   # geom_text(data = redlist_breaks,
   #             aes(x = title, y = 48, label = redlist_category),  colour = "black", alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE) +
   labs(fill = "Percent difference\nin mortality") + # y = 80
@@ -1617,28 +1606,33 @@ ggplot() +
   guides(fill = guide_colorbar(ticks.colour = "black", frame.colour = "black")) 
 
 
-plot <- prop1 + lolli1
-
-ggsave(plot, file = paste0("fig4.pdf"), path = here::here("figs"), height = 20, width = 40) + plot_annotation(tag_levels = "A")
+ggsave(prop2, file = paste0("fig4.pdf"), path = here::here("figs"), height = 20, width = 40) + plot_annotation(tag_levels = "A")
 
 # Set a number of empty bars to add at the end of each group
+lolli_data2 <- non_threat %>%
+  select(scientific_name, f, f_mort, avm_prm, abs_diff, diff_bin, common_name, percent_diff) %>%
+  mutate(common_name = fct_reorder(as.factor(common_name), abs_diff)) 
+
 empty_bar <- 7
-to_add <- data.frame(matrix(NA, empty_bar * nlevels(non_threat$diff_bin), ncol(non_threat)))
-colnames(to_add) <- colnames(non_threat)
-to_add$diff_bin <- rep(levels(non_threat$diff_bin), each = empty_bar)
-non_threat <- rbind(non_threat, to_add)
-non_threat <- non_threat %>% arrange(diff_bin)
-non_threat$id <- seq(1, nrow(non_threat))
+to_add <- data.frame(matrix(NA, empty_bar * nlevels(lolli_data2$diff_bin), ncol(lolli_data2)))
+colnames(to_add) <- colnames(lolli_data2)
+to_add$diff_bin <- rep(levels(lolli_data2$diff_bin), each = empty_bar)
+lolli_data2 <- rbind(lolli_data2, to_add)
+lolli_data2 <- lolli_data2 %>% arrange(diff_bin)
+lolli_data2$id <- seq(1, nrow(lolli_data2))
+lolli_data2 <- lolli_data2 %>% 
+  mutate(common_name = factor(common_name, levels = unique(common_name))) 
+
 
 # get the name and the y position of each label
-label_data_m <- non_threat
+label_data_m <- lolli_data2
 number_of_bar <- nrow(label_data_m)
 angle <- 90 - 360 * (label_data_m$id - 0.5) / number_of_bar
 label_data_m$hjust <- ifelse(angle < -90, 1, 0)
 label_data_m$angle <- ifelse(angle < -90, angle + 180, angle)
 
 # Not sure how to use the code below
-redlist_breaks <- non_threat %>%
+redlist_breaks <- lolli_data2 %>%
   group_by(diff_bin) %>%
   summarize(
     start = min(id),
@@ -1652,18 +1646,20 @@ redlist_breaks <- non_threat %>%
     start = start - 1
   )
 
-max_value <- max(non_threat$percent_diff, na.rm = T)
+max_value <- max(lolli_data2$abs_diff, na.rm = T)
 
 y_max <- 20 * ceiling(max_value / 20)
 
-v <- c(20, 40, 60, 80, 100)
+v <- c(5, 10, 15, 20, 25)
 
 redlist_breaks <- redlist_breaks %>%
   mutate(v = list(v)) %>%
   unnest(cols = c(v))
 
-prop <-
-  ggplot(data = non_threat) +
+prop3 <-
+  ggplot(data = lolli_data2 %>% 
+           group_by(diff_bin) %>% 
+           mutate(id = fct_reorder(as.factor(id), abs_diff))) +
   geom_segment(
     data = redlist_breaks %>%
       filter(v != 100),
@@ -1671,20 +1667,22 @@ prop <-
     color = "grey", linewidth = 0.3, inherit.aes = FALSE
   ) +
   annotate("text",
-    x = rep(max(non_threat$id, length(v))),
-    y = v - 5, label = paste0(head(v), "%"), color = "grey", size = 5, angle = 0, fontface = "bold", hjust = 0.7
+           x = rep(max(lolli_data2$id, length(v))),
+           y = v - 5, label = paste0(head(v), "%"), color = "grey", size = 5, angle = 0, fontface = "bold", hjust = 0.7
   ) +
   geom_col(
     aes(
       x = id,
-      y = percent_diff,
-      fill = diff_bin
+      y = abs_diff * 100,
+      fill = percent_diff,
+      group = diff_bin
     ),
-    show.legend = F,
+    #show.legend = F,
     width = 0.8
   ) +
   ylim(-40, NA) +
-  scale_fill_viridis_d() + # manual(values = c("grey", "#91CF60", "#1A9850")) +
+  scale_fill_viridis_c() + # manual(values = c("#E31A1C", "#FD8D3C", "#FED976")) +
+  scale_x_discrete() +
   theme(
     axis.title = element_blank(),
     axis.text = element_blank(),
@@ -1694,7 +1692,7 @@ prop <-
   coord_polar(start = 0) +
   geom_text(
     data = label_data_m,
-    aes(x = id, y = percent_diff + 20, label = scientific_name, angle = angle),
+    aes(x = id, y = abs_diff + 30, label = common_name, angle = angle),
     nudge_x = -0.25, nudge_y = 0.25,
     color = "black", size = 4, inherit.aes = FALSE
   ) +
@@ -1706,39 +1704,22 @@ prop <-
   geom_text(
     data = redlist_breaks,
     aes(x = title, y = -18, label = diff_bin, color = diff_bin),
+    color = "black",
     show.legend = F,
     hjust = 0.5, alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE
   ) +
-  scale_color_viridis_d() + # manual(values = c("grey", "#91CF60", "#1A9850")) +
+  #scale_color_viridis_d() + # (values = c("#E31A1C", "#FD8D3C", "#FED976")) +
   # geom_text(data = redlist_breaks,
   #             aes(x = title, y = 48, label = redlist_category),  colour = "black", alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE) +
-  labs(fill = "Redlist Category") + # y = 80
+  labs(fill = "Percent difference\nin mortality") + # y = 80
   theme_void(base_size = 14) +
   labs(
     x = "",
     y = ""
-  )
-
-lolli_data <- non_threat %>%
-  select(scientific_name, f, f_mort, avm_prm, abs_diff, diff_bin, percent_diff) %>%
-  mutate(scientific_name = fct_reorder(as.factor(scientific_name), .x = abs_diff))
-
-lolli <- ggplot(lolli_data, aes(x = scientific_name, y = abs_diff)) +
-  geom_segment(aes(xend = scientific_name, yend = 0)) +
-  geom_point(aes(color = percent_diff), size = 2) +
-  coord_flip() +
-  theme_bw(base_size = 14) +
-  labs(
-    x = "Species",
-    y = "Absolute Difference in Mortality",
-    color = "Percent Difference in Mortality"
   ) +
-  scale_color_viridis_c()
-lolli
+  guides(fill = guide_colorbar(ticks.colour = "black", frame.colour = "black")) 
 
-plot <- prop + lolli
-
-ggsave(plot, file = paste0("figS4.pdf"), path = here::here("figs", "supp"), height = 20, width = 40) + plot_annotation(tag_levels = "A")
+ggsave(prop3, file = paste0("figs4.pdf"), path = here::here("figs", "supp"), height = 20, width = 40) + plot_annotation(tag_levels = "A")
 
 # Figure 5 and S5-10 ----------------------------------------------------------------
 
@@ -2034,7 +2015,7 @@ p1 <- ggplot(data = f_val_sim, aes(f / 1.5, f_reduce)) +
     color = "Percent Mortality \n Reduction from \n Retention Prohibition",
     shape = ""
   ) +
-  annotate(geom = "text", label = "F[Retention] / F[MSY]", x = 0.15, y = 0.2, parse = TRUE, size = 8) +
+  annotate(geom = "text", label = "F[Retention] ==~ F[MSY]", x = 0.15, y = 0.2, parse = TRUE, size = 8) +
   geom_curve(aes(x = 0.15, y = 0.195, xend = 0.15, yend = 0.155), arrow = arrow(length = unit(0.1, "inches"))) +
   geom_label_repel(aes(label = name), size = 5, vjust = "outward", hjust = "outward", alpha = 0.75) +
   theme(
