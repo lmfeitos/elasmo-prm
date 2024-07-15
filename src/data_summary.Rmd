@@ -286,14 +286,15 @@ gillnet_summary <- full_predictions_tidy %>%
 pct_mort_reduction <- read_csv(here("data", "sim_results_pct_diff.csv"))
 
 mean_mort_reduction <- pct_mort_reduction %>% 
-  mutate(mean_mort_reduction = mean(percent_diff))
+  mutate(mean_pct_mort_reduction = mean(percent_diff),
+         mean_abs_mort_reduction = mean(abs_diff))
 
 slice_top <- mean_mort_reduction %>% 
-  arrange(desc(percent_diff)) %>% 
+  arrange(desc(abs_diff)) %>% 
   slice_head(n = 10)
 
 slice_bottom <- mean_mort_reduction %>% 
-  arrange(desc(percent_diff)) %>% 
+  arrange(desc(abs_diff)) %>% 
   slice_tail(n = 10)
 
 spp_50_pct <- pct_mort_reduction %>% 
@@ -305,9 +306,10 @@ spp_50_pct <- pct_mort_reduction %>%
 # mean mortality reduction per IUCN assessment category
 mean_mort_reduction_iucn <- pct_mort_reduction %>% 
   group_by(redlist_category) %>% 
-  summarise(mean_mort_reduction = mean(percent_diff),
-            sd_mort_reduction = sd(percent_diff),
-            var_mort_reduction = var(percent_diff))
+  summarise(mean_mort_reduction = mean(abs_diff),
+            sd_mort_reduction = sd(abs_diff),
+            var_mort_reduction = var(abs_diff),
+            mean_relative_mort_reduction = mean(percent_diff))
 ```
 
 ```{r}
@@ -315,7 +317,8 @@ mean_mort_reduction_iucn <- pct_mort_reduction %>%
 mean_mort_reduction_threat <- pct_mort_reduction %>% 
   mutate(threat = ifelse(redlist_category %in% c("CR", "VU", "EN"), "threatened", "not threatened")) %>% 
   group_by(threat) %>% 
-  summarise(mean_mort_reduction = mean(percent_diff))
+  summarise(mean_abs_mort_reduction = mean(abs_diff),
+            mean_relative_mort_reduction = mean(percent_diff))
 ```
 
 ```{r}
@@ -332,15 +335,16 @@ non_threatened_spp <- pct_mort_reduction %>%
 ```{r}
 # Check for changes between corrected and uncorrected estimates
 sim_join <- read_csv(here("data", "sim_pct_correct_uncorrect.csv")) %>% 
-  select(family, status, mean_mort_reduction) %>% 
+  select(family, status, mean_abs_mort_reduction) %>% 
   distinct() %>% 
   pivot_wider(names_from = status,
-              values_from = mean_mort_reduction) %>% 
-  clean_names() %>% 
+              values_from = mean_abs_mort_reduction) %>% 
+  clean_names()  %>% 
   group_by(family) %>% 
   summarise(diff = corrected - uncorrected) %>% 
   ungroup() %>% 
-  mutate(mean_diff = mean(diff))
+  mutate(mean_diff = mean(diff)) %>% 
+  mutate(diff = round(diff * 100, 4))
 ```
 
 
