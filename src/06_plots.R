@@ -2211,7 +2211,7 @@ p <- ggplot(eq %>% filter(corrected == "yes")) +
   facet_wrap(~mort_scenario, nrow = 4, scales = "free_y") +
   theme_bw(base_size = 16) +
   labs(
-    x = "Fishing Pressure (value * Fmsy)",
+    x = "Fishing Pressure (Fmsy Multiplier)",
     y = "N/K"
   ) +
   theme(
