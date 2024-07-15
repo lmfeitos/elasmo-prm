@@ -709,7 +709,7 @@ obs_count_plot <-
     panel.grid.major.y = element_blank()
   )
 
-ggsave(obs_count_plot, file = paste0("figS14.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
+ggsave(obs_count_plot, file = paste0("figS13.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
 
 # Figure 2
 # function to preform and extract quantile estimates from random forest
