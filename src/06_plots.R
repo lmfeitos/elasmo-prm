@@ -1258,8 +1258,8 @@ p4 <- ggplot(data = IQR_analysis, aes(reproductive_mode)) +
   scale_color_viridis_d() +
   scale_fill_viridis_d() +
   labs(
-    x = "Count",
-    y = "Reproductive Mode",
+    y = "Proportion",
+    x = "Reproductive Mode",
     color = "Uncertainty",
     fill = "Uncertainty"
   )
@@ -1271,15 +1271,15 @@ p5 <- ggplot(data = IQR_analysis, aes(ventilation_method)) +
   scale_color_viridis_d() +
   scale_fill_viridis_d() +
   labs(
-    x = "Count",
-    y = "Ventilation Method",
+    y = "Proportion",
+    x = "Ventilation Method",
     color = "Uncertainty",
     fill = "Uncertainty"
   )
 
 plot <- p2 / p1 / (p3 / p4 / p5) + plot_layout(guides = "collect") + plot_annotation(tag_levels = "A")
 
-ggsave(plot, file = paste0("figS3.pdf"), path = here::here("figs", "supp"), height = 20, width = 20)
+ggsave(plot, file = paste0("figS3.pdf"), path = here::here("figs", "supp"), height = 25, width = 20)
 
 # Figures 4 and S4 --------------------------------------------------------
 
@@ -2211,7 +2211,7 @@ p <- ggplot(eq %>% filter(corrected == "yes")) +
   facet_wrap(~mort_scenario, nrow = 4, scales = "free_y") +
   theme_bw(base_size = 16) +
   labs(
-    x = "Fishing Pressure",
+    x = "Fishing Pressure (value * Fmsy)",
     y = "N/K"
   ) +
   theme(
@@ -2222,7 +2222,7 @@ p <- ggplot(eq %>% filter(corrected == "yes")) +
     axis.title = element_text(color = "black"),
     axis.text = element_text(color = "black"),
     legend.position = "none"
-  )
+  ) 
 p
 
 ggsave(p, file = paste0("figS12.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
