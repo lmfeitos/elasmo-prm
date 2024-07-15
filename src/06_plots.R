@@ -494,7 +494,7 @@ mort_proportions_plot <-
 
 mort_proportions_plot
 
-ggsave(mort_proportions_plot, file = paste0("fig1.pdf"), path = here::here("figs"), height = 10, width = 12)
+ggsave(mort_proportions_plot, file = paste0("fig1.pdf"), path = here::here("figs"), height = 12, width = 12)
 
 ## Figure S1
 
@@ -672,7 +672,7 @@ mort_proportions_plot_bat <-
 
 mort_proportions_plot_bat
 
-ggsave(mort_proportions_plot_bat, file = paste0("figS1.pdf"), path = here::here("figs", "supp"), height = 12, width = 15)
+ggsave(mort_proportions_plot_bat, file = paste0("figS1.pdf"), path = here::here("figs", "supp"), height = 15, width = 15)
 
 # Figure S14
 obs_count_plot <-
@@ -700,7 +700,7 @@ obs_count_plot <-
     x = "",
     y = "Number of observations per species"
   ) +
-  theme_bw() +
+  theme_bw(base_size=16) +
   theme(
     axis.text.y = element_text(color = "black", size = 10, face = "italic"),
     axis.text.x = element_text(color = "black", size = 10),
@@ -975,7 +975,7 @@ p6 <- ggplot() +
   scale_color_viridis_d() +
   facet_grid(
     ~ factor(estimate_type,
-      levels = c("AVM Longline", "PRM Longline", "AVM Gillnet")
+      levels = c("AVM Gillnet", "AVM Longline", "PRM Longline")
     ),
     scales = "free_x",
     space = "free_x"
@@ -1199,7 +1199,7 @@ p1 <- ggplot(data = IQR_analysis, aes(avm_mort, avm_pred)) +
   stat_poly_line() +
   stat_poly_eq(use_label("eq")) +
   stat_poly_eq(label.y = 0.9) +
-  theme_bw() +
+  theme_bw(base_size = 16) +
   labs(
     x = "Observed PRM Rate",
     y = "Predicted PRM Rate"
@@ -1217,7 +1217,7 @@ p1 <- ggplot(data = IQR_analysis, aes(avm_mort, avm_pred)) +
 
 p2 <- ggplot(data = IQR_analysis %>% filter(family %in% fam_level), aes(avm_pred, fct_rev(factor(family, levels = fam_level)))) +
   geom_point(aes(color = IQR_cat_avm)) +
-  theme_bw() +
+  theme_bw(base_size = 16) +
   scale_color_viridis_d() +
   labs(
     x = "Predicted Longline AVM",
@@ -1237,7 +1237,7 @@ p2 <- ggplot(data = IQR_analysis %>% filter(family %in% fam_level), aes(avm_pred
 
 p3 <- ggplot(data = IQR_analysis, aes(median_depth, avm_pred)) +
   geom_point(aes(color = IQR_cat_avm)) +
-  theme_bw() +
+  theme_bw(base_size = 16) +
   scale_color_viridis_d() +
   labs(
     x = "Median Depth",
@@ -1253,7 +1253,7 @@ p3 <- ggplot(data = IQR_analysis, aes(median_depth, avm_pred)) +
 
 p4 <- ggplot(data = IQR_analysis, aes(reproductive_mode)) +
   geom_bar(aes(color = IQR_cat_avm, fill = IQR_cat_avm), position = "fill") +
-  theme_bw() +
+  theme_bw(base_size = 16) +
   coord_flip() +
   scale_color_viridis_d() +
   scale_fill_viridis_d() +
@@ -1267,7 +1267,7 @@ p4 <- ggplot(data = IQR_analysis, aes(reproductive_mode)) +
 p5 <- ggplot(data = IQR_analysis, aes(ventilation_method)) +
   geom_bar(aes(color = IQR_cat_avm, fill = IQR_cat_avm), position = "fill") +
   coord_flip() +
-  theme_bw() +
+  theme_bw(base_size = 16) +
   scale_color_viridis_d() +
   scale_fill_viridis_d() +
   labs(
@@ -1599,7 +1599,7 @@ prop2 <-
   coord_polar(start = 0) +
   geom_text(
     data = label_data_m,
-    aes(x = id, y = (abs_diff * 100) + 10, label = common_name, angle = angle),
+    aes(x = id, y = 25, label = common_name, angle = angle),
     nudge_x = -0.25, nudge_y = 0.25,
     color = "black", size = 4, inherit.aes = FALSE
   ) +
@@ -1709,7 +1709,7 @@ prop3 <-
   coord_polar(start = 0) +
   geom_text(
     data = label_data_m,
-    aes(x = id, y = (abs_diff * 100) + 10, label = common_name, angle = angle),
+    aes(x = id, y = 30, label = common_name, angle = angle),
     nudge_x = -0.25, nudge_y = 0.25,
     color = "black", size = 4, inherit.aes = FALSE
   ) +
@@ -1736,7 +1736,7 @@ prop3 <-
   ) +
   guides(fill = guide_colorbar(ticks.colour = "black", frame.colour = "black")) 
 
-ggsave(prop3, file = paste0("figS4.pdf"), path = here::here("figs", "supp"), height = 20, width = 40) + plot_annotation(tag_levels = "A")
+ggsave(prop3, file = paste0("figS4.pdf"), path = here::here("figs", "supp"), height = 20, width = 40)
 
 # Figure 5 and S5-10 ----------------------------------------------------------------
 
@@ -1785,7 +1785,7 @@ no_cq_dd <- no_cq %>%
   filter(redlist_category == "DD")
 
 p1 <- ggplot() +
-  geom_rect(data = no_cq_cr, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.5, fill = as.factor(redlist_category))) +
+  geom_rect(data = no_cq_cr, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.6, fill = as.factor(redlist_category))) +
   geom_line(data = no_cq_cr, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_hline(
     yintercept = 0.5,
@@ -1822,7 +1822,7 @@ p1 <- ggplot() +
 ggsave(p1, file = paste0("figS5.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
 
 p2 <- ggplot() +
-  geom_rect(data = no_cq_en, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.85, fill = as.factor(redlist_category))) +
+  geom_rect(data = no_cq_en, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 2.1, fill = as.factor(redlist_category))) +
   geom_line(data = no_cq_en, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_hline(
     yintercept = 0.5,
@@ -1859,7 +1859,7 @@ p2 <- ggplot() +
 ggsave(p2, file = paste0("figS6.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
 
 p3 <- ggplot() +
-  geom_rect(data = no_cq_vu, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.85, fill = as.factor(redlist_category))) +
+  geom_rect(data = no_cq_vu, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 2.1, fill = as.factor(redlist_category))) +
   geom_line(data = no_cq_vu, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_hline(
     yintercept = 0.5,
@@ -1896,7 +1896,7 @@ p3 <- ggplot() +
 ggsave(p3, file = paste0("figS7.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
 
 p4 <- ggplot() +
-  geom_rect(data = no_cq_nt, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.65, fill = as.factor(redlist_category))) +
+  geom_rect(data = no_cq_nt, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.80, fill = as.factor(redlist_category))) +
   geom_line(data = no_cq_nt, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_hline(
     yintercept = 0.5,
@@ -1933,7 +1933,7 @@ p4 <- ggplot() +
 ggsave(p4, file = paste0("figS8.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
 
 p5 <- ggplot() +
-  geom_rect(data = no_cq_lc, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 2, fill = as.factor(redlist_category))) +
+  geom_rect(data = no_cq_lc, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.95, fill = as.factor(redlist_category))) +
   geom_line(data = no_cq_lc, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_hline(
     yintercept = 0.5,
@@ -1967,10 +1967,10 @@ p5 <- ggplot() +
   ) +
   coord_cartesian(clip = "off", ylim = c(0, 1))
 
-ggsave(p5, file = paste0("figS9.pdf"), path = here::here("figs", "supp"), height = 15, width = 18)
+ggsave(p5, file = paste0("figS9.pdf"), path = here::here("figs", "supp"), height = 18, width = 18)
 
 p6 <- ggplot() +
-  geom_rect(data = no_cq_dd, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.38, fill = as.factor(redlist_category))) +
+  geom_rect(data = no_cq_dd, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.46, fill = as.factor(redlist_category))) +
   geom_line(data = no_cq_dd, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_hline(
     yintercept = 0.5,
@@ -2051,7 +2051,7 @@ p <- ggplot() +
   ) +
   geom_rect(
     data = no_cq_sub,
-    aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.165, fill = as.factor(redlist_category))
+    aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.19, fill = as.factor(redlist_category))
   ) +
   geom_line(data = no_cq_sub %>% filter(!is.na(scenario)), aes(t, n_div_k, color = mort_scenario, group = total_mort), linewidth = 2) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
