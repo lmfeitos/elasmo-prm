@@ -1,12 +1,12 @@
-scientificname,mean_f,source
-Alopias vulpinus,0.5324390243902439,RAMLDB
-Carcharhinus acronotus,0.08368,RAMLDB
-Carcharhinus falciformis,0.313,RAMLDB
-Carcharhinus isodon,0.0019063333333333332,RAMLDB
-Carcharhinus limbatus,0.007107037037037037,RAMLDB
-Carcharhinus longimanus,0.34652173913043477,RAMLDB
-Carcharhinus obscurus,0.09944,RAMLDB
-Carcharhinus plumbeus,0.129075,RAMLDB
-Prionace glauca,0.34652173913043477,RAMLDB
-Rhizoprionodon terraenovae,0.121625,RAMLDB
-Sphyrna tiburo,0.18675,RAMLDB
+scientificname,commonname,mean_f_10,mean_f_5
+Alopias vulpinus,Thresher shark,0.28200000000000003,0.116
+Carcharhinus acronotus,Blacknose shark,0.221,0.2044
+Carcharhinus falciformis,Silky shark,0.313,0.313
+Carcharhinus isodon,Finetooth shark,0.004263,0.004232
+Carcharhinus limbatus,Blacktip shark,0.006192,0.005122
+Carcharhinus longimanus,Oceanic whitetip shark,0.151,0.128
+Carcharhinus obscurus,Dusky shark,0.156,0.061200000000000004
+Carcharhinus plumbeus,Sandbar shark,0.05797,0.041800000000000004
+Prionace glauca,Blue shark,0.151,0.128
+Rhizoprionodon terraenovae,Atlantic sharpnose shark,0.1549,0.1446
+Sphyrna tiburo,Bonnethead shark,0.1646,0.1194

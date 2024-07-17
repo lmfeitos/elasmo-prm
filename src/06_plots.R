@@ -176,7 +176,7 @@ gillnet_predictions_iucn <- gillnet_predictions %>%
 full_predictions <- full_join(longline_predictions_iucn, gillnet_predictions_iucn)
 
 # read in simulation results
-sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
+sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>%
@@ -187,7 +187,7 @@ sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
 
 write_csv(sim_results, here::here("data", "pct_mort_reduction_sim.csv"))
 
-sim_results_uncorrected <- read_csv(here::here("data", "uncorrected_results.csv")) %>%
+sim_results_uncorrected <- read_csv(here::here(basedir, "data", "uncorrected_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>%
@@ -199,10 +199,9 @@ sim_results_uncorrected <- read_csv(here::here("data", "uncorrected_results.csv"
 write_csv(sim_results_uncorrected, here::here("data", "pct_mort_reduction_sim_uncorrected.csv"))
 
 f_vals <- read_csv(here::here("data", "ramldb_f_means.csv")) %>%
-  rename(scientific_name = scientificname) %>%
-  select(-source)
+  rename(scientific_name = scientificname) 
 
-sim_results_2 <- read_csv(here::here("data", "simulation_results.csv")) %>%
+sim_results_2 <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario))
 
@@ -1325,15 +1324,25 @@ sim_results_iucn_pct <- sim_results_iucn_pct %>%
 #   theme_bw()
 
 f_val_sim <- left_join(f_vals, sim_results_iucn_pct) %>%
-  mutate(f_fmsy = mean_f / f) %>%
-  mutate(f_reduce = mean_f - mean_f * (percent_diff / 100)) %>%
-  mutate(success = case_when(
-    f_reduce <= f / 1.5 ~ "yes",
-    f_reduce > f / 1.5 ~ "no"
+  mutate(f_fmsy_5 = mean_f_5 / f,
+         f_fmsy_10 = mean_f_10 / f) %>%
+  mutate(f_reduce_5 = mean_f_5 - mean_f_5 * (percent_diff / 100),
+         f_reduce_10 = mean_f_10 - mean_f_10 * (percent_diff / 100)) %>%
+  mutate(success_5 = case_when(
+    f_reduce_5 <= f / 1.5 ~ "yes",
+    f_reduce_5 > f / 1.5 ~ "no"
   )) %>%
-  mutate(f_ratio = case_when(
-    f_fmsy >= 1 ~ "Originally Overfished",
-    f_fmsy < 1 ~ "Not originally overfished"
+  mutate(success_10 = case_when(
+    f_reduce_10 <= f / 1.5 ~ "yes",
+    f_reduce_10 > f / 1.5 ~ "no"
+  )) %>%
+  mutate(f_ratio_5 = case_when(
+    f_fmsy_5 >= 1 ~ "Originally Overfished",
+    f_fmsy_5 < 1 ~ "Not originally overfished"
+  )) %>% 
+  mutate(f_ratio_10 = case_when(
+    f_fmsy_10 >= 1 ~ "Originally Overfished",
+    f_fmsy_10 < 1 ~ "Not originally overfished"
   ))
 
 write_csv(f_val_sim, here::here("data", "f_reduce_f_msy_compare.csv"))
@@ -2022,15 +2031,16 @@ f_val_sim <- f_val_sim %>%
   mutate(name = paste0(common_name, " (", redlist_category, ")")) %>%
   mutate(name = ifelse(name == "Thresher (VU)", "Common thresher (VU)", name))
 
-p1 <- ggplot(data = f_val_sim, aes(f / 1.5, f_reduce)) +
+p1 <- ggplot(data = f_val_sim, aes(f / 1.5, f_reduce_5)) +
   geom_abline(linetype = "dashed") +
-  geom_point(aes(color = percent_diff, shape = f_ratio), size = 4) +
+  geom_point(aes(color = percent_diff, shape = f_ratio_5), size = 4) +
   theme_bw(base_size = 16) +
   scale_color_viridis_c() +
   labs(
     x = expression(F[MSY]), y = "Expected F with Retention Prohibition",
     color = "Percent Mortality \n Reduction from \n Retention Prohibition",
-    shape = ""
+    shape = "",
+    title = "Last 5 years of F"
   ) +
   annotate(geom = "text", label = "F[Retention] ==~ F[MSY]", x = 0.15, y = 0.2, parse = TRUE, size = 8) +
   geom_curve(aes(x = 0.15, y = 0.195, xend = 0.15, yend = 0.155), arrow = arrow(length = unit(0.1, "inches"))) +
@@ -2041,7 +2051,27 @@ p1 <- ggplot(data = f_val_sim, aes(f / 1.5, f_reduce)) +
   ) +
   guides(color = guide_colorbar(ticks.colour = "black", frame.colour = "black"))
 
-p1
+p2 <- ggplot(data = f_val_sim, aes(f / 1.5, f_reduce_10)) +
+  geom_abline(linetype = "dashed") +
+  geom_point(aes(color = percent_diff, shape = f_ratio_10), size = 4) +
+  theme_bw(base_size = 16) +
+  scale_color_viridis_c() +
+  labs(
+    x = expression(F[MSY]), y = "Expected F with Retention Prohibition",
+    color = "Percent Mortality \n Reduction from \n Retention Prohibition",
+    shape = "",
+    title = "Last 10 years of F"
+  ) +
+  annotate(geom = "text", label = "F[Retention] ==~ F[MSY]", x = 0.15, y = 0.2, parse = TRUE, size = 8) +
+  geom_curve(aes(x = 0.15, y = 0.195, xend = 0.15, yend = 0.155), arrow = arrow(length = unit(0.1, "inches"))) +
+  geom_label_repel(aes(label = name), size = 5, vjust = "outward", hjust = "outward", alpha = 0.75) +
+  theme(
+    legend.key.size = unit(8, "mm"),
+    panel.grid.minor = element_blank()
+  ) +
+  guides(color = guide_colorbar(ticks.colour = "black", frame.colour = "black"))
+
+p1 / p2 + plot_layout(guides = "collect")
 
 p <- ggplot() +
   geom_hline(
