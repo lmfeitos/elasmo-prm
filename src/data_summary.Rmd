@@ -375,6 +375,20 @@ ram_ts_val_df <- ram_ts_val %>%
   ungroup() %>% 
   distinct(scientificname, commonname, mean_f_10, mean_f_5)
 
+
+write_csv(ram_ts_val_df, file = here::here("data", "ramldb_f_means.csv"))
+
+overfishing_med <- ram_ts_val %>% 
+  clean_names() %>% 
+  left_join(ram_stock, by = c("stockid", "stocklong")) %>% 
+  select(scientificname, commonname, stockid, f, year) %>% 
+  filter(scientificname %in% c("Carcharhinus plumbeus", "Carcharhinus acronotus", "Carcharhinus obscurus", "Alopias vulpinus")) %>% 
+  filter(f < 5) %>% 
+  group_by(scientificname) %>% 
+  slice_tail(n = 10) %>% 
+  ungroup() %>% 
+  mutate(med_f = median(f)) # median F for spp experiencing overfishing = 0.133
+
 write_csv(ram_ts_val_df, file = here::here("data", "ramldb_f_means.csv"))
 ```
 
