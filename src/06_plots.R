@@ -176,7 +176,7 @@ gillnet_predictions_iucn <- gillnet_predictions %>%
 full_predictions <- full_join(longline_predictions_iucn, gillnet_predictions_iucn)
 
 # read in simulation results
-sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
+sim_results <- read_csv(here::here( "data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>%
@@ -187,7 +187,7 @@ sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %
 
 write_csv(sim_results, here::here("data", "pct_mort_reduction_sim.csv"))
 
-sim_results_uncorrected <- read_csv(here::here(basedir, "data", "uncorrected_results.csv")) %>%
+sim_results_uncorrected <- read_csv(here::here( "data", "uncorrected_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>%
@@ -201,7 +201,7 @@ write_csv(sim_results_uncorrected, here::here("data", "pct_mort_reduction_sim_un
 f_vals <- read_csv(here::here("data", "ramldb_f_means.csv")) %>%
   rename(scientific_name = scientificname) 
 
-sim_results_2 <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
+sim_results_2 <- read_csv(here::here("data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario))
 
@@ -1300,7 +1300,9 @@ sim_results_iucn_pct <- sim_results_iucn %>%
     abs_diff = f - f_mort,
     avm_prm = mid_avm + mid_prm
   ) %>%
-  mutate(percent_diff = round(percent_diff, 4))
+  mutate(percent_diff = round(percent_diff, 4)) %>% 
+  mutate(f_max = (f) / (1 - (percent_diff/100))) %>% 
+  mutate(f_fmsy = f_max / f)
 
 write_csv(sim_results_iucn_pct, here::here("data", "sim_results_pct_diff.csv"))
 
@@ -2123,6 +2125,8 @@ mean_mort_reduction_fam <- pct_mort_reduction %>%
   distinct() %>%
   mutate(percent_diff = (f - f_mort) / f * 100) %>%
   mutate(abs_diff = f - f_mort) %>% 
+  mutate(f_max = (f) / (1 - (percent_diff/100))) %>% 
+  mutate(f_fmsy = f_max / f) %>% 
   left_join(iucn_taxonomy, by = "scientific_name") %>% 
   left_join(iucn_join, by = "family") %>% 
   #mutate(threat = ifelse(redlist_category %in% c("CR", "VU", "EN"), "threatened", "not threatened")) %>%
@@ -2153,6 +2157,8 @@ mean_mort_reduction_fam_unc <- pct_mort_reduction_uncorrected %>%
   distinct() %>%
   mutate(percent_diff = (f - f_mort) / f * 100) %>%
   mutate(abs_diff = f - f_mort) %>% 
+  mutate(f_max = (f) / (1 - (percent_diff/100))) %>% 
+  mutate(f_fmsy = f_max / f) %>% 
   left_join(iucn_taxonomy, by = "scientific_name") %>% 
   left_join(iucn_join, by = "family") %>% 
   #mutate(threat = ifelse(redlist_category %in% c("CR", "VU", "EN"), "threatened", "not threatened")) %>%
@@ -2265,6 +2271,8 @@ percent_calc <- sim_results %>%
   distinct() %>%
   mutate(percent_diff = (f - f_mort) / f * 100,
          abs_diff = f-f_mort) %>%
+  mutate(f_max = (f) / (1 - (percent_diff/100))) %>% 
+  mutate(f_fmsy = f_max / f) %>% 
   group_by(fp, corrected) %>%
   mutate(mean_percent_diff = mean(percent_diff, na.rm = TRUE),
          mean_abs_diff = mean(abs_diff, na.rm = TRUE)) %>%
