@@ -2295,6 +2295,21 @@ percent_calc <- sim_results %>%
   ) %>%
   ungroup()
 
+p1 <- ggplot(data = percent_calc, aes(f_fmsy, fct_reorder(scientific_name, f_fmsy))) +
+  geom_point(aes(color = percent_diff), size = 4) +
+  theme_bw(base_size = 16) +
+  scale_color_viridis_c() +
+  labs(
+    x = "F / FMSY",
+    y = "",
+    color = "Percent Change"
+  ) +
+  theme(
+    legend.key.size = unit(8, "mm"),
+    panel.grid.minor = element_blank()
+  ) +
+  guides(color = guide_colorbar(ticks.colour = "black", frame.colour = "black"))
+
 sim_200 <- sim_results %>%
   filter(t == 200) %>%
   filter(corrected == "yes") %>%
