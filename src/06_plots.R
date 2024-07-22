@@ -113,7 +113,7 @@ iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>%
     str_detect(redlist_category, "Least") ~ "LC",
     TRUE ~ redlist_category
   )) %>%
-  filter(!str_detect(scientific_name, "Parmaturus|Bythaelurus|Cirrhoscyllium|Proscyllium|Megachasma|Cetorhinus|Rhincodon ")) 
+  filter(!str_detect(scientific_name, "Parmaturus|Bythaelurus|Cirrhoscyllium|Proscyllium|Megachasma|Cetorhinus|Rhincodon "))
 
 # read in taxonomic assigmnets of IUCN data
 iucn_taxonomy <- read_csv(here("data", "iucn_data", "taxonomy.csv")) %>%
@@ -123,19 +123,21 @@ iucn_taxonomy <- read_csv(here("data", "iucn_data", "taxonomy.csv")) %>%
   unite(col = "scientific_name", c(genus_name, species_name), sep = " ")
 
 # join IUCN assessement and taxonomic datasets and calcualte sp count per family and redlist category
-iucn_join <- iucn_data %>% 
-  left_join(iucn_taxonomy, by = "scientific_name") %>% 
-  mutate(threat = ifelse(redlist_category %in% c("CR", "EN", "VU"), "threatened", "not threatened")) %>% 
-  group_by(family) %>% 
-  mutate(sp_count = n()) %>% 
-  ungroup() %>% 
-  group_by(family, threat) %>% 
-  summarise(sp_count_threat = n()) %>% 
-  ungroup() %>% 
-  group_by(family) %>% 
-  mutate(total_sp_count = sum(sp_count_threat),
-         sp_threat_pct = sp_count_threat / total_sp_count)
-         
+iucn_join <- iucn_data %>%
+  left_join(iucn_taxonomy, by = "scientific_name") %>%
+  mutate(threat = ifelse(redlist_category %in% c("CR", "EN", "VU"), "threatened", "not threatened")) %>%
+  group_by(family) %>%
+  mutate(sp_count = n()) %>%
+  ungroup() %>%
+  group_by(family, threat) %>%
+  summarise(sp_count_threat = n()) %>%
+  ungroup() %>%
+  group_by(family) %>%
+  mutate(
+    total_sp_count = sum(sp_count_threat),
+    sp_threat_pct = sp_count_threat / total_sp_count
+  )
+
 
 # read in the AVM PRM model predictions
 longline_predictions <- read_csv(here::here("data", "full_model_predictions.csv")) %>%
@@ -176,18 +178,18 @@ gillnet_predictions_iucn <- gillnet_predictions %>%
 full_predictions <- full_join(longline_predictions_iucn, gillnet_predictions_iucn)
 
 # read in simulation results
-sim_results <- read_csv(here::here( "data", "simulation_results.csv")) %>%
+sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>%
-  filter(mort_scenario == "BAU" | mort_scenario == "Median Mortality") %>% 
+  filter(mort_scenario == "BAU" | mort_scenario == "Median Mortality") %>%
   mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1 - mid_avm) * (1 - mid_prm)))) / 100) %>%
   select(scientific_name, f, f_mort, mid_avm, mid_prm) %>%
   distinct()
 
 write_csv(sim_results, here::here("data", "pct_mort_reduction_sim.csv"))
 
-sim_results_uncorrected <- read_csv(here::here( "data", "uncorrected_results.csv")) %>%
+sim_results_uncorrected <- read_csv(here::here("data", "uncorrected_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>%
@@ -199,7 +201,7 @@ sim_results_uncorrected <- read_csv(here::here( "data", "uncorrected_results.csv
 write_csv(sim_results_uncorrected, here::here("data", "pct_mort_reduction_sim_uncorrected.csv"))
 
 f_vals <- read_csv(here::here("data", "ramldb_f_means.csv")) %>%
-  rename(scientific_name = scientificname) 
+  rename(scientific_name = scientificname)
 
 sim_results_2 <- read_csv(here::here("data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
@@ -699,7 +701,7 @@ obs_count_plot <-
     x = "",
     y = "Number of observations per species"
   ) +
-  theme_bw(base_size=16) +
+  theme_bw(base_size = 16) +
   theme(
     axis.text.y = element_text(color = "black", size = 10, face = "italic"),
     axis.text.x = element_text(color = "black", size = 10),
@@ -1300,9 +1302,7 @@ sim_results_iucn_pct <- sim_results_iucn %>%
     abs_diff = f - f_mort,
     avm_prm = mid_avm + mid_prm
   ) %>%
-  mutate(percent_diff = round(percent_diff, 4)) %>% 
-  mutate(f_max = (f) / (1 - (percent_diff/100))) %>% 
-  mutate(f_fmsy = f_max / f)
+  mutate(percent_diff = round(percent_diff, 4))
 
 write_csv(sim_results_iucn_pct, here::here("data", "sim_results_pct_diff.csv"))
 
@@ -1326,10 +1326,14 @@ sim_results_iucn_pct <- sim_results_iucn_pct %>%
 #   theme_bw()
 
 f_val_sim <- left_join(f_vals, sim_results_iucn_pct) %>%
-  mutate(f_fmsy_5 = mean_f_5 / f,
-         f_fmsy_10 = mean_f_10 / f) %>%
-  mutate(f_reduce_5 = mean_f_5 - mean_f_5 * (percent_diff / 100),
-         f_reduce_10 = mean_f_10 - mean_f_10 * (percent_diff / 100)) %>%
+  mutate(
+    f_fmsy_5 = mean_f_5 / f,
+    f_fmsy_10 = mean_f_10 / f
+  ) %>%
+  mutate(
+    f_reduce_5 = mean_f_5 - mean_f_5 * (percent_diff / 100),
+    f_reduce_10 = mean_f_10 - mean_f_10 * (percent_diff / 100)
+  ) %>%
   mutate(success_5 = case_when(
     f_reduce_5 <= f / 1.5 ~ "yes",
     f_reduce_5 > f / 1.5 ~ "no"
@@ -1341,7 +1345,7 @@ f_val_sim <- left_join(f_vals, sim_results_iucn_pct) %>%
   mutate(f_ratio_5 = case_when(
     f_fmsy_5 >= 1 ~ "Originally Overfished",
     f_fmsy_5 < 1 ~ "Not originally overfished"
-  )) %>% 
+  )) %>%
   mutate(f_ratio_10 = case_when(
     f_fmsy_10 >= 1 ~ "Originally Overfished",
     f_fmsy_10 < 1 ~ "Not originally overfished"
@@ -1364,23 +1368,28 @@ non_threat <- sim_results_iucn_pct %>%
   filter(redlist_category %in% c("DD", "NT", "LC")) %>%
   rowid_to_column("id") %>%
   mutate(id = fct_reorder(as.factor(id), percent_diff)) %>%
-  mutate(mean_percent_diff = mean(percent_diff, na.rm = TRUE),  
+  mutate(
+    mean_percent_diff = mean(percent_diff, na.rm = TRUE),
     redlist_category = as.factor(redlist_category),
     diff_bin = as.factor(diff_bin)
   ) %>%
   arrange(id) %>%
-  select(-scientific_name) 
+  select(-scientific_name)
 
 # calculate average mortality reductions per threat status
 threatended <- sim_results_iucn_pct %>%
   filter(redlist_category %in% c("VU", "EN", "CR")) %>%
-  mutate(mean_percent_diff = mean(percent_diff, na.rm = TRUE),
-         mean_abs_diff = mean(abs_diff, na.rm = TRUE))
+  mutate(
+    mean_percent_diff = mean(percent_diff, na.rm = TRUE),
+    mean_abs_diff = mean(abs_diff, na.rm = TRUE)
+  )
 
 non_threat_mean <- non_threat %>%
   filter(redlist_category %in% c("DD", "NT", "LC")) %>%
-  mutate(mean_percent_diff = mean(percent_diff, na.rm = TRUE),
-         mean_abs_diff = mean(abs_diff, na.rm = TRUE))
+  mutate(
+    mean_percent_diff = mean(percent_diff, na.rm = TRUE),
+    mean_abs_diff = mean(abs_diff, na.rm = TRUE)
+  )
 
 sim_results_iucn_pct_sum_stats <- sim_results_iucn_pct %>%
   group_by(redlist_category) %>%
@@ -1406,9 +1415,11 @@ sim_results_iucn_pct_plot_m_ave <- sim_results_iucn_pct %>%
     sd_percent_diff = sd(percent_diff, na.rm = TRUE),
     mean_abs_diff = mean(abs_diff, na.rm = TRUE),
     sd_abs_diff = sd(abs_diff, na.rm = TRUE)
-  ) %>% 
-  mutate(mean_abs_diff = mean_abs_diff * 100,
-         sd_abs_diff = sd_abs_diff * 100)
+  ) %>%
+  mutate(
+    mean_abs_diff = mean_abs_diff * 100,
+    sd_abs_diff = sd_abs_diff * 100
+  )
 
 # get average relative mortality reductions per main fished family
 diff_fam <- sim_results_iucn_pct %>%
@@ -1428,14 +1439,14 @@ diff_fam_abs <- sim_results_iucn_pct %>%
 # sim_results_iucn_pct_threat <- rbind(sim_results_iucn_pct_threat, to_add)
 # sim_results_iucn_pct_threat <- sim_results_iucn_pct_threat %>% arrange(diff_bin)
 # sim_results_iucn_pct_threat$id <- seq(1, nrow(sim_results_iucn_pct_threat))
-# 
+#
 # # get the name and the y position of each label
 # label_data_m <- sim_results_iucn_pct_threat
 # number_of_bar <- nrow(label_data_m)
 # angle <- 90 - 360 * (label_data_m$id - 0.5) / number_of_bar
 # label_data_m$hjust <- ifelse(angle < -90, 1, 0)
 # label_data_m$angle <- ifelse(angle < -90, angle + 180, angle)
-# 
+#
 # # Not sure how to use the code below
 # redlist_breaks <- sim_results_iucn_pct_threat %>%
 #   group_by(diff_bin) %>%
@@ -1450,17 +1461,17 @@ diff_fam_abs <- sim_results_iucn_pct %>%
 #     end = data.table::shift(end + 1, n = 1, type = "shift", fill = max(end) + 1),
 #     start = start - 1
 #   )
-# 
+#
 # max_value <- max(sim_results_iucn_pct_threat$percent_diff, na.rm = T)
-# 
+#
 # y_max <- 20 * ceiling(max_value / 20)
-# 
+#
 # v <- c(20, 40, 60, 80, 100)
-# 
+#
 # redlist_breaks <- redlist_breaks %>%
 #   mutate(v = list(v)) %>%
 #   unnest(cols = c(v))
-# 
+#
 # prop1 <-
 #   ggplot(data = sim_results_iucn_pct_threat) +
 #   geom_segment(
@@ -1517,9 +1528,9 @@ diff_fam_abs <- sim_results_iucn_pct %>%
 #     x = "",
 #     y = ""
 #   )
-# 
+#
 lolli_data1 <- threatended %>%
-  select(scientific_name, f, f_mort, avm_prm, abs_diff, diff_bin, common_name, percent_diff)%>%
+  select(scientific_name, f, f_mort, avm_prm, abs_diff, diff_bin, common_name, percent_diff) %>%
   mutate(id = fct_reorder(as.factor(common_name), abs_diff))
 
 # lolli1 <- ggplot(lolli_data1, aes(x = id, y = abs_diff)) +
@@ -1576,18 +1587,18 @@ redlist_breaks <- redlist_breaks %>%
   unnest(cols = c(v))
 
 prop2 <-
-  ggplot(data = lolli_data1 %>% 
-           group_by(diff_bin) %>% 
-           mutate(id = fct_reorder(as.factor(id), abs_diff))) +
-    geom_segment(
-      data = redlist_breaks %>%
-        filter(v != 100),
-      aes(x = end, y = v, xend = start, yend = v),
-      color = "grey", linewidth = 0.3, inherit.aes = FALSE
-    ) +
-    annotate("text",
-             x = rep(max(lolli_data1$id, length(v))),
-             y = v, label = paste0(head(v), "%"), color = "grey", size = 5, angle = 0, fontface = "bold", hjust = 1
+  ggplot(data = lolli_data1 %>%
+    group_by(diff_bin) %>%
+    mutate(id = fct_reorder(as.factor(id), abs_diff))) +
+  geom_segment(
+    data = redlist_breaks %>%
+      filter(v != 100),
+    aes(x = end, y = v, xend = start, yend = v),
+    color = "grey", linewidth = 0.3, inherit.aes = FALSE
+  ) +
+  annotate("text",
+    x = rep(max(lolli_data1$id, length(v))),
+    y = v, label = paste0(head(v), "%"), color = "grey", size = 5, angle = 0, fontface = "bold", hjust = 1
   ) +
   geom_col(
     aes(
@@ -1595,13 +1606,13 @@ prop2 <-
       y = abs_diff * 100,
       fill = percent_diff
     ),
-    #show.legend = F,
+    # show.legend = F,
     width = 0.8
   ) +
   ylim(-40, NA) +
   scale_fill_viridis_c() + # manual(values = c("#E31A1C", "#FD8D3C", "#FED976")) +
   scale_x_discrete() +
-    theme(
+  theme(
     axis.title = element_blank(),
     axis.text = element_blank(),
     panel.grid = element_blank(),
@@ -1626,7 +1637,7 @@ prop2 <-
     show.legend = F,
     hjust = 0.5, alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE
   ) +
-  #scale_color_viridis_d() + # (values = c("#E31A1C", "#FD8D3C", "#FED976")) +
+  # scale_color_viridis_d() + # (values = c("#E31A1C", "#FD8D3C", "#FED976")) +
   # geom_text(data = redlist_breaks,
   #             aes(x = title, y = 48, label = redlist_category),  colour = "black", alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE) +
   labs(fill = "Percent difference\n in mortality") + # y = 80
@@ -1635,14 +1646,14 @@ prop2 <-
     x = "",
     y = ""
   ) +
-  guides(fill = guide_colorbar(ticks.colour = "black", frame.colour = "black")) 
+  guides(fill = guide_colorbar(ticks.colour = "black", frame.colour = "black"))
 
 ggsave(prop2, file = paste0("fig4.pdf"), path = here::here("figs"), height = 20, width = 40) + plot_annotation(tag_levels = "A")
 
 # Set a number of empty bars to add at the end of each group
 lolli_data2 <- non_threat_mean %>%
   select(f, f_mort, avm_prm, abs_diff, diff_bin, common_name, percent_diff) %>%
-  mutate(id = fct_reorder(as.factor(common_name), abs_diff)) 
+  mutate(id = fct_reorder(as.factor(common_name), abs_diff))
 
 empty_bar <- 7
 to_add <- data.frame(matrix(NA, empty_bar * nlevels(lolli_data2$diff_bin), ncol(lolli_data2)))
@@ -1686,9 +1697,9 @@ redlist_breaks <- redlist_breaks %>%
   unnest(cols = c(v))
 
 prop3 <-
-  ggplot(data = lolli_data2 %>% 
-           group_by(diff_bin) %>% 
-           mutate(id = fct_reorder(as.factor(id), abs_diff))) +
+  ggplot(data = lolli_data2 %>%
+    group_by(diff_bin) %>%
+    mutate(id = fct_reorder(as.factor(id), abs_diff))) +
   geom_segment(
     data = redlist_breaks %>%
       filter(v != 100),
@@ -1696,8 +1707,8 @@ prop3 <-
     color = "grey", linewidth = 0.3, inherit.aes = FALSE
   ) +
   annotate("text",
-           x = rep(max(lolli_data2$id, length(v))),
-           y = v - 5, label = paste0(head(v), "%"), color = "grey", size = 5, angle = 0, fontface = "bold", hjust = 0.7
+    x = rep(max(lolli_data2$id, length(v))),
+    y = v - 5, label = paste0(head(v), "%"), color = "grey", size = 5, angle = 0, fontface = "bold", hjust = 0.7
   ) +
   geom_col(
     aes(
@@ -1705,7 +1716,7 @@ prop3 <-
       y = abs_diff * 100,
       fill = percent_diff,
     ),
-    #show.legend = F,
+    # show.legend = F,
     width = 0.8
   ) +
   ylim(-40, NA) +
@@ -1736,7 +1747,7 @@ prop3 <-
     show.legend = F,
     hjust = 0.5, alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE
   ) +
-  #scale_color_viridis_d() + # (values = c("#E31A1C", "#FD8D3C", "#FED976")) +
+  # scale_color_viridis_d() + # (values = c("#E31A1C", "#FD8D3C", "#FED976")) +
   # geom_text(data = redlist_breaks,
   #             aes(x = title, y = 48, label = redlist_category),  colour = "black", alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE) +
   labs(fill = "Percent difference\nin mortality") + # y = 80
@@ -1745,7 +1756,7 @@ prop3 <-
     x = "",
     y = ""
   ) +
-  guides(fill = guide_colorbar(ticks.colour = "black", frame.colour = "black")) 
+  guides(fill = guide_colorbar(ticks.colour = "black", frame.colour = "black"))
 
 ggsave(prop3, file = paste0("figS4.pdf"), path = here::here("figs", "supp"), height = 20, width = 40)
 
@@ -2124,12 +2135,10 @@ mean_mort_reduction_fam <- pct_mort_reduction %>%
   select(scientific_name, f, f_mort) %>%
   distinct() %>%
   mutate(percent_diff = (f - f_mort) / f * 100) %>%
-  mutate(abs_diff = f - f_mort) %>% 
-  mutate(f_max = (f) / (1 - (percent_diff/100))) %>% 
-  mutate(f_fmsy = f_max / f) %>% 
-  left_join(iucn_taxonomy, by = "scientific_name") %>% 
-  left_join(iucn_join, by = "family") %>% 
-  #mutate(threat = ifelse(redlist_category %in% c("CR", "VU", "EN"), "threatened", "not threatened")) %>%
+  mutate(abs_diff = f - f_mort) %>%
+  left_join(iucn_taxonomy, by = "scientific_name") %>%
+  left_join(iucn_join, by = "family") %>%
+  # mutate(threat = ifelse(redlist_category %in% c("CR", "VU", "EN"), "threatened", "not threatened")) %>%
   group_by(family) %>%
   mutate(
     mean_mort_reduction = mean(percent_diff),
@@ -2151,17 +2160,15 @@ mean_mort_reduction_fam <- pct_mort_reduction %>%
   )) %>%
   mutate(status = "Corrected")
 
-mean_mort_reduction_fam_unc <- pct_mort_reduction_uncorrected %>% 
+mean_mort_reduction_fam_unc <- pct_mort_reduction_uncorrected %>%
   mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1 - mid_avm) * (1 - mid_prm)))) / 100) %>%
   select(scientific_name, f, f_mort) %>%
   distinct() %>%
   mutate(percent_diff = (f - f_mort) / f * 100) %>%
-  mutate(abs_diff = f - f_mort) %>% 
-  mutate(f_max = (f) / (1 - (percent_diff/100))) %>% 
-  mutate(f_fmsy = f_max / f) %>% 
-  left_join(iucn_taxonomy, by = "scientific_name") %>% 
-  left_join(iucn_join, by = "family") %>% 
-  #mutate(threat = ifelse(redlist_category %in% c("CR", "VU", "EN"), "threatened", "not threatened")) %>%
+  mutate(abs_diff = f - f_mort) %>%
+  left_join(iucn_taxonomy, by = "scientific_name") %>%
+  left_join(iucn_join, by = "family") %>%
+  # mutate(threat = ifelse(redlist_category %in% c("CR", "VU", "EN"), "threatened", "not threatened")) %>%
   group_by(family) %>%
   mutate(
     mean_mort_reduction = mean(percent_diff),
@@ -2171,11 +2178,12 @@ mean_mort_reduction_fam_unc <- pct_mort_reduction_uncorrected %>%
   mutate(
     mean_abs_mort_reduction = mean(abs_diff),
     sd_abs_mort_reduction = sd(abs_diff),
-    se_abs_mort_reduction = sd(abs_diff) / sqrt(n())) %>% 
+    se_abs_mort_reduction = sd(abs_diff) / sqrt(n())
+  ) %>%
   ungroup() %>%
-  group_by(family) %>% 
-  mutate(sp_count = n()) %>% 
-  ungroup() %>% 
+  group_by(family) %>%
+  mutate(sp_count = n()) %>%
+  ungroup() %>%
   filter(threat == "threatened") %>%
   mutate(sp_threat = case_when(
     sp_threat_pct < 0.25 ~ "<0.25",
@@ -2192,8 +2200,10 @@ write_csv(sim_join, file = here::here("data", "sim_pct_correct_uncorrect.csv"))
 mort_red_corrected <-
   ggplot(data = sim_join) +
   geom_point(aes(x = fct_reorder(family, mean_abs_mort_reduction), y = mean_abs_mort_reduction, size = sp_threat)) +
-  geom_linerange(aes(x = family, ymax = mean_abs_mort_reduction + se_abs_mort_reduction,
-                     ymin = mean_abs_mort_reduction - se_abs_mort_reduction)) +
+  geom_linerange(aes(
+    x = family, ymax = mean_abs_mort_reduction + se_abs_mort_reduction,
+    ymin = mean_abs_mort_reduction - se_abs_mort_reduction
+  )) +
   # geom_hline(
   #   yintercept = 50,
   #   linetype = "dashed"
@@ -2205,7 +2215,7 @@ mort_red_corrected <-
     x = "",
     size = "Proportion of\nthreatened species\nper family"
   ) +
-  scale_y_continuous(labels = scales::percent) + 
+  scale_y_continuous(labels = scales::percent) +
   scale_size_manual(values = c("<0.25" = 1, "<0.50" = 3, "<0.75" = 5, ">0.75" = 7)) +
   theme_bw() +
   theme(
@@ -2258,7 +2268,7 @@ p <- ggplot(eq %>% filter(corrected == "yes")) +
     axis.title = element_text(color = "black"),
     axis.text = element_text(color = "black"),
     legend.position = "none"
-  ) 
+  )
 p
 
 ggsave(p, file = paste0("figS12.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
@@ -2269,13 +2279,20 @@ percent_calc <- sim_results %>%
   mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1 - mid_avm) * (1 - mid_prm)))) / 100) %>%
   select(scientific_name, f, f_mort, fp, corrected) %>%
   distinct() %>%
-  mutate(percent_diff = (f - f_mort) / f * 100,
-         abs_diff = f-f_mort) %>%
-  mutate(f_max = (f) / (1 - (percent_diff/100))) %>% 
-  mutate(f_fmsy = f_max / f) %>% 
+  mutate(
+    percent_diff = (f - f_mort) / f * 100,
+    abs_diff = f - f_mort
+  ) %>%
+  mutate(f_max = (f) / (1 - (percent_diff / 100))) %>%
+  mutate(f_fmsy = case_when(
+    fp == 1 ~ (f_max / f),
+    TRUE ~ NA
+  )) %>%
   group_by(fp, corrected) %>%
-  mutate(mean_percent_diff = mean(percent_diff, na.rm = TRUE),
-         mean_abs_diff = mean(abs_diff, na.rm = TRUE)) %>%
+  mutate(
+    mean_percent_diff = mean(percent_diff, na.rm = TRUE),
+    mean_abs_diff = mean(abs_diff, na.rm = TRUE)
+  ) %>%
   ungroup()
 
 sim_200 <- sim_results %>%
@@ -2300,7 +2317,7 @@ nrow(mort_50) / 265 * 100
 
 output <- eq %>%
   left_join(percent_calc) %>%
-  select(-pop.array, -t, -mean_percent_diff, -mean_abs_diff,-total_mort, -scenario, -quota)%>%
+  select(-pop.array, -t, -mean_percent_diff, -mean_abs_diff, -total_mort, -scenario, -quota) %>%
   rename(
     simulation_avm = avm,
     simulation_prm = prm,
@@ -2316,9 +2333,9 @@ output <- eq %>%
     fishing_mort_rb = f_mort,
     msy_multiple_fishing = fp,
     avm_correction = corrected
-  )%>%
+  ) %>%
   select(
-    scientific_name, msy_multiple_fishing, fishing_mort_bau, fishing_mort_rb, percent_mort_diff,absolute_mort_diff,f_fmsy,
+    scientific_name, msy_multiple_fishing, fishing_mort_bau, fishing_mort_rb, percent_mort_diff, absolute_mort_diff, f_fmsy,
     mort_scenario, simulation_avm, simulation_prm, n_div_k,
     pred_avm_25, pred_avm_mean, pred_avm_75, pred_prm_25, pred_prm_mean, pred_prm_75, avm_correction
   )
