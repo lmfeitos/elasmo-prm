@@ -2318,7 +2318,7 @@ output <- eq %>%
     avm_correction = corrected
   )%>%
   select(
-    scientific_name, msy_multiple_fishing, fishing_mort_bau, fishing_mort_rb, percent_mort_diff,absolute_mort_diff,
+    scientific_name, msy_multiple_fishing, fishing_mort_bau, fishing_mort_rb, percent_mort_diff,absolute_mort_diff,f_fmsy,
     mort_scenario, simulation_avm, simulation_prm, n_div_k,
     pred_avm_25, pred_avm_mean, pred_avm_75, pred_prm_25, pred_prm_mean, pred_prm_75, avm_correction
   )
