@@ -1302,7 +1302,9 @@ sim_results_iucn_pct <- sim_results_iucn %>%
     abs_diff = f - f_mort,
     avm_prm = mid_avm + mid_prm
   ) %>%
-  mutate(percent_diff = round(percent_diff, 4))
+  mutate(percent_diff = round(percent_diff, 4))%>%
+  mutate(f_max = (f) / (1 - (percent_diff / 100))) %>%
+  mutate(f_fmsy = f_max / f) 
 
 write_csv(sim_results_iucn_pct, here::here("data", "sim_results_pct_diff.csv"))
 
@@ -1530,21 +1532,8 @@ diff_fam_abs <- sim_results_iucn_pct %>%
 #   )
 #
 lolli_data1 <- threatended %>%
-  select(scientific_name, f, f_mort, avm_prm, abs_diff, diff_bin, common_name, percent_diff) %>%
-  mutate(id = fct_reorder(as.factor(common_name), abs_diff))
-
-# lolli1 <- ggplot(lolli_data1, aes(x = id, y = abs_diff)) +
-#   geom_segment(aes(xend = id, yend = 0)) +
-#   geom_point(aes(color = percent_diff), size = 2) +
-#   coord_flip() +
-#   theme_bw(base_size = 16) +
-#   labs(
-#     x = "Species",
-#     y = "Absolute Difference in Mortality",
-#     color = "Percent Difference in Mortality"
-#   ) +
-#   scale_color_viridis_c()
-# lolli1
+  select(scientific_name, f, f_mort, avm_prm, f_fmsy, diff_bin, common_name, percent_diff) %>%
+  mutate(id = fct_reorder(as.factor(common_name), f_fmsy))
 
 empty_bar <- 7
 to_add <- data.frame(matrix(NA, empty_bar * nlevels(lolli_data1$diff_bin), ncol(lolli_data1)))
@@ -1576,7 +1565,7 @@ redlist_breaks <- lolli_data1 %>%
     start = start - 1
   )
 
-max_value <- max(lolli_data1$abs_diff, na.rm = T)
+max_value <- max(lolli_data1$f_fmsy, na.rm = T)
 
 y_max <- 20 * ceiling(max_value / 20)
 
@@ -1589,7 +1578,7 @@ redlist_breaks <- redlist_breaks %>%
 prop2 <-
   ggplot(data = lolli_data1 %>%
     group_by(diff_bin) %>%
-    mutate(id = fct_reorder(as.factor(id), abs_diff))) +
+    mutate(id = fct_reorder(as.factor(id), f_fmsy))) +
   geom_segment(
     data = redlist_breaks %>%
       filter(v != 100),
@@ -1598,19 +1587,19 @@ prop2 <-
   ) +
   annotate("text",
     x = rep(max(lolli_data1$id, length(v))),
-    y = v, label = paste0(head(v), "%"), color = "grey", size = 5, angle = 0, fontface = "bold", hjust = 1
+    y = v, label = paste0(head(v)), color = "grey", size = 5, angle = 0, fontface = "bold", hjust = 1
   ) +
   geom_col(
     aes(
       x = id,
-      y = abs_diff * 100,
-      fill = percent_diff
+      y = f_fmsy,
+      fill = diff_bin
     ),
     # show.legend = F,
     width = 0.8
   ) +
   ylim(-40, NA) +
-  scale_fill_viridis_c() + # manual(values = c("#E31A1C", "#FD8D3C", "#FED976")) +
+  scale_fill_viridis_d() + # manual(values = c("#E31A1C", "#FD8D3C", "#FED976")) +
   scale_x_discrete() +
   theme(
     axis.title = element_blank(),
@@ -1652,8 +1641,8 @@ ggsave(prop2, file = paste0("fig4.pdf"), path = here::here("figs"), height = 20,
 
 # Set a number of empty bars to add at the end of each group
 lolli_data2 <- non_threat_mean %>%
-  select(f, f_mort, avm_prm, abs_diff, diff_bin, common_name, percent_diff) %>%
-  mutate(id = fct_reorder(as.factor(common_name), abs_diff))
+  select(f, f_mort, avm_prm, f_fmsy, diff_bin, common_name, percent_diff) %>%
+  mutate(id = fct_reorder(as.factor(common_name), f_fmsy))
 
 empty_bar <- 7
 to_add <- data.frame(matrix(NA, empty_bar * nlevels(lolli_data2$diff_bin), ncol(lolli_data2)))
@@ -1686,7 +1675,7 @@ redlist_breaks <- lolli_data2 %>%
     start = start - 1
   )
 
-max_value <- max(lolli_data2$abs_diff, na.rm = T)
+max_value <- max(lolli_data2$f_fmsy, na.rm = T)
 
 y_max <- 20 * ceiling(max_value / 20)
 
@@ -1699,7 +1688,7 @@ redlist_breaks <- redlist_breaks %>%
 prop3 <-
   ggplot(data = lolli_data2 %>%
     group_by(diff_bin) %>%
-    mutate(id = fct_reorder(as.factor(id), abs_diff))) +
+    mutate(id = fct_reorder(as.factor(id), f_fmsy))) +
   geom_segment(
     data = redlist_breaks %>%
       filter(v != 100),
@@ -1708,19 +1697,19 @@ prop3 <-
   ) +
   annotate("text",
     x = rep(max(lolli_data2$id, length(v))),
-    y = v - 5, label = paste0(head(v), "%"), color = "grey", size = 5, angle = 0, fontface = "bold", hjust = 0.7
+    y = v - 5, label = paste0(head(v)), color = "grey", size = 5, angle = 0, fontface = "bold", hjust = 0.7
   ) +
   geom_col(
     aes(
       x = id,
-      y = abs_diff * 100,
-      fill = percent_diff,
+      y = f_fmsy,
+      fill = diff_bin
     ),
     # show.legend = F,
     width = 0.8
   ) +
   ylim(-40, NA) +
-  scale_fill_viridis_c() + # manual(values = c("#E31A1C", "#FD8D3C", "#FED976")) +
+  scale_fill_viridis_d() + # manual(values = c("#E31A1C", "#FD8D3C", "#FED976")) +
   scale_x_discrete() +
   theme(
     axis.title = element_blank(),
@@ -2136,6 +2125,8 @@ mean_mort_reduction_fam <- pct_mort_reduction %>%
   distinct() %>%
   mutate(percent_diff = (f - f_mort) / f * 100) %>%
   mutate(abs_diff = f - f_mort) %>%
+  mutate(f_max = (f) / (1 - (percent_diff / 100))) %>%
+  mutate(f_fmsy = f_max / f) %>% 
   left_join(iucn_taxonomy, by = "scientific_name") %>%
   left_join(iucn_join, by = "family") %>%
   # mutate(threat = ifelse(redlist_category %in% c("CR", "VU", "EN"), "threatened", "not threatened")) %>%
@@ -2166,6 +2157,8 @@ mean_mort_reduction_fam_unc <- pct_mort_reduction_uncorrected %>%
   distinct() %>%
   mutate(percent_diff = (f - f_mort) / f * 100) %>%
   mutate(abs_diff = f - f_mort) %>%
+  mutate(f_max = (f) / (1 - (percent_diff / 100))) %>%
+  mutate(f_fmsy = f_max / f) %>% 
   left_join(iucn_taxonomy, by = "scientific_name") %>%
   left_join(iucn_join, by = "family") %>%
   # mutate(threat = ifelse(redlist_category %in% c("CR", "VU", "EN"), "threatened", "not threatened")) %>%
