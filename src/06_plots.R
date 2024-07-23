@@ -2075,7 +2075,7 @@ p2 <- ggplot(data = f_val_sim, aes(f / 1.5, f_reduce_10)) +
 
 p1 / p2 + plot_layout(guides = "collect")
 
-p <- ggplot() +
+p_sim <- ggplot() +
   geom_hline(
     yintercept = 0.5,
     color = "gray",
@@ -2109,10 +2109,6 @@ p <- ggplot() +
   ) +
   coord_cartesian(clip = "off", ylim = c(0, 1))
 
-p / p1
-
-ggsave(p / p1 + plot_annotation(tag_levels = "A"), file = paste0("fig5.pdf"), path = here::here("figs"), height = 20, width = 20)
-
 # Figure S11-----------------------------------------------------------------------------
 
 pct_mort_reduction <- read_csv(here::here("data", "pct_mort_reduction_sim.csv"))
@@ -2141,6 +2137,9 @@ mean_mort_reduction_fam <- pct_mort_reduction %>%
     sd_abs_mort_reduction = sd(abs_diff),
     se_abs_mort_reduction = sd(abs_diff) / sqrt(n())
   ) %>%
+  mutate(mean_f_fmsy = mean(f_fmsy),
+         sd_f_fmsy = sd(f_fmsy),
+         se_f_fmsy = sd(f_fmsy) / sqrt(n())) %>% 
   ungroup() %>%
   filter(threat == "threatened") %>%
   mutate(sp_threat = case_when(
@@ -2173,6 +2172,9 @@ mean_mort_reduction_fam_unc <- pct_mort_reduction_uncorrected %>%
     sd_abs_mort_reduction = sd(abs_diff),
     se_abs_mort_reduction = sd(abs_diff) / sqrt(n())
   ) %>%
+  mutate(mean_f_fmsy = mean(f_fmsy),
+         sd_f_fmsy = sd(f_fmsy),
+         se_f_fmsy = sd(f_fmsy) / sqrt(n())) %>% 
   ungroup() %>%
   group_by(family) %>%
   mutate(sp_count = n()) %>%
@@ -2192,10 +2194,10 @@ write_csv(sim_join, file = here::here("data", "sim_pct_correct_uncorrect.csv"))
 
 mort_red_corrected <-
   ggplot(data = sim_join) +
-  geom_point(aes(x = fct_reorder(family, mean_abs_mort_reduction), y = mean_abs_mort_reduction, size = sp_threat)) +
+  geom_point(aes(x = fct_reorder(family, mean_f_fmsy), y = mean_f_fmsy, size = sp_threat)) +
   geom_linerange(aes(
-    x = family, ymax = mean_abs_mort_reduction + se_abs_mort_reduction,
-    ymin = mean_abs_mort_reduction - se_abs_mort_reduction
+    x = family, ymax = mean_f_fmsy + se_f_fmsy,
+    ymin = mean_f_fmsy - se_f_fmsy
   )) +
   # geom_hline(
   #   yintercept = 50,
@@ -2204,12 +2206,11 @@ mort_red_corrected <-
   facet_wrap(~status) +
   coord_flip() +
   labs(
-    y = "Mean absolute mortality reduction from retention prohibition",
+    y = "Maximum F / FMSY to benefit from retention prohibition",
     x = "",
     size = "Proportion of\nthreatened species\nper family"
   ) +
-  scale_y_continuous(labels = scales::percent) +
-  scale_size_manual(values = c("<0.25" = 1, "<0.50" = 3, "<0.75" = 5, ">0.75" = 7)) +
+  scale_size_manual(values = c("<0.25" = 0.5, "<0.50" = 1, "<0.75" = 3, ">0.75" = 5)) +
   theme_bw() +
   theme(
     axis.title = element_text(size = 12, color = "black"),
@@ -2219,6 +2220,7 @@ mort_red_corrected <-
     strip.background = element_rect(fill = "transparent"),
     strip.text = element_text(color = "black", size = 11)
   )
+mort_red_corrected
 
 ggsave(mort_red_corrected, file = paste0("figS11.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
 
@@ -2288,20 +2290,30 @@ percent_calc <- sim_results %>%
   ) %>%
   ungroup()
 
-p1 <- ggplot(data = percent_calc, aes(f_fmsy, fct_reorder(scientific_name, f_fmsy))) +
-  geom_point(aes(color = percent_diff), size = 4) +
+f_val_sim = left_join(f_val_sim, percent_calc)
+
+sub <- bquote(F["MSY"])
+
+p1 <- ggplot(data = f_val_sim, aes(mean_f_10, f_max)) +
+  geom_abline(linetype = "dashed") +
+  geom_point(aes(color = f_ratio_5), size = 4) +
   theme_bw(base_size = 16) +
-  scale_color_viridis_c() +
+  scale_color_viridis_d() +
   labs(
-    x = "F / FMSY",
-    y = "",
-    color = "Percent Change"
+    x = expression(F[MSY]), y = bquote('Max '~.(sub)),
+    color = ""
   ) +
+  annotate(geom = "text", label = "F[MSY] ==~ F[MSY]", x = 0.15, y = 0.2, parse = TRUE, size = 8) +
+  geom_curve(aes(x = 0.15, y = 0.195, xend = 0.15, yend = 0.155), arrow = arrow(length = unit(0.1, "inches"))) +
+  geom_label_repel(aes(label = name), size = 5, vjust = "outward", hjust = "outward", alpha = 0.75) +
   theme(
     legend.key.size = unit(8, "mm"),
     panel.grid.minor = element_blank()
-  ) +
-  guides(color = guide_colorbar(ticks.colour = "black", frame.colour = "black"))
+  ) 
+
+p_sim / p1
+
+ggsave(p_sim / p1 + plot_annotation(tag_levels = "A"), file = paste0("fig5.pdf"), path = here::here("figs"), height = 20, width = 20)
 
 sim_200 <- sim_results %>%
   filter(t == 200) %>%
