@@ -1532,7 +1532,7 @@ diff_fam_abs <- sim_results_iucn_pct %>%
 #   )
 #
 lolli_data1 <- threatended %>%
-  select(scientific_name, f, f_mort, avm_prm, f_fmsy, diff_bin, common_name, percent_diff) %>%
+  select(scientific_name, f, f_mort, avm_prm, f_fmsy, diff_bin, common_name, percent_diff, redlist_category) %>%
   mutate(id = fct_reorder(as.factor(common_name), f_fmsy))
 
 empty_bar <- 7
@@ -1560,6 +1560,14 @@ redlist_breaks <- lolli_data1 %>%
   rowwise() %>%
   mutate(title = mean(c(start, end))) %>%
   ungroup() %>%
+  group_by(redlist_category) %>%
+  summarize(
+    start_redlist = min(id),
+    end_redlist = max(id) - 3
+  ) %>%
+  rowwise() %>%
+  mutate(title_redlist = mean(c(start_redlist, end_redlist))) %>%
+  ungroup() %>% 
   mutate(
     end = data.table::shift(end + 1, n = 1, type = "shift", fill = max(end) + 1),
     start = start - 1
@@ -1621,7 +1629,7 @@ prop2 <-
   ) +
   geom_text(
     data = redlist_breaks,
-    aes(x = title, y = -18, label = diff_bin, color = diff_bin),
+    aes(x = title, y = -18, label = redlist_category, color = redlist_category),
     color = "black",
     show.legend = F,
     hjust = 0.5, alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE
@@ -1641,7 +1649,7 @@ ggsave(prop2, file = paste0("fig4.pdf"), path = here::here("figs"), height = 20,
 
 # Set a number of empty bars to add at the end of each group
 lolli_data2 <- non_threat_mean %>%
-  select(f, f_mort, avm_prm, f_fmsy, diff_bin, common_name, percent_diff) %>%
+  select(f, f_mort, avm_prm, f_fmsy, diff_bin, common_name, percent_diff, redlist_category) %>%
   mutate(id = fct_reorder(as.factor(common_name), f_fmsy))
 
 empty_bar <- 7
@@ -1670,6 +1678,14 @@ redlist_breaks <- lolli_data2 %>%
   rowwise() %>%
   mutate(title = mean(c(start, end))) %>%
   ungroup() %>%
+  group_by(redlist_category) %>%
+  summarize(
+    start_redlist = min(id),
+    end_redlist = max(id) - 3
+  ) %>%
+  rowwise() %>%
+  mutate(title_redlist = mean(c(start_redlist, end_redlist))) %>%
+  ungroup() %>% 
   mutate(
     end = data.table::shift(end + 1, n = 1, type = "shift", fill = max(end) + 1),
     start = start - 1
@@ -1731,7 +1747,7 @@ prop3 <-
   ) +
   geom_text(
     data = redlist_breaks,
-    aes(x = title, y = -18, label = diff_bin, color = diff_bin),
+    aes(x = title, y = -18, label = redlist_category, color = redlist_category),
     color = "black",
     show.legend = F,
     hjust = 0.5, alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE
