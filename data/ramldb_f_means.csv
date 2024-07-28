@@ -1,12 +1,13 @@
-scientificname,commonname,mean_f_10,mean_f_5
-Alopias vulpinus,Thresher shark,0.28200000000000003,0.116
-Carcharhinus acronotus,Blacknose shark,0.221,0.2044
-Carcharhinus falciformis,Silky shark,0.313,0.313
-Carcharhinus isodon,Finetooth shark,0.004263,0.004232
-Carcharhinus limbatus,Blacktip shark,0.006192,0.005122
-Carcharhinus longimanus,Oceanic whitetip shark,0.151,0.128
-Carcharhinus obscurus,Dusky shark,0.156,0.061200000000000004
-Carcharhinus plumbeus,Sandbar shark,0.05797,0.041800000000000004
-Prionace glauca,Blue shark,0.151,0.128
-Rhizoprionodon terraenovae,Atlantic sharpnose shark,0.1549,0.1446
-Sphyrna tiburo,Bonnethead shark,0.1646,0.1194
+scientificname,commonname,mean_f_10,mean_f_5,ref
+Alopias vulpinus,Thresher shark,0.282,0.116,RAMLDB
+Carcharhinus acronotus,Blacknose shark,0.221,0.2044,RAMLDB
+Carcharhinus falciformis,Silky shark,0.313,0.313,RAMLDB
+Carcharhinus isodon,Finetooth shark,0.004263,0.004232,RAMLDB
+Carcharhinus limbatus,Blacktip shark,0.006192,0.005122,RAMLDB
+Carcharhinus longimanus,Oceanic whitetip shark,0.151,0.128,RAMLDB
+Carcharhinus obscurus,Dusky shark,0.156,0.0612,RAMLDB
+Carcharhinus plumbeus,Sandbar shark,0.05797,0.0418,RAMLDB
+Prionace glauca,Blue shark,0.151,0.128,RAMLDB
+Rhizoprionodon terraenovae,Atlantic sharpnose shark,0.1549,0.1446,RAMLDB
+Sphyrna tiburo,Bonnethead shark,0.1646,0.1194,RAMLDB
+Lamna nasus,Porbeagle shark,0.031,0.031,https://www.iccat.int/Documents/Meetings/Docs/2020/REPORTS/2020_POR_SA_ENG.pdf

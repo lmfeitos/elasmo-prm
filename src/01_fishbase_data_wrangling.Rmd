@@ -166,11 +166,14 @@ iucn_assessment_gill <- read_csv(here("data", "iucn_data", "assessments.csv")) %
   select(scientific_name, threats, systems, redlist_category)
 
 iucn_data_long <- iucn_assessment_long %>%
-  left_join(iucn_taxonomy, by = "scientific_name")
+  left_join(iucn_taxonomy, by = "scientific_name") %>% 
+  filter(!str_detect(family, "Mobulidae|Dasyatidae|Gymnuridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae|Plesiobatidae|Potamo|Urolophidae|Zanobatidae|Narcinidae|Platyrhinidae|Trygon|Hypnidae|Narkidae|Gurgesiellidae|Rhinopteridae|Urotrygonidae|Arhynchobatidae|Glaucostegidae|Anacanthobatidae|himaeridae|Callorhinchidae|Dichichthyidae"))
+
+#write_csv(iucn_data_long, file = here("data", "predict_longline.csv"))
 
 iucn_data_gill <- iucn_assessment_gill %>% 
   left_join(iucn_taxonomy, by = "scientific_name") %>% 
-  filter(!str_detect(family, "Mobulidae|Dasyatidae|Gymnuridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae|Plesiobatidae|Potamo|Urolophidae|Zanobatidae|Narcinidae|Platyrhinidae|Trygon|Hypnidae|Narkidae|Gurgesiellidae|Rhinopteridae|Urotrygonidae|Arhynchobatidae|Glaucostegidae|Anacanthobatidae")) %>% 
+  filter(!str_detect(family, "Mobulidae|Dasyatidae|Gymnuridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae|Plesiobatidae|Potamo|Urolophidae|Zanobatidae|Narcinidae|Platyrhinidae|Trygon|Hypnidae|Narkidae|Gurgesiellidae|Rhinopteridae|Urotrygonidae|Arhynchobatidae|Glaucostegidae|Anacanthobatidae|himaeridae|Callorhinchidae|Dichichthyidae")) %>% 
   filter(!str_detect(scientific_name, "Glyphis")) 
 
 #write_csv(iucn_data_gill, file = here("data", "predict_gillnet.csv"))
@@ -225,9 +228,27 @@ new_dat <- read_csv(here::here("data", "predict_data.csv")) %>%
   mutate(scientific_name = ifelse(scientific_name == "Mustelus canis insularis", "Mustelus canis", scientific_name),
          scientific_name = ifelse(scientific_name == "Centroscymnus owstoni", "Centroscymnus owstonii", scientific_name))
 
+# read in the longline threat data and join with longline predict data
+iucn_data_long <- read_csv(here("data", "predict_longline.csv"))
+
+# join the datasets
+new_dat_longline <- iucn_data_long %>% 
+  left_join(new_dat, by = c("scientific_name", "family")) %>% 
+  distinct(scientific_name, family, redlist_category, habitat_associated,
+           ventilation_method, max_size_cm, median_depth, reproductive_mode) 
+  
+# read in the longline threat data and join with gillnet predict data
+iucn_data_gill <- read_csv(here("data", "predict_gillnet.csv"))
+
+# join the datasets
+new_dat_gill <- iucn_data_gill %>% 
+  left_join(new_dat, by = c("scientific_name", "family")) %>% 
+  distinct(scientific_name, family, redlist_category, habitat_associated,
+           ventilation_method, max_size_cm, median_depth, reproductive_mode) 
+
 # create subset of the new_dat to join for the median depth, ventilation and reproductive modes
-new_dat_subset <- new_dat %>% 
-  select(scientific_name, family, max_size_cm, measure, median_depth, reproductive_mode, ventilation_method)
+new_dat_long_subset <- new_dat_longline %>% 
+  select(scientific_name, family, max_size_cm, median_depth, reproductive_mode, ventilation_method)
 
 tol = read_csv(here("data", "tolerance.csv")) %>% 
   rename(scientific_name = species) %>% 
@@ -283,20 +304,20 @@ gilman_join <- gilman_raw %>%
 ```
 
 ```{r}
-dat = full_join(prm_elasmo, new_dat) %>% 
+dat = full_join(prm_elasmo, new_dat_longline) %>% 
   mutate(species = scientific_name) %>% 
   separate_wider_delim(species, names = c("genus", "species"), delim = " ") %>% 
   mutate(source = "this study")
 
 avm_gilman_hypoxia <- gilman_join %>% 
 #  select(- c(max_size_cm, l_type_max_m, depth_range_shallow, depth_range_deep)) %>% 
-  left_join(new_dat_subset, by = c("scientific_name", "family")) %>% 
+  left_join(new_dat_long_subset, by = c("scientific_name", "family")) %>% 
   bind_rows(dat) %>% 
   mutate(estimate_type = ifelse(source == "Gilman et al (2022)", "at-vessel mortality", estimate_type)) %>% 
   select(-c(record_uid, common_name.x, common_name.y, genus.y, -f_bname)) %>% 
   left_join(tol) %>% 
   select(-eo) %>% 
-  select(-reference, -bait, -hooks_per_set, -f_bname, -species, -measure, -method, -order) %>% 
+  select(-reference, -bait, -hooks_per_set, -f_bname, -species, -method) %>% 
   mutate(genus = case_when(
     !is.na(genus) ~ genus,
     is.na(genus) ~ genus.x
@@ -366,7 +387,6 @@ dat_new_mean_check = dat_new_mean %>%
   filter(scientific_name %in% new_dat$scientific_name) %>% 
   filter(is.na(estimate)) 
 
-test <- 
 
 write_csv(dat_new_mean, here::here("data", "predict_data_hyp.csv"), col_names = TRUE, na = "")
 ```
@@ -439,8 +459,7 @@ predict_gillnet <- read_csv(here::here("data", "predict_gillnet.csv"))
 
 predict_gillnet_join <- predict_gillnet  %>% 
   full_join(predict_data_long, by = c("scientific_name", "family")) %>% 
-  full_join(prm_hypoxia, by = c("scientific_name", "family")) %>% 
-   %>% 
+  full_join(prm_hypoxia, by = c("scientific_name", "family")) 
   
 predict_gillnet_final <- predict_gillnet_join %>% 
   filter(scientific_name %in% prm_hypoxia$scientific_name)

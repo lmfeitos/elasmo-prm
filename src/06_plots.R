@@ -102,7 +102,7 @@ elasmo_prm <- prm_elasmo_subset %>%
 iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>%
   janitor::clean_names() %>%
   filter(str_detect(systems, "Marine") & str_detect(threats, "longline") |
-    str_detect(scientific_name, "Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus|Mustelus|Stegostoma")) %>% # list of genera to keep in the filtering
+  str_detect(scientific_name, "Squatina|Isogomphodon|Carcharhinus|Eusphyra|Orectolobus|Pristiophorus|Mustelus|Stegostoma")) %>% # list of genera to keep in the filtering
   select(scientific_name, redlist_category) %>%
   mutate(redlist_category = case_when(
     str_detect(redlist_category, "Near") ~ "NT",
@@ -113,7 +113,7 @@ iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>%
     str_detect(redlist_category, "Least") ~ "LC",
     TRUE ~ redlist_category
   )) %>%
-  filter(!str_detect(scientific_name, "Parmaturus|Bythaelurus|Cirrhoscyllium|Proscyllium|Megachasma|Cetorhinus|Rhincodon "))
+  filter(!str_detect(scientific_name, "Parmaturus|Bythaelurus|Cirrhoscyllium|Proscyllium|Megachasma|Cetorhinus|Rhincodon"))
 
 # read in taxonomic assigmnets of IUCN data
 iucn_taxonomy <- read_csv(here("data", "iucn_data", "taxonomy.csv")) %>%
@@ -140,14 +140,14 @@ iucn_join <- iucn_data %>%
 
 
 # read in the AVM PRM model predictions
-longline_predictions <- read_csv(here::here("data", "full_model_predictions.csv")) %>%
+longline_predictions <- read_csv(here::here("data", "longline_model_predictions.csv")) %>%
   filter(scientific_name %in% iucn_data$scientific_name)
 
 # join IUCN and prediction data
 longline_predictions_iucn <- longline_predictions %>%
   left_join(iucn_data, by = "scientific_name")
 
-# read in ICUN assessments and filter to only longline
+# read in ICUN assessments and filter to only non-longline
 iucn_data_non_longline <- read_csv(here("data", "iucn_data", "assessments.csv")) %>%
   clean_names() %>%
   filter(str_detect(systems, "Marine") & !str_detect(threats, "longline"))
@@ -178,7 +178,7 @@ gillnet_predictions_iucn <- gillnet_predictions %>%
 full_predictions <- full_join(longline_predictions_iucn, gillnet_predictions_iucn)
 
 # read in simulation results
-sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
+sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>%
@@ -189,7 +189,7 @@ sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
 
 write_csv(sim_results, here::here("data", "pct_mort_reduction_sim.csv"))
 
-sim_results_uncorrected <- read_csv(here::here("data", "uncorrected_results.csv")) %>%
+sim_results_uncorrected <- read_csv(here::here(basedir, "data", "uncorrected_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>%
@@ -203,7 +203,7 @@ write_csv(sim_results_uncorrected, here::here("data", "pct_mort_reduction_sim_un
 f_vals <- read_csv(here::here("data", "ramldb_f_means.csv")) %>%
   rename(scientific_name = scientificname)
 
-sim_results_2 <- read_csv(here::here("data", "simulation_results.csv")) %>%
+sim_results_2 <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario))
 
@@ -221,24 +221,24 @@ sim_results_common <- read_csv(here::here("data", "f_sim_results.csv")) %>%
   select(scientific_name, common_name)
 
 # fishing pressure sensitivity results
-sim_results1 <- read_csv(here::here("data", "simulation_results_msy.csv")) %>%
+sim_results1 <- read_csv(here::here(basedir, "data", "simulation_results_msy.csv")) %>%
   filter(scenario != "CQ") %>%
   mutate(fp = 1) %>%
   mutate(corrected = "yes")
-sim_results1_5 <- read_csv(here::here("data", "simulation_results.csv")) %>%
+sim_results1_5 <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   mutate(fp = 1.5) %>%
   mutate(corrected = "yes")
-sim_results2 <- read_csv(here::here("data", "simulation_results_2msy.csv")) %>%
+sim_results2 <- read_csv(here::here(basedir, "data", "simulation_results_2msy.csv")) %>%
   filter(scenario != "CQ") %>%
   mutate(fp = 2) %>%
   mutate(corrected = "yes")
-sim_results3 <- read_csv(here::here("data", "simulation_results_3msy.csv")) %>%
+sim_results3 <- read_csv(here::here(basedir, "data", "simulation_results_3msy.csv")) %>%
   filter(scenario != "CQ") %>%
   mutate(fp = 3) %>%
   mutate(corrected = "yes")
 
-uncorrected_results <- read_csv(here::here("data", "uncorrected_results.csv")) %>%
+uncorrected_results <- read_csv(here::here(basedir, "data", "uncorrected_results.csv")) %>%
   filter(scenario != "CQ") %>%
   mutate(fp = 1.5) %>%
   mutate(corrected = "no")
@@ -906,7 +906,8 @@ predictions_join <- mean_predictions %>%
   select(scientific_name, family, reproductive_mode, ac, median_depth, max_size_cm, ventilation_method, habitat, estimate_type, mortality_prop) %>%
   mutate(gear_class = ifelse(estimate_type %in% c("AVM Longline", "PRM Longline"), "Longline", "Gillnet")) %>%
   mutate(estimate_type_new = ifelse(str_detect(estimate_type, "AVM"), "AVM", "PRM")) %>%
-  filter(!is.na(mortality_prop))
+  filter(!is.na(mortality_prop)) %>% 
+  filter(family != "Rhinopteridae")
 
 write_csv(predictions_join, file = here("data", "tableS5.csv"), na = "")
 
@@ -1200,12 +1201,14 @@ p1 <- ggplot(data = IQR_analysis, aes(avm_mort, avm_pred)) +
   stat_poly_line() +
   stat_poly_eq(use_label("eq")) +
   stat_poly_eq(label.y = 0.9) +
+  scale_x_continuous(expand = c(0,0)) +
   theme_bw(base_size = 16) +
   labs(
     x = "Observed PRM Rate",
     y = "Predicted PRM Rate"
   ) +
-  facet_wrap(~IQR_cat_avm) +
+  facet_wrap(~IQR_cat_avm,
+             scales = "free_x") +
   theme(
     axis.text = element_text(color = "black"),
     # axis.text.y = element_text(face = "italic"),
@@ -1238,6 +1241,7 @@ p2 <- ggplot(data = IQR_analysis %>% filter(family %in% fam_level), aes(avm_pred
 
 p3 <- ggplot(data = IQR_analysis, aes(median_depth, avm_pred)) +
   geom_point(aes(color = IQR_cat_avm)) +
+  scale_x_continuous(expand = c(0,0)) +
   theme_bw(base_size = 16) +
   scale_color_viridis_d() +
   labs(
@@ -1252,8 +1256,11 @@ p3 <- ggplot(data = IQR_analysis, aes(median_depth, avm_pred)) +
 #   theme_bw() +
 #   scale_color_viridis_d()
 
-p4 <- ggplot(data = IQR_analysis, aes(reproductive_mode)) +
+p4 <- ggplot(data = IQR_analysis %>% 
+               mutate(reproductive_mode = str_to_sentence(reproductive_mode)),
+             aes(reproductive_mode)) +
   geom_bar(aes(color = IQR_cat_avm, fill = IQR_cat_avm), position = "fill") +
+  scale_y_continuous(expand = c(0,0)) +
   theme_bw(base_size = 16) +
   coord_flip() +
   scale_color_viridis_d() +
@@ -1265,8 +1272,11 @@ p4 <- ggplot(data = IQR_analysis, aes(reproductive_mode)) +
     fill = "Uncertainty"
   )
 
-p5 <- ggplot(data = IQR_analysis, aes(ventilation_method)) +
+p5 <- ggplot(data = IQR_analysis %>% 
+               mutate(ventilation_method = str_to_title(ventilation_method)),
+             aes(ventilation_method)) +
   geom_bar(aes(color = IQR_cat_avm, fill = IQR_cat_avm), position = "fill") +
+  scale_y_continuous(expand = c(0,0)) +
   coord_flip() +
   theme_bw(base_size = 16) +
   scale_color_viridis_d() +
@@ -1359,24 +1369,22 @@ write_csv(f_val_sim, here::here("data", "f_reduce_f_msy_compare.csv"))
 sim_results_iucn_pct_threat <- sim_results_iucn_pct %>%
   filter(redlist_category %in% c("VU", "EN", "CR")) %>%
   rowid_to_column("id") %>%
-  mutate(id = fct_reorder(as.factor(id), percent_diff)) %>%
+  mutate(id = fct_reorder(as.factor(id), f_fmsy)) %>%
   mutate(redlist_category = as.factor(redlist_category)) %>%
-  arrange(id) %>%
-  select(-scientific_name) %>%
-  rename(scientific_name = common_name)
+  arrange(id) 
+  
 
 # create data subset with non-threatened species only
 non_threat <- sim_results_iucn_pct %>%
   filter(redlist_category %in% c("DD", "NT", "LC")) %>%
   rowid_to_column("id") %>%
-  mutate(id = fct_reorder(as.factor(id), percent_diff)) %>%
+  mutate(id = fct_reorder(as.factor(id), f_fmsy)) %>%
   mutate(
     mean_percent_diff = mean(percent_diff, na.rm = TRUE),
     redlist_category = as.factor(redlist_category),
     diff_bin = as.factor(diff_bin)
   ) %>%
-  arrange(id) %>%
-  select(-scientific_name)
+  arrange(id) 
 
 # calculate average mortality reductions per threat status
 threatended <- sim_results_iucn_pct %>%
@@ -1531,17 +1539,19 @@ diff_fam_abs <- sim_results_iucn_pct %>%
 #     y = ""
 #   )
 #
-lolli_data1 <- threatended %>%
-  select(scientific_name, f, f_mort, avm_prm, f_fmsy, diff_bin, common_name, percent_diff, redlist_category) %>%
-  mutate(id = fct_reorder(as.factor(common_name), f_fmsy))
+lolli_data1 <- sim_results_iucn_pct_threat %>%
+  select(scientific_name, f, f_mort, avm_prm, f_fmsy, diff_bin, common_name, percent_diff, redlist_category, id) %>%
+  mutate(id = fct_reorder(as.factor(id), f_fmsy)) %>% 
+  mutate(redlist_category = as.factor(redlist_category))
 
 empty_bar <- 7
-to_add <- data.frame(matrix(NA, empty_bar * nlevels(lolli_data1$diff_bin), ncol(lolli_data1)))
+to_add <- data.frame(matrix(NA, empty_bar * nlevels(lolli_data1$redlist_category), ncol(lolli_data1)))
 colnames(to_add) <- colnames(lolli_data1)
-to_add$diff_bin <- rep(levels(lolli_data1$diff_bin), each = empty_bar)
+to_add$redlist_category <- rep(levels(lolli_data1$redlist_category), each = empty_bar)
 lolli_data1 <- rbind(lolli_data1, to_add)
-lolli_data1 <- lolli_data1 %>% arrange(diff_bin)
+lolli_data1 <- lolli_data1 %>% arrange(redlist_category)
 lolli_data1$id <- seq(1, nrow(lolli_data1))
+
 
 # get the name and the y position of each label
 label_data_m <- lolli_data1
@@ -1551,22 +1561,28 @@ label_data_m$hjust <- ifelse(angle < -90, 1, 0)
 label_data_m$angle <- ifelse(angle < -90, angle + 180, angle)
 
 # Not sure how to use the code below
+# bin_breaks <- lolli_data1 %>%
+#   group_by(diff_bin) %>%
+#   summarize(
+#     start = min(id),
+#     end = max(id) - 3
+#   ) %>%
+#   rowwise() %>%
+#   mutate(title = mean(c(start, end))) %>%
+#   ungroup() %>%
+#   mutate(
+#     end = data.table::shift(end + 1, n = 1, type = "shift", fill = max(end) + 1),
+#     start = start - 1
+#   )
+
 redlist_breaks <- lolli_data1 %>%
-  group_by(diff_bin) %>%
+  group_by(redlist_category) %>%
   summarize(
     start = min(id),
     end = max(id) - 3
   ) %>%
   rowwise() %>%
   mutate(title = mean(c(start, end))) %>%
-  ungroup() %>%
-  group_by(redlist_category) %>%
-  summarize(
-    start_redlist = min(id),
-    end_redlist = max(id) - 3
-  ) %>%
-  rowwise() %>%
-  mutate(title_redlist = mean(c(start_redlist, end_redlist))) %>%
   ungroup() %>% 
   mutate(
     end = data.table::shift(end + 1, n = 1, type = "shift", fill = max(end) + 1),
@@ -1577,37 +1593,102 @@ max_value <- max(lolli_data1$f_fmsy, na.rm = T)
 
 y_max <- 20 * ceiling(max_value / 20)
 
-v <- c(5, 10, 15, 20, 25)
+v <- c(2, 4, 6, 8, 10)
+
+# bin_breaks <- bin_breaks %>%
+#   mutate(v = list(v)) %>%
+#   unnest(cols = c(v))
 
 redlist_breaks <- redlist_breaks %>%
-  mutate(v = list(v)) %>%
+  mutate(v = list(v)) %>% 
   unnest(cols = c(v))
+
+# prop2 <-
+#   ggplot(data = lolli_data1 %>%
+#     group_by(diff_bin) %>%
+#     mutate(id = fct_reorder(as.factor(id), f_fmsy))) +
+#   geom_segment(
+#     data = redlist_breaks %>%
+#       filter(v != 100),
+#     aes(x = end, y = v, xend = start, yend = v),
+#     color = "grey", linewidth = 0.3, inherit.aes = FALSE
+#   ) +
+#   annotate("text",
+#     x = rep(max(lolli_data1$id, length(v))),
+#     y = v, label = paste0(head(v)), color = "grey", size = 5, angle = 0, fontface = "bold", hjust = 1
+#   ) +
+#   geom_col(
+#     aes(
+#       x = id,
+#       y = f_fmsy,
+#       fill = diff_bin
+#     ),
+#     # show.legend = F,
+#     width = 0.8
+#   ) +
+#   ylim(-40, NA) +
+#   scale_fill_viridis_d() + # manual(values = c("#E31A1C", "#FD8D3C", "#FED976")) +
+#   scale_x_discrete() +
+#   theme(
+#     axis.title = element_blank(),
+#     axis.text = element_blank(),
+#     panel.grid = element_blank(),
+#     plot.margin = unit(rep(0, 4), "cm")
+#   ) +
+#   coord_polar(start = 0) +
+#   geom_text(
+#     data = label_data_m,
+#     aes(x = id, y = 25, label = common_name, angle = angle),
+#     nudge_x = -0.25, nudge_y = 0.25,
+#     color = "black", size = 4, inherit.aes = FALSE
+#   ) +
+#   geom_segment(
+#     data = bin_breaks,
+#     aes(x = start, y = -5, xend = end, yend = -5),
+#     colour = "black", alpha = 0.8, inherit.aes = FALSE
+#   ) +
+#   geom_text(
+#     data = bin_breaks,
+#     aes(x = title, y = -18, label = diff_bin, color = diff_bin),
+#     color = "black",
+#     show.legend = F,
+#     hjust = 0.5, alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE
+#   ) +
+#   # scale_color_viridis_d() + # (values = c("#E31A1C", "#FD8D3C", "#FED976")) +
+#   # geom_text(data = redlist_breaks,
+#   #             aes(x = title, y = 48, label = redlist_category),  colour = "black", alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE) +
+#   labs(fill = "Percent difference\n in mortality") + # y = 80
+#   theme_void(base_size = 16) +
+#   labs(
+#     x = "",
+#     y = ""
+#   ) +
+#   guides(fill = guide_colorbar(ticks.colour = "black", frame.colour = "black"))
 
 prop2 <-
   ggplot(data = lolli_data1 %>%
-    group_by(diff_bin) %>%
-    mutate(id = fct_reorder(as.factor(id), f_fmsy))) +
+           group_by(redlist_category) %>%
+           mutate(id = fct_reorder(as.factor(id), f_fmsy))) +
   geom_segment(
-    data = redlist_breaks %>%
-      filter(v != 100),
+    data = redlist_breaks,
     aes(x = end, y = v, xend = start, yend = v),
-    color = "grey", linewidth = 0.3, inherit.aes = FALSE
+    color = "grey80", linewidth = 0.3, inherit.aes = FALSE
   ) +
   annotate("text",
-    x = rep(max(lolli_data1$id, length(v))),
-    y = v, label = paste0(head(v)), color = "grey", size = 5, angle = 0, fontface = "bold", hjust = 1
+           x = rep(max(lolli_data1$id, length(v))),
+           y = v, label = paste0(head(v)), color = "grey80", size = 5, angle = 0, fontface = "bold", hjust = 1.2
   ) +
   geom_col(
     aes(
       x = id,
       y = f_fmsy,
-      fill = diff_bin
+      fill = redlist_category
     ),
-    # show.legend = F,
+    show.legend = F,
     width = 0.8
   ) +
   ylim(-40, NA) +
-  scale_fill_viridis_d() + # manual(values = c("#E31A1C", "#FD8D3C", "#FED976")) +
+  scale_fill_manual(values = c("#E31A1C", "#FD8D3C", "#FED976")) + # manual(values = c("#E31A1C", "#FD8D3C", "#FED976")) +
   scale_x_discrete() +
   theme(
     axis.title = element_blank(),
@@ -1618,7 +1699,7 @@ prop2 <-
   coord_polar(start = 0) +
   geom_text(
     data = label_data_m,
-    aes(x = id, y = 25, label = common_name, angle = angle),
+    aes(x = id, y = f_fmsy + 10, label = common_name, angle = angle),
     nudge_x = -0.25, nudge_y = 0.25,
     color = "black", size = 4, inherit.aes = FALSE
   ) +
@@ -1630,34 +1711,33 @@ prop2 <-
   geom_text(
     data = redlist_breaks,
     aes(x = title, y = -18, label = redlist_category, color = redlist_category),
-    color = "black",
     show.legend = F,
     hjust = 0.5, alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE
   ) +
-  # scale_color_viridis_d() + # (values = c("#E31A1C", "#FD8D3C", "#FED976")) +
+  scale_color_manual(values = c("#E31A1C", "#FD8D3C", "#FED976")) + # (values = c("#E31A1C", "#FD8D3C", "#FED976")) +
   # geom_text(data = redlist_breaks,
   #             aes(x = title, y = 48, label = redlist_category),  colour = "black", alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE) +
-  labs(fill = "Percent difference\n in mortality") + # y = 80
+  #labs(fill = "Percent difference\n in mortality") + # y = 80
   theme_void(base_size = 16) +
   labs(
     x = "",
     y = ""
-  ) +
-  guides(fill = guide_colorbar(ticks.colour = "black", frame.colour = "black"))
+  ) 
 
 ggsave(prop2, file = paste0("fig4.pdf"), path = here::here("figs"), height = 20, width = 40) + plot_annotation(tag_levels = "A")
 
 # Set a number of empty bars to add at the end of each group
-lolli_data2 <- non_threat_mean %>%
-  select(f, f_mort, avm_prm, f_fmsy, diff_bin, common_name, percent_diff, redlist_category) %>%
-  mutate(id = fct_reorder(as.factor(common_name), f_fmsy))
+lolli_data2 <- non_threat %>%
+  select(scientific_name, f, f_mort, avm_prm, f_fmsy, diff_bin, common_name, percent_diff, redlist_category, id) %>%
+  mutate(id = fct_reorder(as.factor(id), f_fmsy)) %>% 
+  mutate(redlist_category = as.factor(redlist_category))
 
 empty_bar <- 7
-to_add <- data.frame(matrix(NA, empty_bar * nlevels(lolli_data2$diff_bin), ncol(lolli_data2)))
+to_add <- data.frame(matrix(NA, empty_bar * nlevels(lolli_data2$redlist_category), ncol(lolli_data2)))
 colnames(to_add) <- colnames(lolli_data2)
-to_add$diff_bin <- rep(levels(lolli_data2$diff_bin), each = empty_bar)
+to_add$redlist_category <- rep(levels(lolli_data2$redlist_category), each = empty_bar)
 lolli_data2 <- rbind(lolli_data2, to_add)
-lolli_data2 <- lolli_data2 %>% arrange(diff_bin)
+lolli_data2 <- lolli_data2 %>% arrange(redlist_category)
 lolli_data2$id <- seq(1, nrow(lolli_data2))
 
 
@@ -1670,21 +1750,21 @@ label_data_m$angle <- ifelse(angle < -90, angle + 180, angle)
 
 # Not sure how to use the code below
 redlist_breaks <- lolli_data2 %>%
-  group_by(diff_bin) %>%
+  # group_by(diff_bin) %>%
+  # summarize(
+  #   start = min(id),
+  #   end = max(id) - 3
+  # ) %>%
+  # rowwise() %>%
+  # mutate(title = mean(c(start, end))) %>%
+  # ungroup() %>%
+  group_by(redlist_category) %>%
   summarize(
     start = min(id),
     end = max(id) - 3
   ) %>%
   rowwise() %>%
   mutate(title = mean(c(start, end))) %>%
-  ungroup() %>%
-  group_by(redlist_category) %>%
-  summarize(
-    start_redlist = min(id),
-    end_redlist = max(id) - 3
-  ) %>%
-  rowwise() %>%
-  mutate(title_redlist = mean(c(start_redlist, end_redlist))) %>%
   ungroup() %>% 
   mutate(
     end = data.table::shift(end + 1, n = 1, type = "shift", fill = max(end) + 1),
@@ -1695,7 +1775,7 @@ max_value <- max(lolli_data2$f_fmsy, na.rm = T)
 
 y_max <- 20 * ceiling(max_value / 20)
 
-v <- c(5, 10, 15, 20, 25)
+v <- c(2, 4, 6, 8, 10)
 
 redlist_breaks <- redlist_breaks %>%
   mutate(v = list(v)) %>%
@@ -1703,29 +1783,28 @@ redlist_breaks <- redlist_breaks %>%
 
 prop3 <-
   ggplot(data = lolli_data2 %>%
-    group_by(diff_bin) %>%
-    mutate(id = fct_reorder(as.factor(id), f_fmsy))) +
+         group_by(redlist_category) %>%
+         mutate(id = fct_reorder(as.factor(id), f_fmsy))) +
   geom_segment(
-    data = redlist_breaks %>%
-      filter(v != 100),
+    data = redlist_breaks,
     aes(x = end, y = v, xend = start, yend = v),
-    color = "grey", linewidth = 0.3, inherit.aes = FALSE
+    color = "grey80", linewidth = 0.3, inherit.aes = FALSE
   ) +
   annotate("text",
-    x = rep(max(lolli_data2$id, length(v))),
-    y = v - 5, label = paste0(head(v)), color = "grey", size = 5, angle = 0, fontface = "bold", hjust = 0.7
+           x = rep(max(lolli_data2$id, length(v))),
+           y = v, label = paste0(head(v)), color = "grey80", size = 5, angle = 0, fontface = "bold", hjust = 1.2
   ) +
   geom_col(
     aes(
       x = id,
       y = f_fmsy,
-      fill = diff_bin
+      fill = redlist_category
     ),
-    # show.legend = F,
+    show.legend = F,
     width = 0.8
   ) +
   ylim(-40, NA) +
-  scale_fill_viridis_d() + # manual(values = c("#E31A1C", "#FD8D3C", "#FED976")) +
+  scale_fill_manual(values = c("grey", "#1A9850", "#91CF60")) + # manual(values = c("#E31A1C", "#FD8D3C", "#FED976")) +
   scale_x_discrete() +
   theme(
     axis.title = element_blank(),
@@ -1736,7 +1815,7 @@ prop3 <-
   coord_polar(start = 0) +
   geom_text(
     data = label_data_m,
-    aes(x = id, y = 30, label = common_name, angle = angle),
+    aes(x = id, y = f_fmsy + 10, label = common_name, angle = angle),
     nudge_x = -0.25, nudge_y = 0.25,
     color = "black", size = 4, inherit.aes = FALSE
   ) +
@@ -1748,20 +1827,19 @@ prop3 <-
   geom_text(
     data = redlist_breaks,
     aes(x = title, y = -18, label = redlist_category, color = redlist_category),
-    color = "black",
     show.legend = F,
     hjust = 0.5, alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE
   ) +
-  # scale_color_viridis_d() + # (values = c("#E31A1C", "#FD8D3C", "#FED976")) +
+  scale_color_manual(values = c("grey", "#1A9850", "#91CF60")) + # (values = c("#E31A1C", "#FD8D3C", "#FED976")) +
   # geom_text(data = redlist_breaks,
   #             aes(x = title, y = 48, label = redlist_category),  colour = "black", alpha = 0.8, size = 5, fontface = "bold", inherit.aes = FALSE) +
-  labs(fill = "Percent difference\nin mortality") + # y = 80
+  #labs(fill = "Percent difference\nin mortality") + # y = 80
   theme_void(base_size = 16) +
   labs(
     x = "",
     y = ""
-  ) +
-  guides(fill = guide_colorbar(ticks.colour = "black", frame.colour = "black"))
+  ) 
+  #guides(fill = guide_colorbar(ticks.colour = "black", frame.colour = "black"))
 
 ggsave(prop3, file = paste0("figS4.pdf"), path = here::here("figs", "supp"), height = 20, width = 40)
 
@@ -1812,7 +1890,8 @@ no_cq_dd <- no_cq %>%
   filter(redlist_category == "DD")
 
 p1 <- ggplot() +
-  geom_rect(data = no_cq_cr, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.6, fill = as.factor(redlist_category))) +
+  geom_rect(data = no_cq_cr, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.6, fill = as.factor(redlist_category)),
+            show.legend = F) +
   geom_line(data = no_cq_cr, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_hline(
     yintercept = 0.5,
@@ -1849,7 +1928,8 @@ p1 <- ggplot() +
 ggsave(p1, file = paste0("figS5.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
 
 p2 <- ggplot() +
-  geom_rect(data = no_cq_en, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 2.1, fill = as.factor(redlist_category))) +
+  geom_rect(data = no_cq_en, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 2.1, fill = as.factor(redlist_category)),
+            show.legend = F) +
   geom_line(data = no_cq_en, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_hline(
     yintercept = 0.5,
@@ -1886,7 +1966,8 @@ p2 <- ggplot() +
 ggsave(p2, file = paste0("figS6.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
 
 p3 <- ggplot() +
-  geom_rect(data = no_cq_vu, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 2.1, fill = as.factor(redlist_category))) +
+  geom_rect(data = no_cq_vu, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 2.1, fill = as.factor(redlist_category)),
+            show.legend = F) +
   geom_line(data = no_cq_vu, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_hline(
     yintercept = 0.5,
@@ -1923,7 +2004,8 @@ p3 <- ggplot() +
 ggsave(p3, file = paste0("figS7.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
 
 p4 <- ggplot() +
-  geom_rect(data = no_cq_nt, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.80, fill = as.factor(redlist_category))) +
+  geom_rect(data = no_cq_nt, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.80, fill = as.factor(redlist_category)),
+            show.legend = F) +
   geom_line(data = no_cq_nt, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_hline(
     yintercept = 0.5,
@@ -1960,7 +2042,8 @@ p4 <- ggplot() +
 ggsave(p4, file = paste0("figS8.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
 
 p5 <- ggplot() +
-  geom_rect(data = no_cq_lc, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.95, fill = as.factor(redlist_category))) +
+  geom_rect(data = no_cq_lc, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.95, fill = as.factor(redlist_category)),
+            show.legend = F) +
   geom_line(data = no_cq_lc, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_hline(
     yintercept = 0.5,
@@ -1997,7 +2080,8 @@ p5 <- ggplot() +
 ggsave(p5, file = paste0("figS9.pdf"), path = here::here("figs", "supp"), height = 18, width = 18)
 
 p6 <- ggplot() +
-  geom_rect(data = no_cq_dd, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.46, fill = as.factor(redlist_category))) +
+  geom_rect(data = no_cq_dd, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.46, fill = as.factor(redlist_category)),
+            show.legend = F) +
   geom_line(data = no_cq_dd, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
   geom_hline(
     yintercept = 0.5,
@@ -2049,25 +2133,25 @@ f_val_sim <- f_val_sim %>%
   mutate(name = paste0(common_name, " (", redlist_category, ")")) %>%
   mutate(name = ifelse(name == "Thresher (VU)", "Common thresher (VU)", name))
 
-p1 <- ggplot(data = f_val_sim, aes(f / 1.5, f_reduce_5)) +
-  geom_abline(linetype = "dashed") +
-  geom_point(aes(color = percent_diff, shape = f_ratio_5), size = 4) +
-  theme_bw(base_size = 16) +
-  scale_color_viridis_c() +
-  labs(
-    x = expression(F[MSY]), y = "Expected F with Retention Prohibition",
-    color = "Percent Mortality \n Reduction from \n Retention Prohibition",
-    shape = "",
-    title = "Last 5 years of F"
-  ) +
-  annotate(geom = "text", label = "F[Retention] ==~ F[MSY]", x = 0.15, y = 0.2, parse = TRUE, size = 8) +
-  geom_curve(aes(x = 0.15, y = 0.195, xend = 0.15, yend = 0.155), arrow = arrow(length = unit(0.1, "inches"))) +
-  geom_label_repel(aes(label = name), size = 5, vjust = "outward", hjust = "outward", alpha = 0.75) +
-  theme(
-    legend.key.size = unit(8, "mm"),
-    panel.grid.minor = element_blank()
-  ) +
-  guides(color = guide_colorbar(ticks.colour = "black", frame.colour = "black"))
+# p1 <- ggplot(data = f_val_sim, aes(f / 1.5, f_reduce_5)) +
+#   geom_abline(linetype = "dashed") +
+#   geom_point(aes(color = percent_diff, shape = f_ratio_5), size = 4) +
+#   theme_bw(base_size = 16) +
+#   scale_color_viridis_c() +
+#   labs(
+#     x = expression(F[MSY]), y = "Expected F with Retention Prohibition",
+#     color = "Percent Mortality \n Reduction from \n Retention Prohibition",
+#     shape = "",
+#     title = "Last 5 years of F"
+#   ) +
+#   annotate(geom = "text", label = "F[Retention] ==~ F[MSY]", x = 0.15, y = 0.2, parse = TRUE, size = 8) +
+#   geom_curve(aes(x = 0.15, y = 0.195, xend = 0.15, yend = 0.155), arrow = arrow(length = unit(0.1, "inches"))) +
+#   geom_label_repel(aes(label = name), size = 5, vjust = "outward", hjust = "outward", alpha = 0.75) +
+#   theme(
+#     legend.key.size = unit(8, "mm"),
+#     panel.grid.minor = element_blank()
+#   ) +
+#   guides(color = guide_colorbar(ticks.colour = "black", frame.colour = "black"))
 
 p2 <- ggplot(data = f_val_sim, aes(f / 1.5, f_reduce_10)) +
   geom_abline(linetype = "dashed") +
@@ -2306,21 +2390,29 @@ percent_calc <- sim_results %>%
   ) %>%
   ungroup()
 
-f_val_sim = left_join(f_val_sim, percent_calc)
+f_val_sim = left_join(f_val_sim, percent_calc) %>% 
+  mutate(check = f_max / mean_f_10,
+         status = ifelse(check <= 1, "No benefit", "Benefit"))
 
 sub <- bquote(F["MSY"])
 
-p1 <- ggplot(data = f_val_sim, aes(mean_f_10, f_max)) +
+ggplot(data = f_val_sim, aes(scientific_name, check)) +
+  geom_point() +
+  geom_hline(yintercept = 1) +
+  coord_flip()
+
+p1 <- 
+  ggplot(data = f_val_sim, aes(mean_f_10, f_max)) +
   geom_abline(linetype = "dashed") +
-  geom_point(aes(color = f_ratio_5), size = 4) +
+  geom_point(aes(color = status), size = 4) +
   theme_bw(base_size = 16) +
   scale_color_viridis_d() +
   labs(
-    x = expression(F[MSY]), y = bquote('Max '~.(sub)),
+    x = "Mean empirical F", y = bquote('Max '~.(sub)),
     color = ""
   ) +
-  annotate(geom = "text", label = "F[MSY] ==~ F[MSY]", x = 0.15, y = 0.2, parse = TRUE, size = 8) +
-  geom_curve(aes(x = 0.15, y = 0.195, xend = 0.15, yend = 0.155), arrow = arrow(length = unit(0.1, "inches"))) +
+  # annotate(geom = "text", label = "Max F[MSY] ==~ Empirical F", x = 0.15, y = 0.2, parse = TRUE, size = 8) 
+  # geom_curve(aes(x = 0.15, y = 0.195, xend = 0.15, yend = 0.155), arrow = arrow(length = unit(0.1, "inches"))) +
   geom_label_repel(aes(label = name), size = 5, vjust = "outward", hjust = "outward", alpha = 0.75) +
   theme(
     legend.key.size = unit(8, "mm"),
@@ -2329,7 +2421,7 @@ p1 <- ggplot(data = f_val_sim, aes(mean_f_10, f_max)) +
 
 p_sim / p1
 
-ggsave(p_sim / p1 + plot_annotation(tag_levels = "A"), file = paste0("fig5.pdf"), path = here::here("figs"), height = 20, width = 20)
+ggsave(p_sim / p1 + plot_annotation(tag_levels = "A") & theme(legend.position = "bottom"), file = paste0("fig5.pdf"), path = here::here("figs"), height = 20, width = 20)
 
 sim_200 <- sim_results %>%
   filter(t == 200) %>%
