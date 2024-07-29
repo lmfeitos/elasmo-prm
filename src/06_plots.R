@@ -1391,14 +1391,16 @@ threatended <- sim_results_iucn_pct %>%
   filter(redlist_category %in% c("VU", "EN", "CR")) %>%
   mutate(
     mean_percent_diff = mean(percent_diff, na.rm = TRUE),
-    mean_abs_diff = mean(abs_diff, na.rm = TRUE)
+    mean_abs_diff = mean(abs_diff, na.rm = TRUE),
+    mean_f_fmsy = mean(f_fmsy, na.rm = TRUE)
   )
 
 non_threat_mean <- non_threat %>%
   filter(redlist_category %in% c("DD", "NT", "LC")) %>%
   mutate(
     mean_percent_diff = mean(percent_diff, na.rm = TRUE),
-    mean_abs_diff = mean(abs_diff, na.rm = TRUE)
+    mean_abs_diff = mean(abs_diff, na.rm = TRUE),
+    mean_f_fmsy = mean(f_fmsy, na.rm = TRUE)
   )
 
 sim_results_iucn_pct_sum_stats <- sim_results_iucn_pct %>%
@@ -1406,7 +1408,8 @@ sim_results_iucn_pct_sum_stats <- sim_results_iucn_pct %>%
   summarise(
     mean_percent_diff = mean(percent_diff, na.rm = TRUE),
     sd_percent_diff = sd(percent_diff, na.rm = TRUE),
-    var_percent_diff = var(percent_diff, na.rm = TRUE)
+    var_percent_diff = var(percent_diff, na.rm = TRUE),
+    mean_f_fmsy = mean(f_fmsy, na.rm = TRUE)
   )
 
 sim_results_bin_stats <- sim_results_iucn_pct %>%
@@ -1414,7 +1417,8 @@ sim_results_bin_stats <- sim_results_iucn_pct %>%
   summarise(
     mean_percent_diff = mean(abs_diff, na.rm = TRUE),
     sd_percent_diff = sd(abs_diff, na.rm = TRUE),
-    var_percent_diff = var(abs_diff, na.rm = TRUE)
+    var_percent_diff = var(abs_diff, na.rm = TRUE),
+    mean_f_fmsy = mean(f_fmsy, na.rm = TRUE)
   )
 
 # get average mortality reductions per iucn status
@@ -1424,7 +1428,8 @@ sim_results_iucn_pct_plot_m_ave <- sim_results_iucn_pct %>%
     mean_percent_diff = mean(percent_diff, na.rm = TRUE),
     sd_percent_diff = sd(percent_diff, na.rm = TRUE),
     mean_abs_diff = mean(abs_diff, na.rm = TRUE),
-    sd_abs_diff = sd(abs_diff, na.rm = TRUE)
+    sd_abs_diff = sd(abs_diff, na.rm = TRUE),
+    mean_f_fmsy = mean(f_fmsy, na.rm = TRUE)
   ) %>%
   mutate(
     mean_abs_diff = mean_abs_diff * 100,
@@ -1434,7 +1439,8 @@ sim_results_iucn_pct_plot_m_ave <- sim_results_iucn_pct %>%
 # get average relative mortality reductions per main fished family
 diff_fam <- sim_results_iucn_pct %>%
   group_by(family) %>%
-  summarise(mean_diff = mean(percent_diff))
+  summarise(mean_diff = mean(percent_diff),
+            mean_f_fmsy = mean(f_fmsy, na.rm = TRUE))
 
 # get average absolute mortality reductions per main fished family
 diff_fam_abs <- sim_results_iucn_pct %>%
@@ -2408,7 +2414,7 @@ p1 <-
   theme_bw(base_size = 16) +
   scale_color_viridis_d() +
   labs(
-    x = "Mean empirical F", y = bquote('Max '~.(sub)),
+    x = "Mean empirical F", y = "Theoretical maximum F",
     color = ""
   ) +
   # annotate(geom = "text", label = "Max F[MSY] ==~ Empirical F", x = 0.15, y = 0.2, parse = TRUE, size = 8) 
