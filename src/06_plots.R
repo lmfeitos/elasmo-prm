@@ -201,7 +201,10 @@ sim_results_uncorrected <- read_csv(here::here(basedir, "data", "uncorrected_res
 write_csv(sim_results_uncorrected, here::here("data", "pct_mort_reduction_sim_uncorrected.csv"))
 
 f_vals <- read_csv(here::here("data", "ramldb_f_means.csv")) %>%
-  rename(scientific_name = scientificname)
+  rename(scientific_name = scientificname) %>% 
+  filter(ref != "RAMLDB") %>% 
+  group_by(scientific_name) %>% 
+  mutate(mean_f = mean(mean_f_10))
 
 sim_results_2 <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
@@ -1312,7 +1315,7 @@ sim_results_iucn_pct <- sim_results_iucn %>%
     abs_diff = f - f_mort,
     avm_prm = mid_avm + mid_prm
   ) %>%
-  mutate(percent_diff = round(percent_diff, 4))%>%
+  mutate(percent_diff = round(percent_diff, 4)) %>%
   mutate(f_max = (f) / (1 - (percent_diff / 100))) %>%
   mutate(f_fmsy = f_max / f) 
 
@@ -1339,25 +1342,25 @@ sim_results_iucn_pct <- sim_results_iucn_pct %>%
 
 f_val_sim <- left_join(f_vals, sim_results_iucn_pct) %>%
   mutate(
-    f_fmsy_5 = mean_f_5 / f,
-    f_fmsy_10 = mean_f_10 / f
+    #f_fmsy_5 = mean_f_5 / f,
+    f_fmsy_10 = mean_f / f
   ) %>%
   mutate(
-    f_reduce_5 = mean_f_5 - mean_f_5 * (percent_diff / 100),
-    f_reduce_10 = mean_f_10 - mean_f_10 * (percent_diff / 100)
+    #f_reduce_5 = mean_f_5 - mean_f_5 * (percent_diff / 100),
+    f_reduce_10 = mean_f - mean_f * (percent_diff / 100)
   ) %>%
-  mutate(success_5 = case_when(
-    f_reduce_5 <= f / 1.5 ~ "yes",
-    f_reduce_5 > f / 1.5 ~ "no"
-  )) %>%
+  # mutate(success_5 = case_when(
+  #   f_reduce_5 <= f / 1.5 ~ "yes",
+  #   f_reduce_5 > f / 1.5 ~ "no"
+  # )) %>%
   mutate(success_10 = case_when(
     f_reduce_10 <= f / 1.5 ~ "yes",
     f_reduce_10 > f / 1.5 ~ "no"
   )) %>%
-  mutate(f_ratio_5 = case_when(
-    f_fmsy_5 >= 1 ~ "Originally Overfished",
-    f_fmsy_5 < 1 ~ "Not originally overfished"
-  )) %>%
+  # mutate(f_ratio_5 = case_when(
+  #   f_fmsy_5 >= 1 ~ "Originally Overfished",
+  #   f_fmsy_5 < 1 ~ "Not originally overfished"
+  # )) %>%
   mutate(f_ratio_10 = case_when(
     f_fmsy_10 >= 1 ~ "Originally Overfished",
     f_fmsy_10 < 1 ~ "Not originally overfished"
@@ -2384,7 +2387,8 @@ percent_calc <- sim_results %>%
     percent_diff = (f - f_mort) / f * 100,
     abs_diff = f - f_mort
   ) %>%
-  mutate(f_max = (f) / (1 - (percent_diff / 100))) %>%
+  mutate(f_max = case_when(
+    fp == 1 ~ (f) / (1 - (percent_diff / 100)))) %>%
   mutate(f_fmsy = case_when(
     fp == 1 ~ (f_max / f),
     TRUE ~ NA
@@ -2397,8 +2401,12 @@ percent_calc <- sim_results %>%
   ungroup()
 
 f_val_sim = left_join(f_val_sim, percent_calc) %>% 
-  mutate(check = f_max / mean_f_10,
-         status = ifelse(check <= 1, "No benefit", "Benefit"))
+  mutate(overfished = case_when(
+    overfished == "no" ~ "Not overfished",
+    overfished == "yes" ~ "Overfished",
+    TRUE ~ "Unknown"
+  )) %>% 
+  distinct(scientific_name, f_max, mean_f, overfished, name)
 
 sub <- bquote(F["MSY"])
 
@@ -2407,19 +2415,22 @@ ggplot(data = f_val_sim, aes(scientific_name, check)) +
   geom_hline(yintercept = 1) +
   coord_flip()
 
-p1 <- 
-  ggplot(data = f_val_sim, aes(mean_f_10, f_max)) +
+#p1 <- 
+  ggplot(data = f_val_sim, aes(f_max, mean_f)) +
   geom_abline(linetype = "dashed") +
-  geom_point(aes(color = status), size = 4) +
+  geom_point(aes(color = overfished), size = 4) +
+  scale_x_continuous(limits = c(0, 1),
+                     expand = c(0,0)) +
+  scale_y_continuous(limits = c(0, 1)) +
   theme_bw(base_size = 16) +
   scale_color_viridis_d() +
   labs(
-    x = "Mean empirical F", y = "Theoretical maximum F",
+    x = "Theoretical maximum F", y = "Mean empirical F",
     color = ""
   ) +
   # annotate(geom = "text", label = "Max F[MSY] ==~ Empirical F", x = 0.15, y = 0.2, parse = TRUE, size = 8) 
   # geom_curve(aes(x = 0.15, y = 0.195, xend = 0.15, yend = 0.155), arrow = arrow(length = unit(0.1, "inches"))) +
-  geom_label_repel(aes(label = name), size = 5, vjust = "outward", hjust = "outward", alpha = 0.75) +
+  geom_label_repel(aes(label = name), size = 5, vjust = "outward", hjust = "outward", alpha = 0.65) +
   theme(
     legend.key.size = unit(8, "mm"),
     panel.grid.minor = element_blank()

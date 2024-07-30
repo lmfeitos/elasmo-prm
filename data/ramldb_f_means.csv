@@ -1,13 +1,38 @@
-scientificname,commonname,mean_f_10,mean_f_5,ref
-Alopias vulpinus,Thresher shark,0.282,0.116,RAMLDB
-Carcharhinus acronotus,Blacknose shark,0.221,0.2044,RAMLDB
-Carcharhinus falciformis,Silky shark,0.313,0.313,RAMLDB
-Carcharhinus isodon,Finetooth shark,0.004263,0.004232,RAMLDB
-Carcharhinus limbatus,Blacktip shark,0.006192,0.005122,RAMLDB
-Carcharhinus longimanus,Oceanic whitetip shark,0.151,0.128,RAMLDB
-Carcharhinus obscurus,Dusky shark,0.156,0.0612,RAMLDB
-Carcharhinus plumbeus,Sandbar shark,0.05797,0.0418,RAMLDB
-Prionace glauca,Blue shark,0.151,0.128,RAMLDB
-Rhizoprionodon terraenovae,Atlantic sharpnose shark,0.1549,0.1446,RAMLDB
-Sphyrna tiburo,Bonnethead shark,0.1646,0.1194,RAMLDB
-Lamna nasus,Porbeagle shark,0.031,0.031,https://www.iccat.int/Documents/Meetings/Docs/2020/REPORTS/2020_POR_SA_ENG.pdf
+scientificname,commonname,mean_f_10,ocean,year,overfished,ref
+Alopias vulpinus,Thresher shark,0.282,,,,RAMLDB
+Carcharhinus acronotus,Blacknose shark,0.221,,,,RAMLDB
+Carcharhinus falciformis,Silky shark,0.313,,,,RAMLDB
+Carcharhinus isodon,Finetooth shark,0.004263,,,,RAMLDB
+Carcharhinus limbatus,Blacktip shark,0.006192,,,,RAMLDB
+Carcharhinus longimanus,Oceanic whitetip shark,0.151,,,,RAMLDB
+Carcharhinus obscurus,Dusky shark,0.156,,,,RAMLDB
+Carcharhinus plumbeus,Sandbar shark,0.05797,,,,RAMLDB
+Prionace glauca,Blue shark,0.151,,,,RAMLDB
+Rhizoprionodon terraenovae,Atlantic sharpnose shark,0.1549,,,,RAMLDB
+Sphyrna tiburo,Bonnethead shark,0.1646,,,,RAMLDB
+Lamna nasus,Porbeagle shark,0.031,atlantic,2020,no,https://www.iccat.int/Documents/Meetings/Docs/2020/REPORTS/2020_POR_SA_ENG.pdf
+Lamna nasus,Porbeagle shark,0.005,atlantic,2020,no,https://www.iccat.int/Documents/Meetings/Docs/2020/REPORTS/2020_POR_SA_ENG.pdf
+Carcharhinus limbatus,Blacktip shark,0.026,atlantic,2018,no,https://sedarweb.org/documents/sedar-65-hms-atlantic-blacktip-shark-final-stock-assessment-report/
+Carcharhinus acronotus,Blacknose shark,0.1072,atlantic,2009,yes,https://sedarweb.org/documents/sedar-21-final-stock-assessment-report-hms-atlantic-blacknose-shark/
+Carcharhinus obscurus,Dusky shark,0.056,atlantic,2009,yes,https://sedarweb.org/documents/sedar-21-final-stock-assessment-report-hms-dusky-shark/
+Carcharhinus plumbeus,Sandbar shark,0.0067,atlantic,2009,no,https://sedarweb.org/documents/sedar-21-final-stock-assessment-report-hms-sandbar-shark/
+Prionace glauca,Blue shark,0.196,north atlantic,2021,no,https://www.iccat.int/Documents/SCRS/DetRep/BSH_SA_ENG.PDF
+Prionace glauca,Blue shark,0.182104,south atlantic,2021,yes,https://www.iccat.int/Documents/SCRS/DetRep/BSH_SA_ENG.PDF
+Isurus oxyrinchus,Shortfin mako shark,0.184305,atlantic,2015,yes,https://www.iccat.int/Documents/SCRS/ExecSum/SMA_ENG.pdf
+Lamna nasus,Porbeagle shark,0.020237,northwest atlantic,2021,yes,https://www.iccat.int/Documents/SCRS/ExecSum/POR_ENG.pdf
+Lamna nasus,Porbeagle shark,0.000663,northeast atlantic,2021,yes,https://www.iccat.int/Documents/SCRS/ExecSum/POR_ENG.pdf
+Lamna nasus,Porbeagle shark,0.007006,south atlantic,2018,unknown,https://www.iccat.int/Documents/SCRS/ExecSum/POR_ENG.pdf
+Carcharhinus longimanus,Oceanic whitetip shark,0.216,western pacific,2019,yes,https://www.wcpfc.int/doc/12/oceanic-whitetip-shark
+Carcharhinus falciformis,Silky shark,0.313,western pacific,2016,no,https://www.wcpfc.int/doc/13/silky-shark
+Lamna nasus,Porbeagle shark,0.001,western pacific,2017,no,https://www.wcpfc.int/doc/18/southern-hemisphere-portbeagle-shark
+Prionace glauca,Blue shark,0.094,western pacific,2021,no,https://www.wcpfc.int/doc/14/south-pacific-blue-shark
+Prionace glauca,Blue shark,0.14,western pacific,2015,no,https://www.wcpfc.int/doc/15/north-pacific-blue-shark
+Carcharhinus falciformis,Silky shark,0.4,eastern pacific,2019,yes,https://www.iattc.org/GetAttachment/6cdc278b-c722-4497-8fce-7984de1b2732/No-24-2024_Status-of-the-tuna-and-billfish-stocks-in-2022.pdf
+Sphyrna lewini,Scalloped hammerhead,0.4,eastern pacific,2019,yes,https://www.iattc.org/GetAttachment/6cdc278b-c722-4497-8fce-7984de1b2732/No-24-2024_Status-of-the-tuna-and-billfish-stocks-in-2022.pdf
+Sphyrna mokarran,Great hammerhead,0.635,eastern pacific,2019,yes,https://www.iattc.org/GetAttachment/6cdc278b-c722-4497-8fce-7984de1b2732/No-24-2024_Status-of-the-tuna-and-billfish-stocks-in-2022.pdf
+Sphyrna zygaena,Smooth hammerhead,0.455,eastern pacific,2019,yes,https://www.iattc.org/GetAttachment/6cdc278b-c722-4497-8fce-7984de1b2732/No-24-2024_Status-of-the-tuna-and-billfish-stocks-in-2022.pdf
+Triakis semifasciata,Leopard shark,0.061,,,unknown,Worm et al (2013)
+Sphyrna tiburo,Bonnethead shark,0.186,,,unknown,Worm et al (2013)
+Alopias pelagicus,Pelagic thresher,0.15,,,unknown,Worm et al (2013)
+Carcharhinus isodon,Finetooth shark,0.001,,,unknown,Worm et al (2013)
+Prionace glauca,Blue shark,0.31,indian ocean,2019,no,https://iotc.org/sites/default/files/documents/2021/10/IOTC-2021-WPEB17-15_Rev2.pdf
