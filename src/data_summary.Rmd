@@ -287,18 +287,32 @@ pct_mort_reduction <- read_csv(here("data", "sim_results_pct_diff.csv"))
 
 mean_mort_reduction <- pct_mort_reduction %>% 
   mutate(mean_pct_mort_reduction = mean(percent_diff),
-         mean_abs_mort_reduction = mean(abs_diff))
+         mean_abs_mort_reduction = mean(abs_diff),
+         mean_f_fmsy = mean(f_fmsy))
 
 slice_top <- mean_mort_reduction %>% 
-  arrange(desc(abs_diff)) %>% 
-  slice_head(n = 10)
+  arrange(desc(f_fmsy)) %>% 
+  slice_head(n = 10) %>% 
+  select(scientific_name, common_name, redlist_category, f_fmsy)
 
 slice_bottom <- mean_mort_reduction %>% 
-  arrange(desc(abs_diff)) %>% 
-  slice_tail(n = 10)
+  arrange(desc(f_fmsy)) %>% 
+  slice_tail(n = 10) %>% 
+  select(scientific_name, common_name, redlist_category, f_fmsy)
 
-spp_50_pct <- pct_mort_reduction %>% 
-  filter(percent_diff >= 50)
+ggplot(data = pct_mort_reduction) +
+  geom_histogram(aes(x = f_fmsy))
+
+pct_mort_reduction_range <- pct_mort_reduction %>% 
+  mutate(range = case_when(
+    f_fmsy <= 2 ~ "Low benefit",
+    f_fmsy > 2 & f_fmsy <= 5 ~ "Medium benefit",
+    f_fmsy > 5 ~ "High benefit"
+  )) %>% 
+  group_by(range) %>% 
+  summarise(count = n()) %>% 
+  ungroup() %>% 
+  mutate(range_prop = count / sum(count))
 ```
 
 
@@ -335,16 +349,16 @@ non_threatened_spp <- pct_mort_reduction %>%
 ```{r}
 # Check for changes between corrected and uncorrected estimates
 sim_join <- read_csv(here("data", "sim_pct_correct_uncorrect.csv")) %>% 
-  select(family, status, mean_abs_mort_reduction) %>% 
+  select(family, status, mean_f_fmsy) %>% 
   distinct() %>% 
   pivot_wider(names_from = status,
-              values_from = mean_abs_mort_reduction) %>% 
-  clean_names()  %>% 
+              values_from = mean_f_fmsy) %>% 
+  clean_names() %>% 
   group_by(family) %>% 
-  summarise(diff = corrected - uncorrected) %>% 
+  mutate(diff = corrected - uncorrected) %>% 
   ungroup() %>% 
   mutate(mean_diff = mean(diff)) %>% 
-  mutate(diff = round(diff * 100, 4))
+  mutate(diff = round(diff, 4))
 ```
 
 

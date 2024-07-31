@@ -1295,7 +1295,7 @@ plot <- p2 / p1 / (p3 / p4 / p5) + plot_layout(guides = "collect") + plot_annota
 
 ggsave(plot, file = paste0("figS3.pdf"), path = here::here("figs", "supp"), height = 25, width = 20)
 
-# Figures 4 and S4 --------------------------------------------------------
+# Figures 5 and S11 --------------------------------------------------------
 
 iucn_data <- iucn_data %>%
   left_join(iucn_taxonomy, by = "scientific_name")
@@ -1317,7 +1317,8 @@ sim_results_iucn_pct <- sim_results_iucn %>%
   ) %>%
   mutate(percent_diff = round(percent_diff, 4)) %>%
   mutate(f_max = (f) / (1 - (percent_diff / 100))) %>%
-  mutate(f_fmsy = f_max / f) 
+  mutate(f_fmsy = f_max / f) %>% 
+  mutate(mean_f_fmsy = mean(f_fmsy))
 
 write_csv(sim_results_iucn_pct, here::here("data", "sim_results_pct_diff.csv"))
 
@@ -1733,7 +1734,7 @@ prop2 <-
     y = ""
   ) 
 
-ggsave(prop2, file = paste0("fig4.pdf"), path = here::here("figs"), height = 20, width = 40) + plot_annotation(tag_levels = "A")
+ggsave(prop2, file = paste0("fig5.pdf"), path = here::here("figs"), height = 20, width = 40) + plot_annotation(tag_levels = "A")
 
 # Set a number of empty bars to add at the end of each group
 lolli_data2 <- non_threat %>%
@@ -1850,9 +1851,9 @@ prop3 <-
   ) 
   #guides(fill = guide_colorbar(ticks.colour = "black", frame.colour = "black"))
 
-ggsave(prop3, file = paste0("figS4.pdf"), path = here::here("figs", "supp"), height = 20, width = 40)
+ggsave(prop3, file = paste0("figS11.pdf"), path = here::here("figs", "supp"), height = 20, width = 40)
 
-# Figure 5 and S5-10 ----------------------------------------------------------------
+# Figure 4A and S5-10 ----------------------------------------------------------------
 
 ### ADDED THIS CODE TO MAKE FIGURES 5 AND SX DISPLAY COMMON NAMES ON THE FACET STRIPS INSTEAD OF THE SCIENTIFIC NAMES
 sim_results_new <- sim_results_2 %>%
@@ -2192,7 +2193,7 @@ p_sim <- ggplot() +
   ) +
   geom_rect(
     data = no_cq_sub,
-    aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.19, fill = as.factor(redlist_category))
+    aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.25, fill = as.factor(redlist_category))
   ) +
   geom_line(data = no_cq_sub %>% filter(!is.na(scenario)), aes(t, n_div_k, color = mort_scenario, group = total_mort), linewidth = 2) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
@@ -2218,7 +2219,7 @@ p_sim <- ggplot() +
   ) +
   coord_cartesian(clip = "off", ylim = c(0, 1))
 
-# Figure S11-----------------------------------------------------------------------------
+# Figure S12-----------------------------------------------------------------------------
 
 pct_mort_reduction <- read_csv(here::here("data", "pct_mort_reduction_sim.csv"))
 
@@ -2314,12 +2315,12 @@ mort_red_corrected <-
   # ) +
   facet_wrap(~status) +
   coord_flip() +
+  ylab(bquote("Mean" ~ F[MAX]/F[MSY])) +
   labs(
-    y = "Maximum F / FMSY to benefit from retention prohibition",
     x = "",
     size = "Proportion of\nthreatened species\nper family"
   ) +
-  scale_size_manual(values = c("<0.25" = 0.5, "<0.50" = 1, "<0.75" = 3, ">0.75" = 5)) +
+  scale_size_manual(values = c("<0.25" = 0.5, "<0.50" = 1, "<0.75" = 2, ">0.75" = 3)) +
   theme_bw() +
   theme(
     axis.title = element_text(size = 12, color = "black"),
@@ -2331,9 +2332,9 @@ mort_red_corrected <-
   )
 mort_red_corrected
 
-ggsave(mort_red_corrected, file = paste0("figS11.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
+ggsave(mort_red_corrected, file = paste0("figS12.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
 
-# Figure S12 and Dryad data--------------------------------------------------------------
+# Figure S4 and Dryad data--------------------------------------------------------------
 
 sim_results <- list(sim_results1_5, sim_results1, sim_results2, sim_results3, uncorrected_results) %>%
   reduce(full_join) %>%
@@ -2375,7 +2376,7 @@ p <- ggplot(eq %>% filter(corrected == "yes")) +
   )
 p
 
-ggsave(p, file = paste0("figS12.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
+ggsave(p, file = paste0("figS4.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
 
 # Summarize sensitivity stats within paper
 
@@ -2406,7 +2407,7 @@ f_val_sim = left_join(f_val_sim, percent_calc) %>%
     overfished == "yes" ~ "Overfished",
     TRUE ~ "Unknown"
   )) %>% 
-  distinct(scientific_name, f_max, mean_f, overfished, name)
+  distinct(scientific_name, f_max, mean_f, name)
 
 sub <- bquote(F["MSY"])
 
@@ -2415,13 +2416,14 @@ ggplot(data = f_val_sim, aes(scientific_name, check)) +
   geom_hline(yintercept = 1) +
   coord_flip()
 
-#p1 <- 
+p1 <- 
   ggplot(data = f_val_sim, aes(f_max, mean_f)) +
   geom_abline(linetype = "dashed") +
-  geom_point(aes(color = overfished), size = 4) +
+  geom_point(size = 4) +
   scale_x_continuous(limits = c(0, 1),
                      expand = c(0,0)) +
-  scale_y_continuous(limits = c(0, 1)) +
+  scale_y_continuous(limits = c(0, 1),
+                     expand = c(0.02,0)) +
   theme_bw(base_size = 16) +
   scale_color_viridis_d() +
   labs(
@@ -2436,9 +2438,9 @@ ggplot(data = f_val_sim, aes(scientific_name, check)) +
     panel.grid.minor = element_blank()
   ) 
 
-p_sim / p1
+p1 / p_sim
 
-ggsave(p_sim / p1 + plot_annotation(tag_levels = "A") & theme(legend.position = "bottom"), file = paste0("fig5.pdf"), path = here::here("figs"), height = 20, width = 20)
+ggsave(p1 / p_sim + plot_annotation(tag_levels = "A") & theme(legend.position = "bottom"), file = paste0("fig4.pdf"), path = here::here("figs"), height = 20, width = 20)
 
 sim_200 <- sim_results %>%
   filter(t == 200) %>%
