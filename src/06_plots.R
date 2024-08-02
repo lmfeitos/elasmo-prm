@@ -116,6 +116,8 @@ iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>%
   filter(!str_detect(scientific_name, "Parmaturus|Bythaelurus|Cirrhoscyllium|Proscyllium|Megachasma|Cetorhinus|Rhincodon|Aetobatus|Acroteriobatus|Aetomylaeus|raja|Chimaera|Mobula")) %>% 
   distinct()
 
+write_csv(iucn_data, here::here("data", "longline_species.csv"))
+
 # read in taxonomic assigmnets of IUCN data
 iucn_taxonomy <- read_csv(here("data", "iucn_data", "taxonomy.csv")) %>%
   clean_names() %>%
@@ -171,6 +173,8 @@ iucn_data_gill <- read_csv(here("data", "iucn_data", "assessments.csv")) %>%
   )) %>%
   filter(!str_detect(scientific_name, "Aetobatus|Acroteriobatus|Aetomylaeus|raja|Chimaera|Mobula")) %>%
   distinct()
+
+write_csv(iucn_data_gill, here::here("data", "gillnet_species.csv"))
 
 # AVM gillnet predictions
 gillnet_predictions <- read_csv(here::here("data", "gillnet_model_predictions.csv")) %>%
