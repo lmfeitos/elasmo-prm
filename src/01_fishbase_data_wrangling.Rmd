@@ -467,3 +467,9 @@ predict_gillnet_final <- predict_gillnet_join %>%
 write_csv(predict_gillnet_final, file = here::here("data", "predict_gillnet_final.csv"), na = "")
 ```
 
+```{r}
+# read in the full_threat data
+full_threat <- read_csv(here("data", "full_threat_list.csv")) %>% 
+  filter(!str_detect(scientific_name, "trygon|batos|batus|Dipturus|Raja|Rajella|Gymnura|Dasyatis|Urolophus|Torpedo|Hypanus|Myliobatis|Rhinoptera|Glaucostegus|batis|rhina|Pristis|Anoxypristis|Zapteryx|Hydrolagus|Bathytoshia|Discopyge|Narcine|Styracura|Tetronarce|Urogymnus|Glyphis|Neoharriota|Springeria|Sympterygia|Callorhinchus|Heteronarce|Pastinachus|Taeniura|Neoharriotta|Taeniurops|Okamejei|Narke|Himantura|Rhina|Hongeo|Temera"))
+```
+
