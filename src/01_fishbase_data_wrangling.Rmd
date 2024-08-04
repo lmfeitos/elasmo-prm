@@ -253,7 +253,8 @@ new_dat_long_subset <- new_dat_longline %>%
 tol = read_csv(here("data", "tolerance.csv")) %>% 
   rename(scientific_name = species) %>% 
   mutate(scientific_name = ifelse(scientific_name == "Stegostoma fasciatum", "Stegostoma tigrinum", scientific_name)) %>% 
-  filter(!is.na(ac))
+  filter(!is.na(ac)) %>% 
+  select(- eo)
 # eo is thermal sensitivity
 # ac is active hypoxia vulnerability
 
@@ -400,7 +401,8 @@ mull_df <- read_csv(here("data", "mull_etal_reproduction.csv")) %>%
   mutate(scientific_name = str_replace(scientific_name, "_", " ")) %>%
   select(- reproductive_mode) %>% 
   mutate(reproductive_mode = str_to_lower(vertebrate_reproductive_category)) %>% 
-  drop_na()
+  drop_na() %>% 
+  select(scientific_name, reproductive_mode)
 
 prm_data <- read_csv(here("data", "prm_hypoxia.csv")) %>% 
   mutate(reproductive_mode = case_when(
@@ -422,7 +424,7 @@ mull_join <- prm_data %>%
     str_detect(scientific_name, "clavata") ~ "lecithotrophic oviparity",
     str_detect(scientific_name, "cemiculus") ~ "lecithotrophic viviparity",
     TRUE ~ reproductive_mode
-  ))
+  )) 
 
 # update dataset for model fitting
 write_csv(mull_join, here::here("data", "prm_hypoxia.csv"), na = "")
@@ -436,7 +438,7 @@ predict_data <- read_csv(here("data", "predict_data_hyp.csv")) %>%
     reproductive_mode == "oophagy" ~ "matrotrophic viviparity",
     reproductive_mode == "oviparous" ~ "lecithotrophic oviparity",
     reproductive_mode == "histotrophy" ~ "matrotrophic viviparity"
-  ))
+  )) 
 
 # merge predict data with Mull et al (2024)'s data
 mull_join_predict <- predict_data %>% 
@@ -470,6 +472,58 @@ write_csv(predict_gillnet_final, file = here::here("data", "predict_gillnet_fina
 ```{r}
 # read in the full_threat data
 full_threat <- read_csv(here("data", "full_threat_list.csv")) %>% 
-  filter(!str_detect(scientific_name, "trygon|batos|batus|Dipturus|Raja|Rajella|Gymnura|Dasyatis|Urolophus|Torpedo|Hypanus|Myliobatis|Rhinoptera|Glaucostegus|batis|rhina|Pristis|Anoxypristis|Zapteryx|Hydrolagus|Bathytoshia|Discopyge|Narcine|Styracura|Tetronarce|Urogymnus|Glyphis|Neoharriota|Springeria|Sympterygia|Callorhinchus|Heteronarce|Pastinachus|Taeniura|Neoharriotta|Taeniurops|Okamejei|Narke|Himantura|Rhina|Hongeo|Temera"))
+  filter(!str_detect(scientific_name, "trygon|batos|batus|Dipturus|Raja|Rajella|Gymnura|Dasyatis|Urolophus|Torpedo|Hypanus|Myliobatis|Rhinoptera|Glaucostegus|batis|rhina|Pristis|Anoxypristis|Zapteryx|Hydrolagus|Bathytoshia|Discopyge|Narcine|Styracura|Tetronarce|Urogymnus|Glyphis|Neoharriota|Springeria|Sympterygia|Callorhinchus|Heteronarce|Pastinachus|Taeniura|Neoharriotta|Taeniurops|Okamejei|Narke|Himantura|Rhina|Hongeo|Temera")) %>% 
+  filter(is.na(avm_pred)) %>% 
+  select(scientific_name) 
+
+# read in the predict data
+predict_data_hyp <- read_csv(here("data", "predict_data_hyp.csv")) %>% 
+  mutate(habitat = case_when(
+    str_detect(habitat_associated, "pelagic") ~ "pelagic",
+    str_detect(habitat_associated, "demersal") ~ "demersal",
+    habitat_associated == "reef-associated" ~ "pelagic"
+  )) %>% 
+  select(estimate, scientific_name, family, habitat, max_size_cm, ventilation_method, reproductive_mode, median_depth,  genus, ac, order, source)
 ```
+
+```{r}
+# join datasets
+full_threat_join <- full_threat %>% 
+  full_join(predict_data_hyp, by = "scientific_name") %>% 
+  left_join(tol) %>% 
+  select(-genus) %>% 
+  mutate(species = scientific_name) %>% 
+  separate_wider_delim(species, names = c("genus", "species"), delim = " ") %>% 
+  group_by(genus) %>% 
+  mutate(ac_new_gen = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac)) %>% 
+  group_by(family) %>% 
+  mutate(ac_new_fam = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac)) %>% 
+  ungroup() %>% 
+  mutate(ac = ifelse(is.na(ac), ac_new_gen, ac),
+         ac = ifelse(is.nan(ac_new_gen), ac_new_fam, ac)) %>% 
+  mutate(ac = ifelse(scientific_name == "Glaucostegus cemiculus", 5.7727, ac)) %>% # using the value for G. typus from the 'tol' df
+  filter(!is.na(ac)) %>% 
+  select(-ac_new_gen, -ac_new_fam) %>% 
+  filter(!str_detect(scientific_name, "trygon|Raja|Myliobatis|Glaucostegus|Mobula|raja|Urolophus|Aptychotrema|Akheilos"))  # remove remaining oservations from species that shouldn't be predicted
+
+write_csv(full_threat_join, file = here("data", "predict_data_new_iucn.csv"), na = "")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
 
