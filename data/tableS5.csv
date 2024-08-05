@@ -677,8 +677,6 @@ Sphyrna tiburo,Carcharhinidae,matrotrophic viviparity,4.199,45,150,ram,pelagic,A
 Sphyrna tiburo,Carcharhinidae,matrotrophic viviparity,4.199,45,150,ram,pelagic,PRM Longline,0.35778986155983494,Longline,PRM
 Mustelus norrisi,Triakidae,lecithotrophic viviparity,8.8886,130,102,ram,demersal,AVM Longline,0.2565459314084748,Longline,AVM
 Mustelus norrisi,Triakidae,lecithotrophic viviparity,8.8886,130,102,ram,demersal,PRM Longline,0.3888334117392426,Longline,PRM
-Gymnura micrura,Gymnuridae,matrotrophic viviparity,12.677,27.5,120,stationary,demersal,AVM Longline,0.2542557562855218,Longline,AVM
-Gymnura micrura,Gymnuridae,matrotrophic viviparity,12.677,27.5,120,stationary,demersal,PRM Longline,0.29647573419207807,Longline,PRM
 Chlamydoselachus anguineus,Chlamydoselachidae,matrotrophic viviparity,6.588,785,200,ram,demersal,AVM Longline,0.33395009558582583,Longline,AVM
 Chlamydoselachus anguineus,Chlamydoselachidae,matrotrophic viviparity,6.588,785,200,ram,demersal,PRM Longline,0.23034845508261964,Longline,PRM
 Dalatias licha,Dalatiidae,lecithotrophic viviparity,9.7975,95.5,182,stationary,demersal,AVM Longline,0.18377637248592293,Longline,AVM
@@ -948,10 +946,8 @@ Centroscymnus coelolepis,Somniosidae,lecithotrophic viviparity,4.5968,1901.5,130
 Deania calceus,Centrophoridae,lecithotrophic viviparity,6.3057,775,127,stationary,demersal,AVM Gillnet,0.17828342426372276,Gillnet,AVM
 Dalatias licha,Dalatiidae,lecithotrophic viviparity,9.7975,915.5,182,stationary,demersal,AVM Gillnet,0.2925834802260494,Gillnet,AVM
 Deania profundorum,Centrophoridae,lecithotrophic viviparity,6.0616,1002.5,97,stationary,demersal,AVM Gillnet,0.15163231334954308,Gillnet,AVM
-Himantura uarnak,Dasyatidae,matrotrophic viviparity,8.257925234,25,160,stationary,demersal,AVM Gillnet,0.18587966671570563,Gillnet,AVM
 Mustelus mosis,Triakidae,lecithotrophic viviparity,5.461,135,150,ram,demersal,AVM Gillnet,0.3589148566685166,Gillnet,AVM
 Rhizoprionodon acutus,Carcharhinidae,matrotrophic viviparity,6.0408,100.5,178,ram,demersal,AVM Gillnet,0.34050420606242043,Gillnet,AVM
-Rhynchobatus djiddensis,Rhinidae,lecithotrophic viviparity,113.03,38,310,stationary,pelagic,AVM Gillnet,0.30802322406178084,Gillnet,AVM
 Squatina africana,Squatinidae,lecithotrophic viviparity,9.8045,300,122,stationary,demersal,AVM Gillnet,0.28817142212827596,Gillnet,AVM
 Carcharhinus dussumieri,Carcharhinidae,matrotrophic viviparity,9.6066,50,100.7,ram,pelagic,AVM Gillnet,0.48361626737023977,Gillnet,AVM
 Carcharhinus sorrah,Carcharhinidae,matrotrophic viviparity,5.01,70,166,ram,pelagic,AVM Gillnet,0.3272793189382434,Gillnet,AVM
@@ -959,7 +955,6 @@ Carcharhinus tilstoni,Carcharhinidae,matrotrophic viviparity,9.92492714,75,200,r
 Ginglymostoma cirratum,Orectolobidae,lecithotrophic viviparity,3.1785,65,308,ram,pelagic,AVM Gillnet,0.19984734828430256,Gillnet,AVM
 Heptranchias perlo,Lamnidae,matrotrophic viviparity,11.532,500,140,ram,demersal,AVM Gillnet,0.6226891862103572,Gillnet,AVM
 Carcharhinus porosus,Carcharhinidae,matrotrophic viviparity,3.888,42,150,ram,demersal,AVM Gillnet,0.34161758510256496,Gillnet,AVM
-Rhynchobatus australiae,Rhinidae,lecithotrophic viviparity,113.03,30,300,stationary,demersal,AVM Gillnet,0.3067720249621848,Gillnet,AVM
 Hexanchus griseus,Hexanchidae,matrotrophic viviparity,7.4946,1245,550,ram,demersal,AVM Gillnet,0.34265713966698785,Gillnet,AVM
 Orectolobus halei,Orectolobidae,lecithotrophic oviparity,5.5714,97.5,256,stationary,demersal,AVM Gillnet,0.13457360831685328,Gillnet,AVM
 Orectolobus maculatus,Orectolobidae,lecithotrophic oviparity,6.4555,124,170,stationary,pelagic,AVM Gillnet,0.13323403305731907,Gillnet,AVM
@@ -972,7 +967,6 @@ Nebrius ferrugineus,Ginglymostomatidae,lecithotrophic viviparity,47.669,35,320,s
 Loxodon macrorhinus,Carcharhinidae,lecithotrophic viviparity,11.559,63.5,99,ram,demersal,AVM Gillnet,0.48666391943262677,Gillnet,AVM
 Scyliorhinus canicula,Scyliorhinidae,lecithotrophic oviparity,6.7455,400.5,100,stationary,demersal,AVM Gillnet,0.134835382056274,Gillnet,AVM
 Squalus acanthias,Squalidae,lecithotrophic viviparity,8.2153,989,200,ram,pelagic,AVM Gillnet,0.26625680062261387,Gillnet,AVM
-Gymnura micrura,Gymnuridae,matrotrophic viviparity,12.677,27.5,120,stationary,demersal,AVM Gillnet,0.30468788838111655,Gillnet,AVM
 Chlamydoselachus anguineus,Chlamydoselachidae,matrotrophic viviparity,6.588,785,200,ram,demersal,AVM Gillnet,0.3649837345473717,Gillnet,AVM
 Dalatias licha,Dalatiidae,lecithotrophic viviparity,9.7975,95.5,182,stationary,demersal,AVM Gillnet,0.2925834802260494,Gillnet,AVM
 Orectolobus ornatus,Orectolobidae,lecithotrophic viviparity,5.6825,52.5,290,stationary,pelagic,AVM Gillnet,0.1372704074075119,Gillnet,AVM

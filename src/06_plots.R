@@ -189,7 +189,7 @@ gillnet_predictions_iucn <- gillnet_predictions %>%
 full_predictions <- full_join(longline_predictions_iucn, gillnet_predictions_iucn)
 
 # read in simulation results
-sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
+sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>%
@@ -201,7 +201,7 @@ sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
 
 write_csv(sim_results, here::here("data", "pct_mort_reduction_sim.csv"))
 
-sim_results_uncorrected <- read_csv(here::here("data", "uncorrected_results.csv")) %>%
+sim_results_uncorrected <- read_csv(here::here(basedir, "data", "uncorrected_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>%
@@ -219,7 +219,7 @@ f_vals <- read_csv(here::here("data", "ramldb_f_means.csv")) %>%
   group_by(scientific_name) %>%
   mutate(mean_f = mean(mean_f_10))
 
-sim_results_2 <- read_csv(here::here("data", "simulation_results.csv")) %>%
+sim_results_2 <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(scientific_name %in% longline_predictions_iucn$scientific_name)
@@ -929,7 +929,8 @@ predictions_join <- mean_predictions %>%
   mutate(gear_class = ifelse(estimate_type %in% c("AVM Longline", "PRM Longline"), "Longline", "Gillnet")) %>%
   mutate(estimate_type_new = ifelse(str_detect(estimate_type, "AVM"), "AVM", "PRM")) %>%
   filter(!is.na(mortality_prop)) %>%
-  filter(family != "Rhinopteridae")
+  filter(family != "Rhinopteridae") %>% 
+  filter(!str_detect(family, "Dasyatidae|Rhinidae|Gymnuridae"))
 
 write_csv(predictions_join, file = here("data", "tableS5.csv"), na = "")
 
@@ -963,7 +964,7 @@ mort_subset_avm <- mean_predictions %>%
 mort_subset_prm <- mean_predictions %>%
   group_by(family) %>%
   summarize(fam_mean = mean(prm_pred)) %>%
-  arrange(desc(fam_mean)) %>%
+  arrange(desc(fam_mean)) 
   distinct(family) %>%
   pull(family)
 
@@ -971,7 +972,7 @@ mort_subset_prm <- mean_predictions %>%
 mort_subset_gill <- mean_gill_predictions %>%
   group_by(family) %>%
   summarize(fam_mean = mean(avm_gillnet_pred)) %>%
-  filter(!(family %in% mort_subset_avm$family)) %>%
+  #filter(!(family %in% mort_subset_avm$family)) %>%
   distinct()
 
 mort_avm <- full_join(mort_subset_avm, mort_subset_gill) %>%
@@ -1031,7 +1032,7 @@ p1 <- ggplot(predictions_join %>% filter(estimate_type %in% c("PRM Longline", "A
   labs(
     y = "Estimated Mortality",
     x = "Maximum size (cm)",
-    color = "Group"
+    color = "Gear"
   ) +
   facet_wrap(~estimate_type,
     scales = "free_x"
@@ -1056,7 +1057,7 @@ p2 <- ggplot(predictions_join) +
   labs(
     y = "Estimated Mortality",
     x = "Median Depth (m)",
-    color = "Group"
+    color = "Gear"
   ) +
   facet_wrap(~estimate_type, scales = "free_x") +
   theme(
@@ -1078,7 +1079,7 @@ p6 <- ggplot(predictions_join) +
   labs(
     y = "Estimated Mortality",
     x = "Active Hypoxia Tolerance",
-    color = "Group"
+    color = "Gear"
   ) +
   facet_wrap(~estimate_type, scales = "free_x") +
   theme(
@@ -1107,7 +1108,7 @@ p4 <- ggplot(predictions_join %>% mutate(habitat = str_to_sentence(habitat)) %>%
   labs(
     y = "Associated Habitat",
     x = "Estimated Mortality",
-    color = "Group"
+    color = "Gear"
   ) +
   facet_wrap(~estimate_type, scales = "free_x") +
   theme(
@@ -1119,8 +1120,8 @@ p4 <- ggplot(predictions_join %>% mutate(habitat = str_to_sentence(habitat)) %>%
     strip.background = element_rect(fill = "transparent"),
     panel.spacing.x = unit(5, "mm")
   ) +
-  scale_color_manual(values = c("#440154FF", "#22A884FF")) +
-  scale_fill_manual(values = c("#440154FF", "#22A884FF")) +
+  scale_color_manual(values = c("#22A884FF")) +
+  scale_fill_manual(values = c("#22A884FF")) +
   theme(legend.position = "none")
 
 p5 <- ggplot(predictions_join %>% mutate(reproductive_mode = str_to_sentence(reproductive_mode))) +
@@ -1138,7 +1139,7 @@ p5 <- ggplot(predictions_join %>% mutate(reproductive_mode = str_to_sentence(rep
   labs(
     y = "Reproductive Mode",
     x = "Estimated Mortality",
-    color = "Group"
+    color = "Gear"
   ) +
   facet_wrap(~estimate_type, scales = "free_x") +
   theme(
@@ -1168,7 +1169,7 @@ p7 <- ggplot(predictions_join %>% mutate(ventilation_method = str_to_sentence(ve
   labs(
     y = "Ventilation Method",
     x = "Estimated Mortality",
-    color = "Group"
+    color = "Gear"
   ) +
   facet_wrap(~estimate_type, scales = "free_x") +
   theme(
@@ -1807,7 +1808,8 @@ no_cq <- sim_results_new %>%
     mort_scenario == "BAU" ~ "Full retention",
     TRUE ~ mort_scenario
   )) %>%
-  select(-avm, -prm, -prm_75, -prm_25, -avm_25, -avm_25)
+  select(-avm, -prm, -prm_75, -prm_25, -avm_25, -avm_25) 
+  mutate(scientific_name = str_replace(scientific_name, "-", ""))
 
 no_cq <- no_cq[!duplicated(no_cq %>% select(-n_div_k, -pop.array)), ]
 
@@ -1830,7 +1832,7 @@ no_cq_dd <- no_cq %>%
 
 p1 <- ggplot() +
   geom_rect(
-    data = no_cq_cr, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.6, fill = as.factor(redlist_category)),
+    data = no_cq_cr, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.55, fill = as.factor(redlist_category)),
     show.legend = F
   ) +
   geom_line(data = no_cq_cr, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
@@ -1847,7 +1849,7 @@ p1 <- ggplot() +
     ),
     labeller = label_wrap_gen(15)
   ) +
-  theme_bw(base_size = 16) +
+  theme_bw(base_size = 15) +
   scale_color_viridis_d() +
   scale_fill_manual(values = c("#E31A1C", "#FD8D3C", "#FED976", "#91CF60", "#1A9850", "grey", "white")) +
   labs(
@@ -1870,7 +1872,7 @@ ggsave(p1, file = paste0("figS5.pdf"), path = here::here("figs", "supp"), height
 
 p2 <- ggplot() +
   geom_rect(
-    data = no_cq_en, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 2.1, fill = as.factor(redlist_category)),
+    data = no_cq_en, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.95, fill = as.factor(redlist_category)),
     show.legend = F
   ) +
   geom_line(data = no_cq_en, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
@@ -1885,9 +1887,9 @@ p2 <- ggplot() +
     ~ factor(scientific_name,
       levels = no_cq_sci
     ),
-    labeller = label_wrap_gen(15)
+    labeller = label_wrap_gen(10)
   ) +
-  theme_bw(base_size = 16) +
+  theme_bw(base_size = 15) +
   scale_color_viridis_d() +
   scale_fill_manual(values = c("#FD8D3C", "#FED976", "#91CF60", "#1A9850", "grey", "white", "#E31A1C")) +
   labs(
@@ -1910,7 +1912,7 @@ ggsave(p2, file = paste0("figS6.pdf"), path = here::here("figs", "supp"), height
 
 p3 <- ggplot() +
   geom_rect(
-    data = no_cq_vu, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 2.1, fill = as.factor(redlist_category)),
+    data = no_cq_vu, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.95, fill = as.factor(redlist_category)),
     show.legend = F
   ) +
   geom_line(data = no_cq_vu, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
@@ -1927,7 +1929,7 @@ p3 <- ggplot() +
     ),
     labeller = label_wrap_gen(15)
   ) +
-  theme_bw(base_size = 16) +
+  theme_bw(base_size = 15) +
   scale_color_viridis_d() +
   scale_fill_manual(values = c("#FED976", "#91CF60", "#1A9850", "grey", "white", "#E31A1C", "#FD8D3C")) +
   labs(
@@ -1950,7 +1952,7 @@ ggsave(p3, file = paste0("figS7.pdf"), path = here::here("figs", "supp"), height
 
 p4 <- ggplot() +
   geom_rect(
-    data = no_cq_nt, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.60, fill = as.factor(redlist_category)),
+    data = no_cq_nt, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.55, fill = as.factor(redlist_category)),
     show.legend = F
   ) +
   geom_line(data = no_cq_nt, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
@@ -1967,7 +1969,7 @@ p4 <- ggplot() +
     ),
     labeller = label_wrap_gen(15)
   ) +
-  theme_bw(base_size = 16) +
+  theme_bw(base_size = 15) +
   scale_color_viridis_d() +
   scale_fill_manual(values = c("#91CF60", "#1A9850", "grey", "white", "#E31A1C", "#FD8D3C", "#FED976")) +
   labs(
@@ -1990,7 +1992,7 @@ ggsave(p4, file = paste0("figS8.pdf"), path = here::here("figs", "supp"), height
 
 p5 <- ggplot() +
   geom_rect(
-    data = no_cq_lc, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.95, fill = as.factor(redlist_category)),
+    data = no_cq_lc, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.85, fill = as.factor(redlist_category)),
     show.legend = F
   ) +
   geom_line(data = no_cq_lc, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
@@ -2007,7 +2009,7 @@ p5 <- ggplot() +
     ),
     labeller = label_wrap_gen(15)
   ) +
-  theme_bw(base_size = 16) +
+  theme_bw(base_size = 15) +
   scale_color_viridis_d() +
   scale_fill_manual(values = c("#1A9850", "grey", "white", "#E31A1C", "#FD8D3C", "#FED976")) +
   labs(
@@ -2030,7 +2032,7 @@ ggsave(p5, file = paste0("figS9.pdf"), path = here::here("figs", "supp"), height
 
 p6 <- ggplot() +
   geom_rect(
-    data = no_cq_dd, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.46, fill = as.factor(redlist_category)),
+    data = no_cq_dd, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.41, fill = as.factor(redlist_category)),
     show.legend = F
   ) +
   geom_line(data = no_cq_dd, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
@@ -2047,7 +2049,7 @@ p6 <- ggplot() +
     ),
     labeller = label_wrap_gen(15)
   ) +
-  theme_bw(base_size = 16) +
+  theme_bw(base_size = 15) +
   scale_color_viridis_d() +
   scale_fill_manual(values = c("grey", "white", "#E31A1C", "#FD8D3C", "#FED976")) +
   labs(
