@@ -2092,7 +2092,7 @@ p_sim <- ggplot() +
   ) +
   geom_rect(
     data = no_cq_sub,
-    aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.25, fill = as.factor(redlist_category))
+    aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.27, fill = as.factor(redlist_category))
   ) +
   geom_line(data = no_cq_sub %>% filter(!is.na(scenario)), aes(t, n_div_k, color = mort_scenario, group = total_mort), linewidth = 2) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
