@@ -407,36 +407,6 @@ write_csv(ram_ts_val_df, file = here::here("data", "ramldb_f_means.csv"))
 ```
 
 
-```{r}
-# call full_predictions dataset
-full_pred <- read_csv(here("data", "full_predictions.csv")) %>% 
-  select(scientific_name, max_size_cm)
-
-# check
-sim_results_subset <- sim_results_2 %>% 
-  filter(t == 200 & mort_scenario %in% c("Full Retention", "Median Mortality")) %>% 
-  mutate(status_equil = ifelse(n_div_k >= 0.5, "not overfished", "overfished")) %>% 
-  group_by(status_equil) %>% 
-  mutate(count = n()) %>% 
-  left_join(full_pred, by = "scientific_name") %>% 
-  drop_na(max_size_cm) %>% 
-  distinct()
-
-ggplot(data = sim_results_subset %>% 
-         filter(max_size_cm < 800)) +
-  geom_point(aes(x = max_size_cm, y = n_div_k, color = mort_scenario)) +
-  geom_hline(yintercept = 0.5, linetype = "dashed") +
-  scale_y_continuous(limits = c(0.2, 1),
-                     breaks = seq(0.2, 1, 0.2)) +
-  labs(x = "Maximum size (cm)",
-       y = "N/K",
-       color = "Mortality scenario") +
-  annotate(geom = "text", label = "Not overfished", x = 700, y = 0.6, size = 4) +
-  annotate(geom = "text", label = "Overfished", x = 700, y = 0.4, size = 4) +
-  theme_bw()
-```
-
-
 
 
 
