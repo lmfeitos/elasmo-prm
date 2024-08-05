@@ -1950,7 +1950,7 @@ ggsave(p3, file = paste0("figS7.pdf"), path = here::here("figs", "supp"), height
 
 p4 <- ggplot() +
   geom_rect(
-    data = no_cq_nt, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.80, fill = as.factor(redlist_category)),
+    data = no_cq_nt, aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.60, fill = as.factor(redlist_category)),
     show.legend = F
   ) +
   geom_line(data = no_cq_nt, aes(t, n_div_k, color = mort_scenario, group = total_mort)) +
