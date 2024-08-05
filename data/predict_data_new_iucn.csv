@@ -20,10 +20,10 @@ Cirrhigaleus asper,,Squalidae,demersal,120,stationary,lecithotrophic viviparity,
 Isistius plutodus,,Dalatiidae,pelagic,42.3,ram,lecithotrophic viviparity,1045,15.604,,this study,Isistius,plutodus
 Squaliolus laticaudus,,Dalatiidae,pelagic,27.5,stationary,lecithotrophic viviparity,905,7.4546,Squaliformes,this study,Squaliolus,laticaudus
 Zameus squamulosus,,Somniosidae,demersal,84,stationary,lecithotrophic viviparity,755.5,2.0601,Squaliformes,this study,Zameus,squamulosus
-Carcharhinus perezi,1,Carcharhinidae,reef-associated,295,ram,matrotrophic viviparity,189,7.6352,Carcharhiniformes,Gilman et al (2022),Carcharhinus,perezi
-Carcharhinus perezi,0.2,Carcharhinidae,reef-associated,295,ram,matrotrophic viviparity,189,7.6352,Carcharhiniformes,Gilman et al (2022),Carcharhinus,perezi
-Carcharhinus perezi,0,Carcharhinidae,reef-associated,295,ram,matrotrophic viviparity,189,7.6352,Carcharhiniformes,Gilman et al (2022),Carcharhinus,perezi
-Carcharhinus perezi,1,Carcharhinidae,reef-associated,295,ram,matrotrophic viviparity,189,7.6352,Carcharhiniformes,Gilman et al (2022),Carcharhinus,perezi
+Carcharhinus perezi,1,Carcharhinidae,pelagic,295,ram,matrotrophic viviparity,189,7.6352,Carcharhiniformes,Gilman et al (2022),Carcharhinus,perezi
+Carcharhinus perezi,0.2,Carcharhinidae,pelagic,295,ram,matrotrophic viviparity,189,7.6352,Carcharhiniformes,Gilman et al (2022),Carcharhinus,perezi
+Carcharhinus perezi,0,Carcharhinidae,pelagic,295,ram,matrotrophic viviparity,189,7.6352,Carcharhiniformes,Gilman et al (2022),Carcharhinus,perezi
+Carcharhinus perezi,1,Carcharhinidae,pelagic,295,ram,matrotrophic viviparity,189,7.6352,Carcharhiniformes,Gilman et al (2022),Carcharhinus,perezi
 Carcharhinus perezi,,Carcharhinidae,pelagic,295,ram,matrotrophic viviparity,189,7.6352,Carcharhiniformes,this study,Carcharhinus,perezi
 Isogomphodon oxyrhynchus,,Carcharhinidae,demersal,160,ram,matrotrophic viviparity,22,9.776036695,,this study,Isogomphodon,oxyrhynchus
 Etmopterus bigelowi,,Etmopteridae,pelagic,67,stationary,lecithotrophic viviparity,581.5,6.8893,Squaliformes,this study,Etmopterus,bigelowi
@@ -78,7 +78,7 @@ Triakis semifasciata,,Triakidae,demersal,213.4,ram,lecithotrophic viviparity,78,
 Centroscyllium nigrum,,Etmopteridae,pelagic,51,stationary,lecithotrophic viviparity,719.5,6.0349,Squaliformes,this study,Centroscyllium,nigrum
 Carcharhinus leiodon,,Carcharhinidae,demersal,165,ram,matrotrophic viviparity,35,9.92492714,Carcharhiniformes,this study,Carcharhinus,leiodon
 Halaelurus boesemani,,Pentanchidae,demersal,48,stationary,lecithotrophic oviparity,143.5,7.4014,,this study,Halaelurus,boesemani
-Squatina legnota,,Squatinidae,benthopelagic,134.1,stationary,lecithotrophic viviparity,100,10.32279231,,this study,Squatina,legnota
+Squatina legnota,,Squatinidae,demersal,134.1,stationary,lecithotrophic viviparity,100,10.32279231,,this study,Squatina,legnota
 Carcharhinus obsoletus,,Carcharhinidae,demersal,100,ram,matrotrophic viviparity,25,9.92492714,,this study,Carcharhinus,obsoletus
 Mustelus lenticulatus,,Triakidae,demersal,151,ram,lecithotrophic viviparity,110.5,5.8063,,this study,Mustelus,lenticulatus
 Cephaloscyllium isabellum,,Scyliorhinidae,pelagic,150,stationary,lecithotrophic viviparity,399.5,6.3707,,this study,Cephaloscyllium,isabellum
@@ -297,17 +297,17 @@ Cephaloscyllium laticeps,0,Scyliorhinidae,demersal,150,stationary,lecithotrophic
 Heterodontus francisci,,Heterodontidae,demersal,98,stationary,lecithotrophic oviparity,76,9.5156,,,Heterodontus,francisci
 Cephaloscyllium ventriosum,,Scyliorhinidae,demersal,110,stationary,lecithotrophic oviparity,21,6.1456,,,Cephaloscyllium,ventriosum
 Parmaturus xaniurus,,Pentanchidae,demersal,45,stationary,lecithotrophic oviparity,669,6.0244,,this study,Parmaturus,xaniurus
-Atelomycterus marmoratus,,Scyliorhinidae,reef-associated,70,stationary,lecithotrophic oviparity,52.5,6.812653333,,,Atelomycterus,marmoratus
+Atelomycterus marmoratus,,Scyliorhinidae,pelagic,70,stationary,lecithotrophic oviparity,52.5,6.812653333,,,Atelomycterus,marmoratus
 Chiloscyllium indicum,,Hemiscylliidae,demersal,65,stationary,lecithotrophic oviparity,45,10.693,,,Chiloscyllium,indicum
-Chiloscyllium griseum,,Hemiscylliidae,reef-associated,77,stationary,lecithotrophic oviparity,52.5,10.693,,,Chiloscyllium,griseum
+Chiloscyllium griseum,,Hemiscylliidae,pelagic,77,stationary,lecithotrophic oviparity,52.5,10.693,,,Chiloscyllium,griseum
 Apristurus macrorhynchus,,Pentanchidae,demersal,67.4,stationary,lecithotrophic oviparity,644.5,2.41305,,,Apristurus,macrorhynchus
 Apristurus profundorum,,Pentanchidae,demersal,76,stationary,lecithotrophic oviparity,740,2.41305,,,Apristurus,profundorum
 Oxynotus caribbaeus,,Oxynotidae,demersal,60,stationary,lecithotrophic viviparity,398.5,19.152,,,Oxynotus,caribbaeus
 Schroederichthys chilensis,,Scyliorhinidae,demersal,70,stationary,lecithotrophic oviparity,25.5,6.812653333,,,Schroederichthys,chilensis
-Chiloscyllium plagiosum,,Hemiscylliidae,reef-associated,95,stationary,lecithotrophic oviparity,25,10.693,,,Chiloscyllium,plagiosum
+Chiloscyllium plagiosum,,Hemiscylliidae,pelagic,95,stationary,lecithotrophic oviparity,25,10.693,,,Chiloscyllium,plagiosum
 Scyliorhinus cervigoni,,Scyliorhinidae,demersal,76,stationary,lecithotrophic oviparity,272.5,7.549233333,,,Scyliorhinus,cervigoni
 Triakis maculata,,Triakidae,demersal,180,ram,lecithotrophic viviparity,105,6.0669,,,Triakis,maculata
-Chiloscyllium hasselti,,Hemiscylliidae,reef-associated,61,stationary,lecithotrophic oviparity,6,10.693,,,Chiloscyllium,hasselti
+Chiloscyllium hasselti,,Hemiscylliidae,pelagic,61,stationary,lecithotrophic oviparity,6,10.693,,,Chiloscyllium,hasselti
 Lamiopsis temminckii,,Carcharhinidae,demersal,198,ram,matrotrophic viviparity,25,9.776036695,,,Lamiopsis,temminckii
 Cirrhoscyllium japonicum,,Parascylliidae,demersal,48.5,stationary,lecithotrophic oviparity,270,10.205,,,Cirrhoscyllium,japonicum
 Cirrhoscyllium formosanum,,Parascylliidae,demersal,39.5,stationary,lecithotrophic oviparity,215,10.205,,,Cirrhoscyllium,formosanum
@@ -315,7 +315,7 @@ Heterodontus japonicus,,Heterodontidae,demersal,120,stationary,lecithotrophic ov
 Proscyllium habereri,,Proscylliidae,demersal,65,stationary,lecithotrophic oviparity,185,8.3397,,this study,Proscyllium,habereri
 Squalus margaretsmithae,,Squalidae,demersal,54.3,stationary,lecithotrophic viviparity,257.5,7.737926667,,,Squalus,margaretsmithae
 Pliotrema kajae,,Pristiophoridae,demersal,143,stationary,lecithotrophic viviparity,267,7.364,,,Pliotrema,kajae
-Atelomycterus erdmanni,,Scyliorhinidae,reef-associated,50.8,stationary,lecithotrophic oviparity,32.5,6.812653333,,,Atelomycterus,erdmanni
+Atelomycterus erdmanni,,Scyliorhinidae,pelagic,50.8,stationary,lecithotrophic oviparity,32.5,6.812653333,,,Atelomycterus,erdmanni
 Scoliodon laticaudus,,Carcharhinidae,demersal,74,stationary,matrotrophic viviparity,42.5,9.776036695,,,Scoliodon,laticaudus
 Prionace glauca,0.246819338,Carcharhinidae,pelagic,383.5,ram,matrotrophic viviparity,500,8.6017,Carcharhiniformes,Gilman et al (2022),Prionace,glauca
 Isurus oxyrinchus,0.560465116,Lamnidae,pelagic,445,ram,matrotrophic viviparity,375,13.922,Lamniformes,Gilman et al (2022),Isurus,oxyrinchus

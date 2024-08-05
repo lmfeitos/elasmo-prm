@@ -439,31 +439,20 @@ v2
 
 ```{r}
 # filter out rays and missing values
-new_dat <- read_csv(here::here("data", "predict_data_hyp.csv")) %>% 
-  filter(group == "Sharks") %>%
+new_dat <- read_csv(here::here("data", "predict_data_new_iucn.csv")) %>% 
   #filter(!is.na(median_depth)) %>%
   filter(!is.na(ac)) %>%
   filter(!is.na(ventilation_method)) %>%
   filter(!is.na(reproductive_mode)) %>%
-  filter(!is.na(habitat_associated)) %>%
+  filter(!is.na(habitat)) %>%
   filter(!is.na(max_size_cm)) %>%
   group_by(genus) %>% 
   mutate(median_depth_new = mean(median_depth, na.rm = TRUE)) %>% 
   ungroup() %>% 
   mutate(median_depth = ifelse(is.na(median_depth), median_depth_new, median_depth)) %>% 
   mutate(ventilation_method = as.factor(ventilation_method)) %>%
-  mutate(habitat_associated = as.factor(habitat_associated)) %>%
+  mutate(habitat = as.factor(habitat)) %>%
   mutate(reproductive_mode = as.factor(reproductive_mode)) %>%
-  mutate(habitat = case_when(
-    habitat_associated == "pelagic" ~ "pelagic",
-    habitat_associated == "pelagic-oceanic" ~ "pelagic",
-    habitat_associated == "reef-associated" ~ "pelagic",
-    habitat_associated == "pelagic-neritic" ~ "pelagic",
-    habitat_associated == "bathypelagic" ~ "pelagic",
-    habitat_associated == "benthopelagic" ~ "demersal",
-    habitat_associated == "demersal" ~ "demersal",
-    habitat_associated == "bathydemersal" ~ "demersal",
-  )) %>%
   mutate(reproductive_mode = as.factor(reproductive_mode))
 
 # predict AVM
@@ -513,12 +502,4 @@ full_predictions <- preds_bind(full_prediction_avm, prm_fit) %>%
   )
 
 write_csv(full_predictions, here::here("data", "longline_model_predictions.csv"))
-```
- 
-## Figures for paper
-
-```{r}
-plot1 <- (p2_gill + v2_gill + q2_gill) / (p1 + v1 + q1) / (p2 + v2 + q2) + plot_annotation(tag_levels = "A")
-
-ggsave(plot1, file = paste0("fig2_test.pdf"), path = here::here("figs"), height = 14, width = 18)
 ```
