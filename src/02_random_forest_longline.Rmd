@@ -439,17 +439,17 @@ v2
 
 ```{r}
 # filter out rays and missing values
-new_dat <- read_csv(here::here("data", "predict_data_new_iucn.csv")) %>% 
-  #filter(!is.na(median_depth)) %>%
+new_dat <- read_csv(here::here("data", "predict_data_new_iucn.csv")) %>%
+  # filter(!is.na(median_depth)) %>%
   filter(!is.na(ac)) %>%
   filter(!is.na(ventilation_method)) %>%
   filter(!is.na(reproductive_mode)) %>%
   filter(!is.na(habitat)) %>%
   filter(!is.na(max_size_cm)) %>%
-  group_by(genus) %>% 
-  mutate(median_depth_new = mean(median_depth, na.rm = TRUE)) %>% 
-  ungroup() %>% 
-  mutate(median_depth = ifelse(is.na(median_depth), median_depth_new, median_depth)) %>% 
+  group_by(genus) %>%
+  mutate(median_depth_new = mean(median_depth, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(median_depth = ifelse(is.na(median_depth), median_depth_new, median_depth)) %>%
   mutate(ventilation_method = as.factor(ventilation_method)) %>%
   mutate(habitat = as.factor(habitat)) %>%
   mutate(reproductive_mode = as.factor(reproductive_mode)) %>%

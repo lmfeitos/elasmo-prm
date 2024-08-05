@@ -21,6 +21,7 @@ predictions <- read_csv(here::here("data", "full_model_predictions.csv")) %>%
   )) %>%
   mutate(IQR_cat_avm = fct_relevel(as.factor(IQR_cat_avm), c("Low Uncertainty", "Medium Uncertainty", "High Uncertainty")))
 
+
 # read in data from sim_prep.R
 sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>%
   select(prm_75, prm_25, avm_25, avm_75, scientific_name, r_value, avm_50, prm_50, avm_pred) %>%
@@ -34,7 +35,7 @@ sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>%
     mid_avm = mean(prm_50),
     r_value = mean(r_value)
   ) %>%
-  select(-avm_50, -prm_50) %>% 
+  select(-avm_50, -prm_50) %>%
   distinct() %>%
   mutate(msy = r_value / 2) %>%
   mutate(f = 1.5 * msy)
@@ -64,8 +65,9 @@ sim_data <- sim_data %>%
     mid_avm = case_when(
       avm_pred <= 0.35 ~ mid_avm,
       avm_pred > 0.35 & avm_pred < 0.4 ~ mid_avm * 1.2,
-      avm_pred >= 0.4 ~ mid_avm * 1.4, 
-    ))
+      avm_pred >= 0.4 ~ mid_avm * 1.4,
+    )
+  )
 
 # Functions ---------------------------------------------------------------
 
@@ -84,7 +86,7 @@ sim <- function(t, N_0, K, r, avs, prs, q, f, quota, scenario) {
     dt <- 1
 
     # population growth - fishing + returned bycatch
-    dN.dt <- (r * pop.array[i - 1] * (1 - (pop.array[i - 1] / K))) - (q * f * pop.array[i - 1]) + 
+    dN.dt <- (r * pop.array[i - 1] * (1 - (pop.array[i - 1] / K))) - (q * f * pop.array[i - 1]) +
       ((q * f * pop.array[i - 1] - quota) * avs * prs) * dt
     pop.array[i] <- pop.array[i - 1] + dN.dt
   }
@@ -108,6 +110,7 @@ N_0 <- 100
 # avs = 0.8 # at vessel survival; higher = better for shark (test quantile range from RF)
 # prs = 0.8 # post release survival; higher = better for shark (test quantile range from RF)
 q <- 1 # catchability, set to 1 for ease of fishing pressure, could vary
+quota <- 0
 
 # shark sim loop ----------------------------------------------------------
 

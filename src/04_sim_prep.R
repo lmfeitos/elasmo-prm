@@ -65,8 +65,8 @@ pred_r <- left_join(predictions_full, r_growth) %>%
   mutate(mean_r = case_when(
     pop_growth_rate_measure == "rmax" ~ mean_r / 2,
     TRUE ~ mean_r
-  )) %>% 
-  select(-pop_growth_rate_measure, -mean_r2, -mean_r) %>% 
+  )) %>%
+  select(-pop_growth_rate_measure, -mean_r2, -mean_r) %>%
   distinct() %>%
   left_join(predictions) %>%
   mutate(mid_avm = case_when(

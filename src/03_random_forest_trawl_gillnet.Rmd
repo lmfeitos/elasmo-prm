@@ -102,7 +102,8 @@ This model aims to predict the likelihood of mortality per taxonomic family betw
 ```{r}
 # create recipie
 gillnet_recipe <- recipe(mortality_prop ~ ventilation_method + median_depth + reproductive_mode + max_size_cm + ac,
-                         data = elasmo_gillnet) %>%
+  data = elasmo_gillnet
+) %>%
   step_normalize(all_numeric_predictors())
 ```
 
@@ -130,26 +131,26 @@ Cross validation will be used to choose the best hyperparameters for use in the 
 
 
 ```{r,include=FALSE}
- # gillnet_tune <- gillnet_wflw %>% # use cross validation to tune parameters
- #   tune_grid(
- #     resamples = gillnet_folds, # add cv folds
- #     grid = expand.grid(mtry = seq(1, 3, 1), trees = seq(100, 2000, 100), min_n = seq(1, 19, 5))
- #   ) # use grid of parameters to test
+# gillnet_tune <- gillnet_wflw %>% # use cross validation to tune parameters
+#   tune_grid(
+#     resamples = gillnet_folds, # add cv folds
+#     grid = expand.grid(mtry = seq(1, 3, 1), trees = seq(100, 2000, 100), min_n = seq(1, 19, 5))
+#   ) # use grid of parameters to test
 ```
 
 Below displays the results of cross validation tuning
 
 ```{r}
- # autoplot(gillnet_tune) + # plot results of tuning
- #   theme_bw() # change theme
+# autoplot(gillnet_tune) + # plot results of tuning
+#   theme_bw() # change theme
 ```
 
 ```{r}
- #select_best(gillnet_tune, metric = "rmse", n = 1) # get the best model
+# select_best(gillnet_tune, metric = "rmse", n = 1) # get the best model
 ```
 
 ```{r, include=FALSE}
-#gillnet_final <- finalize_workflow(gillnet_wflw, select_best(gillnet_tune, metric = "rmse")) # finalize the workflow with the best model
+# gillnet_final <- finalize_workflow(gillnet_wflw, select_best(gillnet_tune, metric = "rmse")) # finalize the workflow with the best model
 #
 # saveRDS(gillnet_final, here::here("data", "gillnet_final.rds"))
 
@@ -213,7 +214,7 @@ gillnet_quant_test <- preds_bind(gillnet_train_predict, gillnet_fit) %>%
     range_95 = .pred_95 - .pred_05
   )
 
-q2_gill <- 
+q2_gill <-
   ggplot(gillnet_quant_test) +
   geom_boxplot(aes(range_50)) +
   theme_bw(base_size = 14) +
@@ -265,7 +266,7 @@ plot1 <- p2_gill + v2_gill + plot_annotation(tag_levels = "A")
 
 plot1
 
-#ggsave(plot1, file = paste0("figS2.pdf"), path = here::here("figs", "supp"), height = 10, width = 15)
+# ggsave(plot1, file = paste0("figS2.pdf"), path = here::here("figs", "supp"), height = 10, width = 15)
 ```
 
 ### Predict additional shark species
@@ -273,16 +274,16 @@ plot1
 ```{r}
 # filter out rays and missing values
 new_dat <- read_csv(here::here("data", "predict_data_new_iucn.csv")) %>%
-  #filter(!is.na(median_depth)) %>%
+  # filter(!is.na(median_depth)) %>%
   filter(!is.na(ac)) %>%
   filter(!is.na(ventilation_method)) %>%
   filter(!is.na(reproductive_mode)) %>%
   filter(!is.na(habitat)) %>%
   filter(!is.na(max_size_cm)) %>%
-  group_by(genus) %>% 
-  mutate(median_depth_new = mean(median_depth, na.rm = TRUE)) %>% 
-  ungroup() %>% 
-  mutate(median_depth = ifelse(is.na(median_depth), median_depth_new, median_depth)) %>% 
+  group_by(genus) %>%
+  mutate(median_depth_new = mean(median_depth, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(median_depth = ifelse(is.na(median_depth), median_depth_new, median_depth)) %>%
   mutate(ventilation_method = as.factor(ventilation_method)) %>%
   mutate(habitat = as.factor(habitat)) %>%
   mutate(reproductive_mode = as.factor(reproductive_mode)) %>%
@@ -312,7 +313,7 @@ full_prediction_avm <- preds_bind(predict_avm, gillnet_fit) %>%
   select(
     order, genus,
     avm_gillnet_05, avm_gillnet_25, avm_gillnet_50,
-    avm_gillnet_75, avm_gillnet_95,avm_gillnet_pred,
+    avm_gillnet_75, avm_gillnet_95, avm_gillnet_pred,
     scientific_name, ventilation_method, median_depth,
     max_size_cm, habitat, reproductive_mode,
     ac, avm_gillnet_mort, family
