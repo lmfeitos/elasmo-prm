@@ -113,7 +113,7 @@ iucn_data <- read_csv(here::here("data", "iucn_data", "assessments.csv")) %>%
     str_detect(redlist_category, "Least") ~ "LC",
     TRUE ~ redlist_category
   )) %>%
-  filter(!str_detect(scientific_name, "Parmaturus|Bythaelurus|Cirrhoscyllium|Proscyllium|Megachasma|Cetorhinus|Rhincodon|Aetobatus|Acroteriobatus|Aetomylaeus|raja|Chimaera|Mobula")) %>% 
+  filter(!str_detect(scientific_name, "Parmaturus|Bythaelurus|Cirrhoscyllium|Proscyllium|Megachasma|Cetorhinus|Rhincodon|Aetobatus|Acroteriobatus|Aetomylaeus|raja|Chimaera|Mobula|Himantura|Dasyatis|trygon|Bathytoshia|rays|raja|Rhinoptera|Sympterygia|Pastinachus|Urobatis|Glaucostegus|Hypanus")) %>% 
   distinct()
 
 write_csv(iucn_data, here::here("data", "longline_species.csv"))
@@ -171,7 +171,7 @@ iucn_data_gill <- read_csv(here("data", "iucn_data", "assessments.csv")) %>%
     str_detect(redlist_category, "Least") ~ "LC",
     TRUE ~ redlist_category
   )) %>%
-  filter(!str_detect(scientific_name, "Aetobatus|Acroteriobatus|Aetomylaeus|raja|Chimaera|Mobula")) %>%
+  filter(!str_detect(scientific_name, "Aetobatus|Acroteriobatus|Aetomylaeus|raja|Chimaera|MobulaHimantura|Dasyatis|trygon|Bathytoshia|rays|raja|Rhinoptera|Sympterygia|Pastinachus|Urobatis|Glaucostegus|Hypanus")) %>%
   distinct()
 
 write_csv(iucn_data_gill, here::here("data", "gillnet_species.csv"))
