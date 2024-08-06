@@ -201,18 +201,6 @@ sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %
 
 write_csv(sim_results, here::here("data", "pct_mort_reduction_sim.csv"))
 
-sim_results_uncorrected <- read_csv(here::here(basedir, "data", "uncorrected_results.csv")) %>%
-  filter(scenario != "CQ") %>%
-  filter(!is.na(mort_scenario)) %>%
-  filter(t == 200) %>%
-  filter(mort_scenario == "BAU" | mort_scenario == "Median Mortality") %>%
-  mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1 - mid_avm) * (1 - mid_prm)))) / 100) %>%
-  select(scientific_name, f, f_mort, mid_avm, mid_prm) %>%
-  distinct() %>%
-  filter(scientific_name %in% longline_predictions_iucn$scientific_name)
-
-write_csv(sim_results_uncorrected, here::here("data", "pct_mort_reduction_sim_uncorrected.csv"))
-
 f_vals <- read_csv(here::here("data", "ramldb_f_means.csv")) %>%
   rename(scientific_name = scientificname) %>%
   filter(ref != "RAMLDB") %>%
@@ -257,12 +245,6 @@ sim_results3 <- read_csv(here::here("data", "simulation_results_3msy.csv")) %>%
   filter(scenario != "CQ") %>%
   mutate(fp = 3) %>%
   mutate(corrected = "yes") %>%
-  filter(scientific_name %in% longline_predictions_iucn$scientific_name)
-
-uncorrected_results <- read_csv(here::here("data", "uncorrected_results.csv")) %>%
-  filter(scenario != "CQ") %>%
-  mutate(fp = 1.5) %>%
-  mutate(corrected = "no") %>%
   filter(scientific_name %in% longline_predictions_iucn$scientific_name)
 
 # Figures 1 and S1 and S13 --------------------------------------------------------
@@ -2122,48 +2104,9 @@ p_sim <- ggplot() +
 
 # Figure S12-----------------------------------------------------------------------------
 
-#pct_mort_reduction <- read_csv(here::here("data", "pct_mort_reduction_sim.csv"))
+pct_mort_reduction <- read_csv(here::here("data", "pct_mort_reduction_sim.csv"))
 
-pct_mort_reduction_uncorrected <- read_csv(here::here("data", "pct_mort_reduction_sim_uncorrected.csv"))
-
-# mean_mort_reduction_fam <- pct_mort_reduction %>%
-#   mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1 - mid_avm) * (1 - mid_prm)))) / 100) %>%
-#   select(scientific_name, f, f_mort) %>%
-#   distinct() %>%
-#   mutate(percent_diff = (f - f_mort) / f * 100) %>%
-#   mutate(abs_diff = f - f_mort) %>%
-#   mutate(f_max = (f) / (1 - (percent_diff / 100))) %>%
-#   mutate(f_fmsy = f_max / f) %>%
-#   left_join(iucn_taxonomy, by = "scientific_name") %>%
-#   left_join(iucn_join, by = "family") %>%
-#   # mutate(threat = ifelse(redlist_category %in% c("CR", "VU", "EN"), "threatened", "not threatened")) %>%
-#   group_by(family) %>%
-#   mutate(
-#     mean_mort_reduction = mean(percent_diff),
-#     sd_mort_reduction = sd(percent_diff),
-#     se_mort_reduction = sd(percent_diff) / sqrt(n())
-#   ) %>%
-#   mutate(
-#     mean_abs_mort_reduction = mean(abs_diff),
-#     sd_abs_mort_reduction = sd(abs_diff),
-#     se_abs_mort_reduction = sd(abs_diff) / sqrt(n())
-#   ) %>%
-#   mutate(
-#     mean_f_fmsy = mean(f_fmsy),
-#     sd_f_fmsy = sd(f_fmsy),
-#     se_f_fmsy = sd(f_fmsy) / sqrt(n())
-#   ) %>%
-#   ungroup() %>%
-#   filter(threat == "threatened") %>%
-#   mutate(sp_threat = case_when(
-#     sp_threat_pct < 0.25 ~ "<0.25",
-#     sp_threat_pct >= 0.25 & sp_threat_pct < 0.5 ~ "<0.50",
-#     sp_threat_pct >= 0.5 & sp_threat_pct < 0.75 ~ "<0.75",
-#     sp_threat_pct >= 0.75 ~ ">0.75"
-#   )) %>%
-#   mutate(status = "Corrected")
-
-mean_mort_reduction_fam_unc <- pct_mort_reduction_uncorrected %>%
+mean_mort_reduction_fam <- pct_mort_reduction %>%
   mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1 - mid_avm) * (1 - mid_prm)))) / 100) %>%
   select(scientific_name, f, f_mort) %>%
   distinct() %>%
@@ -2191,24 +2134,18 @@ mean_mort_reduction_fam_unc <- pct_mort_reduction_uncorrected %>%
     se_f_fmsy = sd(f_fmsy) / sqrt(n())
   ) %>%
   ungroup() %>%
-  group_by(family) %>%
-  mutate(sp_count = n()) %>%
-  ungroup() %>%
   filter(threat == "threatened") %>%
   mutate(sp_threat = case_when(
     sp_threat_pct < 0.25 ~ "<0.25",
     sp_threat_pct >= 0.25 & sp_threat_pct < 0.5 ~ "<0.50",
     sp_threat_pct >= 0.5 & sp_threat_pct < 0.75 ~ "<0.75",
     sp_threat_pct >= 0.75 ~ ">0.75"
-  )) %>%
-  mutate(status = "Uncorrected")
+  ))
 
-#sim_join <- full_join(mean_mort_reduction_fam, mean_mort_reduction_fam_unc)
-
-#write_csv(sim_join, file = here::here("data", "sim_pct_correct_uncorrect.csv"))
+write_csv(mean_mort_reduction_fam, file = here::here("data", "sim_pct.csv"))
 
 mort_red_corrected <-
-  ggplot(data = mean_mort_reduction_fam_unc) +
+  ggplot(data = mean_mort_reduction_fam) +
   geom_point(aes(x = fct_reorder(family, mean_f_fmsy), y = mean_f_fmsy, size = sp_threat)) +
   geom_linerange(aes(
     x = family, ymax = mean_f_fmsy + se_f_fmsy,
@@ -2240,13 +2177,13 @@ ggsave(mort_red_corrected, file = paste0("figS12.pdf"), path = here::here("figs"
 
 # Figure S4 and Dryad data--------------------------------------------------------------
 
-sim_results <- list(sim_results1_5, sim_results1, sim_results2, sim_results3, uncorrected_results) %>%
+sim_results <- list(sim_results1_5, sim_results1, sim_results2, sim_results3) %>%
   reduce(full_join) %>%
   filter(scientific_name %in% iucn_data$scientific_name)
 
 sim_results <- sim_results[!duplicated(sim_results %>% select(scientific_name, t, mort_scenario, fp, corrected)), ]
 
-rm(sim_results1_5, sim_results1, sim_results2, sim_results3, uncorrected_results)
+rm(sim_results1_5, sim_results1, sim_results2, sim_results3)
 gc()
 
 eq <- sim_results %>%
@@ -2380,13 +2317,12 @@ output <- eq %>%
     absolute_mort_diff = abs_diff,
     fishing_mort_bau = f,
     fishing_mort_rb = f_mort,
-    msy_multiple_fishing = fp,
-    avm_correction = corrected
+    msy_multiple_fishing = fp
   ) %>%
   select(
     scientific_name, msy_multiple_fishing, fishing_mort_bau, fishing_mort_rb, percent_mort_diff, absolute_mort_diff, f_fmsy,
     mort_scenario, simulation_avm, simulation_prm, n_div_k,
-    pred_avm_25, pred_avm_mean, pred_avm_75, pred_prm_25, pred_prm_mean, pred_prm_75, avm_correction
+    pred_avm_25, pred_avm_mean, pred_avm_75, pred_prm_25, pred_prm_mean, pred_prm_75
   )
 
 # create dryad data
