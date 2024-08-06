@@ -189,7 +189,7 @@ gillnet_predictions_iucn <- gillnet_predictions %>%
 full_predictions <- full_join(longline_predictions_iucn, gillnet_predictions_iucn)
 
 # read in simulation results
-sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
+sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>%
@@ -207,7 +207,7 @@ f_vals <- read_csv(here::here("data", "ramldb_f_means.csv")) %>%
   group_by(scientific_name) %>%
   mutate(mean_f = mean(mean_f_10))
 
-sim_results_2 <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
+sim_results_2 <- read_csv(here::here("data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(scientific_name %in% longline_predictions_iucn$scientific_name)
@@ -712,7 +712,9 @@ obs_count_plot <-
 
 ggsave(obs_count_plot, file = paste0("figS13.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
 
-# Figure 2
+
+# Figure 2 ----------------------------------------------------------------
+
 # function to preform and extract quantile estimates from random forest
 preds_bind <- function(data_fit, rf_fit) {
   predict(
@@ -942,9 +944,9 @@ mort_subset_avm <- mean_predictions %>%
 mort_subset_prm <- mean_predictions %>%
   group_by(family) %>%
   summarize(fam_mean = mean(prm_pred)) %>%
-  arrange(desc(fam_mean)) 
-  distinct(family) %>%
-  pull(family)
+  arrange(desc(fam_mean)) %>% 
+  distinct(family)
+  # pull(family)
 
 # get family level estimates for PRM
 mort_subset_gill <- mean_gill_predictions %>%
@@ -1335,22 +1337,11 @@ sim_results_iucn_pct <- sim_results_iucn_pct %>%
   )) %>%
   mutate(diff_bin = fct_relevel(as.factor(diff_bin), c("High Mortality", "Medium Mortality", "Low Mortality")))
 
-# bin_count = sim_results_iucn_pct %>%
-#   group_by(diff_bin) %>%
-#   summarize(count = n())
-#
-# ggplot() +
-#   geom_vline(aes(xintercept = bins))+
-#   geom_density(data = sim_results_iucn_pct, aes(avm_prm)) +
-#   theme_bw()
-
 f_val_sim <- left_join(f_vals, sim_results_iucn_pct) %>%
   mutate(
-    # f_fmsy_5 = mean_f_5 / f,
     f_fmsy_10 = mean_f / f
   ) %>%
   mutate(
-    # f_reduce_5 = mean_f_5 - mean_f_5 * (percent_diff / 100),
     f_reduce_10 = mean_f - mean_f * (percent_diff / 100)
   ) %>%
   # mutate(success_5 = case_when(
@@ -1786,7 +1777,7 @@ no_cq <- sim_results_new %>%
     mort_scenario == "BAU" ~ "Full retention",
     TRUE ~ mort_scenario
   )) %>%
-  select(-avm, -prm, -prm_75, -prm_25, -avm_25, -avm_25) 
+  select(-avm, -prm, -prm_75, -prm_25, -avm_25, -avm_25) %>% 
   mutate(scientific_name = str_replace(scientific_name, "-", ""))
 
 no_cq <- no_cq[!duplicated(no_cq %>% select(-n_div_k, -pop.array)), ]
