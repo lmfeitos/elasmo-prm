@@ -229,22 +229,18 @@ sim_results_common <- read_csv(here::here("data", "f_sim_results.csv")) %>%
 sim_results1 <- read_csv(here::here("data", "simulation_results_msy.csv")) %>%
   filter(scenario != "CQ") %>%
   mutate(fp = 1) %>%
-  mutate(corrected = "yes") %>%
   filter(scientific_name %in% longline_predictions_iucn$scientific_name)
 sim_results1_5 <- read_csv(here::here("data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   mutate(fp = 1.5) %>%
-  mutate(corrected = "yes") %>%
   filter(scientific_name %in% longline_predictions_iucn$scientific_name)
 sim_results2 <- read_csv(here::here("data", "simulation_results_2msy.csv")) %>%
   filter(scenario != "CQ") %>%
   mutate(fp = 2) %>%
-  mutate(corrected = "yes") %>%
   filter(scientific_name %in% longline_predictions_iucn$scientific_name)
 sim_results3 <- read_csv(here::here("data", "simulation_results_3msy.csv")) %>%
   filter(scenario != "CQ") %>%
   mutate(fp = 3) %>%
-  mutate(corrected = "yes") %>%
   filter(scientific_name %in% longline_predictions_iucn$scientific_name)
 
 # Figures 1 and S1 and S13 --------------------------------------------------------
@@ -2181,7 +2177,7 @@ sim_results <- list(sim_results1_5, sim_results1, sim_results2, sim_results3) %>
   reduce(full_join) %>%
   filter(scientific_name %in% iucn_data$scientific_name)
 
-sim_results <- sim_results[!duplicated(sim_results %>% select(scientific_name, t, mort_scenario, fp, corrected)), ]
+sim_results <- sim_results[!duplicated(sim_results %>% select(scientific_name, t, mort_scenario, fp)), ]
 
 rm(sim_results1_5, sim_results1, sim_results2, sim_results3)
 gc()
@@ -2192,7 +2188,7 @@ eq <- sim_results %>%
   mutate(mort_scenario = fct_relevel(mort_scenario, "Low Mortality", after = Inf)) %>%
   mutate(scientific_name = fct_reorder(scientific_name, n_div_k))
 
-p <- ggplot(eq %>% filter(corrected == "yes")) +
+p <- ggplot(eq) +
   geom_line(aes(fp, n_div_k, group = scientific_name), color = "grey") +
   geom_hline(
     yintercept = 0.5,
@@ -2223,7 +2219,7 @@ ggsave(p, file = paste0("figS4.pdf"), path = here::here("figs", "supp"), height 
 
 percent_calc <- sim_results %>%
   mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1 - mid_avm) * (1 - mid_prm)))) / 100) %>%
-  select(scientific_name, f, f_mort, fp, corrected) %>%
+  select(scientific_name, f, f_mort, fp) %>%
   distinct() %>%
   mutate(
     percent_diff = (f - f_mort) / f * 100,
@@ -2236,7 +2232,7 @@ percent_calc <- sim_results %>%
     fp == 1 ~ (f_max / f),
     TRUE ~ NA
   )) %>%
-  group_by(fp, corrected) %>%
+  group_by(fp) %>%
   mutate(
     mean_percent_diff = mean(percent_diff, na.rm = TRUE),
     mean_abs_diff = mean(abs_diff, na.rm = TRUE)
@@ -2283,7 +2279,6 @@ ggsave(p1 / p_sim + plot_annotation(tag_levels = "A") & theme(legend.position = 
 
 sim_200 <- sim_results %>%
   filter(t == 200) %>%
-  filter(corrected == "yes") %>%
   filter(mort_scenario == "Median Mortality") %>%
   select(n_div_k, scientific_name, fp) %>%
   filter(n_div_k >= 0.5) %>%
@@ -2293,7 +2288,6 @@ sim_200 <- sim_results %>%
   summarize(per = n() / 265 * 100)
 
 mort_50 <- percent_calc %>%
-  filter(corrected == "yes") %>%
   filter(percent_diff > 75) %>%
   filter(fp == 1.5) %>%
   select(scientific_name) %>%
