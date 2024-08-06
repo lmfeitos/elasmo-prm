@@ -2122,46 +2122,46 @@ p_sim <- ggplot() +
 
 # Figure S12-----------------------------------------------------------------------------
 
-pct_mort_reduction <- read_csv(here::here("data", "pct_mort_reduction_sim.csv"))
+#pct_mort_reduction <- read_csv(here::here("data", "pct_mort_reduction_sim.csv"))
 
 pct_mort_reduction_uncorrected <- read_csv(here::here("data", "pct_mort_reduction_sim_uncorrected.csv"))
 
-mean_mort_reduction_fam <- pct_mort_reduction %>%
-  mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1 - mid_avm) * (1 - mid_prm)))) / 100) %>%
-  select(scientific_name, f, f_mort) %>%
-  distinct() %>%
-  mutate(percent_diff = (f - f_mort) / f * 100) %>%
-  mutate(abs_diff = f - f_mort) %>%
-  mutate(f_max = (f) / (1 - (percent_diff / 100))) %>%
-  mutate(f_fmsy = f_max / f) %>%
-  left_join(iucn_taxonomy, by = "scientific_name") %>%
-  left_join(iucn_join, by = "family") %>%
-  # mutate(threat = ifelse(redlist_category %in% c("CR", "VU", "EN"), "threatened", "not threatened")) %>%
-  group_by(family) %>%
-  mutate(
-    mean_mort_reduction = mean(percent_diff),
-    sd_mort_reduction = sd(percent_diff),
-    se_mort_reduction = sd(percent_diff) / sqrt(n())
-  ) %>%
-  mutate(
-    mean_abs_mort_reduction = mean(abs_diff),
-    sd_abs_mort_reduction = sd(abs_diff),
-    se_abs_mort_reduction = sd(abs_diff) / sqrt(n())
-  ) %>%
-  mutate(
-    mean_f_fmsy = mean(f_fmsy),
-    sd_f_fmsy = sd(f_fmsy),
-    se_f_fmsy = sd(f_fmsy) / sqrt(n())
-  ) %>%
-  ungroup() %>%
-  filter(threat == "threatened") %>%
-  mutate(sp_threat = case_when(
-    sp_threat_pct < 0.25 ~ "<0.25",
-    sp_threat_pct >= 0.25 & sp_threat_pct < 0.5 ~ "<0.50",
-    sp_threat_pct >= 0.5 & sp_threat_pct < 0.75 ~ "<0.75",
-    sp_threat_pct >= 0.75 ~ ">0.75"
-  )) %>%
-  mutate(status = "Corrected")
+# mean_mort_reduction_fam <- pct_mort_reduction %>%
+#   mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1 - mid_avm) * (1 - mid_prm)))) / 100) %>%
+#   select(scientific_name, f, f_mort) %>%
+#   distinct() %>%
+#   mutate(percent_diff = (f - f_mort) / f * 100) %>%
+#   mutate(abs_diff = f - f_mort) %>%
+#   mutate(f_max = (f) / (1 - (percent_diff / 100))) %>%
+#   mutate(f_fmsy = f_max / f) %>%
+#   left_join(iucn_taxonomy, by = "scientific_name") %>%
+#   left_join(iucn_join, by = "family") %>%
+#   # mutate(threat = ifelse(redlist_category %in% c("CR", "VU", "EN"), "threatened", "not threatened")) %>%
+#   group_by(family) %>%
+#   mutate(
+#     mean_mort_reduction = mean(percent_diff),
+#     sd_mort_reduction = sd(percent_diff),
+#     se_mort_reduction = sd(percent_diff) / sqrt(n())
+#   ) %>%
+#   mutate(
+#     mean_abs_mort_reduction = mean(abs_diff),
+#     sd_abs_mort_reduction = sd(abs_diff),
+#     se_abs_mort_reduction = sd(abs_diff) / sqrt(n())
+#   ) %>%
+#   mutate(
+#     mean_f_fmsy = mean(f_fmsy),
+#     sd_f_fmsy = sd(f_fmsy),
+#     se_f_fmsy = sd(f_fmsy) / sqrt(n())
+#   ) %>%
+#   ungroup() %>%
+#   filter(threat == "threatened") %>%
+#   mutate(sp_threat = case_when(
+#     sp_threat_pct < 0.25 ~ "<0.25",
+#     sp_threat_pct >= 0.25 & sp_threat_pct < 0.5 ~ "<0.50",
+#     sp_threat_pct >= 0.5 & sp_threat_pct < 0.75 ~ "<0.75",
+#     sp_threat_pct >= 0.75 ~ ">0.75"
+#   )) %>%
+#   mutate(status = "Corrected")
 
 mean_mort_reduction_fam_unc <- pct_mort_reduction_uncorrected %>%
   mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1 - mid_avm) * (1 - mid_prm)))) / 100) %>%
@@ -2203,12 +2203,12 @@ mean_mort_reduction_fam_unc <- pct_mort_reduction_uncorrected %>%
   )) %>%
   mutate(status = "Uncorrected")
 
-sim_join <- full_join(mean_mort_reduction_fam, mean_mort_reduction_fam_unc)
+#sim_join <- full_join(mean_mort_reduction_fam, mean_mort_reduction_fam_unc)
 
-write_csv(sim_join, file = here::here("data", "sim_pct_correct_uncorrect.csv"))
+#write_csv(sim_join, file = here::here("data", "sim_pct_correct_uncorrect.csv"))
 
 mort_red_corrected <-
-  ggplot(data = sim_join) +
+  ggplot(data = mean_mort_reduction_fam_unc) +
   geom_point(aes(x = fct_reorder(family, mean_f_fmsy), y = mean_f_fmsy, size = sp_threat)) +
   geom_linerange(aes(
     x = family, ymax = mean_f_fmsy + se_f_fmsy,
@@ -2218,7 +2218,6 @@ mort_red_corrected <-
   #   yintercept = 50,
   #   linetype = "dashed"
   # ) +
-  facet_wrap(~status) +
   coord_flip() +
   ylab(bquote("Mean" ~ F[MAX] / F[MSY])) +
   labs(
