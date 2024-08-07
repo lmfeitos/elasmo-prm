@@ -915,7 +915,9 @@ predictions_join <- mean_predictions %>%
   mutate(estimate_type_new = ifelse(str_detect(estimate_type, "AVM"), "AVM", "PRM")) %>%
   filter(!is.na(mortality_prop)) %>%
   filter(family != "Rhinopteridae") %>% 
-  filter(!str_detect(family, "Dasyatidae|Rhinidae|Gymnuridae"))  
+  filter(!str_detect(family, "Dasyatidae|Rhinidae|Gymnuridae")) %>% 
+  mutate(family = ifelse(scientific_name == "Heptranchias perlo", "Hexanchidae", family),
+         reproductive_mode = ifelse(scientific_name == "Heptranchias perlo", "lecithotrophic viviparity", reproductive_mode))
 
 write_csv(predictions_join, file = here("data", "tableS5.csv"), na = "")
 

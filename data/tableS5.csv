@@ -53,8 +53,8 @@ Ginglymostoma cirratum,Ginglymostomatidae,lecithotrophic oviparity,3.1785,65,308
 Ginglymostoma cirratum,Ginglymostomatidae,lecithotrophic oviparity,3.1785,65,308,stationary,pelagic,PRM Longline,0.3346597110618276,Longline,PRM
 Carcharhinus acronotus,Carcharhinidae,matrotrophic viviparity,8.3419,51.5,164,ram,pelagic,AVM Longline,0.3521100409829078,Longline,AVM
 Carcharhinus acronotus,Carcharhinidae,matrotrophic viviparity,8.3419,51.5,164,ram,pelagic,PRM Longline,0.3802844202480814,Longline,PRM
-Heptranchias perlo,Lamnidae,matrotrophic viviparity,11.532,500,140,ram,demersal,AVM Longline,0.2859525907658139,Longline,AVM
-Heptranchias perlo,Lamnidae,matrotrophic viviparity,11.532,500,140,ram,demersal,PRM Longline,0.2867355355574674,Longline,PRM
+Heptranchias perlo,Hexanchidae,lecithotrophic viviparity,11.532,500,140,ram,demersal,AVM Longline,0.2859525907658139,Longline,AVM
+Heptranchias perlo,Hexanchidae,lecithotrophic viviparity,11.532,500,140,ram,demersal,PRM Longline,0.2867355355574674,Longline,PRM
 Centrophorus granulosus,Centrophoridae,lecithotrophic viviparity,9.3579,775,176,stationary,demersal,AVM Longline,0.15187843569423068,Longline,AVM
 Centrophorus granulosus,Centrophoridae,lecithotrophic viviparity,9.3579,775,176,stationary,demersal,PRM Longline,0.28613012872878435,Longline,PRM
 Carcharhinus porosus,Carcharhinidae,matrotrophic viviparity,3.888,42,150,ram,demersal,AVM Longline,0.2291149446783855,Longline,AVM
@@ -953,7 +953,7 @@ Carcharhinus dussumieri,Carcharhinidae,matrotrophic viviparity,9.6066,50,100.7,r
 Carcharhinus sorrah,Carcharhinidae,matrotrophic viviparity,5.01,70,166,ram,pelagic,AVM Gillnet,0.3272793189382434,Gillnet,AVM
 Carcharhinus tilstoni,Carcharhinidae,matrotrophic viviparity,9.92492714,75,200,ram,pelagic,AVM Gillnet,0.5553546455073298,Gillnet,AVM
 Ginglymostoma cirratum,Orectolobidae,lecithotrophic viviparity,3.1785,65,308,ram,pelagic,AVM Gillnet,0.19984734828430256,Gillnet,AVM
-Heptranchias perlo,Lamnidae,matrotrophic viviparity,11.532,500,140,ram,demersal,AVM Gillnet,0.6226891862103572,Gillnet,AVM
+Heptranchias perlo,Hexanchidae,lecithotrophic viviparity,11.532,500,140,ram,demersal,AVM Gillnet,0.6226891862103572,Gillnet,AVM
 Carcharhinus porosus,Carcharhinidae,matrotrophic viviparity,3.888,42,150,ram,demersal,AVM Gillnet,0.34161758510256496,Gillnet,AVM
 Hexanchus griseus,Hexanchidae,matrotrophic viviparity,7.4946,1245,550,ram,demersal,AVM Gillnet,0.34265713966698785,Gillnet,AVM
 Orectolobus halei,Orectolobidae,lecithotrophic oviparity,5.5714,97.5,256,stationary,demersal,AVM Gillnet,0.13457360831685328,Gillnet,AVM
