@@ -191,7 +191,7 @@ gillnet_predictions_iucn <- gillnet_predictions %>%
 full_predictions <- full_join(longline_predictions_iucn, gillnet_predictions_iucn)
 
 # read in simulation results
-sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
+sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>%
@@ -209,7 +209,7 @@ f_vals <- read_csv(here::here("data", "ramldb_f_means.csv")) %>%
   group_by(scientific_name) %>%
   mutate(mean_f = mean(mean_f_10))
 
-sim_results_2 <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
+sim_results_2 <- read_csv(here::here("data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(scientific_name %in% longline_predictions_iucn$scientific_name)
@@ -918,6 +918,10 @@ predictions_join <- mean_predictions %>%
   filter(!str_detect(family, "Dasyatidae|Rhinidae|Gymnuridae"))  
 
 write_csv(predictions_join, file = here("data", "tableS5.csv"), na = "")
+
+reproductive_median = predictions_join %>% 
+  group_by(estimate_type, reproductive_mode) %>% 
+  
 
 count_avm <- predictions_join %>%
   filter(estimate_type %in% c("AVM Longline", "AVM Gillnet")) %>%
