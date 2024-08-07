@@ -923,7 +923,15 @@ write_csv(predictions_join, file = here("data", "tableS5.csv"), na = "")
 
 reproductive_median = predictions_join %>% 
   group_by(estimate_type, reproductive_mode) %>% 
-  
+  summarize(median = median(mortality_prop, na.rm =TRUE))
+
+vent_median = predictions_join %>% 
+  group_by(estimate_type, ventilation_method) %>% 
+  summarize(median = median(mortality_prop, na.rm =TRUE))
+
+hab_median = predictions_join %>% 
+  group_by(estimate_type, habitat) %>% 
+  summarize(median = median(mortality_prop, na.rm =TRUE))
 
 count_avm <- predictions_join %>%
   filter(estimate_type %in% c("AVM Longline", "AVM Gillnet")) %>%
