@@ -11,6 +11,8 @@ library(ggrepel)
 
 set.seed(42)
 
+# gdrive file path
+basedir <- "G:/Meu Drive/PRM review/"
 # data load ---------------------------------------------------------------
 
 # read in the raw literature review data
@@ -189,7 +191,7 @@ gillnet_predictions_iucn <- gillnet_predictions %>%
 full_predictions <- full_join(longline_predictions_iucn, gillnet_predictions_iucn)
 
 # read in simulation results
-sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
+sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>%
@@ -207,7 +209,7 @@ f_vals <- read_csv(here::here("data", "ramldb_f_means.csv")) %>%
   group_by(scientific_name) %>%
   mutate(mean_f = mean(mean_f_10))
 
-sim_results_2 <- read_csv(here::here("data", "simulation_results.csv")) %>%
+sim_results_2 <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(scientific_name %in% longline_predictions_iucn$scientific_name)
@@ -743,7 +745,8 @@ gillnet_quant_test <- preds_bind(gillnet_train_predict, gillnet_fit) %>%
   mutate(
     range_50 = .pred_75 - .pred_25,
     range_95 = .pred_95 - .pred_05
-  )
+  ) %>% 
+  mutate(median = median(range_50))
 
 p2_gill <- ggplot(gillnet_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
   geom_point() +
@@ -793,7 +796,8 @@ avm_quant_test <- preds_bind(avm_data, avm_fit) %>%
   mutate(
     range_50 = .pred_75 - .pred_25,
     range_95 = .pred_95 - .pred_05
-  )
+  ) %>% 
+  mutate(median = median(range_50))
 
 p1 <- ggplot(avm_quant_test, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
   geom_point() +
@@ -838,7 +842,8 @@ prm_quant_test <- preds_bind(prm_train_predict, prm_fit) %>%
   mutate(
     range_50 = .pred_75 - .pred_25,
     range_95 = .pred_95 - .pred_05
-  )
+  ) %>% 
+  mutate(median = median(range_50))
 
 p2 <- ggplot(prm_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
   geom_point() +
@@ -883,7 +888,7 @@ mean_predictions <- longline_predictions %>%
     avm_pred_long = mean(avm_pred),
     prm_pred_long = mean(prm_pred)
   ) %>%
-  mutate(gear = "longline")
+  mutate(gear = "longline") 
 
 # gillnet predictions
 mean_gill_predictions <- gillnet_predictions %>%
@@ -910,7 +915,7 @@ predictions_join <- mean_predictions %>%
   mutate(estimate_type_new = ifelse(str_detect(estimate_type, "AVM"), "AVM", "PRM")) %>%
   filter(!is.na(mortality_prop)) %>%
   filter(family != "Rhinopteridae") %>% 
-  filter(!str_detect(family, "Dasyatidae|Rhinidae|Gymnuridae"))
+  filter(!str_detect(family, "Dasyatidae|Rhinidae|Gymnuridae"))  
 
 write_csv(predictions_join, file = here("data", "tableS5.csv"), na = "")
 
@@ -945,14 +950,14 @@ mort_subset_prm <- mean_predictions %>%
   group_by(family) %>%
   summarize(fam_mean = mean(prm_pred)) %>%
   arrange(desc(fam_mean)) %>% 
-  distinct(family)
-  # pull(family)
+  distinct(family) %>% 
+  pull(family)
 
 # get family level estimates for PRM
 mort_subset_gill <- mean_gill_predictions %>%
   group_by(family) %>%
   summarize(fam_mean = mean(avm_gillnet_pred)) %>%
-  #filter(!(family %in% mort_subset_avm$family)) %>%
+  filter(!(family %in% mort_subset_avm$family)) %>%
   distinct()
 
 mort_avm <- full_join(mort_subset_avm, mort_subset_gill) %>%

@@ -406,6 +406,10 @@ overfishing_med <- ram_ts_val %>%
 write_csv(ram_ts_val_df, file = here::here("data", "ramldb_f_means.csv"))
 ```
 
+```{r}
+# calculate median per predictor variable
+
+```
 
 
 
