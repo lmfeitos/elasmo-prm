@@ -1340,8 +1340,8 @@ sim_results_iucn_pct <- sim_results_iucn %>%
     avm_prm = mid_avm + mid_prm
   ) %>%
   mutate(percent_diff = round(percent_diff, 4)) %>%
-  mutate(f_max = (f) / (1 - (percent_diff / 100))) %>%
-  mutate(f_fmsy = f_max / f) %>%
+  mutate(p_max = (f) / (1 - (percent_diff / 100))) %>%
+  mutate(f_fmsy = p_max / f) %>%
   mutate(mean_f_fmsy = mean(f_fmsy))
 
 write_csv(sim_results_iucn_pct, here::here("data", "sim_results_pct_diff.csv"))
@@ -2082,7 +2082,7 @@ p_sim <- ggplot() +
   ) +
   geom_rect(
     data = no_cq_sub,
-    aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.27, fill = as.factor(redlist_category))
+    aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.37, fill = as.factor(redlist_category))
   ) +
   geom_line(data = no_cq_sub %>% filter(!is.na(scenario)), aes(t, n_div_k, color = mort_scenario, group = total_mort), linewidth = 2) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
@@ -2118,8 +2118,8 @@ mean_mort_reduction_fam <- pct_mort_reduction %>%
   distinct() %>%
   mutate(percent_diff = (f - f_mort) / f * 100) %>%
   mutate(abs_diff = f - f_mort) %>%
-  mutate(f_max = (f) / (1 - (percent_diff / 100))) %>%
-  mutate(f_fmsy = f_max / f) %>%
+  mutate(p_max = (f) / (1 - (percent_diff / 100))) %>%
+  mutate(f_fmsy = p_max / f) %>%
   left_join(iucn_taxonomy, by = "scientific_name") %>%
   left_join(iucn_join, by = "family") %>%
   # mutate(threat = ifelse(redlist_category %in% c("CR", "VU", "EN"), "threatened", "not threatened")) %>%
@@ -2162,7 +2162,7 @@ mort_red_corrected <-
   #   linetype = "dashed"
   # ) +
   coord_flip() +
-  ylab(bquote("Mean" ~ F[MAX] / F[MSY])) +
+  ylab(bquote("Mean" ~ P[MAX] / F[MSY])) +
   labs(
     x = "",
     size = "Proportion of\nthreatened species\nper family"
@@ -2235,11 +2235,11 @@ percent_calc <- sim_results %>%
     percent_diff = (f - f_mort) / f * 100,
     abs_diff = f - f_mort
   ) %>%
-  mutate(f_max = case_when(
+  mutate(p_max = case_when(
     fp == 1 ~ (f) / (1 - (percent_diff / 100))
   )) %>%
   mutate(f_fmsy = case_when(
-    fp == 1 ~ (f_max / f),
+    fp == 1 ~ (p_max / f),
     TRUE ~ NA
   )) %>%
   group_by(fp) %>%
@@ -2255,10 +2255,10 @@ f_val_sim <- left_join(f_val_sim, percent_calc) %>%
     overfished == "yes" ~ "Overfished",
     TRUE ~ "Unknown"
   )) %>%
-  distinct(scientific_name, f_max, mean_f, name)
+  distinct(scientific_name, p_max, mean_f, name)
 
 p1 <-
-  ggplot(data = f_val_sim, aes(f_max, mean_f)) +
+  ggplot(data = f_val_sim, aes(p_max, mean_f)) +
   geom_abline(linetype = "dashed") +
   geom_point(size = 4) +
   scale_x_continuous(
@@ -2272,10 +2272,10 @@ p1 <-
   theme_bw(base_size = 16) +
   scale_color_viridis_d() +
   labs(
-    x = bquote(F["MAX"]), y = bquote(F["REAL"]),
+    x = bquote(P["MAX"]), y = bquote(F["REPORTED"]),
     color = ""
   ) +
-  annotate(geom = "text", label = "F[REAL] ==~ F[MAX]", x = 0.55, y = 0.8, parse = TRUE, size = 8) +
+  annotate(geom = "text", label = "F[REPROTED] ==~ P[MAX]", x = 0.55, y = 0.8, parse = TRUE, size = 8) +
   geom_curve(aes(x = 0.55, y = 0.75, xend = 0.55, yend = 0.55), arrow = arrow(length = unit(0.1, "inches"))) +
   geom_label_repel(aes(label = name), size = 5, vjust = "outward", hjust = "outward", alpha = 0.65) +
   theme(
@@ -2285,7 +2285,7 @@ p1 <-
 
 p1 / p_sim
 
-ggsave(p1 / p_sim + plot_annotation(tag_levels = "A") & theme(legend.position = "bottom"), file = paste0("fig4.pdf"), path = here::here("figs"), height = 20, width = 20)
+ggsave(p1 / p_sim + plot_annotation(tag_levels = "A") & theme(legend.position = "bottom"), file = paste0("fig4.pdf"), path = here::here("figs"), height = 15, width = 15)
 
 sim_200 <- sim_results %>%
   filter(t == 200) %>%
@@ -2321,12 +2321,12 @@ output <- eq %>%
     absolute_mort_diff = abs_diff,
     fishing_mort_bau = f,
     fishing_mort_rb = f_mort,
-    msy_multiple_fishing = fp
-  ) %>%
+    msy_multiple_sim = fp,
+    p_fmsy = f_fmsy) %>% 
   select(
-    scientific_name, msy_multiple_fishing, fishing_mort_bau, fishing_mort_rb, percent_mort_diff, absolute_mort_diff, f_fmsy,
+    scientific_name, msy_multiple_sim, fishing_mort_bau, fishing_mort_rb, percent_mort_diff, absolute_mort_diff,
     mort_scenario, simulation_avm, simulation_prm, n_div_k,
-    pred_avm_25, pred_avm_mean, pred_avm_75, pred_prm_25, pred_prm_mean, pred_prm_75
+    pred_avm_25, pred_avm_mean, pred_avm_75, pred_prm_25, pred_prm_mean, pred_prm_75, p_fmsy
   )
 
 # create dryad data
