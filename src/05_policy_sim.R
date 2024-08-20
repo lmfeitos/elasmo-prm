@@ -40,9 +40,13 @@ sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>%
   mutate(f = 1.5 * msy)
 
 stock_only_sim <- read_csv(here::here("data", "ramldb_f_means.csv")) %>%
-  rename(scientific_name = scientificname) %>%
-  left_join(sim_data) %>%
-  mutate(f = mean_f_10)
+  rename(
+    scientific_name = scientificname,
+    r_value = rmax
+  ) %>%
+  left_join(sim_data %>% select(-f, -r_value)) %>%
+  mutate(f = mean_f_10) %>%
+  filter(!is.na(r_value))
 
 # Functions ---------------------------------------------------------------
 
@@ -133,12 +137,12 @@ for (i in 1:nrow(sim_data)) { # replace with stock_only_sim for stock based
   }
 }
 
-join_data <- sim_data %>% # replace with stock_only_sim for stock based
-  select(scientific_name, avm_75, prm_75, avm_25, prm_25, mid_avm, mid_prm)
+join_data <- sim_data %>%
+  select(scientific_name)
 
 sim_results <- sim_results %>%
   mutate(total_mort = avm * prm) %>%
-  full_join(join_data) %>%
+  left_join(join_data) %>%
   mutate(n_div_k = pop.array / K)
 
 # get lowest, median, and highest moratlity values used in simulation

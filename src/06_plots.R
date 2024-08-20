@@ -245,6 +245,8 @@ sim_results3 <- read_csv(here::here("data", "simulation_results_3msy.csv")) %>%
   mutate(fp = 3) %>%
   filter(scientific_name %in% longline_predictions_iucn$scientific_name)
 
+stock_sim = read_csv(here::here("data", "stock_simulation_results.csv"))
+
 # Figures 1 and S1 and S13 --------------------------------------------------------
 
 # data wrangling for plotting raw data
@@ -2083,21 +2085,41 @@ p6 <- ggplot() +
 
 ggsave(p6, file = paste0("figS10.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
 
-f_val_sim <- read_csv(here::here("data", "f_reduce_f_msy_compare.csv"))
+f_val_sim <- read_csv(here::here("data", "ramldb_f_means.csv"))
 
-species_sub <- c(
-  "Prionace glauca", "Carcharhinus limbatus", "Isurus oxyrinchus", "Squalus acanthias", "Alopias vulpinus",
-  "Pseudocarcharias kamoharai", "Carcharhinus falciformis", "Sphyrna mokarran",
-  "Carcharhinus hemiodon", "Squatina squatina", "Sphyrna corona", "Galeorhinus galeus"
-)
+stock_sim  = stock_sim %>%
+  left_join(sim_results_common) %>%
+  mutate(common_name = case_when(
+    scientific_name == "Alopias vulpinus" ~ "Common thresher",
+    scientific_name == "Squalus acanthias" ~ "Spiny dogfish",
+    TRUE ~ common_name
+  ))
 
-no_cq_sub <- no_cq %>%
-  filter(sci %in% f_val_sim$scientific_name) %>%
+no_cq_stock <- stock_sim %>%
+  distinct() %>%
+  left_join(iucn_data) %>%
+  mutate(redlist_category = fct_relevel(as.factor(redlist_category), c("CR", "EN", "VU", "NT", "LC", "DD"))) %>%
+  rename(
+    sci = scientific_name,
+    scientific_name = common_name
+  ) %>%
+  mutate(mort_scenario = case_when(
+    scenario == "BAU" ~ "Full retention",
+    TRUE ~ scenario
+  )) %>%
+  select(-avm, -prm) %>% 
+  mutate(scientific_name = str_replace(scientific_name, "-", "")) %>%
   mutate(scientific_name = paste0(scientific_name, " (", redlist_category, ")"))
 
-f_val_sim <- f_val_sim %>%
-  mutate(name = paste0(common_name, " (", redlist_category, ")")) %>%
-  mutate(name = ifelse(name == "Thresher (VU)", "Common thresher (VU)", name))
+# species_sub <- c(
+#   "Prionace glauca", "Carcharhinus limbatus", "Isurus oxyrinchus", "Squalus acanthias", "Alopias vulpinus",
+#   "Pseudocarcharias kamoharai", "Carcharhinus falciformis", "Sphyrna mokarran",
+#   "Carcharhinus hemiodon", "Squatina squatina", "Sphyrna corona", "Galeorhinus galeus"
+# )
+
+no_cq_sub <- no_cq %>%
+  filter(sci %in% f_val_sim$scientificname) %>% 
+  mutate(name_f = paste0(scientific_name, " (", redlist_category, ")"))
 
 p_sim <- ggplot() +
   geom_hline(
@@ -2111,8 +2133,8 @@ p_sim <- ggplot() +
   ) +
   geom_line(data = no_cq_sub %>% filter(!is.na(scenario)), aes(t, n_div_k, color = mort_scenario, group = total_mort), linewidth = 2) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
-  facet_wrap(~ factor(scientific_name,
-    levels = unique(no_cq_sub$scientific_name)
+  facet_wrap(~ factor(name_f,
+    levels = unique(no_cq_sub$name_f)
   )) +
   theme_bw(base_size = 16) +
   scale_color_viridis_d() +
@@ -2263,7 +2285,7 @@ percent_calc <- sim_results %>%
   mutate(p_max = case_when(
     fp == 1 ~ (f) / (1 - (percent_diff / 100))
   )) %>%
-  mutate(f_fmsy = case_when(
+  mutate(p_fmsy = case_when(
     fp == 1 ~ (p_max / f),
     TRUE ~ NA
   )) %>%
@@ -2274,16 +2296,25 @@ percent_calc <- sim_results %>%
   ) %>%
   ungroup()
 
-f_val_sim <- left_join(f_val_sim, percent_calc) %>%
-  mutate(overfished = case_when(
-    overfished == "no" ~ "Not overfished",
-    overfished == "yes" ~ "Overfished",
-    TRUE ~ "Unknown"
-  )) %>%
-  distinct(scientific_name, p_max, mean_f, name)
+stock_change = stock_sim %>%
+  left_join(sim_results_common) %>% 
+  filter(scenario == "RB") %>% 
+  mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1 - avm) * (1 - prm)))) / 100) %>%
+  select(scientific_name, f, f_mort, common_name) %>%
+  distinct() %>%
+  mutate(
+    percent_diff = (f - f_mort) / f * 100,
+    abs_diff = f - f_mort
+  ) %>%
+  mutate(p_max = (f) / (1 - (percent_diff / 100))
+  ) %>%
+  mutate(p_fmsy = (p_max / f)) 
+
+f_val_sim <- left_join(f_val_sim, stock_change) %>%
+  distinct(scientific_name, p_max, f, common_name)
 
 p1 <-
-  ggplot(data = f_val_sim, aes(p_max, mean_f)) +
+  ggplot(data = f_val_sim, aes(p_max, f)) +
   geom_abline(linetype = "dashed") +
   geom_point(size = 4) +
   scale_x_continuous(
@@ -2302,7 +2333,7 @@ p1 <-
   ) +
   annotate(geom = "text", label = "F[REPROTED] ==~ P[MAX]", x = 0.55, y = 0.8, parse = TRUE, size = 8) +
   geom_curve(aes(x = 0.55, y = 0.75, xend = 0.55, yend = 0.55), arrow = arrow(length = unit(0.1, "inches"))) +
-  geom_label_repel(aes(label = name), size = 5, vjust = "outward", hjust = "outward", alpha = 0.65) +
+  geom_label_repel(aes(label = common_name), size = 5, vjust = "outward", hjust = "outward", alpha = 0.65) +
   theme(
     legend.key.size = unit(8, "mm"),
     panel.grid.minor = element_blank()
