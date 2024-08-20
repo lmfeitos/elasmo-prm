@@ -21,7 +21,6 @@ predictions <- read_csv(here::here("data", "full_model_predictions.csv")) %>%
   )) %>%
   mutate(IQR_cat_avm = fct_relevel(as.factor(IQR_cat_avm), c("Low Uncertainty", "Medium Uncertainty", "High Uncertainty")))
 
-
 # read in data from sim_prep.R
 sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>%
   select(prm_75, prm_25, avm_25, avm_75, scientific_name, r_value, avm_50, prm_50, avm_pred) %>%
@@ -39,6 +38,11 @@ sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>%
   distinct() %>%
   mutate(msy = r_value / 2) %>%
   mutate(f = 1.5 * msy)
+
+stock_only_sim <- read_csv(here::here("data", "ramldb_f_means.csv")) %>%
+  rename(scientific_name = scientificname) %>%
+  left_join(sim_data) %>%
+  mutate(f = mean_f_10)
 
 # Functions ---------------------------------------------------------------
 
@@ -89,7 +93,7 @@ quota <- 0
 sim_results <- data.frame()
 
 # loop through all species and run the simulation
-for (i in 1:nrow(sim_data)) {
+for (i in 1:nrow(sim_data)) { # replace with stock_only_sim for stock based
   ## set up mortality grid for shark species
   avms <- c(sim_data$avm_25[i], sim_data$mid_avm[i], sim_data$avm_75[i])
   prms <- c(sim_data$prm_25[i], sim_data$mid_prm[i], sim_data$prm_75[i])
@@ -129,7 +133,7 @@ for (i in 1:nrow(sim_data)) {
   }
 }
 
-join_data <- sim_data %>%
+join_data <- sim_data %>% # replace with stock_only_sim for stock based
   select(scientific_name, avm_75, prm_75, avm_25, prm_25, mid_avm, mid_prm)
 
 sim_results <- sim_results %>%
