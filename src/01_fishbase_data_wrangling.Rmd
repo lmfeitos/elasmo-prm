@@ -14,56 +14,13 @@ library(janitor)
 library(vroom)
 ```
 
-```{r}
-test_fishbase <- load_taxa() %>%
-  filter(Class == "Elasmobranchii")
-select(SpecCode, Species, Family, Order) %>%
-  rename(
-    scientific_name = Species,
-    family = Family,
-    order = Order
-  )
-```
-
-```{r}
-test_fishbase <- test_fishbase %>%
-  mutate(group = case_when(
-    str_detect(family, "Mobulidae|Dasyatidae|Gymnuridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae|Plesiobatidae|Potamo|Urolophidae|Zanobatidae|Narcinidae|Platyrhinidae|Trygon|Hypnidae|Narkidae") ~ "Batoids",
-    str_detect(
-      scientific_name,
-      "Himantura|Dasyatis|trygon|Bathytoshia|rays|raja|Rhinoptera|Sympterygia|Pastinachus|Urobatis|Glaucostegus|Hypanus"
-    ) ~ "Batoids",
-    str_detect(order, "Rajiformes") ~ "Batoids",
-    TRUE ~ "Sharks"
-  )) %>%
-  clean_names()
-```
-
-```{r}
-# count species of sharks and rays present in fishbase
-fishbase_sharks <- test_fishbase %>%
-  filter(group == "Sharks") %>%
-  count() %>%
-  mutate(pct = 100 * (94 / n))
-
-fishbase_batoids <- test_fishbase %>%
-  filter(group == "Batoids") %>%
-  count() %>%
-  mutate(pct = 100 * (35 / n))
-
-fishbase_rhino <- test_fishbase %>%
-  filter(order == "Rhinopristiformes") %>%
-  count() %>%
-  mutate(pct = 100 * (4 / n))
-```
 
 
 ```{r}
 # get shark and ray scientific names and their biological parameters from FishBase
 shark_spp <- fb_tbl("species") %>%
   clean_names() %>%
-  # filter(str_detect(genus, "Prionace|Carcharhinus|Glyphis|Isogomphodon|Lamiopsis|Loxodon|Rhizoprionodon|Scoliodon|Triaenodon|Galeocerdo|Chaenogaleus|Hemigaleus|Hemipristis|Paragaleus|Leptocharias|Ctenacis|Eridacnis|Gollum|Proscyllium|Pseudotriakis|Apristurus|Asymbolus|Bythaelurus|Cephalurus|Figaro|Galeus|Halaelurus|Haploblepharus|Holohalaelurus|Parmaturus|Pentanchus|Atelomycterus|Aulohalaelurus|Cephaloscyllium|Poroderma|Schroederichthys|Scyliorhinus|Sphyrna|Furgaleus|Galeorhinus|Hemitriakis|Hypogaleus|Iago|Mustelus|Triakis|Scylliogaleus|Heterodontus|Hexanchus|Notorynchus|Chlamydoselachus|Carcharias|Carcharias|Carcharodon|Isurus|Lamna|Alopias|Cetorhinus|Megachasma|Mitsukurina|Odontaspis|Brachaelurus|inglymostoma|Nebrius|Chiloscyllium|Hemiscyllium|Orectolobus|Eucrossorhinus|Sutorectus|Cirrhoscyllium|Parascyllium|Rhincodon|Stegostoma|Pristiophorus|Pliotrema|Squatina|Squalus|Etmopterus|Centrophorus|Daenia|Dalatias|Euprotomicroides|Heteroscymnoides|Isistius|Mollisquama|Squaliolus|Echinorhinus|Aculeola|Centroscyllium|Centroscymnus|Scymnodalatias|Scymnodon|Somniosus|Cirrhigaleus|Oxynotus|Aetobatus|Bathytoshia|trygon|Dasyatis|Himantura|Hypanus|Maculabatis|Pastinachus|Pateobatis|Taeniura|Urogymnus|Gymnura|Aetomylaeus|Myliobatis|Manta|Mobula|Plesiobatis|Rhinoptera|Spinilophus|Urolophus|Urobatis|raja|batis|Springeria|Irolita|Sympterygia|Gurgesiella|Dipturus|Hongeo|Okamejei|Raja|Rajella|Glaucostegus|Platyrhin|Pristis|Anoxypristis|Acroteriobatus|Pseudobatos|Rhinobatos|Rhina|Rhynchobatus|Aptychotrema|Trygonorrhina|Zapteryx|Zanobatus|Hypnos|Benthobatis|Diplobatis|Discopyge|Narcine|Crassinarke|Electrolux|Heteronarce|Narke|Temera|Typhlonarke|Tetronarce|Torpedo")) %>%
-  filter(!str_detect(genus, "Potamotrygon|Paratrygon|Heliotrygon|Plesiotrygon|Glyphis")) %>% # remove freshwater stingrays and sharks
+  filter(!str_detect(genus, "Potamotrygon|Paratrygon|Heliotrygon|Plesiotrygon|Glyphis")) %>% # remove freshwater elasmos
   select(genus, species, f_bname, demers_pelag) %>%
   unite(scientific_name, c("genus", "species"), sep = " ", remove = FALSE) %>%
   mutate(common_name = str_to_lower(f_bname))
@@ -114,7 +71,7 @@ write_csv(prm_elasmo_join, file = here("data", "prm_dataset_updated.csv"), col_n
 
 ```{r}
 # create a data subset with only sharks and variables of interest
-prm_elasmo_subset <- read_csv(here("data", "prm_dataset_updated.csv")) %>%
+prm_elasmo_subset <- read_csv(here("data", "prm_dataset_updated.csv")) %>% 
   mutate(group = case_when(
     str_detect(family, "Mobulidae|Dasyatidae|Gymnuridae|Myliobatidae|Torpedinidae|Rhinobatidae|Rhinidae|Aetobatidae|Rajidae|Pristidae|Plesiobatidae|Potamo|Urolophidae|Zanobatidae|Narcinidae|Platyrhinidae|Trygon|Hypnidae|Narkidae") ~ "Batoids",
     str_detect(
@@ -129,7 +86,7 @@ prm_elasmo_subset <- read_csv(here("data", "prm_dataset_updated.csv")) %>%
     scientific_name = ifelse(scientific_name == "Centroscymnus owstoni", "Centroscymnus owstonii", scientific_name)
   ) %>%
   filter(!scientific_name %in% c("sharks", "rays")) %>%
-  select(scientific_name, family, group, gear_class, habitat_associated, estimate_type, estimate, sample_size, method, ventilation_method, max_size_cm, median_depth, reproductive_mode)
+  select(scientific_name, family, group, gear_class, habitat_associated, estimate_type, estimate, sample_size, method, ventilation_method, max_size_cm, median_depth, reproductive_mode, reference)
 
 write_csv(prm_elasmo_subset, file = here("data", "prm_elasmo_subset.csv"), col_names = TRUE, na = "")
 ```
@@ -151,6 +108,26 @@ int_growth <- read_csv(here("data", "intrinsic_pop_growth_rates.csv"))
 
 # write_csv(int_growth, file = here("data", "intrinsic_pop_growth_rates.csv"), col_names = TRUE, na = "")
 
+# build final dataset with intrinsic population growth rates for each species 
+r_data_full <- bind_rows(r_data, int_growth) %>%
+  drop_na(pop_growth_rate_measure) %>%
+  select(scientific_name, pop_growth_rate_measure, value, areas, reference, observations) %>%
+  mutate(r_value = case_when(
+    pop_growth_rate_measure == "lambda" ~ log(value),
+    TRUE ~ value
+  )) %>%
+  group_by(scientific_name) %>%
+  mutate(mean_r = mean(r_value)) %>% # calculates mean r values per species because some species have different r values depending on method/sampling area
+  relocate(areas, .after = scientific_name) %>%
+  relocate(reference, .after = mean_r) %>%
+  relocate(observations, .after = reference) %>%
+  distinct()
+
+# write_csv(r_data_full, file = here("data", "intrinsic_pop_growth_rates_full.csv"), col_names = TRUE, na = "")
+```
+
+```{r}
+# Get list of species with longline or gillnet listed as a threat in their IUCN assessments
 # iucn data
 iucn_taxonomy <- read_csv(here("data", "iucn_data", "taxonomy.csv")) %>%
   clean_names() %>%
@@ -180,43 +157,18 @@ iucn_data_gill <- iucn_assessment_gill %>%
   filter(!str_detect(scientific_name, "Glyphis"))
 
 # write_csv(iucn_data_gill, file = here("data", "predict_gillnet.csv"))
-# r_data_merge <- shark_spp %>%
-#    left_join(r_data, by = "scientific_name")
-
-r_data_full <- bind_rows(r_data_merge, int_growth) %>%
-  drop_na(pop_growth_rate_measure) %>%
-  select(scientific_name, pop_growth_rate_measure, value, areas, reference, observations) %>%
-  mutate(r_value = case_when(
-    pop_growth_rate_measure == "lambda" ~ log(value),
-    TRUE ~ value
-  )) %>%
-  group_by(scientific_name) %>%
-  mutate(mean_r = mean(r_value)) %>% # calculates mean r values per species because some species have different r values depending on method/sampling area
-  relocate(areas, .after = scientific_name) %>%
-  relocate(reference, .after = mean_r) %>%
-  relocate(observations, .after = reference) %>%
-  distinct()
 
 
-# write_csv(r_data_full, file = here("data", "intrinsic_pop_growth_rates_full.csv"), col_names = TRUE, na = "")
 ```
-
 
 ### Check hypoxia data
 
 ```{r}
+# wrangle out literature review data with Gilman et al (2022)'s and Penn & Deustch (2024)'s data
 prm_elasmo <- read_csv(here("data", "prm_elasmo_subset.csv"))
 
 
 new_dat <- read_csv(here::here("data", "predict_data.csv")) %>%
-  # filter(order != "Rajiformes") %>%
-  # filter(order != "Myliobatiformes") %>%
-  # filter(order != "Torpediniformes") %>%
-  # filter(!grepl("batidae", family)) %>%
-  # filter(family != "Dasyatidae") %>%
-  # filter(family != "Glaucostegidae") %>% # I'd remove this filter
-  # filter(family != "Pristidae") %>% # I'd remove this filter
-  # filter(family != "Trygonorrhinidae") %>%
   filter(!is.na(median_depth)) %>%
   filter(!is.na(ventilation_method)) %>%
   filter(!is.na(reproductive_mode)) %>%
@@ -325,8 +277,7 @@ avm_gilman_hypoxia <- gilman_join %>%
   mutate(estimate_type = ifelse(source == "Gilman et al (2022)", "at-vessel mortality", estimate_type)) %>%
   select(-c(record_uid, common_name.x, common_name.y, genus.y, -f_bname)) %>%
   left_join(tol) %>%
-  select(-eo) %>%
-  select(-reference, -bait, -hooks_per_set, -f_bname, -species, -method) %>%
+  select(-bait, -hooks_per_set, -f_bname, -species, -method) %>%
   mutate(genus = case_when(
     !is.na(genus) ~ genus,
     is.na(genus) ~ genus.x
@@ -374,7 +325,7 @@ avm_gilman_hypoxia_check <- avm_gilman_hypoxia %>%
 ```
 
 ```{r}
-# populate NAs in eo and ac with family averages
+# populate NAs in ac with genus or family averages
 dat_new_mean <- avm_gilman_hypoxia %>%
   group_by(genus) %>%
   mutate(ac_new_gen = ifelse(is.na(ac), mean(ac, na.rm = TRUE), ac)) %>%
@@ -390,7 +341,9 @@ dat_new_mean <- avm_gilman_hypoxia %>%
   select(-ac_new_gen, -ac_new_fam)
 
 dat_predict <- dat_new_mean %>%
-  filter(!is.na(estimate))
+  filter(!is.na(estimate)) %>% 
+  mutate(source = ifelse(source == "this study", reference, source)) %>% 
+  select(-reference)
 
 write_csv(dat_predict, here::here("data", "prm_hypoxia.csv"))
 
@@ -402,9 +355,12 @@ dat_new_mean_check <- dat_new_mean %>%
 write_csv(dat_new_mean, here::here("data", "predict_data_hyp.csv"), col_names = TRUE, na = "")
 ```
 
-# testing the reproductive mode data with Mull et al (2024)'s
+```{r}
+
+```
 
 ```{r}
+# testing the reproductive mode data with Mull et al (2024)'s
 mull_df <- read_csv(here("data", "mull_etal_reproduction.csv")) %>%
   clean_names() %>%
   rename(scientific_name = species) %>%
@@ -427,17 +383,33 @@ prm_data <- read_csv(here("data", "prm_hypoxia.csv")) %>%
 ```{r}
 # join ours and Mull et al (2024)'s data
 mull_join <- prm_data %>%
-  left_join(mull_df, by = c("scientific_name", "family", "reproductive_mode")) %>%
+  left_join(mull_df, by = c("scientific_name", "reproductive_mode")) %>%
   mutate(habitat_associated = ifelse(scientific_name == "Carcharhinus perezi", "reef-associated", habitat_associated)) %>%
   mutate(reproductive_mode = case_when(
     str_detect(scientific_name, "Ptero|Mobula|bovinus|Taeniurops") ~ "matrotrophic viviparity",
     str_detect(scientific_name, "clavata") ~ "lecithotrophic oviparity",
     str_detect(scientific_name, "cemiculus") ~ "lecithotrophic viviparity",
     TRUE ~ reproductive_mode
-  ))
+  )) %>% 
+  mutate(reproductive_mode = case_when(
+    scientific_name == "Cetorhinus maximus" ~ "matrotrophic viviparity",
+    scientific_name == "Rhincodon typus" ~ "lecithotrophic viviparity",
+    TRUE ~ reproductive_mode
+  )) 
 
 # update dataset for model fitting
 write_csv(mull_join, here::here("data", "prm_hypoxia.csv"), na = "")
+
+mull_join <- mull_join %>%  
+  mutate(habitat = case_when(
+    str_detect(habitat_associated, "pelagic") ~ "pelagic",
+    str_detect(habitat_associated, "reef") ~ "pelagic",
+    str_detect(habitat_associated, "demersal") ~ "demersal"
+  )) %>% 
+  select(-habitat_associated)
+
+## create df for Dryad submission
+write_csv(mull_join, here::here("data", "elasmobranch_avm_prm_lit_review_final.csv"), na = "")
 ```
 
 ```{r}

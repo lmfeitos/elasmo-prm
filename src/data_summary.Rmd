@@ -226,6 +226,37 @@ country_ref_n <- gilman_join_clean %>%
   mutate(sum_n = sum(n))
 ```
 
+```{r}
+# get summary info about the raw dataset
+# read in the prm hypoxia data
+prm_hypoxia <- read_csv(here("data", "prm_hypoxia.csv"))
+
+prm_hypoxia_avm <- prm_hypoxia %>% 
+  filter(estimate_type == "at-vessel mortality")
+
+prm_hypoxia_avm_sharks <- prm_hypoxia %>% 
+  filter(estimate_type == "at-vessel mortality" & group == "Sharks")
+
+prm_hypoxia_avm_rays <- prm_hypoxia %>% 
+  filter(estimate_type == "at-vessel mortality" & group == "Batoids")
+
+prm_hypoxia_prm <- prm_hypoxia %>% 
+  filter(estimate_type %in% c("post-release mortality", "post-release survival"))
+
+prm_hypoxia_prm_sharks <- prm_hypoxia %>% 
+  filter(estimate_type %in% c("post-release mortality", "post-release survival") & group == "Sharks")
+
+prm_hypoxia_prm_rays <- prm_hypoxia %>% 
+  filter(estimate_type %in% c("post-release mortality", "post-release survival") & group == "Batoids")
+
+prm_hypoxia_summary <- prm_hypoxia %>% 
+  mutate(estimate = ifelse(estimate_type == "post-release survival", 1 - estimate, estimate),
+         estimate_type = ifelse(estimate_type == "post-release survival", "post-release mortality", estimate_type)) %>% 
+  group_by(estimate_type, gear_class) %>% 
+  summarise(mean = mean(estimate))
+```
+
+
 # Get summary stats for the model predictions
 ```{r}
 predictions_full <- read_csv(here("data", "long_gill_predictions.csv"))
