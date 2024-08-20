@@ -2310,7 +2310,7 @@ stock_change = stock_sim %>%
   ) %>%
   mutate(p_fmsy = (p_max / f)) 
 
-f_val_sim <- left_join(f_val_sim, stock_change) %>%
+f_val_sim <- left_join(stock_change, f_val_sim) %>%
   distinct(scientific_name, p_max, f, common_name)
 
 p1 <-
