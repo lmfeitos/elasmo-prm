@@ -300,9 +300,6 @@ slice_bottom <- mean_mort_reduction %>%
   slice_tail(n = 10) %>% 
   select(scientific_name, common_name, redlist_category, f_fmsy)
 
-ggplot(data = pct_mort_reduction) +
-  geom_histogram(aes(x = f_fmsy))
-
 pct_mort_reduction_range <- pct_mort_reduction %>% 
   mutate(range = case_when(
     f_fmsy <= 2 ~ "Low benefit",
@@ -313,6 +310,25 @@ pct_mort_reduction_range <- pct_mort_reduction %>%
   summarise(count = n()) %>% 
   ungroup() %>% 
   mutate(range_prop = count / sum(count))
+
+bins <- quantile(pct_mort_reduction$f_fmsy, probs = c(0.33, 0.66))
+
+pct_mort_reduction_range <- pct_mort_reduction %>% 
+  mutate(f_fmsy_bin = case_when(
+    f_fmsy < bins[1] ~ "Low benefit",
+    f_fmsy >= bins[1] & f_fmsy <= bins[2] ~ "Medium benefit",
+    f_fmsy > bins[2] ~ "High benefit"
+  )) %>%
+  mutate(f_fmsy_bin = fct_relevel(as.factor(f_fmsy_bin), c("High benefit", "Medium benefit", "Low benefit"))) %>% 
+  group_by(f_fmsy_bin) %>% 
+  summarise(count = n()) %>% 
+  ungroup() %>% 
+  mutate(f_fmsy_bin_prop = count / sum(count))
+
+
+ggplot(data = pct_mort_reduction_range) +
+  geom_col(aes(x = f_fmsy_bin, y = f_fmsy, fill = f_fmsy_bin),
+                 position = "dodge")
 ```
 
 
