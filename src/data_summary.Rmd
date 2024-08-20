@@ -349,17 +349,12 @@ pct_mort_reduction_range <- pct_mort_reduction %>%
     f_fmsy < bins[1] ~ "Low benefit",
     f_fmsy >= bins[1] & f_fmsy <= bins[2] ~ "Medium benefit",
     f_fmsy > bins[2] ~ "High benefit"
-  )) %>%
+  )) %>% 
   mutate(f_fmsy_bin = fct_relevel(as.factor(f_fmsy_bin), c("High benefit", "Medium benefit", "Low benefit"))) %>% 
   group_by(f_fmsy_bin) %>% 
   summarise(count = n()) %>% 
   ungroup() %>% 
   mutate(f_fmsy_bin_prop = count / sum(count))
-
-
-ggplot(data = pct_mort_reduction_range) +
-  geom_col(aes(x = f_fmsy_bin, y = f_fmsy, fill = f_fmsy_bin),
-                 position = "dodge")
 ```
 
 

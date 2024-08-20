@@ -1346,6 +1346,31 @@ sim_results_iucn_pct <- sim_results_iucn %>%
 
 write_csv(sim_results_iucn_pct, here::here("data", "sim_results_pct_diff.csv"))
 
+pct_mort_reduction <- read_csv(here("data", "sim_results_pct_diff.csv"))
+
+pct_mort_reduction_range <- pct_mort_reduction %>% 
+  mutate(range = case_when(
+    f_fmsy <= 2 ~ "Low benefit",
+    f_fmsy > 2 & f_fmsy <= 5 ~ "Medium benefit",
+    f_fmsy > 5 ~ "High benefit"
+  ))
+
+pmax_hist <- 
+  ggplot(data = pct_mort_reduction_range) +
+  geom_histogram(aes(x = f_fmsy),
+                 color = "black") +
+  labs(y = "Count") +
+  xlab(bquote(~ P[MAX] / F[MSY])) +
+  scale_x_continuous(breaks = seq(0, 11, 2),
+                     expand = c(0,0.1)) +
+  scale_y_continuous(expand = c(0.01,0)) +
+  theme_bw(base_size = 14) +
+  theme(axis.title = element_text(color = "black"),
+        axis.text = element_text(color = "black"),
+        panel.grid.minor = element_blank())
+
+ggsave(pmax_hist, file = paste0("figs14.pdf"), path = here::here("figs", "supp"), height = 10, width = 10)
+
 bins <- quantile(sim_results_iucn_pct$avm_prm, probs = c(0.33, 0.66))
 
 sim_results_iucn_pct <- sim_results_iucn_pct %>%
