@@ -2117,9 +2117,8 @@ no_cq_stock <- stock_sim %>%
 #   "Carcharhinus hemiodon", "Squatina squatina", "Sphyrna corona", "Galeorhinus galeus"
 # )
 
-no_cq_sub <- no_cq %>%
-  filter(sci %in% f_val_sim$scientificname) %>% 
-  mutate(name_f = paste0(scientific_name, " (", redlist_category, ")"))
+no_cq_sub <- no_cq_stock %>%
+  filter(sci %in% f_val_sim$scientificname)
 
 p_sim <- ggplot() +
   geom_hline(
@@ -2133,8 +2132,8 @@ p_sim <- ggplot() +
   ) +
   geom_line(data = no_cq_sub %>% filter(!is.na(scenario)), aes(t, n_div_k, color = mort_scenario, group = total_mort), linewidth = 2) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
-  facet_wrap(~ factor(name_f,
-    levels = unique(no_cq_sub$name_f)
+  facet_wrap(~ factor(stock,
+    levels = unique(no_cq_sub$stock)
   )) +
   theme_bw(base_size = 16) +
   scale_color_viridis_d() +
