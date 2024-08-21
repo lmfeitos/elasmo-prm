@@ -39,12 +39,14 @@ sim_data <- read_csv(here::here("data", "simulation_data.csv")) %>%
   mutate(msy = r_value / 2) %>%
   mutate(f = 1.5 * msy)
 
+avm_for_stock <- sim_data %>% select(-f, -r_value)
+
 stock_only_sim <- read_csv(here::here("data", "ramldb_f_means.csv")) %>%
   rename(
     scientific_name = scientificname,
     r_value = rmax
   ) %>%
-  left_join(sim_data %>% select(-f, -r_value)) %>%
+  left_join(avm_for_stock) %>%
   mutate(f = mean_f_10) %>%
   filter(!is.na(r_value))
 
@@ -97,7 +99,7 @@ quota <- 0
 sim_results <- data.frame()
 
 # loop through all species and run the simulation
-for (i in 1:nrow(sim_data)) { # replace with stock_only_sim for stock based
+for (i in 1:nrow(sim_data)) { # replace all sim_data with stock_only_sim for stock based
   ## set up mortality grid for shark species
   avms <- c(sim_data$avm_25[i], sim_data$mid_avm[i], sim_data$avm_75[i])
   prms <- c(sim_data$prm_25[i], sim_data$mid_prm[i], sim_data$prm_75[i])
@@ -138,7 +140,7 @@ for (i in 1:nrow(sim_data)) { # replace with stock_only_sim for stock based
 }
 
 join_data <- sim_data %>%
-  select(scientific_name)
+  select(scientific_name, prm_75, avm_25, prm_25, avm_75, mid_prm, mid_avm)
 
 sim_results <- sim_results %>%
   mutate(total_mort = avm * prm) %>%

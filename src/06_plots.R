@@ -245,7 +245,7 @@ sim_results3 <- read_csv(here::here("data", "simulation_results_3msy.csv")) %>%
   mutate(fp = 3) %>%
   filter(scientific_name %in% longline_predictions_iucn$scientific_name)
 
-stock_sim = read_csv(here::here("data", "stock_simulation_results.csv"))
+stock_sim <- read_csv(here::here("data", "stock_simulation_results.csv"))
 
 # Figures 1 and S1 and S13 --------------------------------------------------------
 
@@ -747,7 +747,7 @@ gillnet_quant_test <- preds_bind(gillnet_train_predict, gillnet_fit) %>%
   mutate(
     range_50 = .pred_75 - .pred_25,
     range_95 = .pred_95 - .pred_05
-  ) %>% 
+  ) %>%
   mutate(median = median(range_50))
 
 p2_gill <- ggplot(gillnet_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
@@ -798,7 +798,7 @@ avm_quant_test <- preds_bind(avm_data, avm_fit) %>%
   mutate(
     range_50 = .pred_75 - .pred_25,
     range_95 = .pred_95 - .pred_05
-  ) %>% 
+  ) %>%
   mutate(median = median(range_50))
 
 p1 <- ggplot(avm_quant_test, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
@@ -844,7 +844,7 @@ prm_quant_test <- preds_bind(prm_train_predict, prm_fit) %>%
   mutate(
     range_50 = .pred_75 - .pred_25,
     range_95 = .pred_95 - .pred_05
-  ) %>% 
+  ) %>%
   mutate(median = median(range_50))
 
 p2 <- ggplot(prm_train_predict, aes(x = mortality_prop, y = .pred)) + # plot ln of real versus ln of predicted
@@ -890,7 +890,7 @@ mean_predictions <- longline_predictions %>%
     avm_pred_long = mean(avm_pred),
     prm_pred_long = mean(prm_pred)
   ) %>%
-  mutate(gear = "longline") 
+  mutate(gear = "longline")
 
 # gillnet predictions
 mean_gill_predictions <- gillnet_predictions %>%
@@ -916,24 +916,26 @@ predictions_join <- mean_predictions %>%
   mutate(gear_class = ifelse(estimate_type %in% c("AVM Longline", "PRM Longline"), "Longline", "Gillnet")) %>%
   mutate(estimate_type_new = ifelse(str_detect(estimate_type, "AVM"), "AVM", "PRM")) %>%
   filter(!is.na(mortality_prop)) %>%
-  filter(family != "Rhinopteridae") %>% 
-  filter(!str_detect(family, "Dasyatidae|Rhinidae|Gymnuridae")) %>% 
-  mutate(family = ifelse(scientific_name == "Heptranchias perlo", "Hexanchidae", family),
-         reproductive_mode = ifelse(scientific_name == "Heptranchias perlo", "lecithotrophic viviparity", reproductive_mode))
+  filter(family != "Rhinopteridae") %>%
+  filter(!str_detect(family, "Dasyatidae|Rhinidae|Gymnuridae")) %>%
+  mutate(
+    family = ifelse(scientific_name == "Heptranchias perlo", "Hexanchidae", family),
+    reproductive_mode = ifelse(scientific_name == "Heptranchias perlo", "lecithotrophic viviparity", reproductive_mode)
+  )
 
 write_csv(predictions_join, file = here("data", "tableS5.csv"), na = "")
 
-reproductive_median = predictions_join %>% 
-  group_by(estimate_type, reproductive_mode) %>% 
-  summarize(median = median(mortality_prop, na.rm =TRUE))
+reproductive_median <- predictions_join %>%
+  group_by(estimate_type, reproductive_mode) %>%
+  summarize(median = median(mortality_prop, na.rm = TRUE))
 
-vent_median = predictions_join %>% 
-  group_by(estimate_type, ventilation_method) %>% 
-  summarize(median = median(mortality_prop, na.rm =TRUE))
+vent_median <- predictions_join %>%
+  group_by(estimate_type, ventilation_method) %>%
+  summarize(median = median(mortality_prop, na.rm = TRUE))
 
-hab_median = predictions_join %>% 
-  group_by(estimate_type, habitat) %>% 
-  summarize(median = median(mortality_prop, na.rm =TRUE))
+hab_median <- predictions_join %>%
+  group_by(estimate_type, habitat) %>%
+  summarize(median = median(mortality_prop, na.rm = TRUE))
 
 count_avm <- predictions_join %>%
   filter(estimate_type %in% c("AVM Longline", "AVM Gillnet")) %>%
@@ -965,8 +967,8 @@ mort_subset_avm <- mean_predictions %>%
 mort_subset_prm <- mean_predictions %>%
   group_by(family) %>%
   summarize(fam_mean = mean(prm_pred)) %>%
-  arrange(desc(fam_mean)) %>% 
-  distinct(family) %>% 
+  arrange(desc(fam_mean)) %>%
+  distinct(family) %>%
   pull(family)
 
 # get family level estimates for PRM
@@ -1350,26 +1352,31 @@ write_csv(sim_results_iucn_pct, here::here("data", "sim_results_pct_diff.csv"))
 
 pct_mort_reduction <- read_csv(here("data", "sim_results_pct_diff.csv"))
 
-pct_mort_reduction_range <- pct_mort_reduction %>% 
+pct_mort_reduction_range <- pct_mort_reduction %>%
   mutate(range = case_when(
     f_fmsy <= 2 ~ "Low benefit",
     f_fmsy > 2 & f_fmsy <= 5 ~ "Medium benefit",
     f_fmsy > 5 ~ "High benefit"
   ))
 
-pmax_hist <- 
+pmax_hist <-
   ggplot(data = pct_mort_reduction_range) +
   geom_histogram(aes(x = f_fmsy),
-                 color = "black") +
+    color = "black"
+  ) +
   labs(y = "Count") +
   xlab(bquote(~ P[MAX] / F[MSY])) +
-  scale_x_continuous(breaks = seq(0, 11, 2),
-                     expand = c(0,0.1)) +
-  scale_y_continuous(expand = c(0.01,0)) +
+  scale_x_continuous(
+    breaks = seq(0, 11, 2),
+    expand = c(0, 0.1)
+  ) +
+  scale_y_continuous(expand = c(0.01, 0)) +
   theme_bw(base_size = 14) +
-  theme(axis.title = element_text(color = "black"),
-        axis.text = element_text(color = "black"),
-        panel.grid.minor = element_blank())
+  theme(
+    axis.title = element_text(color = "black"),
+    axis.text = element_text(color = "black"),
+    panel.grid.minor = element_blank()
+  )
 
 ggsave(pmax_hist, file = paste0("figs14.pdf"), path = here::here("figs", "supp"), height = 10, width = 10)
 
@@ -1798,7 +1805,7 @@ prop3 <-
 
 ggsave(prop3, file = paste0("figS11.pdf"), path = here::here("figs", "supp"), height = 20, width = 40)
 
-# Figure 4A and S5-10 ----------------------------------------------------------------
+# Figure 4 and S5-10 ----------------------------------------------------------------
 
 ### ADDED THIS CODE TO MAKE FIGURES 5 AND SX DISPLAY COMMON NAMES ON THE FACET STRIPS INSTEAD OF THE SCIENTIFIC NAMES
 sim_results_new <- sim_results_2 %>%
@@ -1823,7 +1830,7 @@ no_cq <- sim_results_new %>%
     mort_scenario == "BAU" ~ "Full retention",
     TRUE ~ mort_scenario
   )) %>%
-  select(-avm, -prm, -prm_75, -prm_25, -avm_25, -avm_25) %>% 
+  select(-avm, -prm, -prm_75, -prm_25, -avm_25, -avm_25) %>%
   mutate(scientific_name = str_replace(scientific_name, "-", ""))
 
 no_cq <- no_cq[!duplicated(no_cq %>% select(-n_div_k, -pop.array)), ]
@@ -2085,10 +2092,14 @@ p6 <- ggplot() +
 
 ggsave(p6, file = paste0("figS10.pdf"), path = here::here("figs", "supp"), height = 12, width = 12)
 
-f_val_sim <- read_csv(here::here("data", "ramldb_f_means.csv"))
+f_val_sim <- read_csv(here::here("data", "ramldb_f_means.csv")) %>%
+  rename(scientific_name = scientificname) %>%
+  rename(f = mean_f_10) %>%
+  mutate(f_msy = rmax / 2)
 
-stock_sim  = stock_sim %>%
+stock_sim <- stock_sim %>%
   left_join(sim_results_common) %>%
+  left_join(f_val_sim) %>%
   mutate(common_name = case_when(
     scientific_name == "Alopias vulpinus" ~ "Common thresher",
     scientific_name == "Squalus acanthias" ~ "Spiny dogfish",
@@ -2098,18 +2109,16 @@ stock_sim  = stock_sim %>%
 no_cq_stock <- stock_sim %>%
   distinct() %>%
   left_join(iucn_data) %>%
-  mutate(redlist_category = fct_relevel(as.factor(redlist_category), c("CR", "EN", "VU", "NT", "LC", "DD"))) %>%
+  mutate(redlist_category = fct_relevel(as.factor(redlist_category), c("CR", "EN", "VU", "NT", "LC"))) %>%
   rename(
     sci = scientific_name,
     scientific_name = common_name
   ) %>%
-  mutate(mort_scenario = case_when(
-    scenario == "BAU" ~ "Full retention",
-    TRUE ~ scenario
-  )) %>%
-  select(-avm, -prm) %>% 
+  select(-avm, -prm) %>%
   mutate(scientific_name = str_replace(scientific_name, "-", "")) %>%
   mutate(scientific_name = paste0(scientific_name, " (", redlist_category, ")"))
+
+no_cq_stock <- no_cq_stock[!duplicated(no_cq_stock %>% select(-n_div_k, -pop.array)), ]
 
 # species_sub <- c(
 #   "Prionace glauca", "Carcharhinus limbatus", "Isurus oxyrinchus", "Squalus acanthias", "Alopias vulpinus",
@@ -2117,8 +2126,20 @@ no_cq_stock <- stock_sim %>%
 #   "Carcharhinus hemiodon", "Squatina squatina", "Sphyrna corona", "Galeorhinus galeus"
 # )
 
-no_cq_sub <- no_cq_stock %>%
-  filter(sci %in% f_val_sim$scientificname)
+stock_names <- no_cq_stock %>%
+  select(stock, scientific_name) %>%
+  distinct() %>%
+  pull(stock)
+
+sci_names <- no_cq_stock %>%
+  select(stock, scientific_name) %>%
+  distinct() %>%
+  group_by(scientific_name) %>% 
+  mutate(num = 1:n()) %>% 
+  mutate(name = paste(scientific_name, "Stock ", num)) %>% 
+  pull(name)
+
+names(sci_names) <- stock_names
 
 p_sim <- ggplot() +
   geom_hline(
@@ -2127,14 +2148,12 @@ p_sim <- ggplot() +
     linetype = "dashed"
   ) +
   geom_rect(
-    data = no_cq_sub,
-    aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.37, fill = as.factor(redlist_category))
+    data = no_cq_stock,
+    aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.34, fill = as.factor(redlist_category))
   ) +
-  geom_line(data = no_cq_sub %>% filter(!is.na(scenario)), aes(t, n_div_k, color = mort_scenario, group = total_mort), linewidth = 2) +
+  geom_line(data = no_cq_stock %>% filter(!is.na(mort_scenario)), aes(t, n_div_k, color = mort_scenario, group = total_mort), linewidth = 2) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
-  facet_wrap(~ factor(stock,
-    levels = unique(no_cq_sub$stock)
-  )) +
+  facet_wrap(~stock, labeller = labeller(stock = sci_names)) +
   theme_bw(base_size = 16) +
   scale_color_viridis_d() +
   scale_fill_manual(values = c("#E31A1C", "#FD8D3C", "#FED976", "#91CF60", "#1A9850")) +
@@ -2153,6 +2172,52 @@ p_sim <- ggplot() +
     axis.text = element_text(color = "black")
   ) +
   coord_cartesian(clip = "off", ylim = c(0, 1))
+
+stock_change <- stock_sim %>%
+  left_join(f_val_sim) %>%
+  left_join(sim_results_common) %>%
+  mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1 - mid_avm) * (1 - mid_prm)))) / 100) %>%
+  select(scientific_name, f, f_mort, common_name, f_msy, stock) %>%
+  distinct() %>%
+  mutate(
+    percent_diff = (f - f_mort) / f * 100,
+    abs_diff = f - f_mort
+  ) %>%
+  mutate(p_max = (f_msy) / (1 - (percent_diff / 100))) %>%
+  mutate(p_fmsy = (p_max / f_msy)) %>%
+  group_by(scientific_name) %>% 
+  mutate(num = 1:n()) %>% 
+  mutate(name = paste(scientific_name, "Stock ", num))
+
+p1 <-
+  ggplot(data = stock_change, aes(p_max, f)) +
+  geom_abline(linetype = "dashed") +
+  geom_point(size = 4) +
+  scale_x_continuous(
+    limits = c(0, 1),
+    expand = c(0, 0)
+  ) +
+  scale_y_continuous(
+    limits = c(0, 1),
+    expand = c(0.02, 0)
+  ) +
+  theme_bw(base_size = 16) +
+  scale_color_viridis_d() +
+  labs(
+    x = bquote(P["MAX"]), y = bquote(F["REPORTED"]),
+    color = ""
+  ) +
+  annotate(geom = "text", label = "F[REPROTED] ==~ P[MAX]", x = 0.55, y = 0.8, parse = TRUE, size = 8) +
+  geom_curve(aes(x = 0.55, y = 0.75, xend = 0.55, yend = 0.55), arrow = arrow(length = unit(0.1, "inches"))) +
+  geom_label_repel(aes(label = name), size = 3, vjust = "outward", hjust = "outward", alpha = 0.65) +
+  theme(
+    legend.key.size = unit(8, "mm"),
+    panel.grid.minor = element_blank()
+  )
+
+plot <- p1 / p_sim + plot_annotation(tag_levels = "A") & theme(legend.position = "bottom")
+
+ggsave(plot, file = paste0("fig4.pdf"), path = here::here("figs"), height = 20, width = 20)
 
 # Figure S12-----------------------------------------------------------------------------
 
@@ -2295,53 +2360,6 @@ percent_calc <- sim_results %>%
   ) %>%
   ungroup()
 
-stock_change = stock_sim %>%
-  left_join(sim_results_common) %>% 
-  filter(scenario == "RB") %>% 
-  mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1 - avm) * (1 - prm)))) / 100) %>%
-  select(scientific_name, f, f_mort, common_name) %>%
-  distinct() %>%
-  mutate(
-    percent_diff = (f - f_mort) / f * 100,
-    abs_diff = f - f_mort
-  ) %>%
-  mutate(p_max = (f) / (1 - (percent_diff / 100))
-  ) %>%
-  mutate(p_fmsy = (p_max / f)) 
-
-f_val_sim <- left_join(stock_change, f_val_sim) %>%
-  distinct(scientific_name, p_max, f, common_name)
-
-p1 <-
-  ggplot(data = f_val_sim, aes(p_max, f)) +
-  geom_abline(linetype = "dashed") +
-  geom_point(size = 4) +
-  scale_x_continuous(
-    limits = c(0, 1),
-    expand = c(0, 0)
-  ) +
-  scale_y_continuous(
-    limits = c(0, 1),
-    expand = c(0.02, 0)
-  ) +
-  theme_bw(base_size = 16) +
-  scale_color_viridis_d() +
-  labs(
-    x = bquote(P["MAX"]), y = bquote(F["REPORTED"]),
-    color = ""
-  ) +
-  annotate(geom = "text", label = "F[REPROTED] ==~ P[MAX]", x = 0.55, y = 0.8, parse = TRUE, size = 8) +
-  geom_curve(aes(x = 0.55, y = 0.75, xend = 0.55, yend = 0.55), arrow = arrow(length = unit(0.1, "inches"))) +
-  geom_label_repel(aes(label = common_name), size = 5, vjust = "outward", hjust = "outward", alpha = 0.65) +
-  theme(
-    legend.key.size = unit(8, "mm"),
-    panel.grid.minor = element_blank()
-  )
-
-p1 / p_sim
-
-ggsave(p1 / p_sim + plot_annotation(tag_levels = "A") & theme(legend.position = "bottom"), file = paste0("fig4.pdf"), path = here::here("figs"), height = 15, width = 15)
-
 sim_200 <- sim_results %>%
   filter(t == 200) %>%
   filter(mort_scenario == "Median Mortality") %>%
@@ -2377,7 +2395,8 @@ output <- eq %>%
     fishing_mort_bau = f,
     fishing_mort_rb = f_mort,
     msy_multiple_sim = fp,
-    p_fmsy = f_fmsy) %>% 
+    p_fmsy = f_fmsy
+  ) %>%
   select(
     scientific_name, msy_multiple_sim, fishing_mort_bau, fishing_mort_rb, percent_mort_diff, absolute_mort_diff,
     mort_scenario, simulation_avm, simulation_prm, n_div_k,
