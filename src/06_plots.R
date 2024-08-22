@@ -2126,18 +2126,21 @@ no_cq_stock <- no_cq_stock[!duplicated(no_cq_stock %>% select(-n_div_k, -pop.arr
 #   "Carcharhinus hemiodon", "Squatina squatina", "Sphyrna corona", "Galeorhinus galeus"
 # )
 
-stock_names <- no_cq_stock %>%
+stock_names <- no_cq_stock %>% 
   select(stock, scientific_name) %>%
-  distinct() %>%
-  pull(stock)
+  distinct() %>%  
+  pull(scientific_name)
 
 sci_names <- no_cq_stock %>%
-  select(stock, scientific_name) %>%
-  distinct() %>%
-  group_by(scientific_name) %>% 
-  mutate(num = 1:n()) %>% 
-  mutate(name = paste(scientific_name, "Stock ", num)) %>% 
-  pull(name)
+  select(stock, scientific_name, region, ocean) %>% 
+  distinct() %>% 
+  mutate(region = str_to_sentence(region),
+         ocean = str_to_sentence(ocean)) %>% 
+  unite("stock", c(scientific_name, region, ocean), remove = FALSE, na.rm = TRUE, sep = " ") %>% 
+  # group_by(scientific_name) %>% 
+  # mutate(num = 1:n()) %>% 
+  # mutate(name = paste(scientific_name, "Stock ", num))
+  pull(stock)
 
 names(sci_names) <- stock_names
 
@@ -2151,9 +2154,10 @@ p_sim <- ggplot() +
     data = no_cq_stock,
     aes(xmin = -Inf, xmax = Inf, ymin = 1.05, ymax = 1.34, fill = as.factor(redlist_category))
   ) +
-  geom_line(data = no_cq_stock %>% filter(!is.na(mort_scenario)), aes(t, n_div_k, color = mort_scenario, group = total_mort), linewidth = 2) +
+  geom_line(data = no_cq_stock %>% 
+              filter(!is.na(mort_scenario)), aes(t, n_div_k, color = mort_scenario, group = total_mort), linewidth = 2) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
-  facet_wrap(~stock, labeller = labeller(stock = sci_names)) +
+  facet_wrap(~ stock, labeller = labeller(stock = stock_names)) +
   theme_bw(base_size = 16) +
   scale_color_viridis_d() +
   scale_fill_manual(values = c("#E31A1C", "#FD8D3C", "#FED976", "#91CF60", "#1A9850")) +
@@ -2177,7 +2181,7 @@ stock_change <- stock_sim %>%
   left_join(f_val_sim) %>%
   left_join(sim_results_common) %>%
   mutate(f_mort = (100 - ((100 * (1 - f)) + (100 * f * (1 - mid_avm) * (1 - mid_prm)))) / 100) %>%
-  select(scientific_name, f, f_mort, common_name, f_msy, stock) %>%
+  select(scientific_name, f, f_mort, common_name, f_msy, stock, region, ocean) %>% 
   distinct() %>%
   mutate(
     percent_diff = (f - f_mort) / f * 100,
@@ -2185,9 +2189,12 @@ stock_change <- stock_sim %>%
   ) %>%
   mutate(p_max = (f_msy) / (1 - (percent_diff / 100))) %>%
   mutate(p_fmsy = (p_max / f_msy)) %>%
-  group_by(scientific_name) %>% 
-  mutate(num = 1:n()) %>% 
-  mutate(name = paste(scientific_name, "Stock ", num))
+  mutate(region = str_to_sentence(region),
+         ocean = str_to_sentence(ocean)) %>% 
+  unite("stock", c(common_name, region, ocean), remove = FALSE, na.rm = TRUE, sep = " ")  
+  # group_by(scientific_name) %>% 
+  # mutate(num = 1:n()) %>% 
+  # mutate(name = paste(scientific_name, "Stock ", num))
 
 p1 <-
   ggplot(data = stock_change, aes(p_max, f)) +
@@ -2207,9 +2214,9 @@ p1 <-
     x = bquote(P["MAX"]), y = bquote(F["REPORTED"]),
     color = ""
   ) +
-  annotate(geom = "text", label = "F[REPROTED] ==~ P[MAX]", x = 0.55, y = 0.8, parse = TRUE, size = 8) +
+  annotate(geom = "text", label = "F[REPORTED] ==~ P[MAX]", x = 0.55, y = 0.8, parse = TRUE, size = 8) +
   geom_curve(aes(x = 0.55, y = 0.75, xend = 0.55, yend = 0.55), arrow = arrow(length = unit(0.1, "inches"))) +
-  geom_label_repel(aes(label = name), size = 3, vjust = "outward", hjust = "outward", alpha = 0.65) +
+  geom_label_repel(aes(label = stock), size = 3, vjust = "outward", hjust = "outward", alpha = 0.65) +
   theme(
     legend.key.size = unit(8, "mm"),
     panel.grid.minor = element_blank()
