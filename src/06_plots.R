@@ -2140,40 +2140,6 @@ no_cq_stock <- stock_sim %>%
 
 no_cq_stock <- no_cq_stock[!duplicated(no_cq_stock %>% select(-n_div_k, -pop.array)), ]
 
-# species_sub <- c(
-#   "Prionace glauca", "Carcharhinus limbatus", "Isurus oxyrinchus", "Squalus acanthias", "Alopias vulpinus",
-#   "Pseudocarcharias kamoharai", "Carcharhinus falciformis", "Sphyrna mokarran",
-#   "Carcharhinus hemiodon", "Squatina squatina", "Sphyrna corona", "Galeorhinus galeus"
-# )
-
-# stock_names <- no_cq_stock %>% 
-#   select(stock, scientific_name) %>%
-#   distinct() %>%
-#   pull(scientific_name)
-
-# sci_names <- no_cq_stock %>%
-#   select(stock, scientific_name, region, ocean) %>% 
-#   distinct() %>% 
-#   mutate(scientific_name = str_replace(scientific_name, "shark", "")) %>% 
-#   mutate(scientific_name = str_squish(scientific_name)) %>% 
-#   mutate(region = str_to_upper(region),
-#          ocean = str_to_upper(ocean),
-#          reg_abr = substring(region, 1, 2),
-#          ocean_abr = substring(ocean, 1, 1)) %>%  
-#   unite("stock_abr", c(reg_abr, ocean_abr), remove = FALSE, na.rm = TRUE, sep = "") %>% 
-#   unite("stock", c(scientific_name, stock_abr), remove = FALSE, na.rm = TRUE, sep = " ") %>% 
-#   mutate(stock = case_when(
-#     stock == "Blue (NT) I" ~ "Blue INO (NT)", 
-#     stock == "Shortfin mako (EN)" ~ "Shortfin mako ATL (EN)",
-#     TRUE ~ stock
-#   )) %>% 
-#   # group_by(scientific_name) %>% 
-#   # mutate(num = 1:n()) %>% 
-#   # mutate(name = paste(scientific_name, "Stock ", num))
-#   pull(stock)
-
-#names(sci_names) <- stock_names
-
 p_sim <- ggplot() +
   geom_hline(
     yintercept = 0.5,
@@ -2367,7 +2333,7 @@ p <- ggplot(eq) +
   facet_wrap(~mort_scenario, nrow = 4, scales = "free_y") +
   theme_bw(base_size = 16) +
   labs(
-    x = "Fishing Pressure (Fmsy Multiplier)",
+    x = expression("F"[MSY]*" Multiplier"),
     y = "N/K"
   ) +
   theme(
