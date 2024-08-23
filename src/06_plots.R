@@ -714,7 +714,7 @@ obs_count_plot <-
     panel.grid.major.y = element_blank()
   )
 
-ggsave(obs_count_plot, file = paste0("figS13.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
+ggsave(obs_count_plot, file = paste0("figS14.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
 
 
 # Figure 2 ----------------------------------------------------------------
@@ -1378,7 +1378,7 @@ pmax_hist <-
     panel.grid.minor = element_blank()
   )
 
-ggsave(pmax_hist, file = paste0("figs14.pdf"), path = here::here("figs", "supp"), height = 10, width = 10)
+ggsave(pmax_hist, file = paste0("figs11.pdf"), path = here::here("figs", "supp"), height = 10, width = 10)
 
 bins <- quantile(sim_results_iucn_pct$avm_prm, probs = c(0.33, 0.66))
 
@@ -1803,7 +1803,7 @@ prop3 <-
   )
 # guides(fill = guide_colorbar(ticks.colour = "black", frame.colour = "black"))
 
-ggsave(prop3, file = paste0("figS11.pdf"), path = here::here("figs", "supp"), height = 20, width = 40)
+ggsave(prop3, file = paste0("figS12.pdf"), path = here::here("figs", "supp"), height = 20, width = 40)
 
 # Figure 4 and S5-10 ----------------------------------------------------------------
 
@@ -2104,7 +2104,10 @@ stock_sim <- stock_sim %>%
     scientific_name == "Alopias vulpinus" ~ "Common thresher",
     scientific_name == "Squalus acanthias" ~ "Spiny dogfish",
     TRUE ~ common_name
-  ))
+  )) %>% 
+  group_by(stock, ocean, region, mort_scenario) %>% 
+  slice_head(n = 200) %>% 
+  ungroup()
 
 no_cq_stock <- stock_sim %>%
   distinct() %>%
@@ -2115,8 +2118,25 @@ no_cq_stock <- stock_sim %>%
     scientific_name = common_name
   ) %>%
   select(-avm, -prm) %>%
-  mutate(scientific_name = str_replace(scientific_name, "-", "")) %>%
-  mutate(scientific_name = paste0(scientific_name, " (", redlist_category, ")"))
+  mutate(scientific_name = str_replace(scientific_name, "-", "")) %>% 
+  mutate(scientific_name = str_replace(scientific_name, "shark", "")) %>% 
+  mutate(scientific_name = str_squish(scientific_name)) %>% 
+  mutate(region = str_to_upper(region),
+         ocean = str_to_upper(ocean),
+         reg_abr = substring(region, 1, 2),
+         ocean_abr = substring(ocean, 1, 1)) %>%  
+  unite("stock_abr", c(reg_abr, ocean_abr), remove = FALSE, na.rm = TRUE, sep = "") %>% 
+  unite("stock", c(scientific_name, stock_abr), remove = FALSE, na.rm = TRUE, sep = " ") %>% 
+  mutate(stock = case_when(
+    stock == "Blue I" ~ "Blue INO", 
+    stock == "Shortfin mako A" ~ "Shortfin mako ATL",
+    stock == "Porbeagle NOA" & region == "NORTHWEST" ~ "Porbeagle NWA",
+    stock == "Porbeagle NOA" & region == "NORTHEAST" ~ "Porbeagle NEA",
+    TRUE ~ stock
+  )) %>% 
+  mutate(stock = paste0(stock, " (", redlist_category, ")")) %>% 
+  mutate(stock = str_squish(stock)) %>% 
+  distinct()
 
 no_cq_stock <- no_cq_stock[!duplicated(no_cq_stock %>% select(-n_div_k, -pop.array)), ]
 
@@ -2126,23 +2146,33 @@ no_cq_stock <- no_cq_stock[!duplicated(no_cq_stock %>% select(-n_div_k, -pop.arr
 #   "Carcharhinus hemiodon", "Squatina squatina", "Sphyrna corona", "Galeorhinus galeus"
 # )
 
-stock_names <- no_cq_stock %>% 
-  select(stock, scientific_name) %>%
-  distinct() %>%  
-  pull(scientific_name)
+# stock_names <- no_cq_stock %>% 
+#   select(stock, scientific_name) %>%
+#   distinct() %>%
+#   pull(scientific_name)
 
-sci_names <- no_cq_stock %>%
-  select(stock, scientific_name, region, ocean) %>% 
-  distinct() %>% 
-  mutate(region = str_to_sentence(region),
-         ocean = str_to_sentence(ocean)) %>% 
-  unite("stock", c(scientific_name, region, ocean), remove = FALSE, na.rm = TRUE, sep = " ") %>% 
-  # group_by(scientific_name) %>% 
-  # mutate(num = 1:n()) %>% 
-  # mutate(name = paste(scientific_name, "Stock ", num))
-  pull(stock)
+# sci_names <- no_cq_stock %>%
+#   select(stock, scientific_name, region, ocean) %>% 
+#   distinct() %>% 
+#   mutate(scientific_name = str_replace(scientific_name, "shark", "")) %>% 
+#   mutate(scientific_name = str_squish(scientific_name)) %>% 
+#   mutate(region = str_to_upper(region),
+#          ocean = str_to_upper(ocean),
+#          reg_abr = substring(region, 1, 2),
+#          ocean_abr = substring(ocean, 1, 1)) %>%  
+#   unite("stock_abr", c(reg_abr, ocean_abr), remove = FALSE, na.rm = TRUE, sep = "") %>% 
+#   unite("stock", c(scientific_name, stock_abr), remove = FALSE, na.rm = TRUE, sep = " ") %>% 
+#   mutate(stock = case_when(
+#     stock == "Blue (NT) I" ~ "Blue INO (NT)", 
+#     stock == "Shortfin mako (EN)" ~ "Shortfin mako ATL (EN)",
+#     TRUE ~ stock
+#   )) %>% 
+#   # group_by(scientific_name) %>% 
+#   # mutate(num = 1:n()) %>% 
+#   # mutate(name = paste(scientific_name, "Stock ", num))
+#   pull(stock)
 
-names(sci_names) <- stock_names
+#names(sci_names) <- stock_names
 
 p_sim <- ggplot() +
   geom_hline(
@@ -2157,7 +2187,7 @@ p_sim <- ggplot() +
   geom_line(data = no_cq_stock %>% 
               filter(!is.na(mort_scenario)), aes(t, n_div_k, color = mort_scenario, group = total_mort), linewidth = 2) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
-  facet_wrap(~ stock, labeller = labeller(stock = stock_names)) +
+  facet_wrap(~ stock) +
   theme_bw(base_size = 16) +
   scale_color_viridis_d() +
   scale_fill_manual(values = c("#E31A1C", "#FD8D3C", "#FED976", "#91CF60", "#1A9850")) +
@@ -2189,9 +2219,19 @@ stock_change <- stock_sim %>%
   ) %>%
   mutate(p_max = (f_msy) / (1 - (percent_diff / 100))) %>%
   mutate(p_fmsy = (p_max / f_msy)) %>%
-  mutate(region = str_to_sentence(region),
-         ocean = str_to_sentence(ocean)) %>% 
-  unite("stock", c(common_name, region, ocean), remove = FALSE, na.rm = TRUE, sep = " ")  
+  mutate(region = str_to_upper(region),
+         ocean = str_to_upper(ocean),
+         reg_abr = substring(region, 1, 2),
+         ocean_abr = substring(ocean, 1, 1)) %>%  
+  unite("stock_abr", c(reg_abr, ocean_abr), remove = FALSE, na.rm = TRUE, sep = "") %>% 
+  unite("stock", c(common_name, stock_abr), remove = FALSE, na.rm = TRUE, sep = " ") %>% 
+  mutate(stock = case_when(
+    stock == "Blue shark I" ~ "Blue shark INO", 
+    stock == "Shortfin mako A" ~ "Shortfin mako ATL",
+    stock == "Porbeagle NOA" & region == "NORTHWEST" ~ "Porbeagle NWA",
+    stock == "Porbeagle NOA" & region == "NORTHEAST" ~ "Porbeagle NEA",
+    TRUE ~ stock
+  )) 
   # group_by(scientific_name) %>% 
   # mutate(num = 1:n()) %>% 
   # mutate(name = paste(scientific_name, "Stock ", num))
@@ -2297,7 +2337,7 @@ mort_red_corrected <-
   )
 mort_red_corrected
 
-ggsave(mort_red_corrected, file = paste0("figS12.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
+ggsave(mort_red_corrected, file = paste0("figS13.pdf"), path = here::here("figs", "supp"), height = 10, width = 8)
 
 # Figure S4 and Dryad data--------------------------------------------------------------
 
