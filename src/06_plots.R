@@ -191,7 +191,7 @@ gillnet_predictions_iucn <- gillnet_predictions %>%
 full_predictions <- full_join(longline_predictions_iucn, gillnet_predictions_iucn)
 
 # read in simulation results
-sim_results <- read_csv(here::here("data", "simulation_results.csv")) %>%
+sim_results <- read_csv(here::here(basedir, "data", "simulation_results.csv")) %>%
   filter(scenario != "CQ") %>%
   filter(!is.na(mort_scenario)) %>%
   filter(t == 200) %>%
@@ -1346,7 +1346,8 @@ sim_results_iucn_pct <- sim_results_iucn %>%
   mutate(percent_diff = round(percent_diff, 4)) %>%
   mutate(p_max = (f) / (1 - (percent_diff / 100))) %>%
   mutate(f_fmsy = p_max / f) %>%
-  mutate(mean_f_fmsy = mean(f_fmsy))
+  mutate(mean_f_fmsy = mean(f_fmsy),
+         med_f_fmsy = median(f_fmsy))
 
 write_csv(sim_results_iucn_pct, here::here("data", "sim_results_pct_diff.csv"))
 
@@ -1443,7 +1444,8 @@ threatended <- sim_results_iucn_pct %>%
   mutate(
     mean_percent_diff = mean(percent_diff, na.rm = TRUE),
     mean_abs_diff = mean(abs_diff, na.rm = TRUE),
-    mean_f_fmsy = mean(f_fmsy, na.rm = TRUE)
+    mean_f_fmsy = mean(f_fmsy, na.rm = TRUE),
+    med_f_fmsy = median(f_fmsy, na.rm = TRUE)
   )
 
 non_threat_mean <- non_threat %>%
@@ -1451,7 +1453,8 @@ non_threat_mean <- non_threat %>%
   mutate(
     mean_percent_diff = mean(percent_diff, na.rm = TRUE),
     mean_abs_diff = mean(abs_diff, na.rm = TRUE),
-    mean_f_fmsy = mean(f_fmsy, na.rm = TRUE)
+    mean_f_fmsy = mean(f_fmsy, na.rm = TRUE),
+    med_f_fmsy = median(f_fmsy, na.rm = TRUE)
   )
 
 sim_results_iucn_pct_sum_stats <- sim_results_iucn_pct %>%
@@ -1460,8 +1463,10 @@ sim_results_iucn_pct_sum_stats <- sim_results_iucn_pct %>%
     mean_percent_diff = mean(percent_diff, na.rm = TRUE),
     sd_percent_diff = sd(percent_diff, na.rm = TRUE),
     var_percent_diff = var(percent_diff, na.rm = TRUE),
-    mean_f_fmsy = mean(f_fmsy, na.rm = TRUE)
-  )
+    mean_f_fmsy = mean(f_fmsy, na.rm = TRUE),
+    med_f_fmsy = median(f_fmsy, na.rm = TRUE)
+  ) %>% 
+  select(redlist_category, mean_f_fmsy, med_f_fmsy)
 
 sim_results_bin_stats <- sim_results_iucn_pct %>%
   group_by(diff_bin) %>%
@@ -2260,9 +2265,13 @@ mean_mort_reduction_fam <- pct_mort_reduction %>%
   ) %>%
   mutate(
     mean_f_fmsy = mean(f_fmsy),
+    med_f_fmsy = median(f_fmsy),
     sd_f_fmsy = sd(f_fmsy),
     se_f_fmsy = sd(f_fmsy) / sqrt(n())
   ) %>%
+  mutate(lower_quantile_f_fmsy = list(quantile(f_fmsy, prob = c(0.25))),
+         upper_quantile_f_fmsy = list(quantile(f_fmsy, prob = c(0.75)))) %>% 
+  unnest(cols = c(lower_quantile_f_fmsy, upper_quantile_f_fmsy)) %>% 
   ungroup() %>%
   filter(threat == "threatened") %>%
   mutate(sp_threat = case_when(
@@ -2276,17 +2285,17 @@ write_csv(mean_mort_reduction_fam, file = here::here("data", "sim_pct.csv"))
 
 mort_red_corrected <-
   ggplot(data = mean_mort_reduction_fam) +
-  geom_point(aes(x = fct_reorder(family, mean_f_fmsy), y = mean_f_fmsy, size = sp_threat)) +
+  geom_point(aes(x = fct_reorder(family, med_f_fmsy), y = med_f_fmsy, size = sp_threat)) +
   geom_linerange(aes(
-    x = family, ymax = mean_f_fmsy + se_f_fmsy,
-    ymin = mean_f_fmsy - se_f_fmsy
+    x = family, ymax = upper_quantile_f_fmsy,
+    ymin = lower_quantile_f_fmsy 
   )) +
   # geom_hline(
   #   yintercept = 50,
   #   linetype = "dashed"
   # ) +
   coord_flip() +
-  ylab(bquote("Mean" ~ P[MAX] / F[MSY])) +
+  ylab(bquote("Median" ~ P[MAX] / F[MSY])) +
   labs(
     x = "",
     size = "Proportion of\nthreatened species\nper family"
