@@ -85,16 +85,16 @@ prm_elasmo_subset <- prm_elasmo %>%
 
 # Create subset of the whole dataset with at-vessel mortality and calculate the weighted averages per species and gear
 elasmo_avm <- prm_elasmo_subset %>%
-  filter(estimate_type == "at-vessel mortality") %>%
-  filter(sample_size > 15) %>%
+  filter(estimate_type == "at-vessel mortality") %>% 
+  filter(sample_size > 15) %>% 
   group_by(scientific_name) %>%
   mutate(
     mortality_prop = weighted.mean(estimate, sample_size),
     avm_sd = sd(estimate)
-  ) %>%
+  ) %>% 
   # mutate(mortality_prop = estimate) %>%
-  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family, ac) %>%
-  distinct() %>%
+  select(ventilation_method, median_depth, max_size_cm, habitat, reproductive_mode, mortality_prop, family, ac) %>% 
+  distinct() %>% 
   drop_na()
 
 # Create subset of the whole dataset with post-release mortality and calculate the weighted averages per species and gear
