@@ -1,6 +1,6 @@
 # 
 
-This repository contains code used in the paper: Caughman, A.M., Gaines, S.D., Bradley, D. (2024) Climate change reduces long-term population benefits from no-take marine protected areas through selective pressures on species movement. _Global Change Biology_, 30(3), e17240.
+This repository contains code used in the paper: 
 
 The associated zenodo repository is located at [![DOI](https://zenodo.org/badge/651985253.svg)](https://doi.org/10.5281/zenodo.14928150)
 
